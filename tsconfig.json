@@ -4,10 +4,10 @@
     "module": "CommonJS",
     "sourceMap": true,
     "noImplicitAny": false,
-    "strict": false,
-    "exclude": [
-      "node_modules",
-      "**/*.tsx"
-  ]
-  }
+    "strict": false
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.tsx"
+]
 }
