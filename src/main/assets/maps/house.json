@@ -49,7 +49,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/tiles\/room.tsx"
+         "image":"..\/tiles\/room.tsx"
         }],
  "tilewidth":8,
  "type":"map",
