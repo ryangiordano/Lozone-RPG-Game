@@ -38,7 +38,7 @@ export class BootScene extends Phaser.Scene {
     );
 
     // Load the package
-    this.load.pack("preload", "./src/main/assets/pack.json");
+    this.load.pack("preload", "./src/main/assets/pack.json","preload");
   }
   private createLoadingGraphics(): void {
     setTimeout(() => {

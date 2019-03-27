@@ -16,9 +16,19 @@ export class MainScene extends Phaser.Scene {
 
   create(): void {
     // this.phaserSprite = this.add.sprite(400, 300, "logo");
-    this.map = this.make.tilemap({ key: this.registry.get("room") });
-    this.tileset = this.map.addTilesetImage("room-tiles");
+    this.map = this.make.tilemap({ key: "room" });
+    this.tileset = this.map.addTilesetImage("room-tiles","room-tiles", 8,8,0,0,1);
 
-    this.map.createStaticLayer("foreground", this.tileset, 0, 0);
+    this.backgroundLayer = this.map.createStaticLayer(
+      "background",
+      this.tileset
+    );
+    this.foregroundLayer = this.map.createStaticLayer(
+      "foreground",
+      this.tileset
+    );
+    debugger;
+    // this.foregroundLayer.setName("foreground");
+
   }
 }
