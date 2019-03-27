@@ -2,13 +2,13 @@
   "preload": {
     "files": [{
         "type": "tilemapTiledJSON",
-        "key": "house",
-        "url": "./src/main/assets/maps/house.json"
+        "key": "room",
+        "url": "./src/main/assets/maps/test-room.json"
       },
       {
         "type": "image",
-        "key": "tiles",
-        "url": "./src/main/assets/tiles/tiles.png"
+        "key": "room-tiles",
+        "url": "./src/main/assets/tiles/room.png"
       },
       {
         "type": "spritesheet",
@@ -22,7 +22,7 @@
       {
         "type": "spritesheet",
         "key": "dialog",
-        "url": "./src/main/assets/sprites/dialog.png",
+        "url": "./src/main/assets/tiles/dialog.png",
         "frameConfig": {
           "frameWidth": 16,
           "frameHeight": 16

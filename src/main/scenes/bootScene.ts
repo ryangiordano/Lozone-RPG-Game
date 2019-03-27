@@ -33,13 +33,12 @@ export class BootScene extends Phaser.Scene {
       "complete",
       () => {
         this.sound.play("startup");
-        this.loadingBar.destroy();
       },
       this
     );
 
     // Load the package
-    this.load.pack("preload", "./src/main/assets/pack.json", "preload");
+    this.load.pack("preload", "./src/main/assets/pack.json");
   }
   private createLoadingGraphics(): void {
     setTimeout(() => {

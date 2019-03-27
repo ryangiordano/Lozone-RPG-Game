@@ -1,5 +1,8 @@
 export class MainScene extends Phaser.Scene {
-  private phaserSprite: Phaser.GameObjects.Sprite;
+  private map: Phaser.Tilemaps.Tilemap;
+  private tileset: Phaser.Tilemaps.Tileset;
+  private backgroundLayer: Phaser.Tilemaps.StaticTilemapLayer;
+  private foregroundLayer: Phaser.Tilemaps.StaticTilemapLayer;
 
   constructor() {
     super({
@@ -13,5 +16,9 @@ export class MainScene extends Phaser.Scene {
 
   create(): void {
     // this.phaserSprite = this.add.sprite(400, 300, "logo");
+    this.map = this.make.tilemap({ key: this.registry.get("room") });
+    this.tileset = this.map.addTilesetImage("room-tiles");
+
+    this.map.createStaticLayer("foreground", this.tileset, 0, 0);
   }
 }
