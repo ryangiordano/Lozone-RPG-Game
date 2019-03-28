@@ -3,7 +3,7 @@
     "files": [{
         "type": "tilemapTiledJSON",
         "key": "room",
-        "url": "./src/main/assets/maps/test-room.json"
+        "url": "./src/main/assets/maps/room.json"
       },
       {
         "type": "image",
