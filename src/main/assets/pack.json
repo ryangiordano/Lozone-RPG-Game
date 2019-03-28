@@ -21,6 +21,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "lo",
+        "url": "./src/main/assets/sprites/lo.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "dialog",
         "url": "./src/main/assets/tiles/dialog.png",
         "frameConfig": {

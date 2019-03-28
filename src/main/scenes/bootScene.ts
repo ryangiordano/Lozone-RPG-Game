@@ -43,7 +43,7 @@ export class BootScene extends Phaser.Scene {
   private createLoadingGraphics(): void {
     setTimeout(() => {
       this.scene.start("MainScene");
-    }, 3000);
+    }, 1000);
     this.progressBar = this.add.graphics();
   }
 }

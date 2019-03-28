@@ -5,7 +5,7 @@ import { BootScene } from "./scenes/bootScene";
 const config: GameConfig = {
   width: 160,
   height: 144,
-  zoom: 5,
+  zoom: 4,
   type: Phaser.AUTO,
   parent: "game",
   scene: [BootScene, MainScene],
