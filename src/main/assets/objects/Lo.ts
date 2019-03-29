@@ -1,6 +1,10 @@
 export class Lo extends Phaser.GameObjects.Sprite {
-  protected currentScene: Phaser.Scene;
-  protected keys: Map<string, Phaser.Input.Keyboard.Key>;
+  private currentScene: Phaser.Scene;
+  private keys: Map<string, Phaser.Input.Keyboard.Key>;
+  private isMoving = false;
+  private velocityX = 0;
+  private velocityY = 0;
+  private target = { x: 0, y: 0 };
   /**
    *
    */
@@ -10,47 +14,63 @@ export class Lo extends Phaser.GameObjects.Sprite {
     this.initSprite();
     this.currentScene.add.existing(this);
   }
-  protected getKeys(): Map<string, Phaser.Input.Keyboard.Key> {
+  private getKeys(): Map<string, Phaser.Input.Keyboard.Key> {
     return this.keys;
   }
-  protected initSprite() {
+  private initSprite() {
     this.setOrigin(0.5, 0.5);
     this.setFlipX(false);
     this.keys = new Map([
-      ["LEFT", this.addKey("LEFT")],
-      ["RIGHT", this.addKey("RIGHT")],
-      ["DOWN", this.addKey("DOWN")],
-      ["UP", this.addKey("UP")]
+      ['LEFT', this.addKey('LEFT')],
+      ['RIGHT', this.addKey('RIGHT')],
+      ['DOWN', this.addKey('DOWN')],
+      ['UP', this.addKey('UP')]
     ]);
 
     this.currentScene.physics.world.enable(this);
-    this.body.maxVelocity.x = 50;
-    this.body.maxVelocity.y = 300;
   }
-  protected addKey(key: string): Phaser.Input.Keyboard.Key {
+  private addKey(key: string): Phaser.Input.Keyboard.Key {
     return this.currentScene.input.keyboard.addKey(key);
   }
   update(): void {
-    this.handleInput();
+    if (this.isMoving) {
+      this.moveToTarget();
+    } else {
+      this.handleInput();
+    }
   }
-  protected handleInput() {
-    if (this.keys.get("RIGHT").isDown) {
-      this.body.setAccelerationX(1);
-      console.log("RIGHT");
+  private moveToTarget() {
+    if (this.x === this.target.x && this.y === this.target.y) {
+      this.isMoving = false;
+    }else{
+      if(this.x!== this.target.x){
+        this.x+=this.velocityX;
+      }
+      if(this.y!== this.target.y){
+        this.y+=this.velocityY;
+      }
+    }
+  }
+  private handleInput() {
+    if (this.keys.get('RIGHT').isDown) {
+      this.isMoving = true;
+      this.target = { x: this.x + 16, y: this.y };
+      this.velocityX = 1;
       this.setFlipX(false);
-    } else if (this.keys.get("LEFT").isDown) {
-      console.log("LEFT");
+    } else if (this.keys.get('LEFT').isDown) {
+      this.isMoving = true;
+      this.target = { x: this.x - 16, y: this.y };
+      this.velocityX = -1;
 
-      this.body.setAccelerationX(-1);
       this.setFlipX(true);
-    } else if (this.keys.get("DOWN").isDown) {
-      console.log("DOWN");
-
-      this.body.setAccelerationY(-1);
-    } else if (this.keys.get("UP").isDown) {
-      console.log("UP");
-
-      this.body.setAccelerationY(1);
+    } else if (this.keys.get('DOWN').isDown) {
+      this.isMoving = true;
+      this.target = { x: this.x, y: this.y + 16 };
+      this.velocityY= +1;
+    } else if (this.keys.get('UP').isDown) {
+      this.isMoving = true;
+      this.target = { x: this.x, y: this.y - 16 };
+      this.velocityY=-1;
     }
   }
 }

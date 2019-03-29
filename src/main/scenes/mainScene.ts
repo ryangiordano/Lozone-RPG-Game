@@ -51,7 +51,7 @@ export class MainScene extends Phaser.Scene {
     });
 
 
-    this.physics.add.collider(this.lo, this.foregroundLayer);
+    // this.physics.add.collider(this.lo, this.foregroundLayer);
 
 
     this.loadObjectsFromTilemap();
@@ -61,11 +61,11 @@ export class MainScene extends Phaser.Scene {
   }
   private loadObjectsFromTilemap(): void {
     const objects = this.map.getObjectLayer("objects").objects as any[];
-
+    const spawn = objects.find(o=>o.type ==='spawn' && o.name==='front');
     this.lo = new Lo({
       scene: this,
-      x: 100,
-      y: 100,
+      x: spawn.x+8,
+      y: spawn.y+8,
       key: "lo"
     });
 
