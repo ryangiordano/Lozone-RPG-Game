@@ -31,16 +31,24 @@ export class MainScene extends Phaser.Scene {
     this.interactive = this.add.group({
       runChildUpdate: true
     })
+
+
+
     this.backgroundLayer = this.map.createStaticLayer(
       "background",
       this.tileset
     );
+
     this.foregroundLayer = this.map.createStaticLayer(
       "foreground",
       this.tileset
     );
+
+    this.backgroundLayer.setName("background");
+    
     this.foregroundLayer.setName("foreground");
-    this.foregroundLayer.setCollisionByProperty({ collide: true });
+    this.foregroundLayer.setCollisionByProperty({ collide: true }, true);
+    // this.backgroundLayer.setCollisionByProperty({ collide: true });
 
     //Game Objects
     this.spawn = this.add.group({
@@ -49,24 +57,29 @@ export class MainScene extends Phaser.Scene {
     this.interactive = this.add.group({
       runChildUpdate:true
     });
+    this.map.setCollisionBetween(0,3000, true)
 
-
-    // this.physics.add.collider(this.lo, this.foregroundLayer);
 
 
     this.loadObjectsFromTilemap();
+    this.physics.add.collider(this.lo, this.foregroundLayer,(r)=>{
+      console.log("Collided", r)
+    });
   }
   update():void{
+    // Is this really how updates on members of scenes should be handled?
     this.lo.update();
   }
   private loadObjectsFromTilemap(): void {
     const objects = this.map.getObjectLayer("objects").objects as any[];
     const spawn = objects.find(o=>o.type ==='spawn' && o.name==='front');
+    // TODO: Make this its own abstraction (spawning)
     this.lo = new Lo({
       scene: this,
       x: spawn.x+8,
       y: spawn.y+8,
-      key: "lo"
+      key: "lo",
+      map: this.map
     });
 
     

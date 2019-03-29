@@ -1,16 +1,19 @@
 export class Lo extends Phaser.GameObjects.Sprite {
+  private currentMap: Phaser.Tilemaps.Tilemap;
   private currentScene: Phaser.Scene;
   private keys: Map<string, Phaser.Input.Keyboard.Key>;
   private isMoving = false;
   private velocityX = 0;
   private velocityY = 0;
+  private movementSpeed = 2;
   private target = { x: 0, y: 0 };
   /**
    *
    */
-  constructor({ scene, x, y, key }) {
+  constructor({ scene, x, y, key, map }) {
     super(scene, x, y, key);
     this.currentScene = scene;
+    this.currentMap = map;
     this.initSprite();
     this.currentScene.add.existing(this);
   }
@@ -42,35 +45,72 @@ export class Lo extends Phaser.GameObjects.Sprite {
   private moveToTarget() {
     if (this.x === this.target.x && this.y === this.target.y) {
       this.isMoving = false;
-    }else{
-      if(this.x!== this.target.x){
-        this.x+=this.velocityX;
+    } else {
+      if (this.x !== this.target.x) {
+        this.x += this.velocityX;
       }
-      if(this.y!== this.target.y){
-        this.y+=this.velocityY;
+      if (this.y !== this.target.y) {
+        this.y += this.velocityY;
       }
     }
   }
+  //Find a cleaner way to do this in the future...
   private handleInput() {
     if (this.keys.get('RIGHT').isDown) {
-      this.isMoving = true;
       this.target = { x: this.x + 16, y: this.y };
-      this.velocityX = 1;
+      const marker = { x: null, y: null };
+      marker.x = Math.floor(this.target.x / 16);
+      marker.y = Math.floor(this.target.y / 16);
+      
+      const tile = this.currentMap.getTileAt(marker.x, marker.y, false, 'background');
+      if(!tile.properties['collide']){
+        this.isMoving = true;
+        this.velocityX = this.movementSpeed;
+      }
+
+      // this.x += 1;
       this.setFlipX(false);
     } else if (this.keys.get('LEFT').isDown) {
-      this.isMoving = true;
       this.target = { x: this.x - 16, y: this.y };
-      this.velocityX = -1;
+      const marker = { x: null, y: null };
+      marker.x = Math.floor(this.target.x / 16);
+      marker.y = Math.floor(this.target.y / 16);
+      const tile = this.currentMap.getTileAt(marker.x, marker.y, false, 'background');
+      if(!tile.properties['collide']){
+        this.isMoving = true;
+        this.velocityX = -this.movementSpeed;
+      }
 
+      // this.x -= 1;
       this.setFlipX(true);
     } else if (this.keys.get('DOWN').isDown) {
-      this.isMoving = true;
+
+      
       this.target = { x: this.x, y: this.y + 16 };
-      this.velocityY= +1;
+
+
+      const marker = { x: null, y: null };
+      marker.x = Math.floor(this.target.x / 16);
+      marker.y = Math.floor(this.target.y / 16);
+      const tile = this.currentMap.getTileAt(marker.x, marker.y, false, 'background');
+      if(tile.properties && !tile.properties['collide']){
+        this.isMoving = true;
+        this.velocityY = +this.movementSpeed;
+      }
+      // this.y += 1;
     } else if (this.keys.get('UP').isDown) {
-      this.isMoving = true;
+
       this.target = { x: this.x, y: this.y - 16 };
-      this.velocityY=-1;
+      
+      const marker = { x: null, y: null };
+      marker.x = Math.floor(this.target.x / 16);
+      marker.y = Math.floor(this.target.y / 16);
+      const tile = this.currentMap.getTileAt(marker.x, marker.y, false, 'background');
+      if(!tile.properties['collide']){
+        this.isMoving = true;
+        this.velocityY = -this.movementSpeed;
+      }
+      // this.y -= 1;
     }
   }
 }

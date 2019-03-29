@@ -16,7 +16,7 @@ const config: GameConfig = {
     default: "arcade",
     arcade: {
       // gravity: { y: 200 }
-      debug: false
+      debug: true
     },
     backgroundColor: "#f8f8f8",
     render: { pixelArt: true, antialias: false }
