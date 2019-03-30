@@ -86,9 +86,10 @@ export class Lo extends Phaser.GameObjects.Sprite {
     // TODO: Should handle this with one call, instead of two separate calls to two different layers.
     // Maybe we can store a flattened map somewhere?
     if (
-      tile &&
-      !tile.properties['collide'] &&
-      (tile2 && !tile2.properties['collide'])
+      this.currentMap.hasTileAt(marker.x, marker.y,'background') &&
+      (tile &&
+        !tile.properties['collide'] &&
+        (tile2 && !tile2.properties['collide']))
     ) {
       this.isMoving = true;
       const movementSpeed =
