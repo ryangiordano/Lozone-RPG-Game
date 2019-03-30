@@ -4,6 +4,8 @@ enum Directions {
   left,
   right
 }
+import { createThrottle } from '../../utility/Utility';
+
 export class Lo extends Phaser.GameObjects.Sprite {
   private currentMap: Phaser.Tilemaps.Tilemap;
   private currentScene: Phaser.Scene;
@@ -13,9 +15,12 @@ export class Lo extends Phaser.GameObjects.Sprite {
   private velocityY = 0;
   private movementSpeed = 2;
   private target = { x: 0, y: 0 };
-  private playBump = this.createThrottle(25,()=>{
-    this.scene.sound.play("bump",);
-  })
+  // TODO: Emit that the player bumped rather than handling playing sounds
+  // From the player.
+  private playBump = createThrottle(300, () => {
+    this.scene.sound.play('bump');
+  });
+
   constructor({ scene, x, y, key, map }) {
     super(scene, x, y, key);
     this.currentScene = scene;
@@ -78,22 +83,25 @@ export class Lo extends Phaser.GameObjects.Sprite {
       true,
       'foreground'
     );
-    if ((tile && !tile.properties['collide']) && (tile2 && !tile2.properties['collide'])) {
+    // TODO: Should handle this with one call, instead of two separate calls to two different layers.
+    // Maybe we can store a flattened map somewhere?
+    if (
+      tile &&
+      !tile.properties['collide'] &&
+      (tile2 && !tile2.properties['collide'])
+    ) {
       this.isMoving = true;
       const movementSpeed =
         direction === Directions.right || direction === Directions.down
           ? +this.movementSpeed
           : -this.movementSpeed;
-      if(direction === Directions.right || direction === Directions.left){
+      if (direction === Directions.right || direction === Directions.left) {
         this.velocityX = movementSpeed;
-      }else{
+      } else {
         this.velocityY = movementSpeed;
       }
-    }else{
-      if(!this.scene['bump'].isPlaying){
-        this.playBump();
-
-      }
+    } else {
+      this.playBump();
     }
   }
   private handleInput() {
@@ -111,17 +119,6 @@ export class Lo extends Phaser.GameObjects.Sprite {
     } else if (this.keys.get('UP').isDown) {
       this.target = { x: this.x, y: this.y - 16 };
       this.handleMovement(Directions.up);
-    }
-  }
-
-  //TODO: Refactor to a utility class
-  private createThrottle(limit, func){
-    let lastCalled: Date;
-    return ()=>{
-      if(!lastCalled || lastCalled.getMilliseconds()+limit - new Date().getMilliseconds() < 0){
-        func();
-      }
-      lastCalled = new Date();
     }
   }
 }
