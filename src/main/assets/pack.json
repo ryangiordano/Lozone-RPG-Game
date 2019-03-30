@@ -29,6 +29,11 @@
         }
       },
       {
+        "type": "audio",
+        "key": "bump",
+        "url": "./src/main/assets/sounds/bump.mp3"
+      },
+      {
         "type": "spritesheet",
         "key": "dialog",
         "url": "./src/main/assets/tiles/dialog.png",

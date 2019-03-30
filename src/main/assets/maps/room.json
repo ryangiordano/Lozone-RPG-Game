@@ -1,60 +1,61 @@
-{ "height":18,
+{ "backgroundcolor":"#d4d49f",
+ "height":16,
  "infinite":false,
  "layers":[
         {
-         "data":[2, 2, 2, 2, 2, 2, 2, 2, 65, 66, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 71, 72, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 12, 2, 2, 2, 2, 2, 2],
-         "height":18,
-         "id":3,
+         "data":[2, 2, 2, 2, 18, 2, 2, 2, 1, 2, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":16,
+         "id":4,
          "name":"background",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
-         "width":20,
+         "width":16,
          "x":0,
          "y":0
         }, 
         {
-         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 20, 33, 34, 67, 68, 0, 0, 37, 38, 0, 0, 0, 0, 0, 0, 69, 70, 0, 0, 25, 26, 43, 44, 9, 10, 0, 0, 47, 48, 0, 0, 0, 0, 0, 0, 75, 76, 0, 0, 0, 0, 29, 30, 9, 10, 35, 36, 57, 58, 0, 0, 0, 0, 0, 0, 61, 62, 0, 0, 0, 0, 39, 40, 0, 0, 45, 46, 83, 84, 0, 0, 0, 0, 0, 0, 85, 86, 0, 0, 0, 0, 49, 50, 0, 0, 55, 56, 93, 94, 0, 0, 0, 0, 0, 0, 95, 96, 0, 0, 0, 0, 59, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 83, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 93, 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-         "height":18,
-         "id":4,
+         "data":[0, 0, 0, 11, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 13, 19, 6, 12, 0, 20, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 6, 24, 0, 16, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 6, 0, 0, 25, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 3, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":16,
+         "id":5,
          "name":"foreground",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
-         "width":20,
+         "width":16,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "id":5,
+         "id":3,
          "name":"objects",
          "objects":[
                 {
                  "height":16,
-                 "id":8,
+                 "id":1,
                  "name":"exit",
                  "rotation":0,
-                 "type":"",
+                 "type":"exit",
                  "visible":true,
                  "width":16,
-                 "x":96,
-                 "y":128
+                 "x":112,
+                 "y":144
                 }, 
                 {
                  "height":16,
-                 "id":9,
+                 "id":2,
                  "name":"front",
                  "rotation":0,
                  "type":"spawn",
                  "visible":true,
                  "width":16,
-                 "x":96,
-                 "y":112
+                 "x":112,
+                 "y":128
                 }, 
                 {
                  "height":16,
-                 "id":10,
+                 "id":3,
                  "name":"n64",
                  "properties":[
                         {
@@ -68,11 +69,11 @@
                          "value":"Ryan's old Nintendo 64.  It has a gold cartridge in it with a gold controller."
                         }],
                  "rotation":0,
-                 "type":"",
+                 "type":"interactive",
                  "visible":true,
                  "width":16,
-                 "x":111.666666666667,
-                 "y":33.3333333333333
+                 "x":80,
+                 "y":48
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -81,34 +82,25 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":11,
+ "nextobjectid":4,
  "orientation":"orthogonal",
- "renderorder":"right-down",
+ "renderorder":"left-down",
  "tiledversion":"1.2.3",
- "tileheight":8,
+ "tileheight":16,
  "tilesets":[
         {
          "backgroundcolor":"#d4d49f",
-         "columns":10,
+         "columns":5,
          "firstgid":1,
-         "image":"..\/tiles\/room.png",
+         "image":"..\/tiles\/room2.png",
          "imageheight":80,
          "imagewidth":80,
          "margin":0,
          "name":"room-tiles",
          "spacing":0,
-         "tilecount":100,
-         "tileheight":8,
+         "tilecount":25,
+         "tileheight":16,
          "tiles":[
-                {
-                 "id":0,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
                 {
                  "id":1,
                  "properties":[
@@ -119,25 +111,7 @@
                         }]
                 }, 
                 {
-                 "id":28,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":29,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":36,
+                 "id":5,
                  "properties":[
                         {
                          "name":"collide",
@@ -146,7 +120,7 @@
                         }]
                 }, 
                 {
-                 "id":37,
+                 "id":6,
                  "properties":[
                         {
                          "name":"collide",
@@ -155,7 +129,7 @@
                         }]
                 }, 
                 {
-                 "id":46,
+                 "id":7,
                  "properties":[
                         {
                          "name":"collide",
@@ -164,7 +138,7 @@
                         }]
                 }, 
                 {
-                 "id":47,
+                 "id":8,
                  "properties":[
                         {
                          "name":"collide",
@@ -173,7 +147,7 @@
                         }]
                 }, 
                 {
-                 "id":56,
+                 "id":10,
                  "properties":[
                         {
                          "name":"collide",
@@ -182,7 +156,7 @@
                         }]
                 }, 
                 {
-                 "id":57,
+                 "id":12,
                  "properties":[
                         {
                          "name":"collide",
@@ -191,43 +165,7 @@
                         }]
                 }, 
                 {
-                 "id":58,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":59,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":72,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":73,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":74,
+                 "id":14,
                  "properties":[
                         {
                          "name":"collide",
@@ -236,7 +174,7 @@
                         }]
                 }, 
                 {
-                 "id":75,
+                 "id":17,
                  "properties":[
                         {
                          "name":"collide",
@@ -245,154 +183,36 @@
                         }]
                 }, 
                 {
-                 "id":76,
+                 "id":18,
                  "properties":[
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
-                 "id":77,
+                 "id":19,
                  "properties":[
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
-                 "id":78,
+                 "id":24,
                  "properties":[
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":79,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":80,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":81,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":84,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":85,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":86,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":87,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":88,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":89,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":90,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":91,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":94,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":95,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }],
-         "tilewidth":8,
-         "transparentcolor":"#ff00ff"
+         "tilewidth":16
         }],
- "tilewidth":8,
+ "tilewidth":16,
  "type":"map",
  "version":1.2,
- "width":20
+ "width":16
 }

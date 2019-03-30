@@ -1,4 +1,4 @@
-import { Lo } from "../assets/objects/Lo";
+import { Lo } from '../assets/objects/Lo';
 
 export class MainScene extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap;
@@ -8,81 +8,78 @@ export class MainScene extends Phaser.Scene {
   private lo: Lo;
   private interactive: Phaser.GameObjects.Group;
   private spawn: Phaser.GameObjects.Group;
-
+  private bump: Phaser.Sound.BaseSound;
   constructor() {
     super({
-      key: "MainScene"
+      key: 'MainScene'
     });
   }
 
-  preload(): void {}
+  preload(): void {
+   this.bump =  this.sound.add("bump");
+  }
 
   create(): void {
-    this.map = this.make.tilemap({ key: "room" });
+    this.map = this.make.tilemap({ key: 'room' });
     this.tileset = this.map.addTilesetImage(
-      "room-tiles",
-      "room-tiles",
-      8,
-      8,
+      'room-tiles',
+      'room-tiles',
+      16,
+      16,
       0,
       0,
       1
     );
     this.interactive = this.add.group({
       runChildUpdate: true
-    })
-
-
+    });
 
     this.backgroundLayer = this.map.createStaticLayer(
-      "background",
+      'background',
       this.tileset
     );
 
     this.foregroundLayer = this.map.createStaticLayer(
-      "foreground",
+      'foreground',
       this.tileset
     );
 
-    this.backgroundLayer.setName("background");
-    
-    this.foregroundLayer.setName("foreground");
+    this.backgroundLayer.setName('background');
+
+    this.foregroundLayer.setName('foreground');
     this.foregroundLayer.setCollisionByProperty({ collide: true }, true);
     // this.backgroundLayer.setCollisionByProperty({ collide: true });
 
     //Game Objects
     this.spawn = this.add.group({
-      runChildUpdate:true
+      runChildUpdate: true
     });
     this.interactive = this.add.group({
-      runChildUpdate:true
+      runChildUpdate: true
     });
-    this.map.setCollisionBetween(0,3000, true)
-
-
+    this.map.setCollisionBetween(0, 3000, true);
 
     this.loadObjectsFromTilemap();
-    this.physics.add.collider(this.lo, this.foregroundLayer,(r)=>{
-      console.log("Collided", r)
+    this.physics.add.collider(this.lo, this.foregroundLayer, r => {
+      console.log('Collided', r);
     });
   }
-  update():void{
+  update(): void {
     // Is this really how updates on members of scenes should be handled?
     this.lo.update();
   }
   private loadObjectsFromTilemap(): void {
-    const objects = this.map.getObjectLayer("objects").objects as any[];
-    const spawn = objects.find(o=>o.type ==='spawn' && o.name==='front');
+    const objects = this.map.getObjectLayer('objects').objects as any[];
+    const spawn = objects.find(o => o.type === 'spawn' && o.name === 'front');
     // TODO: Make this its own abstraction (spawning)
     this.lo = new Lo({
       scene: this,
-      x: spawn.x+8,
-      y: spawn.y+8,
-      key: "lo",
+      x: spawn.x + 8,
+      y: spawn.y + 8,
+      key: 'lo',
       map: this.map
     });
 
-    
     this.cameras.main.startFollow(this.lo);
     this.cameras.main.setBounds(
       0,

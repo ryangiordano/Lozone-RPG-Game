@@ -3,13 +3,12 @@ import { AnimationHelper } from "../../games/space-invaders/helpers/animation-he
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
   private progressBar: Phaser.GameObjects.Graphics;
-  private startupSound;
   constructor() {
     super({ key: "BootScene" });
   }
 
   preload(): void {
-    this.startupSound = this.sound.add("startup");
+    this.sound.add("startup");
 
     this.cameras.main.setBackgroundColor(0x000000);
     this.createLoadingGraphics();

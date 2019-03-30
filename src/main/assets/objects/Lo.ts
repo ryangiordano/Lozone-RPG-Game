@@ -1,3 +1,9 @@
+enum Directions {
+  up,
+  down,
+  left,
+  right
+}
 export class Lo extends Phaser.GameObjects.Sprite {
   private currentMap: Phaser.Tilemaps.Tilemap;
   private currentScene: Phaser.Scene;
@@ -7,9 +13,9 @@ export class Lo extends Phaser.GameObjects.Sprite {
   private velocityY = 0;
   private movementSpeed = 2;
   private target = { x: 0, y: 0 };
-  /**
-   *
-   */
+  private playBump = this.createThrottle(25,()=>{
+    this.scene.sound.play("bump",);
+  })
   constructor({ scene, x, y, key, map }) {
     super(scene, x, y, key);
     this.currentScene = scene;
@@ -42,6 +48,8 @@ export class Lo extends Phaser.GameObjects.Sprite {
       this.handleInput();
     }
   }
+  // TODO: Refactor this into a base class
+  // Provide API to allow programatic movement
   private moveToTarget() {
     if (this.x === this.target.x && this.y === this.target.y) {
       this.isMoving = false;
@@ -54,63 +62,66 @@ export class Lo extends Phaser.GameObjects.Sprite {
       }
     }
   }
-  //Find a cleaner way to do this in the future...
+  private handleMovement(direction: Directions) {
+    const marker = { x: null, y: null };
+    marker.x = Math.floor(this.target.x / 16);
+    marker.y = Math.floor(this.target.y / 16);
+    const tile = this.currentMap.getTileAt(
+      marker.x,
+      marker.y,
+      true,
+      'background'
+    );
+    const tile2 = this.currentMap.getTileAt(
+      marker.x,
+      marker.y,
+      true,
+      'foreground'
+    );
+    if ((tile && !tile.properties['collide']) && (tile2 && !tile2.properties['collide'])) {
+      this.isMoving = true;
+      const movementSpeed =
+        direction === Directions.right || direction === Directions.down
+          ? +this.movementSpeed
+          : -this.movementSpeed;
+      if(direction === Directions.right || direction === Directions.left){
+        this.velocityX = movementSpeed;
+      }else{
+        this.velocityY = movementSpeed;
+      }
+    }else{
+      if(!this.scene['bump'].isPlaying){
+        this.playBump();
+
+      }
+    }
+  }
   private handleInput() {
     if (this.keys.get('RIGHT').isDown) {
       this.target = { x: this.x + 16, y: this.y };
-      const marker = { x: null, y: null };
-      marker.x = Math.floor(this.target.x / 16);
-      marker.y = Math.floor(this.target.y / 16);
-      
-      const tile = this.currentMap.getTileAt(marker.x, marker.y, false, 'background');
-      if(!tile.properties['collide']){
-        this.isMoving = true;
-        this.velocityX = this.movementSpeed;
-      }
-
-      // this.x += 1;
+      this.handleMovement(Directions.right);
       this.setFlipX(false);
     } else if (this.keys.get('LEFT').isDown) {
       this.target = { x: this.x - 16, y: this.y };
-      const marker = { x: null, y: null };
-      marker.x = Math.floor(this.target.x / 16);
-      marker.y = Math.floor(this.target.y / 16);
-      const tile = this.currentMap.getTileAt(marker.x, marker.y, false, 'background');
-      if(!tile.properties['collide']){
-        this.isMoving = true;
-        this.velocityX = -this.movementSpeed;
-      }
-
-      // this.x -= 1;
+      this.handleMovement(Directions.left);
       this.setFlipX(true);
     } else if (this.keys.get('DOWN').isDown) {
-
-      
       this.target = { x: this.x, y: this.y + 16 };
-
-
-      const marker = { x: null, y: null };
-      marker.x = Math.floor(this.target.x / 16);
-      marker.y = Math.floor(this.target.y / 16);
-      const tile = this.currentMap.getTileAt(marker.x, marker.y, false, 'background');
-      if(tile.properties && !tile.properties['collide']){
-        this.isMoving = true;
-        this.velocityY = +this.movementSpeed;
-      }
-      // this.y += 1;
+      this.handleMovement(Directions.down);
     } else if (this.keys.get('UP').isDown) {
-
       this.target = { x: this.x, y: this.y - 16 };
-      
-      const marker = { x: null, y: null };
-      marker.x = Math.floor(this.target.x / 16);
-      marker.y = Math.floor(this.target.y / 16);
-      const tile = this.currentMap.getTileAt(marker.x, marker.y, false, 'background');
-      if(!tile.properties['collide']){
-        this.isMoving = true;
-        this.velocityY = -this.movementSpeed;
+      this.handleMovement(Directions.up);
+    }
+  }
+
+  //TODO: Refactor to a utility class
+  private createThrottle(limit, func){
+    let lastCalled: Date;
+    return ()=>{
+      if(!lastCalled || lastCalled.getMilliseconds()+limit - new Date().getMilliseconds() < 0){
+        func();
       }
-      // this.y -= 1;
+      lastCalled = new Date();
     }
   }
 }
