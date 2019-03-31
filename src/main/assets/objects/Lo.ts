@@ -84,9 +84,10 @@ export class Lo extends Phaser.GameObjects.Sprite {
       'foreground'
     );
     // TODO: Should handle this with one call, instead of two separate calls to two different layers.
+    // Will get exponentially more expensive the more layers are added.
     // Maybe we can store a flattened map somewhere?
     if (
-      this.currentMap.hasTileAt(marker.x, marker.y,'background') &&
+      this.currentMap.hasTileAt(marker.x, marker.y, 'background') &&
       (tile &&
         !tile.properties['collide'] &&
         (tile2 && !tile2.properties['collide']))
@@ -108,17 +109,21 @@ export class Lo extends Phaser.GameObjects.Sprite {
   private handleInput() {
     if (this.keys.get('RIGHT').isDown) {
       this.target = { x: this.x + 16, y: this.y };
+      this.anims.play('walkV', true)
       this.handleMovement(Directions.right);
-      this.setFlipX(false);
+      this.setFlipX(true);
     } else if (this.keys.get('LEFT').isDown) {
       this.target = { x: this.x - 16, y: this.y };
+      this.anims.play('walkV', true)
       this.handleMovement(Directions.left);
-      this.setFlipX(true);
+      this.setFlipX(false);
     } else if (this.keys.get('DOWN').isDown) {
       this.target = { x: this.x, y: this.y + 16 };
+      this.anims.play('walkDown', true)
       this.handleMovement(Directions.down);
     } else if (this.keys.get('UP').isDown) {
       this.target = { x: this.x, y: this.y - 16 };
+      this.anims.play('walkUp', true)
       this.handleMovement(Directions.up);
     }
   }

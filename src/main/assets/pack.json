@@ -46,6 +46,11 @@
         "type": "audio",
         "key": "startup",
         "url": "./src/main/assets/sounds/startup.mp3"
+      },
+      {
+        "type": "json",
+        "key": "loAnimation",
+        "url": "./src/main/assets/animations/lo.json"
       }
     ]
   }

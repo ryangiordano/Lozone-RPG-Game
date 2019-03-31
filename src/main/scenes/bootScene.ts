@@ -1,4 +1,4 @@
-import { AnimationHelper } from "../../games/space-invaders/helpers/animation-helper";
+import { AnimationHelper } from "../utility/animation-helper";
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
@@ -32,6 +32,7 @@ export class BootScene extends Phaser.Scene {
       "complete",
       () => {
         this.sound.play("startup");
+        const animationHelper = new AnimationHelper(this, this.cache.json.get("loAnimation"))
       },
       this
     );
