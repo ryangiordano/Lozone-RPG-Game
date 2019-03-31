@@ -67,7 +67,22 @@ export class Lo extends Phaser.GameObjects.Sprite {
       }
     }
   }
-  private handleMovement(direction: Directions) {
+  private face(direction: Directions) {
+    switch (direction) {
+      case Directions.up:
+        this.setFrame(3);
+        break;
+      case Directions.left:
+        this.setFrame(7);
+        break;
+      case Directions.right:
+        this.setFrame(7);
+        break;
+      default:
+        this.setFrame(0);
+    }
+  }
+  private handleMovement(direction: Directions, callback?: Function) {
     const marker = { x: null, y: null };
     marker.x = Math.floor(this.target.x / 16);
     marker.y = Math.floor(this.target.y / 16);
@@ -102,29 +117,37 @@ export class Lo extends Phaser.GameObjects.Sprite {
       } else {
         this.velocityY = movementSpeed;
       }
+      if (callback) {
+        callback();
+      }
     } else {
+      this.anims.stop();
+      this.face(direction);
       this.playBump();
     }
   }
   private handleInput() {
     if (this.keys.get('RIGHT').isDown) {
       this.target = { x: this.x + 16, y: this.y };
-      this.anims.play('walkV', true)
-      this.handleMovement(Directions.right);
       this.setFlipX(true);
+      this.handleMovement(Directions.right, () =>
+        this.anims.play('walkV', true)
+      );
     } else if (this.keys.get('LEFT').isDown) {
       this.target = { x: this.x - 16, y: this.y };
-      this.anims.play('walkV', true)
-      this.handleMovement(Directions.left);
       this.setFlipX(false);
+      this.handleMovement(Directions.left, () =>
+        this.anims.play('walkV', true)
+      );
     } else if (this.keys.get('DOWN').isDown) {
       this.target = { x: this.x, y: this.y + 16 };
-      this.anims.play('walkDown', true)
-      this.handleMovement(Directions.down);
+      this.handleMovement(Directions.down, () =>
+        this.anims.play('walkDown', true)
+      );
     } else if (this.keys.get('UP').isDown) {
       this.target = { x: this.x, y: this.y - 16 };
-      this.anims.play('walkUp', true)
-      this.handleMovement(Directions.up);
+      this.anims.play('walkUp', true);
+      this.handleMovement(Directions.up, () => this.anims.play('walkUp', true));
     }
   }
 }
