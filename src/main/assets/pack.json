@@ -29,6 +29,15 @@
         }
       },
       {
+        "type": "spritesheet",
+        "key": "ryan",
+        "url": "./src/main/assets/sprites/ryan.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
         "type": "audio",
         "key": "bump",
         "url": "./src/main/assets/sounds/bump.mp3"
