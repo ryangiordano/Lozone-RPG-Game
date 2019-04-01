@@ -5,6 +5,7 @@ enum Directions {
   right
 }
 import { createThrottle } from '../../utility/Utility';
+import { Cast } from './Cast';
 
 export class Lo extends Phaser.GameObjects.Sprite {
   private currentMap: Phaser.Tilemaps.Tilemap;
@@ -15,19 +16,24 @@ export class Lo extends Phaser.GameObjects.Sprite {
   private velocityY = 0;
   private movementSpeed = 2;
   private target = { x: 0, y: 0 };
+  private facing: Directions = Directions.down;
+  private casts: Phaser.GameObjects.Group;
+
+  constructor({ scene, x, y, key, map, casts }) {
+    super(scene, x, y, key);
+    this.currentScene = scene;
+    this.currentMap = map;
+    this.initSprite();
+    this.currentScene.add.existing(this);
+    this.casts = casts;
+  }
+
   // TODO: Emit that the player bumped rather than handling playing sounds
   // From the player.
   private playBump = createThrottle(300, () => {
     this.scene.sound.play('bump');
   });
 
-  constructor({ scene, x, y, key, map }) {
-    super(scene, x, y, key);
-    this.currentScene = scene;
-    this.currentMap = map;
-    this.initSprite();
-    this.currentScene.add.existing(this);
-  }
   private getKeys(): Map<string, Phaser.Input.Keyboard.Key> {
     return this.keys;
   }
@@ -38,10 +44,15 @@ export class Lo extends Phaser.GameObjects.Sprite {
       ['LEFT', this.addKey('LEFT')],
       ['RIGHT', this.addKey('RIGHT')],
       ['DOWN', this.addKey('DOWN')],
-      ['UP', this.addKey('UP')]
+      ['UP', this.addKey('UP')],
+      ['SPACE', this.addKey('SPACE')]
     ]);
 
     this.currentScene.physics.world.enable(this);
+
+    // *****************************************************************
+    // COLLIDERS
+    // *****************************************************************
   }
   private addKey(key: string): Phaser.Input.Keyboard.Key {
     return this.currentScene.input.keyboard.addKey(key);
@@ -68,6 +79,7 @@ export class Lo extends Phaser.GameObjects.Sprite {
     }
   }
   private face(direction: Directions) {
+    this.facing = direction;
     switch (direction) {
       case Directions.up:
         this.setFrame(3);
@@ -126,28 +138,51 @@ export class Lo extends Phaser.GameObjects.Sprite {
       this.playBump();
     }
   }
+  private queryObject = createThrottle(300, () => {
+    const coords = this.getTileInFront();
+    this.casts.add(
+      new Cast({
+        scene: this.currentScene,
+        x: coords.x,
+        y: coords.y
+      })
+    );
+  });
+
+  private getTileInFront(): { x: number; y: number } {
+    switch (this.facing) {
+      case Directions.right:
+        return { x: this.x + 16, y: this.y };
+      case Directions.left:
+        return { x: this.x - 16, y: this.y };
+      case Directions.down:
+        return { x: this.x, y: this.y + 16 };
+      default:
+        return { x: this.x, y: this.y - 16 };
+    }
+  }
   private handleInput() {
     if (this.keys.get('RIGHT').isDown) {
-      this.target = { x: this.x + 16, y: this.y };
+      this.facing = Directions.right;
+      this.target = this.getTileInFront();
       this.setFlipX(true);
-      this.handleMovement(Directions.right, () =>
-        this.anims.play('walkV', true)
-      );
+      this.handleMovement(this.facing, () => this.anims.play('walkV', true));
     } else if (this.keys.get('LEFT').isDown) {
-      this.target = { x: this.x - 16, y: this.y };
+      this.facing = Directions.left;
+      this.target = this.getTileInFront();
       this.setFlipX(false);
-      this.handleMovement(Directions.left, () =>
-        this.anims.play('walkV', true)
-      );
+      this.handleMovement(this.facing, () => this.anims.play('walkV', true));
     } else if (this.keys.get('DOWN').isDown) {
-      this.target = { x: this.x, y: this.y + 16 };
-      this.handleMovement(Directions.down, () =>
-        this.anims.play('walkDown', true)
-      );
+      this.facing = Directions.down;
+      this.target = this.getTileInFront();
+      this.handleMovement(this.facing, () => this.anims.play('walkDown', true));
     } else if (this.keys.get('UP').isDown) {
-      this.target = { x: this.x, y: this.y - 16 };
+      this.facing = Directions.up;
+      this.target = this.getTileInFront();
       this.anims.play('walkUp', true);
-      this.handleMovement(Directions.up, () => this.anims.play('walkUp', true));
+      this.handleMovement(this.facing, () => this.anims.play('walkUp', true));
+    } else if (this.keys.get('SPACE').isDown) {
+      this.queryObject();
     }
   }
 }
