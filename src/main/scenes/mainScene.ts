@@ -1,6 +1,7 @@
 import { Cast } from './../assets/objects/Cast';
 import { Lo } from '../assets/objects/Lo';
 import { Interactive } from '../assets/objects/Interactive';
+import { DialogManager } from '../assets/services/DialogManager';
 
 export class MainScene extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap;
@@ -12,6 +13,7 @@ export class MainScene extends Phaser.Scene {
   private spawn: Phaser.GameObjects.Group;
   private bump: Phaser.Sound.BaseSound;
   private casts: Phaser.GameObjects.Group;
+  private dialogManager: DialogManager;
   constructor() {
     super({
       key: 'MainScene'
@@ -67,17 +69,42 @@ export class MainScene extends Phaser.Scene {
     // *****************************************************************
     // COLLIDERS
     // *****************************************************************
-    this.physics.add.overlap(this.casts, this.interactive, (obj1: Cast, obj2: Interactive) => {
-      obj1.destroy();
-      if(obj2.properties.type === 'interactive'){
-        console.log(obj2.properties.message);
+    this.physics.add.overlap(
+      this.casts,
+      this.interactive,
+      (cast: Cast, interactiveObj: Interactive) => {
+        cast.destroy();
+        if (interactiveObj.properties.type === 'interactive') {
+          this.dialogManager.displayDialog(interactiveObj.properties.message);
+          this.lo.setCanInput(false);
+        }
       }
-      
-    });
+    );
+
+    this.afterCreate();
   }
+  afterCreate() {
+    this.dialogManager = new DialogManager(this, () => {
+      setTimeout(()=>{
+        this.lo.setCanInput(true);
+      },200)
+    });
+    this.input.keyboard.on('keydown', event => {
+      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.SPACE) {
+        if (this.dialogManager.dialogVisible()) {
+          this.dialogManager.handleNextDialog();
+        }
+      }
+    });
+    // Phaser.Input.Keyboard.JustDown(space, () => {
+    //   console.log('Down');
+    // });
+  }
+
   update(): void {
     // Is this really how updates on members of scenes should be handled?
     this.lo.update();
+    // this.dialogManager.update();
   }
   private loadObjectsFromTilemap(): void {
     const objects = this.map.getObjectLayer('objects').objects as any[];
@@ -95,7 +122,7 @@ export class MainScene extends Phaser.Scene {
 
     objects.forEach(object => {
       if (object.type === 'interactive') {
-        const message = object.properties.find(p=>p.name==='message')
+        const message = object.properties.find(p => p.name === 'message');
         this.interactive.add(
           new Interactive({
             scene: this,

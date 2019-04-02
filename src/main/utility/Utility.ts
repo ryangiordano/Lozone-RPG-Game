@@ -7,3 +7,10 @@ export const createThrottle = (limit, func)=>{
     }
   }
 };
+
+export enum Directions {
+  up,
+  down,
+  left,
+  right
+}

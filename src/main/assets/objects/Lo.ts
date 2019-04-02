@@ -1,9 +1,4 @@
-enum Directions {
-  up,
-  down,
-  left,
-  right
-}
+import { Directions } from '../../utility/Utility';
 import { createThrottle } from '../../utility/Utility';
 import { Cast } from './Cast';
 
@@ -12,11 +7,14 @@ export class Lo extends Phaser.GameObjects.Sprite {
   private currentScene: Phaser.Scene;
   private keys: Map<string, Phaser.Input.Keyboard.Key>;
   private isMoving = false;
+  // TODO: Refactor this to be a state
+  private canInput:boolean = true;
   private velocityX = 0;
   private velocityY = 0;
   private movementSpeed = 2;
   private target = { x: 0, y: 0 };
   private facing: Directions = Directions.down;
+  // TODO: Refactor how we store casts locally, this sucks.
   private casts: Phaser.GameObjects.Group;
 
   constructor({ scene, x, y, key, map, casts }) {
@@ -49,11 +47,8 @@ export class Lo extends Phaser.GameObjects.Sprite {
     ]);
 
     this.currentScene.physics.world.enable(this);
-
-    // *****************************************************************
-    // COLLIDERS
-    // *****************************************************************
   }
+  
   private addKey(key: string): Phaser.Input.Keyboard.Key {
     return this.currentScene.input.keyboard.addKey(key);
   }
@@ -61,7 +56,9 @@ export class Lo extends Phaser.GameObjects.Sprite {
     if (this.isMoving) {
       this.moveToTarget();
     } else {
-      this.handleInput();
+      if (this.canInput) {
+        this.handleInput();
+      }
     }
   }
   // TODO: Refactor this into a base class
@@ -161,6 +158,9 @@ export class Lo extends Phaser.GameObjects.Sprite {
         return { x: this.x, y: this.y - 16 };
     }
   }
+  public setCanInput(bool:boolean){
+    this.canInput = bool;
+  }
   private handleInput() {
     if (this.keys.get('RIGHT').isDown) {
       this.facing = Directions.right;
@@ -179,9 +179,8 @@ export class Lo extends Phaser.GameObjects.Sprite {
     } else if (this.keys.get('UP').isDown) {
       this.facing = Directions.up;
       this.target = this.getTileInFront();
-      this.anims.play('walkUp', true);
       this.handleMovement(this.facing, () => this.anims.play('walkUp', true));
-    } else if (this.keys.get('SPACE').isDown) {
+    } else if (Phaser.Input.Keyboard.JustDown(this.keys.get('SPACE'))) {
       this.queryObject();
     }
   }

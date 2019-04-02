@@ -11,6 +11,21 @@
         "url": "./src/main/assets/tiles/room.png"
       },
       {
+        "type": "image",
+        "key": "dialog",
+        "url": "./src/main/assets/sprites/dialog.png"
+      },
+      {
+        "type": "image",
+        "key": "ryan-portrait",
+        "url": "./src/main/assets/sprites/ryanportrait.png"
+      },
+      {
+        "type": "image",
+        "key": "lo-portrait",
+        "url": "./src/main/assets/sprites/loportrait.png"
+      },
+      {
         "type": "spritesheet",
         "key": "characters",
         "url": "./src/main/assets/sprites/characters.png",
@@ -44,7 +59,7 @@
       },
       {
         "type": "spritesheet",
-        "key": "dialog",
+        "key": "dialog-tiles",
         "url": "./src/main/assets/tiles/dialog.png",
         "frameConfig": {
           "frameWidth": 16,
