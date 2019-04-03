@@ -1,7 +1,7 @@
-import { Cast } from './../assets/objects/Cast';
-import { Lo } from '../assets/objects/Lo';
-import { Interactive } from '../assets/objects/Interactive';
-import { DialogManager } from '../assets/services/DialogManager';
+import { Cast } from "./../assets/objects/Cast";
+import { Lo } from "../assets/objects/Lo";
+import { Interactive } from "../assets/objects/Interactive";
+import { DialogManager } from "../assets/services/DialogManager";
 
 export class MainScene extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap;
@@ -16,19 +16,19 @@ export class MainScene extends Phaser.Scene {
   private dialogManager: DialogManager;
   constructor() {
     super({
-      key: 'MainScene'
+      key: "MainScene"
     });
   }
 
   preload(): void {
-    this.bump = this.sound.add('bump');
+    this.bump = this.sound.add("bump");
   }
 
   create(): void {
-    this.map = this.make.tilemap({ key: 'room' });
+    this.map = this.make.tilemap({ key: "room" });
     this.tileset = this.map.addTilesetImage(
-      'room-tiles',
-      'room-tiles',
+      "room-tiles",
+      "room-tiles",
       16,
       16,
       0,
@@ -40,17 +40,17 @@ export class MainScene extends Phaser.Scene {
     });
 
     this.backgroundLayer = this.map.createStaticLayer(
-      'background',
+      "background",
       this.tileset
     );
 
     this.foregroundLayer = this.map.createStaticLayer(
-      'foreground',
+      "foreground",
       this.tileset
     );
 
-    this.backgroundLayer.setName('background');
-    this.foregroundLayer.setName('foreground');
+    this.backgroundLayer.setName("background");
+    this.foregroundLayer.setName("foreground");
     //Game Objects
     this.spawn = this.add.group({
       runChildUpdate: true
@@ -74,7 +74,7 @@ export class MainScene extends Phaser.Scene {
       this.interactive,
       (cast: Cast, interactiveObj: Interactive) => {
         cast.destroy();
-        if (interactiveObj.properties.type === 'interactive') {
+        if (interactiveObj.properties.type === "interactive") {
           this.dialogManager.displayDialog(interactiveObj.properties.message);
           this.lo.setCanInput(false);
         }
@@ -85,11 +85,11 @@ export class MainScene extends Phaser.Scene {
   }
   afterCreate() {
     this.dialogManager = new DialogManager(this, () => {
-      setTimeout(()=>{
+      setTimeout(() => {
         this.lo.setCanInput(true);
-      },200)
+      }, 200);
     });
-    this.input.keyboard.on('keydown', event => {
+    this.input.keyboard.on("keydown", event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.SPACE) {
         if (this.dialogManager.dialogVisible()) {
           this.dialogManager.handleNextDialog();
@@ -107,22 +107,22 @@ export class MainScene extends Phaser.Scene {
     // this.dialogManager.update();
   }
   private loadObjectsFromTilemap(): void {
-    const objects = this.map.getObjectLayer('objects').objects as any[];
-    const spawn = objects.find(o => o.type === 'spawn' && o.name === 'front');
+    const objects = this.map.getObjectLayer("objects").objects as any[];
+    const spawn = objects.find(o => o.type === "spawn" && o.name === "front");
 
     // TODO: Make this its own abstraction (spawning)
     this.lo = new Lo({
       scene: this,
       x: spawn.x + 8,
       y: spawn.y + 8,
-      key: 'lo',
+      key: "lo",
       map: this.map,
       casts: this.casts
     });
 
     objects.forEach(object => {
-      if (object.type === 'interactive') {
-        const message = object.properties.find(p => p.name === 'message');
+      if (object.type === "interactive") {
+        const message = object.properties.find(p => p.name === "message");
         this.interactive.add(
           new Interactive({
             scene: this,

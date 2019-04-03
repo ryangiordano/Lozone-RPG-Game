@@ -1,11 +1,9 @@
-import { Tilemaps } from 'phaser';
-
 class Dialog extends Phaser.GameObjects.Sprite {
   /**
    *
    */
   constructor({ scene, x, y }) {
-    super(scene, x, y, 'dialog');
+    super(scene, x, y, "dialog");
     this.initSprite();
     this.visible = false;
   }
@@ -16,9 +14,9 @@ class Dialog extends Phaser.GameObjects.Sprite {
   }
 }
 export class DialogManager {
-  private count = 5;
   private dialog: Dialog;
-  private rawText: Phaser.GameObjects.Text;
+  private dialogArray: string[] = [];
+  private currentText: Phaser.GameObjects.Text;
   constructor(
     private currentScene: Phaser.Scene,
     private hideDialogCallback?: Function
@@ -29,16 +27,31 @@ export class DialogManager {
     this.hideDialogCallback = hideDialogCallback;
   }
 
+  private createDialogArray(message: string) {
+    const charsPerDialog = 75;
+    const result = [];
+    let text = message.split("");
+
+    // We need to get the number of chars that can reasonably fit on a line.  Since we're only coding for one screen size
+    // We can make a reasonable guess and go off of that. // 130 is a reasonable guess.
+    // debugger;
+    while (text.length) {
+      let start = charsPerDialog;
+      while (text[start] && text[start] !== " ") {
+        start--;
+      }
+      result.push(text.splice(0, start).join(""));
+    }
+    this.dialogArray = result.reduce((acc, el) => {
+      acc.push(el);
+      return acc;
+    }, []);
+  }
+  displayTextInDialog() {}
   public displayDialog(message: string) {
     this.dialog.visible = true;
-
-   this.rawText = this.currentScene.add.text(4, 98, message, {
-      fontFamily: "Connection",
-      fontSize: 12,
-      fill: '#000000'
-    });
-
-    debugger;
+    this.createDialogArray(message);
+    this.handleNextDialog();
   }
   public hideDialog() {
     this.dialog.visible = false;
@@ -49,10 +62,22 @@ export class DialogManager {
   }
 
   public handleNextDialog() {
-    this.count--;
-    if (!this.count) {
-      this.count = 5;
+    if (this.currentText) {
+      this.currentText.destroy();
+    }
+
+    if (!this.dialogArray.length) {
       this.hideDialog();
+    } else {
+      const toShow = this.dialogArray.shift();
+
+      this.currentText = this.currentScene.add.text(4, 99, toShow, {
+        fontFamily: "pixel",
+        fontSize: "8px",
+        fill: "#000000",
+        wordWrap: { width: this.dialog.width / 4.5, useAdvancedWrap: true }
+      });
+      this.currentText.setScrollFactor(0);
     }
   }
 }
