@@ -69,6 +69,7 @@ export class DialogManager {
     if (!this.dialogArray.length) {
       this.hideDialog();
     } else {
+      this.currentScene.sound.play('beep');
       const toShow = this.dialogArray.shift();
 
       this.currentText = this.currentScene.add.text(4, 99, toShow, {

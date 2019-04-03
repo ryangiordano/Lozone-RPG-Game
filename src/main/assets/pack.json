@@ -72,6 +72,11 @@
         "url": "./src/main/assets/sounds/startup.mp3"
       },
       {
+        "type": "audio",
+        "key": "beep",
+        "url": "./src/main/assets/sounds/beep.mp3"
+      },
+      {
         "type": "json",
         "key": "loAnimation",
         "url": "./src/main/assets/animations/lo.json"

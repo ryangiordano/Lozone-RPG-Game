@@ -11,7 +11,7 @@ export class MainScene extends Phaser.Scene {
   private lo: Lo;
   private interactive: Phaser.GameObjects.Group;
   private spawn: Phaser.GameObjects.Group;
-  private bump: Phaser.Sound.BaseSound;
+  private beep: Phaser.Sound.BaseSound;
   private casts: Phaser.GameObjects.Group;
   private dialogManager: DialogManager;
   constructor() {
@@ -21,7 +21,9 @@ export class MainScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.bump = this.sound.add("bump");
+    // TODO: Gather these into a map
+    this.sound.add("bump");
+    this.sound.add("beep");
   }
 
   create(): void {
