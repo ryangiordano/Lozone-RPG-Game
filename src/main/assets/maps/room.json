@@ -88,7 +88,7 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"A large screen TV.  It doesn't seem like it gets much use... In olden times Ryan would play Majora's Mask for hours on end on this TV.  There's a lot that can be said about this little guy. I for one am proud to call it my own TV.  Other TVs should strive to be as beautiful as this TV."
+                         "value":"A large screen TV.  It doesn't seem like it gets much use... "
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -157,6 +157,50 @@
                  "width":16,
                  "x":48,
                  "y":0
+                }, 
+                {
+                 "height":16,
+                 "id":11,
+                 "name":"ryan",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"Hello my dear wife.  I'm currently working on your anniversary present.  Would you please make me a sandwich?"
+                        }, 
+                        {
+                         "name":"sprite-key",
+                         "type":"string",
+                         "value":"ryan"
+                        }],
+                 "rotation":0,
+                 "type":"npc",
+                 "visible":true,
+                 "width":16,
+                 "x":48,
+                 "y":16
+                }, 
+                {
+                 "height":16,
+                 "id":12,
+                 "name":"stove",
+                 "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"I get free food at my job, so I leave all the cooking up to Ryan.  I'm not even sure I know how to spell the word 'stove'."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":16,
+                 "y":96
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -165,7 +209,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":11,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.2.3",

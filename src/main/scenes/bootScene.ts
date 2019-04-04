@@ -31,7 +31,7 @@ export class BootScene extends Phaser.Scene {
     this.load.on(
       "complete",
       () => {
-        // this.sound.play("startup");
+        this.sound.play("startup");
         const animationHelper = new AnimationHelper(this, this.cache.json.get("loAnimation"))
       },
       this

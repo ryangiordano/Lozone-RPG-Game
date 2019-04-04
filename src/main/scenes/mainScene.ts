@@ -1,14 +1,17 @@
 import { Cast } from "./../assets/objects/Cast";
-import { Lo } from "../assets/objects/Lo";
+import { Player } from "../assets/objects/Player";
+import {NPC} from '../assets/objects/NPC';
 import { Interactive } from "../assets/objects/Interactive";
 import { DialogManager } from "../assets/services/DialogManager";
+import { Directions } from "../utility/Utility";
 
 export class MainScene extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap;
   private tileset: Phaser.Tilemaps.Tileset;
   private backgroundLayer: Phaser.Tilemaps.StaticTilemapLayer;
   private foregroundLayer: Phaser.Tilemaps.StaticTilemapLayer;
-  private lo: Lo;
+  private lo: Player;
+  private ryan: NPC;
   private interactive: Phaser.GameObjects.Group;
   private spawn: Phaser.GameObjects.Group;
   private beep: Phaser.Sound.BaseSound;
@@ -37,34 +40,29 @@ export class MainScene extends Phaser.Scene {
       0,
       1
     );
-    this.interactive = this.add.group({
-      runChildUpdate: true
-    });
-
     this.backgroundLayer = this.map.createStaticLayer(
       "background",
       this.tileset
     );
-
     this.foregroundLayer = this.map.createStaticLayer(
       "foreground",
       this.tileset
     );
-
     this.backgroundLayer.setName("background");
     this.foregroundLayer.setName("foreground");
     //Game Objects
     this.spawn = this.add.group({
       runChildUpdate: true
     });
-
+    this.interactive = this.add.group({
+      runChildUpdate: true
+    });
     this.casts = this.add.group({
       runChildUpdate: true
     });
     this.interactive = this.add.group({
       runChildUpdate: true
     });
-    // this.map.setCollisionBetween(0, 3000, true);
 
     this.loadObjectsFromTilemap();
 
@@ -74,7 +72,7 @@ export class MainScene extends Phaser.Scene {
     this.physics.add.overlap(
       this.casts,
       this.interactive,
-      (cast: Cast, interactiveObj: Interactive) => {
+      (cast: Cast, interactiveObj: any) => {
         cast.destroy();
         if (interactiveObj.properties.type === "interactive") {
           this.dialogManager.displayDialog(interactiveObj.properties.message);
@@ -91,6 +89,8 @@ export class MainScene extends Phaser.Scene {
         this.lo.setCanInput(true);
       }, 200);
     });
+    
+    // If there is dialog on screen, cycle throw the text.
     this.input.keyboard.on("keydown", event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.SPACE) {
         if (this.dialogManager.dialogVisible()) {
@@ -98,14 +98,12 @@ export class MainScene extends Phaser.Scene {
         }
       }
     });
-    // Phaser.Input.Keyboard.JustDown(space, () => {
-    //   console.log('Down');
-    // });
+
+    this['updates'].addMultiple([this.lo]);
   }
 
   update(): void {
     // Is this really how updates on members of scenes should be handled?
-    this.lo.update();
     // this.dialogManager.update();
   }
   private loadObjectsFromTilemap(): void {
@@ -113,7 +111,7 @@ export class MainScene extends Phaser.Scene {
     const spawn = objects.find(o => o.type === "spawn" && o.name === "front");
 
     // TODO: Make this its own abstraction (spawning)
-    this.lo = new Lo({
+    this.lo = new Player({
       scene: this,
       x: spawn.x + 8,
       y: spawn.y + 8,
@@ -137,6 +135,20 @@ export class MainScene extends Phaser.Scene {
             }
           })
         );
+      }
+      if(object.type ==="npc"){
+        const message = object.properties.find(p=>p.name==="message");
+        const key = object.properties.find(p=>p.name==="sprite-key");
+        this.interactive.add(
+          new NPC({
+            scene: this,
+            x: object.x + 8,
+            y: object.y + 8,
+            key: key.value,
+            map: this.map,
+            casts: this.casts
+          }, message && message.value, Directions.up)
+        )
       }
     });
     this.cameras.main.startFollow(this.lo);

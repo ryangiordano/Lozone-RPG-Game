@@ -1,29 +1,34 @@
-import { Directions } from '../../utility/Utility';
-import { createThrottle } from '../../utility/Utility';
+import { Moveable } from './Moveable';
+import { createThrottle, Directions } from '../../utility/Utility';
 import { Cast } from './Cast';
 
-export class Lo extends Phaser.GameObjects.Sprite {
+export class Player extends Phaser.GameObjects.Sprite {
+  // TODO: Refactor this into a base class
+  // Provide API to allow programatic movement
   private currentMap: Phaser.Tilemaps.Tilemap;
   private currentScene: Phaser.Scene;
   private keys: Map<string, Phaser.Input.Keyboard.Key>;
+
   private isMoving = false;
   // TODO: Refactor this to be a state
-  private canInput:boolean = true;
+  private canInput: boolean = true;
   private velocityX = 0;
   private velocityY = 0;
   private movementSpeed = 2;
   private target = { x: 0, y: 0 };
   private facing: Directions = Directions.down;
+  private currentTile: Phaser.Tilemaps.Tile;
   // TODO: Refactor how we store casts locally, this sucks.
   private casts: Phaser.GameObjects.Group;
-
   constructor({ scene, x, y, key, map, casts }) {
     super(scene, x, y, key);
+    this.casts = casts;
     this.currentScene = scene;
     this.currentMap = map;
-    this.initSprite();
     this.currentScene.add.existing(this);
-    this.casts = casts;
+    this.initSprite();
+    this.currentTile = this.getTileBelowFoot();
+    this.currentTile.properties['collide'] = true;
   }
 
   // TODO: Emit that the player bumped rather than handling playing sounds
@@ -32,9 +37,16 @@ export class Lo extends Phaser.GameObjects.Sprite {
     this.scene.sound.play('bump');
   });
 
-  private getKeys(): Map<string, Phaser.Input.Keyboard.Key> {
-    return this.keys;
+  update(): void {
+    if (this.isMoving) {
+      this.moveToTarget();
+    } else {
+      if (this.canInput) {
+        this.handleInput();
+      }
+    }
   }
+
   private initSprite() {
     this.setOrigin(0.5, 0.5);
     this.setFlipX(false);
@@ -48,21 +60,10 @@ export class Lo extends Phaser.GameObjects.Sprite {
 
     this.currentScene.physics.world.enable(this);
   }
-  
+
   private addKey(key: string): Phaser.Input.Keyboard.Key {
     return this.currentScene.input.keyboard.addKey(key);
   }
-  update(): void {
-    if (this.isMoving) {
-      this.moveToTarget();
-    } else {
-      if (this.canInput) {
-        this.handleInput();
-      }
-    }
-  }
-  // TODO: Refactor this into a base class
-  // Provide API to allow programatic movement
   private moveToTarget() {
     if (this.x === this.target.x && this.y === this.target.y) {
       this.isMoving = false;
@@ -75,7 +76,7 @@ export class Lo extends Phaser.GameObjects.Sprite {
       }
     }
   }
-  private face(direction: Directions) {
+  public face(direction: Directions) {
     this.facing = direction;
     switch (direction) {
       case Directions.up:
@@ -91,17 +92,22 @@ export class Lo extends Phaser.GameObjects.Sprite {
         this.setFrame(0);
     }
   }
+  public move(direction: Directions, callback: Function, spaces?: number) {
+    this.facing = direction;
+    this.target = this.getTileInFront();
+    this.handleMovement(this.facing, callback);
+  }
   private handleMovement(direction: Directions, callback?: Function) {
     const marker = { x: null, y: null };
     marker.x = Math.floor(this.target.x / 16);
     marker.y = Math.floor(this.target.y / 16);
-    const tile = this.currentMap.getTileAt(
+    const bgTile = this.currentMap.getTileAt(
       marker.x,
       marker.y,
       true,
       'background'
     );
-    const tile2 = this.currentMap.getTileAt(
+    const fgTile = this.currentMap.getTileAt(
       marker.x,
       marker.y,
       true,
@@ -112,9 +118,9 @@ export class Lo extends Phaser.GameObjects.Sprite {
     // Maybe we can store a flattened map somewhere?
     if (
       this.currentMap.hasTileAt(marker.x, marker.y, 'background') &&
-      (tile &&
-        !tile.properties['collide'] &&
-        (tile2 && !tile2.properties['collide']))
+      (bgTile &&
+        !bgTile.properties['collide'] &&
+        (fgTile && !fgTile.properties['collide']))
     ) {
       this.isMoving = true;
       const movementSpeed =
@@ -129,11 +135,24 @@ export class Lo extends Phaser.GameObjects.Sprite {
       if (callback) {
         callback();
       }
+      if (this.currentTile) {
+        this.currentTile.properties['collide'] = false;
+        this.currentTile = fgTile;
+        this.currentTile.properties['collide'] = true;
+      }
     } else {
       this.anims.stop();
       this.face(direction);
-      this.playBump();
     }
+  }
+  private getTileBelowFoot() {
+    const tile = this.currentMap.getTileAt(
+      Math.floor(this.x / 16),
+      Math.floor(this.y / 16),
+      true,
+      'foreground'
+    );
+    return tile;
   }
   private queryObject = createThrottle(300, () => {
     const coords = this.getTileInFront();
@@ -158,28 +177,20 @@ export class Lo extends Phaser.GameObjects.Sprite {
         return { x: this.x, y: this.y - 16 };
     }
   }
-  public setCanInput(bool:boolean){
+  public setCanInput(bool: boolean) {
     this.canInput = bool;
   }
   private handleInput() {
     if (this.keys.get('RIGHT').isDown) {
-      this.facing = Directions.right;
-      this.target = this.getTileInFront();
       this.setFlipX(true);
-      this.handleMovement(this.facing, () => this.anims.play('walkV', true));
+      this.move(Directions.right, () => this.anims.play('walkV', true));
     } else if (this.keys.get('LEFT').isDown) {
-      this.facing = Directions.left;
-      this.target = this.getTileInFront();
       this.setFlipX(false);
-      this.handleMovement(this.facing, () => this.anims.play('walkV', true));
+      this.move(Directions.left, () => this.anims.play('walkV', true));
     } else if (this.keys.get('DOWN').isDown) {
-      this.facing = Directions.down;
-      this.target = this.getTileInFront();
-      this.handleMovement(this.facing, () => this.anims.play('walkDown', true));
+      this.move(Directions.down, () => this.anims.play('walkDown', true));
     } else if (this.keys.get('UP').isDown) {
-      this.facing = Directions.up;
-      this.target = this.getTileInFront();
-      this.handleMovement(this.facing, () => this.anims.play('walkUp', true));
+      this.move(Directions.up, () => this.anims.play('walkUp', true));
     } else if (Phaser.Input.Keyboard.JustDown(this.keys.get('SPACE'))) {
       this.queryObject();
     }
