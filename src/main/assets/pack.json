@@ -45,6 +45,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "ryanandlo",
+        "url": "./src/main/assets/sprites/ryanandlo.png",
+        "frameConfig": {
+          "frameWidth": 500,
+          "frameHeight": 103
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "ryan",
         "url": "./src/main/assets/sprites/ryan.png",
         "frameConfig": {
@@ -80,6 +89,11 @@
         "type": "json",
         "key": "loAnimation",
         "url": "./src/main/assets/animations/lo.json"
+      },
+      {
+        "type": "json",
+        "key": "ryanAndLoAnimation",
+        "url": "./src/main/assets/animations/ryanandlo.json"
       }
     ]
   }

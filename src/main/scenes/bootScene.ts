@@ -9,41 +9,36 @@ export class BootScene extends Phaser.Scene {
 
   preload(): void {
     this.sound.add("startup");
-    this.add.text(0, 0, "hack", {font:"1px MyWebFont", fill:"#FFFFFF"});
-    this.cameras.main.setBackgroundColor(0x000000);
+    this.cameras.main.setBackgroundColor(0xffffff);
     this.createLoadingGraphics();
-
-    this.load.on(
-      "progress",
-      value => {
-        this.progressBar.clear();
-        this.progressBar.fillStyle(0x88e453, 1);
-        this.progressBar.fillRect(
-          this.cameras.main.width / 4,
-          this.cameras.main.height / 2 - 16,
-          (this.cameras.main.width / 2) * value,
-          16
-        );
-      },
-      this
-    );
-
     this.load.on(
       "complete",
       () => {
-        this.sound.play("startup");
-        const animationHelper = new AnimationHelper(this, this.cache.json.get("loAnimation"))
+        const daruma = this.add.text(50, 99, "Daruma®", {
+          fontFamily: "pixel",
+          fontSize: "10px",
+          fill: "#000000",
+          fontWeight: "bold"
+        });
+        new AnimationHelper(this, this.cache.json.get("loAnimation"))
+        new AnimationHelper(this, this.cache.json.get("ryanAndLoAnimation"))
+        const sprite =  this.add.sprite(80,65, 'ryanandlo')
+        sprite.scaleX = .3;
+        sprite.scaleY = .3;
+        sprite.anims.play('shine-in');
+        sprite.on('animationcomplete',()=>{
+          this.sound.play("startup"); 
+        });
       },
       this
     );
-
     // Load the package
     this.load.pack("preload", "./src/main/assets/pack.json","preload");
+    
   }
   private createLoadingGraphics(): void {
     setTimeout(() => {
       this.scene.start("MainScene");
-    }, 1000);
-    this.progressBar = this.add.graphics();
+    }, 3000);
   }
 }
