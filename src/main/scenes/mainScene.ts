@@ -76,7 +76,7 @@ export class MainScene extends Phaser.Scene {
         cast.destroy();
         if (interactiveObj.properties.type === "interactive") {
           this.dialogManager.displayDialog(interactiveObj.properties.message);
-          this.lo.setCanInput(false);
+          this.lo.controllable.canInput = false;
         }
       }
     );
@@ -86,7 +86,7 @@ export class MainScene extends Phaser.Scene {
   afterCreate() {
     this.dialogManager = new DialogManager(this, () => {
       setTimeout(() => {
-        this.lo.setCanInput(true);
+        this.lo.controllable.canInput = true;
       }, 200);
     });
     

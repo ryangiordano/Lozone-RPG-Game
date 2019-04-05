@@ -4,10 +4,11 @@
     "module": "CommonJS",
     "sourceMap": true,
     "noImplicitAny": false,
-    "strict": false
+    "strict": false,
+    "experimentalDecorators": true
   },
   "exclude": [
     "node_modules",
     "**/*.tsx"
-]
+  ]
 }
