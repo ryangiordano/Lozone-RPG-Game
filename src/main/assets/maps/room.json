@@ -218,6 +218,28 @@
                  "width":16,
                  "x":64,
                  "y":0
+                }, 
+                {
+                 "height":16,
+                 "id":16,
+                 "name":"to-upstairs",
+                 "properties":[
+                        {
+                         "name":"mapKey",
+                         "type":"string",
+                         "value":"upstairs"
+                        }, 
+                        {
+                         "name":"warpId",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"trigger",
+                 "visible":true,
+                 "width":16,
+                 "x":128,
+                 "y":0
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -226,7 +248,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":16,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.2.3",

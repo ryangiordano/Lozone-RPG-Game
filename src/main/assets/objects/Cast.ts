@@ -7,7 +7,7 @@ export class Cast extends Phaser.GameObjects.Sprite {
     this.initSprite();
     this.displayWidth = 8;
     this.displayHeight = 8;
-    this.visible = false;
+    this.visible = true;
   }
   private initSprite() {
     this.setOrigin(0.5, 0.5);

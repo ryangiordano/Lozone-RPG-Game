@@ -20,25 +20,28 @@ export class BootScene extends Phaser.Scene {
           fill: "#000000",
           fontWeight: "bold"
         });
-        new AnimationHelper(this, this.cache.json.get("loAnimation"))
-        new AnimationHelper(this, this.cache.json.get("ryanAndLoAnimation"))
-        const sprite =  this.add.sprite(80,65, 'ryanandlo')
-        sprite.scaleX = .3;
-        sprite.scaleY = .3;
-        sprite.anims.play('shine-in');
-        sprite.on('animationcomplete',()=>{
-          this.sound.play("startup"); 
+        new AnimationHelper(this, this.cache.json.get("loAnimation"));
+        new AnimationHelper(this, this.cache.json.get("ryanAndLoAnimation"));
+        const sprite = this.add.sprite(80, 65, "ryanandlo");
+        sprite.scaleX = 0.3;
+        sprite.scaleY = 0.3;
+        sprite.anims.play("shine-in");
+        sprite.on("animationcomplete", () => {
+          this.sound.play("startup");
         });
       },
       this
     );
     // Load the package
-    this.load.pack("preload", "./src/main/assets/pack.json","preload");
-    
+    this.load.pack("preload", "./src/main/assets/pack.json", "preload");
   }
   private createLoadingGraphics(): void {
     setTimeout(() => {
-      this.scene.start("MainScene");
+      // We can specify the type of config we want to send.
+      // name of tileset. name of map.  
+      const test = this.cache.json.get('room')
+      debugger;
+      this.scene.start("Explore", {map: 'room', tileset:'room-tiles'});
     }, 3000);
   }
 }
