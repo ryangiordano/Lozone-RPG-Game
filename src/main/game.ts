@@ -1,5 +1,5 @@
 import 'phaser';
-import { MainScene } from './scenes/mainScene';
+import { Explore } from './scenes/explore';
 import { BootScene } from './scenes/bootScene';
 import PhaserUpdatePlugin from './utility/UpdatePlugin';
 // main game configuration
@@ -9,7 +9,7 @@ const config: GameConfig = {
   zoom: 4,
   type: Phaser.AUTO,
   parent: 'game',
-  scene: [BootScene, MainScene],
+  scene: [BootScene, Explore],
   input: {
     keyboard: true
   },

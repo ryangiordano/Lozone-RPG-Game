@@ -6,6 +6,11 @@
         "url": "./src/main/assets/maps/room.json"
       },
       {
+        "type": "tilemapTiledJSON",
+        "key": "upstairs",
+        "url": "./src/main/assets/maps/upstairs.json"
+      },
+      {
         "type": "image",
         "key": "room-tiles",
         "url": "./src/main/assets/tiles/room.png"
