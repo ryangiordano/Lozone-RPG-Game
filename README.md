@@ -1,5 +1,5 @@
 <p align="center">
-  <img width=100% src="https://github.com/digitsensitive/phaser3-typescript/blob/master/assets/github/phaser3-typescript.png">
+  <img width=100% src="https://github.com/thedaruma/LoBirthday2019/blob/master/assets/github/ryanandlo.gif">
   Lo's Birthday Game.
 </p>
 
@@ -7,12 +7,7 @@
 
 [Phaser](https://github.com/photonstorm/phaser) is a wonderful, fast and
 free open source HTML5 game framework.
-Here you will find everything you need to develop games with Phaser 3
-in TypeScript. Have fun discovering, developing and playing!
-Ideas and corrections are highly desirable to constantly
-improve this repository!
 
-## Getting started
 
 ### Prerequisites
 
