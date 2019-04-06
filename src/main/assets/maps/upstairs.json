@@ -1,28 +1,27 @@
-{ "backgroundcolor":"#d4d49f",
- "height":10,
+{ "height":9,
  "infinite":false,
  "layers":[
         {
-         "data":[2, 2, 2, 2, 18, 2, 2, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-         "height":10,
-         "id":6,
+         "data":[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 6, 6, 1, 1, 1, 1, 1, 1, 1, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 1, 1, 1, 1, 1, 1, 6, 6, 6, 1, 1, 1, 1, 1, 1],
+         "height":9,
+         "id":4,
          "name":"background",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
-         "width":10,
+         "width":9,
          "x":0,
          "y":0
         }, 
         {
-         "data":[0, 0, 0, 11, 0, 0, 0, 0, 5, 0, 13, 19, 6, 12, 0, 20, 0, 6, 0, 0, 14, 0, 6, 24, 0, 16, 0, 6, 0, 0, 15, 0, 6, 0, 0, 25, 0, 6, 0, 0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 9, 7, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 3, 0, 23],
-         "height":10,
-         "id":7,
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 19, 0, 0, 0, 0, 8, 0, 19, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 0, 4, 0],
+         "height":9,
+         "id":5,
          "name":"foreground",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
-         "width":10,
+         "width":9,
          "x":0,
          "y":0
         }, 
@@ -34,57 +33,29 @@
                 {
                  "height":16,
                  "id":1,
-                 "name":"exit",
+                 "name":"",
                  "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"The sun burns too brightly.  Or it's rainy.  Or it's too cold.  Either way, this cat's staying inside, thank you very much."
+                         "value":"Ryan's cell phone from when he was in highschool.  I wonder if some of his old girlfriend's text messages are still... nah."
                         }],
                  "rotation":0,
                  "type":"interactive",
                  "visible":true,
                  "width":16,
                  "x":112,
-                 "y":144
-                }, 
-                {
-                 "height":16,
-                 "id":2,
-                 "name":"front",
-                 "rotation":0,
-                 "type":"spawn",
-                 "visible":true,
-                 "width":16,
-                 "x":0,
                  "y":32
                 }, 
                 {
                  "height":16,
-                 "id":3,
-                 "name":"n64",
-                 "properties":[
-                        {
-                         "name":"interactive",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"Ryan's old Nintendo 64.  It has a gold cartridge in it with a gold controller."
-                        }],
-                 "rotation":0,
-                 "type":"interactive",
-                 "visible":true,
-                 "width":16,
-                 "x":80,
-                 "y":48
-                }, 
-                {
-                 "height":16,
                  "id":4,
-                 "name":"tv",
+                 "name":"boxes",
                  "properties":[
                         {
                          "name":"interactive",
@@ -94,19 +65,19 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"A large screen TV.  It doesn't seem like it gets much use... "
+                         "value":"Dried fragrant mushrooms."
                         }],
                  "rotation":0,
                  "type":"interactive",
                  "visible":true,
                  "width":16,
-                 "x":80,
-                 "y":16
+                 "x":32,
+                 "y":96
                 }, 
                 {
                  "height":16,
-                 "id":8,
-                 "name":"dresser",
+                 "id":5,
+                 "name":"boxes",
                  "properties":[
                         {
                          "name":"interactive",
@@ -116,19 +87,19 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"My dresser, jam-packed with clothes I'll never wear."
+                         "value":"Loads of old programming books and books on Chinese and Japanese language."
                         }],
                  "rotation":0,
                  "type":"interactive",
                  "visible":true,
                  "width":16,
-                 "x":16,
-                 "y":16
+                 "x":48,
+                 "y":112
                 }, 
                 {
                  "height":16,
-                 "id":9,
-                 "name":"fridge",
+                 "id":7,
+                 "name":"boxes",
                  "properties":[
                         {
                          "name":"interactive",
@@ -138,102 +109,46 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"Filled with the husks of food long gone bad.  Blame it on Ryan."
+                         "value":"A bunch of stuff that Ryan saves 'just in case'."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":112,
+                 "y":80
+                }, 
+                {
+                 "height":16,
+                 "id":10,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"A cache of old smartphones.  They are are stacked one on top of the other, with the oldest ones at the bottom of the pile."
                         }],
                  "rotation":0,
                  "type":"interactive",
                  "visible":true,
                  "width":16,
                  "x":0,
-                 "y":96
-                }, 
-                {
-                 "height":16,
-                 "id":10,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"Ryan's computer.  A relic of a bygone era."
-                        }],
-                 "rotation":0,
-                 "type":"interactive",
-                 "visible":true,
-                 "width":16,
-                 "x":48,
-                 "y":0
-                }, 
-                {
-                 "height":16,
-                 "id":11,
-                 "name":"ryan",
-                 "properties":[
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"Hello my dear wife.  I'm currently working on your anniversary present.  Would you please make me a sandwich?"
-                        }, 
-                        {
-                         "name":"sprite-key",
-                         "type":"string",
-                         "value":"ryan"
-                        }],
-                 "rotation":0,
-                 "type":"npc",
-                 "visible":true,
-                 "width":16,
-                 "x":48,
-                 "y":16
+                 "y":48
                 }, 
                 {
                  "height":16,
                  "id":12,
-                 "name":"stove",
-                 "properties":[
-                        {
-                         "name":"interactive",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"I get free food at my job, so I leave all the cooking up to Ryan.  I'm not even sure I know how to spell the word 'stove'."
-                        }],
-                 "rotation":0,
-                 "type":"interactive",
-                 "visible":true,
-                 "width":16,
-                 "x":16,
-                 "y":96
-                }, 
-                {
-                 "height":16,
-                 "id":15,
-                 "name":"picture",
-                 "properties":[
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"A picture of Ryan and I at Kamikouchi.  The trees in the background are green and beautiful, and there is a coursing river flowing through the mountains.  We look happy."
-                        }],
-                 "rotation":0,
-                 "type":"interactive",
-                 "visible":true,
-                 "width":16,
-                 "x":64,
-                 "y":0
-                }, 
-                {
-                 "height":16,
-                 "id":16,
-                 "name":"to-upstairs",
+                 "name":"to-downstairs",
                  "properties":[
                         {
                          "name":"map",
                          "type":"string",
-                         "value":"upstairs"
+                         "value":"room"
                         }, 
                         {
                          "name":"tileset",
@@ -249,8 +164,96 @@
                  "type":"trigger",
                  "visible":true,
                  "width":16,
+                 "x":112,
+                 "y":128
+                }, 
+                {
+                 "height":16,
+                 "id":14,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"My shoes.  Someday I'll wear them."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":32,
+                 "y":32
+                }, 
+                {
+                 "height":16,
+                 "id":15,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"Jam-packed with bootleg purses fresh off the streets of Chengdu.  Someday we'll give these away as gifts."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":16,
+                 "y":48
+                }, 
+                {
+                 "height":16,
+                 "id":16,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"Chinese books about raising babies.  I think mom is trying to hint at something..."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":48,
+                 "y":128
+                }, 
+                {
+                 "height":16,
+                 "id":17,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"A bunch of stuff that Ryan saves 'just in case'."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
                  "x":128,
-                 "y":0
+                 "y":80
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -258,10 +261,10 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
+ "nextlayerid":6,
  "nextobjectid":18,
  "orientation":"orthogonal",
- "renderorder":"left-down",
+ "renderorder":"right-down",
  "tiledversion":"1.2.3",
  "tileheight":16,
  "tilesets":[
@@ -418,5 +421,5 @@
  "tilewidth":16,
  "type":"map",
  "version":1.2,
- "width":10
+ "width":9
 }

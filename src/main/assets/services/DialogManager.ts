@@ -34,7 +34,6 @@ export class DialogManager {
 
     // We need to get the number of chars that can reasonably fit on a line.  Since we're only coding for one screen size
     // We can make a reasonable guess and go off of that. // 130 is a reasonable guess.
-    // debugger;
     while (text.length) {
       let start = charsPerDialog;
       while (text[start] && text[start] !== " ") {
