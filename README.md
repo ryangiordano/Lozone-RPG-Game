@@ -21,7 +21,7 @@ Select a folder, navigate to it, and clone this repository
 with this command-line:
 
 ```
-git clone https://github.com/digitsensitive/phaser3-typescript.git
+git clone https://github.com/thedaruma/LoBirthday2019.git
 ```
 
 Install the dependencies with this command-line:
@@ -42,17 +42,5 @@ npm run dev
 
 ## TypeScript Configuration
 
-### tsconfig.json
-
-The following `Compiler Options` have been set in the `tsconfig.json` file:
-
-| Option | Value     |
-| :------------- | :------------- |
-| target       | ES2016 |
-| module       | CommonJS |
-| sourceMap    | true |
-| noImplicitAny| true [WIP] |
-| strict       | true [WIP] |
-
-You can see the complete list of the available options at [here](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
-Interesting read about [setting up a nodejs-project](https://codeburst.io/tips-for-setting-up-a-typescript-nodejs-project-5d1c48dc1a2d).
+### Credit
+Based off a fork of the original repo found <a href="https://github.com/digitsensitive/phaser3-typescript.git">here</a>.
