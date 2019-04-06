@@ -3,7 +3,7 @@
   Lo's Birthday Game.
 </p>
 
-# Phaser 3 and TypeScript
+# Lozone RPG
 
 [Phaser](https://github.com/photonstorm/phaser) is a wonderful, fast and
 free open source HTML5 game framework.
@@ -43,4 +43,4 @@ npm run dev
 ## TypeScript Configuration
 
 ### Credit
-Based off a fork of the original repo found <a href="https://github.com/digitsensitive/phaser3-typescript.git">here</a>.
+Based off a fork of the original repo found <a target="_blank" href="https://github.com/digitsensitive/phaser3-typescript.git">here</a>.
