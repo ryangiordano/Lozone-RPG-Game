@@ -201,6 +201,23 @@
                  "width":16,
                  "x":16,
                  "y":96
+                }, 
+                {
+                 "height":16,
+                 "id":15,
+                 "name":"picture",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"A picture of Ryan and I at Kamikouchi.  The trees in the background are green and beautiful, and there is a coursing river flowing through the mountains.  We look happy."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":64,
+                 "y":0
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -209,7 +226,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":13,
+ "nextobjectid":16,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.2.3",
