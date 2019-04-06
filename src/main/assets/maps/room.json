@@ -35,8 +35,14 @@
                  "height":16,
                  "id":1,
                  "name":"exit",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"The sun burns too brightly.  Or it's rainy.  Or it's too cold.  Either way, this cat's staying inside, thank you very much."
+                        }],
                  "rotation":0,
-                 "type":"exit",
+                 "type":"interactive",
                  "visible":true,
                  "width":16,
                  "x":112,
@@ -225,9 +231,14 @@
                  "name":"to-upstairs",
                  "properties":[
                         {
-                         "name":"mapKey",
+                         "name":"map",
                          "type":"string",
                          "value":"upstairs"
+                        }, 
+                        {
+                         "name":"tileset",
+                         "type":"string",
+                         "value":"room-tiles"
                         }, 
                         {
                          "name":"warpId",

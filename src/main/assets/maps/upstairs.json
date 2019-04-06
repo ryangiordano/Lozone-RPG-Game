@@ -2,7 +2,7 @@
  "infinite":false,
  "layers":[
         {
-         "data":[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+         "data":[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 6, 6, 1, 1, 1, 1, 1, 1, 1, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 1, 1, 1, 1, 1, 1, 6, 6, 6, 1, 1, 1, 1, 1, 1],
          "height":9,
          "id":4,
          "name":"background",
@@ -14,7 +14,7 @@
          "y":0
         }, 
         {
-         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 19, 24, 24, 24, 24, 8, 6, 19, 19, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 0, 19, 19, 6, 6, 19, 0, 0, 0, 0, 0, 0, 6, 6, 6, 19, 0, 0, 0, 0, 0, 6, 6, 6, 19, 0, 0, 0, 4, 0],
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 19, 0, 0, 0, 0, 8, 0, 19, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 0, 4, 0],
          "height":9,
          "id":5,
          "name":"foreground",
@@ -43,7 +43,7 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"An old radio."
+                         "value":"Ryan's cell phone from when he was in highschool.  I wonder if some of his old girlfriend's text messages are still... nah."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -51,39 +51,6 @@
                  "width":16,
                  "x":112,
                  "y":32
-                }, 
-                {
-                 "height":16,
-                 "id":2,
-                 "name":"boxes",
-                 "properties":[
-                        {
-                         "name":"interactive",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"A bunch of stuff that Ryan saves 'just in case'."
-                        }],
-                 "rotation":0,
-                 "type":"interactive",
-                 "visible":true,
-                 "width":48,
-                 "x":0,
-                 "y":32
-                }, 
-                {
-                 "height":16,
-                 "id":3,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":0,
-                 "y":48
                 }, 
                 {
                  "height":16,
@@ -98,7 +65,7 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"A bunch of stuff that Ryan saves 'just in case'."
+                         "value":"Dried fragrant mushrooms."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -108,7 +75,7 @@
                  "y":96
                 }, 
                 {
-                 "height":32,
+                 "height":16,
                  "id":5,
                  "name":"boxes",
                  "properties":[
@@ -120,7 +87,7 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"A bunch of stuff that Ryan saves 'just in case'."
+                         "value":"Loads of old programming books and books on Chinese and Japanese language."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -147,7 +114,7 @@
                  "rotation":0,
                  "type":"interactive",
                  "visible":true,
-                 "width":32,
+                 "width":16,
                  "x":112,
                  "y":80
                 }, 
@@ -164,12 +131,12 @@
                         {
                          "name":"message",
                          "type":"string",
-                         "value":"A bunch of stuff that Ryan saves 'just in case'."
+                         "value":"A cache of old smartphones.  They are are stacked one on top of the other, with the oldest ones at the bottom of the pile."
                         }],
                  "rotation":0,
                  "type":"interactive",
                  "visible":true,
-                 "width":32,
+                 "width":16,
                  "x":0,
                  "y":48
                 }, 
@@ -179,14 +146,19 @@
                  "name":"to-downstairs",
                  "properties":[
                         {
-                         "name":"1",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"mapKey",
+                         "name":"map",
                          "type":"string",
                          "value":"room"
+                        }, 
+                        {
+                         "name":"tileset",
+                         "type":"string",
+                         "value":"room-tiles"
+                        }, 
+                        {
+                         "name":"warpId",
+                         "type":"int",
+                         "value":1
                         }],
                  "rotation":0,
                  "type":"trigger",
@@ -194,6 +166,94 @@
                  "width":16,
                  "x":112,
                  "y":128
+                }, 
+                {
+                 "height":16,
+                 "id":14,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"My shoes.  Someday I'll wear them."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":32,
+                 "y":32
+                }, 
+                {
+                 "height":16,
+                 "id":15,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"Jam-packed with bootleg purses fresh off the streets of Chengdu.  Someday we'll give these away as gifts."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":16,
+                 "y":48
+                }, 
+                {
+                 "height":16,
+                 "id":16,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"Chinese books about raising babies.  I think mom is trying to hint at something..."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":48,
+                 "y":128
+                }, 
+                {
+                 "height":16,
+                 "id":17,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"A bunch of stuff that Ryan saves 'just in case'."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":128,
+                 "y":80
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -202,25 +262,161 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":13,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
  "tileheight":16,
  "tilesets":[
         {
+         "backgroundcolor":"#d4d49f",
          "columns":5,
          "firstgid":1,
          "image":"..\/tiles\/room.png",
          "imageheight":80,
          "imagewidth":80,
          "margin":0,
-         "name":"room",
+         "name":"room-tiles",
          "spacing":0,
          "tilecount":25,
          "tileheight":16,
-         "tilewidth":16,
-         "transparentcolor":"#ff00ff"
+         "tiles":[
+                {
+                 "id":1,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":5,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":6,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":7,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":8,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":10,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":12,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":14,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":17,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":18,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":19,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":20,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":false
+                        }]
+                }, 
+                {
+                 "id":21,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":22,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":24,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }],
+         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",

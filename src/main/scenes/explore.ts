@@ -18,27 +18,21 @@ export class Explore extends Phaser.Scene {
   private casts: Phaser.GameObjects.Group;
   private dialogManager: DialogManager;
   private triggers: Phaser.GameObjects.Group;
-  private toSpawn: Coords;
+  private warpId: number;
   constructor() {
     super({
       key: "Explore"
     });
   }
-  init(data){
+  init(data) {
     // Specify the tileset you want to use based on the data passed to the scene.
-    const {map, tileset, spawn} = data;
+    const { map, tileset, warpId } = data;
     this.map = this.make.tilemap({ key: map });
-    this.tileset = this.map.addTilesetImage(
-      tileset,
-      tileset,
-      16,
-      16,
-      0,
-      0,
-      1
-    );
-    if(spawn){
-      this.toSpawn = spawn;
+    // TODO: Create a utility class to handle this.  Maybe we can cache tilesets/maps.
+    
+    this.tileset = this.map.addTilesetImage(tileset, tileset, 16, 16, 0, 0, 1);
+    if (warpId) {
+      this.warpId = warpId;
     }
   }
   preload(): void {
@@ -48,7 +42,6 @@ export class Explore extends Phaser.Scene {
   }
 
   create(): void {
-
     this.backgroundLayer = this.map.createStaticLayer(
       "background",
       this.tileset
@@ -94,8 +87,14 @@ export class Explore extends Phaser.Scene {
       this.triggers,
       (cast: Cast, trigger: any) => {
         cast.destroy();
-        // I think we need to specify the type of cast being sent out with an enum.  It'd be cleaner
         if (trigger.properties.type === "trigger") {
+          if (trigger.properties.warpId && trigger.properties.map) {
+            this.scene.start("Explore", {
+              map: trigger.properties.map,// room
+              tileset: trigger.properties.tileset, //room tiles
+              warpId: trigger.properties.warpId
+            });
+          }
         }
       }
     );
@@ -125,8 +124,15 @@ export class Explore extends Phaser.Scene {
 
   private loadObjectsFromTilemap(): void {
     const objects = this.map.getObjectLayer("objects").objects as any[];
-    const spawn = this.toSpawn || objects.find(o => o.type === "spawn" && o.name === "front");
-
+    let spawn;
+    if (this.warpId) {
+      spawn = objects.find(
+        o => o.type === "trigger" && o.properties.find(p=>p.name==="warpId").value === this.warpId
+      );
+    }
+    if (!spawn) {
+      spawn = objects.find(o => o.type === "spawn");
+    }
     // TODO: Make this its own abstraction (spawning)
     this.lo = new Player({
       scene: this,
@@ -154,7 +160,12 @@ export class Explore extends Phaser.Scene {
         );
       }
       if (object.type === "trigger") {
-        if(object.properties.mapKey && object.properties.warpId){
+        const {map, warpId, tileset} = object.properties.reduce((acc, i) => {
+          acc[i.name] = i.value;
+          return acc;
+        }, {});
+
+        if (map && warpId && tileset) {
           this.triggers.add(
             new Trigger({
               scene: this,
@@ -162,12 +173,13 @@ export class Explore extends Phaser.Scene {
               y: object.y + 8,
               properties: {
                 type: object.type,
-                mapKey: object.properties.mapKey,
-                warpId: object.properties.warpId,
+                map,
+                tileset,
+                warpId
               }
             })
           );
-        }else{
+        } else {
           this.triggers.add(
             new Trigger({
               scene: this,
@@ -175,12 +187,11 @@ export class Explore extends Phaser.Scene {
               y: object.y + 8,
               properties: {
                 type: object.type,
-                id: object.id,
+                id: object.id
               }
             })
           );
         }
-
       }
       if (object.type === "npc") {
         const message = object.properties.find(p => p.name === "message");

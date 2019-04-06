@@ -38,9 +38,6 @@ export class BootScene extends Phaser.Scene {
   private createLoadingGraphics(): void {
     setTimeout(() => {
       // We can specify the type of config we want to send.
-      // name of tileset. name of map.  
-      const test = this.cache.json.get('room')
-      debugger;
       this.scene.start("Explore", {map: 'room', tileset:'room-tiles'});
     }, 3000);
   }
