@@ -13,13 +13,10 @@ export class Chest extends Entity {
   }
   public openChest(){
     if(!this.open){
-
       this.setFrame(1, false);
       this.open = true;
       this.currentScene.sound.play('chest');
       this.currentScene.events.emit('item-acquired', this.properties['itemId']);
-
-      
     }
   }
 

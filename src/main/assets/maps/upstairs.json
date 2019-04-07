@@ -33,7 +33,7 @@
                 {
                  "height":16,
                  "id":1,
-                 "name":"",
+                 "name":"radio",
                  "properties":[
                         {
                          "name":"interactive",
@@ -254,6 +254,57 @@
                  "width":16,
                  "x":128,
                  "y":80
+                }, 
+                {
+                 "height":16,
+                 "id":27,
+                 "name":"chest",
+                 "properties":[
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":16,
+                 "x":80,
+                 "y":64
+                }, 
+                {
+                 "height":16,
+                 "id":29,
+                 "name":"chest",
+                 "properties":[
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":16,
+                 "x":64,
+                 "y":64
+                }, 
+                {
+                 "height":16,
+                 "id":30,
+                 "name":"chest",
+                 "properties":[
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":3
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":16,
+                 "x":48,
+                 "y":64
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -262,7 +313,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":18,
+ "nextobjectid":31,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",

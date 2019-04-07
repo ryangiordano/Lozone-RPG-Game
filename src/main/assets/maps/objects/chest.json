@@ -1,0 +1,20 @@
+{ "object":
+    {
+     "height":16,
+     "id":28,
+     "name":"chest",
+     "properties":[
+            {
+             "name":"itemId",
+             "type":"int",
+             "value":1
+            }],
+     "rotation":0,
+     "type":"chest",
+     "visible":true,
+     "width":16,
+     "x":128,
+     "y":80
+    },
+ "type":"template"
+}

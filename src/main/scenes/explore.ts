@@ -3,9 +3,10 @@ import { Cast } from "../assets/objects/Cast";
 import { Player } from "../assets/objects/Player";
 import { NPC } from "../assets/objects/NPC";
 import { Interactive } from "../assets/objects/Interactive";
-import { DialogManager } from "../assets/services/DialogManager";
+import { DialogManager } from "../utility/DialogManager";
 import { Directions } from "../utility/Utility";
 import { Trigger } from "../assets/objects/Trigger";
+import { StateManager } from '../utility/state/StateManager';
 
 export class Explore extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap;
@@ -124,9 +125,11 @@ export class Explore extends Phaser.Scene {
     });
 
     this.events.on('item-acquired', (itemId)=>{
-      // Handle get item from DB.
-      // Handle add item to current items.
-
+      const sm = StateManager.getInstance();
+      const item = sm.itemModule.addItemToPlayerContents(itemId);
+      
+      this.dialogManager.displayDialog(`Lo got ${item.name}`);
+      this.lo.controllable.canInput = false;
     })
 
     this["updates"].addMultiple([this.lo]);

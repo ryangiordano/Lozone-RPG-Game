@@ -1,4 +1,5 @@
 import { AnimationHelper } from "../utility/animation-helper";
+import { StateManager } from "../utility/state/StateManager";
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
@@ -29,6 +30,8 @@ export class BootScene extends Phaser.Scene {
         sprite.on("animationcomplete", () => {
           this.sound.play("startup");
         });
+        const sm = StateManager.getInstance();
+        sm.initialize(this.game);
       },
       this
     );
