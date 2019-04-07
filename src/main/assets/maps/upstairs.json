@@ -14,7 +14,7 @@
          "y":0
         }, 
         {
-         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 19, 0, 0, 0, 0, 8, 0, 0, 19, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 0, 4, 0, 0],
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 17, 17, 0, 0, 0, 0, 8, 0, 0, 17, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 17, 0, 0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 0, 0, 4, 0, 0],
          "height":9,
          "id":7,
          "name":"foreground",
@@ -270,46 +270,19 @@
  "tilesets":[
         {
          "backgroundcolor":"#d4d49f",
-         "columns":5,
+         "columns":8,
          "firstgid":1,
          "image":"..\/tiles\/room.png",
-         "imageheight":96,
-         "imagewidth":80,
+         "imageheight":128,
+         "imagewidth":128,
          "margin":0,
          "name":"room-tiles",
          "spacing":0,
-         "tilecount":30,
+         "tilecount":64,
          "tileheight":16,
          "tiles":[
                 {
                  "id":1,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":5,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":6,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":7,
                  "properties":[
                         {
                          "name":"collide",
@@ -327,6 +300,15 @@
                         }]
                 }, 
                 {
+                 "id":9,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
                  "id":10,
                  "properties":[
                         {
@@ -336,7 +318,7 @@
                         }]
                 }, 
                 {
-                 "id":12,
+                 "id":11,
                  "properties":[
                         {
                          "name":"collide",
@@ -345,16 +327,7 @@
                         }]
                 }, 
                 {
-                 "id":14,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":17,
+                 "id":16,
                  "properties":[
                         {
                          "name":"collide",
@@ -372,7 +345,7 @@
                         }]
                 }, 
                 {
-                 "id":19,
+                 "id":20,
                  "properties":[
                         {
                          "name":"collide",
@@ -381,7 +354,34 @@
                         }]
                 }, 
                 {
-                 "id":20,
+                 "id":26,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":27,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":28,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":32,
                  "properties":[
                         {
                          "name":"collide",
@@ -390,7 +390,7 @@
                         }]
                 }, 
                 {
-                 "id":21,
+                 "id":33,
                  "properties":[
                         {
                          "name":"collide",
@@ -399,7 +399,7 @@
                         }]
                 }, 
                 {
-                 "id":22,
+                 "id":34,
                  "properties":[
                         {
                          "name":"collide",
@@ -408,7 +408,7 @@
                         }]
                 }, 
                 {
-                 "id":24,
+                 "id":36,
                  "properties":[
                         {
                          "name":"collide",
