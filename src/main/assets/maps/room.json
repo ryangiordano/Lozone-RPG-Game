@@ -1,28 +1,28 @@
 { "backgroundcolor":"#d4d49f",
- "height":11,
+ "height":10,
  "infinite":false,
  "layers":[
         {
-         "data":[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-         "height":11,
-         "id":10,
+         "data":[2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+         "height":10,
+         "id":12,
          "name":"background",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
-         "width":12,
+         "width":10,
          "x":0,
          "y":0
         }, 
         {
-         "data":[0, 0, 55, 0, 0, 18, 2, 0, 0, 55, 5, 33, 13, 19, 55, 11, 0, 0, 0, 30, 0, 55, 0, 34, 14, 0, 58, 12, 0, 0, 0, 16, 0, 58, 0, 0, 15, 0, 2, 29, 0, 0, 0, 25, 0, 2, 0, 0, 0, 0, 0, 0, 0, 36, 35, 35, 37, 0, 0, 0, 56, 56, 59, 0, 0, 39, 40, 40, 38, 0, 0, 0, 9, 7, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 42, 24, 0, 0, 0, 0, 0, 0, 0, 0, 24, 43, 44, 24, 0, 0, 0, 0, 0, 0, 0, 53, 0, 50, 51, 0, 0, 0, 0, 0, 0, 3, 0, 54],
-         "height":11,
-         "id":11,
+         "data":[0, 0, 55, 0, 0, 18, 0, 33, 5, 0, 13, 19, 55, 11, 0, 0, 30, 34, 0, 0, 14, 0, 58, 12, 0, 0, 16, 0, 0, 0, 15, 0, 2, 29, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 36, 35, 37, 0, 0, 56, 56, 59, 0, 0, 39, 40, 38, 0, 0, 9, 7, 2, 0, 0, 0, 0, 0, 0, 0, 10, 0, 24, 24, 0, 0, 0, 0, 0, 0, 0, 0, 41, 42, 24, 0, 0, 0, 0, 0, 0, 0, 43, 44, 0, 0, 54, 53, 3, 0],
+         "height":10,
+         "id":13,
          "name":"foreground",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
-         "width":12,
+         "width":10,
          "x":0,
          "y":0
         }, 
@@ -46,7 +46,7 @@
                  "visible":true,
                  "width":16,
                  "x":144,
-                 "y":160
+                 "y":144
                 }, 
                 {
                  "height":16,
@@ -78,7 +78,7 @@
                  "type":"interactive",
                  "visible":true,
                  "width":16,
-                 "x":112,
+                 "x":96,
                  "y":48
                 }, 
                 {
@@ -100,7 +100,7 @@
                  "type":"interactive",
                  "visible":true,
                  "width":16,
-                 "x":112,
+                 "x":96,
                  "y":16
                 }, 
                 {
@@ -249,7 +249,7 @@
                  "type":"trigger",
                  "visible":true,
                  "width":16,
-                 "x":160,
+                 "x":128,
                  "y":0
                 }],
          "opacity":1,
@@ -258,7 +258,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":12,
+ "nextlayerid":16,
  "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"left-down",
@@ -274,6 +274,12 @@
          "imagewidth":128,
          "margin":0,
          "name":"room-tiles",
+         "properties":[
+                {
+                 "name":"id",
+                 "type":"string",
+                 "value":"1"
+                }],
          "spacing":0,
          "tilecount":64,
          "tileheight":16,
@@ -329,7 +335,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -347,7 +353,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -486,21 +492,12 @@
                         }]
                 }, 
                 {
-                 "id":30,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
                  "id":32,
                  "properties":[
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":true
+                         "value":false
                         }]
                 }, 
                 {
@@ -509,7 +506,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -648,30 +645,12 @@
                         }]
                 }, 
                 {
-                 "id":49,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
-                 "id":50,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":false
-                        }]
-                }, 
-                {
                  "id":52,
                  "properties":[
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":true
+                         "value":false
                         }]
                 }, 
                 {
@@ -680,7 +659,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":true
+                         "value":false
                         }]
                 }, 
                 {
@@ -736,29 +715,11 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
-                {
-                 "id":60,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":61,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }]
                 }],
          "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",
  "version":1.2,
- "width":12
+ "width":10
 }
