@@ -39,6 +39,6 @@ export class BootScene extends Phaser.Scene {
     setTimeout(() => {
       // We can specify the type of config we want to send.
       this.scene.start("Explore", {map: 'room', tileset:'room-tiles'});
-    }, 3000);
+    }, 500);
   }
 }

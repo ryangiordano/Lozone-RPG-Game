@@ -45,7 +45,7 @@
                  "type":"interactive",
                  "visible":true,
                  "width":16,
-                 "x":144,
+                 "x":128,
                  "y":144
                 }, 
                 {
@@ -251,6 +251,125 @@
                  "width":16,
                  "x":128,
                  "y":0
+                }, 
+                {
+                 "height":16,
+                 "id":18,
+                 "name":"plant",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"This plant is not in a good way..."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":96,
+                 "y":144
+                }, 
+                {
+                 "height":16,
+                 "id":19,
+                 "name":"plant",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"I need to water this little guy.  I'll do it tomorrow"
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":112,
+                 "y":144
+                }, 
+                {
+                 "height":16,
+                 "id":22,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"The table is scuffed, with deep scratches and water stains layered on top."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":32,
+                 "y":128
+                }, 
+                {
+                 "height":16,
+                 "id":23,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"The table is scuffed, with deep scratches and water stains layered on top."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":48,
+                 "y":128
+                }, 
+                {
+                 "height":16,
+                 "id":24,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"The table is scuffed, with deep scratches and water stains layered on top."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":48,
+                 "y":144
+                }, 
+                {
+                 "height":16,
+                 "id":25,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"message",
+                         "type":"string",
+                         "value":"The table is scuffed, with deep scratches and water stains layered on top."
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":16,
+                 "x":32,
+                 "y":144
+                }, 
+                {
+                 "height":16,
+                 "id":26,
+                 "name":"chest",
+                 "properties":[
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":16,
+                 "x":128,
+                 "y":48
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -259,7 +378,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":18,
+ "nextobjectid":28,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.2.3",
@@ -650,7 +769,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -659,7 +778,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {

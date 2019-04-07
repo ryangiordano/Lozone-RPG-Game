@@ -50,6 +50,24 @@
       },
       {
         "type": "spritesheet",
+        "key": "chest",
+        "url": "./src/main/assets/sprites/chest.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "items",
+        "url": "./src/main/assets/sprites/items.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "ryanandlo",
         "url": "./src/main/assets/sprites/ryanandlo.png",
         "frameConfig": {
@@ -89,6 +107,11 @@
         "type": "audio",
         "key": "beep",
         "url": "./src/main/assets/sounds/beep.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "chest",
+        "url": "./src/main/assets/sounds/chest.wav"
       },
       {
         "type": "json",

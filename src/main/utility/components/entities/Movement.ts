@@ -1,37 +1,6 @@
 import { Directions, createThrottle } from "../../Utility";
 import { Cast } from "../../../assets/objects/Cast";
-
-export class Entity extends Phaser.GameObjects.Sprite {
-  protected currentMap: Phaser.Tilemaps.Tilemap;
-  protected currentScene: Phaser.Scene;
-  protected currentTile: Phaser.Tilemaps.Tile;
-  // TODO: Refactor how we store casts locally, this sucks.
-  protected casts: Phaser.GameObjects.Group;
-  constructor({ scene, x, y, key, map, casts }) {
-    super(scene, x, y, key);
-    this.casts = casts;
-    this.currentScene = scene;
-    this.currentMap = map;
-    this.currentScene.add.existing(this);
-    this.initSprite();
-    this.currentTile = this.getTileBelowFoot();
-    this.currentTile.properties["collide"] = true;
-  }
-  private initSprite() {
-    this.setOrigin(0.5, 0.5);
-    this.setFlipX(false);
-    this.currentScene.physics.world.enable(this);
-  }
-  protected getTileBelowFoot() {
-    const tile = this.currentMap.getTileAt(
-      Math.floor(this.x / 16),
-      Math.floor(this.y / 16),
-      true,
-      "foreground"
-    );
-    return tile;
-  }
-}
+import { Entity } from "../../../assets/objects/Entity";
 
 export class Moveable extends Entity {
   protected isMoving = false;
@@ -42,7 +11,8 @@ export class Moveable extends Entity {
   protected target = { x: 0, y: 0 };
   protected facing: Directions = Directions.down;
   constructor({ scene, x, y, key, map, casts }) {
-    super({ scene, x, y, key, map, casts });
+    super({ scene, x, y, key, map });
+    this.casts = casts;
   }
   public face(direction: Directions) {
     this.facing = direction;

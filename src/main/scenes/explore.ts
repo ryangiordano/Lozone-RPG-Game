@@ -1,3 +1,4 @@
+import { Chest } from './../assets/objects/Chest';
 import { Cast } from "../assets/objects/Cast";
 import { Player } from "../assets/objects/Player";
 import { NPC } from "../assets/objects/NPC";
@@ -39,6 +40,7 @@ export class Explore extends Phaser.Scene {
     // TODO: Gather these into a map
     this.sound.add("bump");
     this.sound.add("beep");
+    this.sound.add("chest");
   }
 
   create(): void {
@@ -79,6 +81,10 @@ export class Explore extends Phaser.Scene {
           this.dialogManager.displayDialog(interactive.properties.message);
           this.lo.controllable.canInput = false;
         }
+        if (interactive.properties.type === "chest") {
+          interactive.openChest();
+
+        }
       }
     );
 
@@ -116,6 +122,12 @@ export class Explore extends Phaser.Scene {
         }
       }
     });
+
+    this.events.on('item-acquired', (itemId)=>{
+      // Handle get item from DB.
+      // Handle add item to current items.
+
+    })
 
     this["updates"].addMultiple([this.lo]);
   }
@@ -208,6 +220,24 @@ export class Explore extends Phaser.Scene {
             },
             message && message.value,
             Directions.up
+          )
+        );
+      }
+      if(object.type==="chest"){
+        const itemId = object.properties.find(p => p.name === "itemId");
+
+        this.interactive.add(
+          new Chest(
+            {
+              scene: this,
+              x: object.x + 8,
+              y: object.y + 8,
+              map: this.map,
+              properties: {
+                itemId: itemId.value,
+                type: 'chest'
+              }
+            },
           )
         );
       }
