@@ -360,6 +360,11 @@
                  "name":"chest",
                  "properties":[
                         {
+                         "name":"id",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
                          "name":"itemId",
                          "type":"int",
                          "value":1

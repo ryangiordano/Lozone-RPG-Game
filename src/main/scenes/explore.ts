@@ -1,11 +1,11 @@
 import { Chest } from './../assets/objects/Chest';
-import { Cast } from "../assets/objects/Cast";
-import { Player } from "../assets/objects/Player";
-import { NPC } from "../assets/objects/NPC";
-import { Interactive } from "../assets/objects/Interactive";
-import { DialogManager } from "../utility/DialogManager";
-import { Directions } from "../utility/Utility";
-import { Trigger } from "../assets/objects/Trigger";
+import { Cast } from '../assets/objects/Cast';
+import { Player } from '../assets/objects/Player';
+import { NPC } from '../assets/objects/NPC';
+import { Interactive } from '../assets/objects/Interactive';
+import { DialogManager } from '../utility/DialogManager';
+import { Directions } from '../utility/Utility';
+import { Trigger } from '../assets/objects/Trigger';
 import { StateManager } from '../utility/state/StateManager';
 
 export class Explore extends Phaser.Scene {
@@ -23,7 +23,7 @@ export class Explore extends Phaser.Scene {
   private warpId: number;
   constructor() {
     super({
-      key: "Explore"
+      key: 'Explore'
     });
   }
   init(data) {
@@ -31,7 +31,7 @@ export class Explore extends Phaser.Scene {
     const { map, tileset, warpId } = data;
     this.map = this.make.tilemap({ key: map });
     // TODO: Create a utility class to handle this.  Maybe we can cache tilesets/maps.
-    
+
     this.tileset = this.map.addTilesetImage(tileset, tileset, 16, 16, 0, 0, 1);
     if (warpId) {
       this.warpId = warpId;
@@ -39,22 +39,22 @@ export class Explore extends Phaser.Scene {
   }
   preload(): void {
     // TODO: Gather these into a map
-    this.sound.add("bump");
-    this.sound.add("beep");
-    this.sound.add("chest");
+    this.sound.add('bump');
+    this.sound.add('beep');
+    this.sound.add('chest');
   }
 
   create(): void {
     this.backgroundLayer = this.map.createStaticLayer(
-      "background",
+      'background',
       this.tileset
     );
     this.foregroundLayer = this.map.createStaticLayer(
-      "foreground",
+      'foreground',
       this.tileset
     );
-    this.backgroundLayer.setName("background");
-    this.foregroundLayer.setName("foreground");
+    this.backgroundLayer.setName('background');
+    this.foregroundLayer.setName('foreground');
 
     //Game Objects
     this.interactive = this.add.group({
@@ -78,13 +78,12 @@ export class Explore extends Phaser.Scene {
       this.interactive,
       (cast: Cast, interactive: any) => {
         cast.destroy();
-        if (interactive.properties.type === "interactive") {
+        if (interactive.properties.type === 'interactive') {
           this.dialogManager.displayDialog(interactive.properties.message);
           this.lo.controllable.canInput = false;
         }
-        if (interactive.properties.type === "chest") {
+        if (interactive.properties.type === 'chest') {
           interactive.openChest();
-
         }
       }
     );
@@ -94,10 +93,10 @@ export class Explore extends Phaser.Scene {
       this.triggers,
       (cast: Cast, trigger: any) => {
         cast.destroy();
-        if (trigger.properties.type === "trigger") {
+        if (trigger.properties.type === 'trigger') {
           if (trigger.properties.warpId && trigger.properties.map) {
-            this.scene.start("Explore", {
-              map: trigger.properties.map,// room
+            this.scene.start('Explore', {
+              map: trigger.properties.map, // room
               tileset: trigger.properties.tileset, //room tiles
               warpId: trigger.properties.warpId
             });
@@ -116,7 +115,7 @@ export class Explore extends Phaser.Scene {
     });
 
     // If there is dialog on screen, cycle throw the text.
-    this.input.keyboard.on("keydown", event => {
+    this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.SPACE) {
         if (this.dialogManager.dialogVisible()) {
           this.dialogManager.handleNextDialog();
@@ -124,43 +123,48 @@ export class Explore extends Phaser.Scene {
       }
     });
 
-    this.events.on('item-acquired', (itemId)=>{
+    this.events.on('item-acquired', ({ itemId, id }) => {
       const sm = StateManager.getInstance();
       const item = sm.itemModule.addItemToPlayerContents(itemId);
-      
-      this.dialogManager.displayDialog(`Lo got ${item.name}`);
+      sm.flags.get('chests').setFlag(id, true);
       this.lo.controllable.canInput = false;
-    })
+      setTimeout(() => {
+        this.dialogManager.displayDialog(`Lo got ${item.name}`);
+      }, 300);
+    });
 
-    this["updates"].addMultiple([this.lo]);
+    this['updates'].addMultiple([this.lo]);
   }
 
   update(): void {}
 
   private loadObjectsFromTilemap(): void {
-    const objects = this.map.getObjectLayer("objects").objects as any[];
+    const objects = this.map.getObjectLayer('objects').objects as any[];
+    const sm = StateManager.getInstance();
     let spawn;
     if (this.warpId) {
       spawn = objects.find(
-        o => o.type === "trigger" && o.properties.find(p=>p.name==="warpId").value === this.warpId
+        o =>
+          o.type === 'trigger' &&
+          o.properties.find(p => p.name === 'warpId').value === this.warpId
       );
     }
     if (!spawn) {
-      spawn = objects.find(o => o.type === "spawn");
+      spawn = objects.find(o => o.type === 'spawn');
     }
     // TODO: Make this its own abstraction (spawning)
     this.lo = new Player({
       scene: this,
       x: spawn.x + 8,
       y: spawn.y + 8,
-      key: "lo",
+      key: 'lo',
       map: this.map,
       casts: this.casts
     });
 
     objects.forEach(object => {
-      if (object.type === "interactive") {
-        const message = object.properties.find(p => p.name === "message");
+      if (object.type === 'interactive') {
+        const message = object.properties.find(p => p.name === 'message');
         this.interactive.add(
           new Interactive({
             scene: this,
@@ -174,8 +178,8 @@ export class Explore extends Phaser.Scene {
           })
         );
       }
-      if (object.type === "trigger") {
-        const {map, warpId, tileset} = object.properties.reduce((acc, i) => {
+      if (object.type === 'trigger') {
+        const { map, warpId, tileset } = object.properties.reduce((acc, i) => {
           acc[i.name] = i.value;
           return acc;
         }, {});
@@ -208,9 +212,9 @@ export class Explore extends Phaser.Scene {
           );
         }
       }
-      if (object.type === "npc") {
-        const message = object.properties.find(p => p.name === "message");
-        const key = object.properties.find(p => p.name === "sprite-key");
+      if (object.type === 'npc') {
+        const message = object.properties.find(p => p.name === 'message');
+        const key = object.properties.find(p => p.name === 'sprite-key');
         this.interactive.add(
           new NPC(
             {
@@ -226,23 +230,25 @@ export class Explore extends Phaser.Scene {
           )
         );
       }
-      if(object.type==="chest"){
-        const itemId = object.properties.find(p => p.name === "itemId");
+      if (object.type === 'chest') {
+        const itemId = object.properties.find(p => p.name === 'itemId');
+        const id = object.properties.find(p => p.name === 'id');
 
-        this.interactive.add(
-          new Chest(
-            {
-              scene: this,
-              x: object.x + 8,
-              y: object.y + 8,
-              map: this.map,
-              properties: {
-                itemId: itemId.value,
-                type: 'chest'
-              }
-            },
-          )
-        );
+        const toAdd = new Chest({
+          scene: this,
+          x: object.x + 8,
+          y: object.y + 8,
+          map: this.map,
+          properties: {
+            id: id,
+            itemId: itemId.value,
+            type: 'chest'
+          }
+        });
+        if (sm.isFlagged('chests', id)) {
+          toAdd.setOpen();
+        }
+        this.interactive.add(toAdd);
       }
     });
     this.cameras.main.startFollow(this.lo);
