@@ -261,6 +261,11 @@
                  "name":"chest",
                  "properties":[
                         {
+                         "name":"id",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
                          "name":"itemId",
                          "type":"int",
                          "value":1
@@ -278,6 +283,11 @@
                  "name":"chest",
                  "properties":[
                         {
+                         "name":"id",
+                         "type":"int",
+                         "value":4
+                        }, 
+                        {
                          "name":"itemId",
                          "type":"int",
                          "value":2
@@ -294,6 +304,11 @@
                  "id":30,
                  "name":"chest",
                  "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":3
+                        }, 
                         {
                          "name":"itemId",
                          "type":"int",
@@ -334,6 +349,15 @@
          "tiles":[
                 {
                  "id":1,
+                 "properties":[
+                        {
+                         "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":5,
                  "properties":[
                         {
                          "name":"collide",
