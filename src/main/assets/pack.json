@@ -32,15 +32,6 @@
       },
       {
         "type": "spritesheet",
-        "key": "characters",
-        "url": "./src/main/assets/sprites/characters.png",
-        "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
-        }
-      },
-      {
-        "type": "spritesheet",
         "key": "lo",
         "url": "./src/main/assets/sprites/lo.png",
         "frameConfig": {
@@ -127,6 +118,11 @@
         "type": "json",
         "key": "items",
         "url": "./src/main/data/items.json"
+      },
+      {
+        "type": "json",
+        "key": "dialog",
+        "url": "./src/main/data/dialog.json"
       }
     ]
   }

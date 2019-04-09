@@ -29,7 +29,7 @@ class Item {
     this.quantity = amount;
   }
 }
-export class ItemModule {
+export class ItemRepository {
   /**
    * Holds a reference to the item DB
    */

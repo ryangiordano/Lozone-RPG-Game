@@ -1,4 +1,5 @@
-import { ItemModule } from './ItemModule';
+import { ItemRepository } from './ItemRepository';
+import { DialogRepository } from './DialogRepository';
 class FlagModule {
   private flagMap: Map<string, boolean>;
   constructor() {
@@ -28,15 +29,17 @@ export class StateManager {
   private static instance: StateManager;
   private game: Phaser.Game;
   public flags: Map<string, FlagModule>;
-  public itemModule: ItemModule;
+  public itemRepository: ItemRepository;
+  public dialogRepository: DialogRepository;
 
   private constructor() {}
   getItem(id) {
-    return this.itemModule.getItem(id);
+    return this.itemRepository.getItem(id);
   }
   public initialize(game: Phaser.Game) {
     this.game = game;
-    this.itemModule = new ItemModule(this.game.cache.json.get('items'));
+    this.itemRepository = new ItemRepository(this.game.cache.json.get('items'));
+    this.dialogRepository = new DialogRepository(this.game.cache.json.get('dialog'));
     this.flags = new Map<string, FlagModule>();
   }
   public addFlagModule(name: string) {

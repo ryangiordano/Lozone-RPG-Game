@@ -79,6 +79,7 @@ export class Explore extends Phaser.Scene {
       (cast: Cast, interactive: any) => {
         cast.destroy();
         if (interactive.properties.type === 'interactive') {
+          // TODO: Get this from the sm.dialogRepository
           this.dialogManager.displayDialog(interactive.properties.message);
           this.lo.controllable.canInput = false;
         }
@@ -125,11 +126,12 @@ export class Explore extends Phaser.Scene {
 
     this.events.on('item-acquired', ({ itemId, id }) => {
       const sm = StateManager.getInstance();
-      const item = sm.itemModule.addItemToPlayerContents(itemId);
+      // TODO: Refactor to hide the repositories and give the state methods to access them
+      const item = sm.itemRepository.addItemToPlayerContents(itemId);
       sm.flags.get('chests').setFlag(id, true);
       this.lo.controllable.canInput = false;
       setTimeout(() => {
-        this.dialogManager.displayDialog(`Lo got ${item.name}`);
+        this.dialogManager.displayDialog([`Lo got ${item.name}`]);
       }, 300);
     });
 
@@ -164,7 +166,8 @@ export class Explore extends Phaser.Scene {
 
     objects.forEach(object => {
       if (object.type === 'interactive') {
-        const message = object.properties.find(p => p.name === 'message');
+        const id = object.properties.find(p => p.name === 'dialogId').value;
+        const message = sm.dialogRepository.getDialogById(id);
         this.interactive.add(
           new Interactive({
             scene: this,
@@ -173,7 +176,7 @@ export class Explore extends Phaser.Scene {
             properties: {
               type: object.type,
               id: object.id,
-              message: message && message.value
+              message: message && message.content
             }
           })
         );
@@ -213,7 +216,8 @@ export class Explore extends Phaser.Scene {
         }
       }
       if (object.type === 'npc') {
-        const message = object.properties.find(p => p.name === 'message');
+        const id = object.properties.find(p => p.name === 'dialogId').value;
+        const message = sm.dialogRepository.getDialogById(id);
         const key = object.properties.find(p => p.name === 'sprite-key');
         this.interactive.add(
           new NPC(
@@ -225,7 +229,7 @@ export class Explore extends Phaser.Scene {
               map: this.map,
               casts: this.casts
             },
-            message && message.value,
+            message && message.content,
             Directions.up
           )
         );
