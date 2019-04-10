@@ -1,6 +1,7 @@
 {
   "preload": {
-    "files": [{
+    "files": [
+      {
         "type": "tilemapTiledJSON",
         "key": "room",
         "url": "./src/main/assets/maps/room.json"
@@ -40,14 +41,6 @@
         }
       },
       {
-        "type": "image",
-        "key": "dialog",
-        "url": "./src/main/assets/tiles/dialog.png",
-        "frameConfig": {
-          "frameHeight": 16,
-          "frameWidth": 16
-        }
-      }, {
         "type": "spritesheet",
         "key": "chest",
         "url": "./src/main/assets/sprites/chest.png",
@@ -90,8 +83,26 @@
       },
       {
         "type": "spritesheet",
-        "key": "dialog-tiles",
-        "url": "./src/main/assets/tiles/dialog.png",
+        "key": "dialog-beige",
+        "url": "./src/main/assets/tiles/dialog-beige.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "dialog-blue",
+        "url": "./src/main/assets/tiles/dialog-blue.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "dialog-purple",
+        "url": "./src/main/assets/tiles/dialog-purple.png",
         "frameConfig": {
           "frameWidth": 16,
           "frameHeight": 16

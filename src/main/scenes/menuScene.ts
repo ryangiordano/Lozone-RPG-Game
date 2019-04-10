@@ -4,26 +4,27 @@ export class MenuScene extends Phaser.Scene {
   private uiBuilder: UIBuilder;
   constructor() {
     super({ key: 'MenuScene' });
-    console.log("Menu Scene created");
   }
   preload(): void {
     // Handle loading assets here, adding sounds etc
   }
   init(data) {
-    this.uiBuilder = new UIBuilder(this);
-
-    console.log("I'm a menu I'm a menu")
-    // Get passed the data from scene.start('SceneName', {data})
-    // Create tleset here.
+    this.uiBuilder = new UIBuilder(this, 'dialog-purple');
     this.input.keyboard.on('keydown', event => {
-
-      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
-        
-        this.scene.setActive(true, 'Explore')
-        this.scene.stop();
+      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
+        this.closeMenuScene();
       }
 
     });
+    this.events.on('close',()=>this.closeMenuScene())
+  }
+  closeMenuScene(){
+    //TODO: Make more generic
+    this.scene.setActive(true, 'Explore')
+    this.scene.stop();
   }
   update(): void { }
+  destroyed(){
+
+  }
 }
