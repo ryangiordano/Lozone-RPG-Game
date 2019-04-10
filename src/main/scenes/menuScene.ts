@@ -20,9 +20,7 @@ export class MenuScene extends Phaser.Scene {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
         
         this.scene.setActive(true, 'Explore')
-        // this.scene.start('Explore');
-        this.scene.setActive(false);
-
+        this.scene.stop();
       }
 
     });

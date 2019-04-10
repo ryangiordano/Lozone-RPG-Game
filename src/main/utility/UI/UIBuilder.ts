@@ -7,7 +7,6 @@ export class UIBuilder {
   constructor(private scene: Phaser.Scene) {
     this.tileMap = this.scene.game.textures.list['dialog-tiles'];
     scene.add.nineslice(0,0,100,100,'dialog',5);
-    debugger;
   }
   buildPanel() {
     const panel = new DialogPanel(
