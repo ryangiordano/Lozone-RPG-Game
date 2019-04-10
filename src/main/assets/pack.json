@@ -17,7 +17,7 @@
       },
       {
         "type": "image",
-        "key": "dialog",
+        "key": "dialog-sprite",
         "url": "./src/main/assets/sprites/dialog.png"
       },
       {
@@ -40,6 +40,14 @@
         }
       },
       {
+        "type": "image",
+        "key": "dialog",
+        "url": "./src/main/assets/tiles/dialog.png",
+        "frameConfig": {
+          "frameHeight": 16,
+          "frameWidth": 16
+        }
+      }, {
         "type": "spritesheet",
         "key": "chest",
         "url": "./src/main/assets/sprites/chest.png",

@@ -122,7 +122,17 @@ export class Explore extends Phaser.Scene {
           this.dialogManager.handleNextDialog();
         }
       }
+      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
+        // this.scene.pause();
+        this.scene.setActive(false, 'Explore')
+        this.game.scene.start('MenuScene',{});
+        this.scene.setActive(true, 'MenuScene');
+        // this.scene.setActive(true, 'MenuScene',{sceneName: 'MenuScene'});
+
+      }
+
     });
+
 
     this.events.on('item-acquired', ({ itemId, id }) => {
       const sm = StateManager.getInstance();
@@ -138,7 +148,7 @@ export class Explore extends Phaser.Scene {
     this['updates'].addMultiple([this.lo]);
   }
 
-  update(): void {}
+  update(): void { }
 
   private loadObjectsFromTilemap(): void {
     const objects = this.map.getObjectLayer('objects').objects as any[];
