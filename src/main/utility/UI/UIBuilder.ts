@@ -1,12 +1,5 @@
 export class UIBuilder {
   constructor(private scene: Phaser.Scene, private spriteKey: string) {
-    const testPanel = this.buildPanel({ x: 3, y: 9 }, { x: 0, y: 0 });
-    testPanel
-      .addListItem('Items', () => console.log('Items Selected'))
-      .addListItem('Party', () => console.log('Party Selected'))
-      .addListItem('Call Mom', () => console.log('Call Mom Selected'))
-      .addListItem('Cancel', () => this.closeUI())
-      .renderListItems();
   }
   buildPanel(dimensions: Coords, position: Coords) {
     return new DialogPanel(
@@ -15,7 +8,7 @@ export class UIBuilder {
       this.scene
     );
   }
-  closeUI(){
+  closeUI() {
     this.scene.events.emit('close');
   }
   makePanelActive(target: DialogPanel) {
@@ -27,18 +20,24 @@ class DialogPanel {
   public panel: Phaser.GameObjects.RenderTexture;
   public active: boolean;
   public listItems: DialogListItem[] = [];
+  public listItemGameObjects: Phaser.GameObjects.Text[] = [];
   private caret: Phaser.GameObjects.Text;
   private focusedChildIndex: number = 0;
-  private padding: number = 3;
+  private padding: number = 10;
   constructor(
     private dimensions: Coords,
     private position: Coords,
     private spriteKey: string,
     private scene: Phaser.Scene
   ) {
-    // this.caret = 
     this.constructPanel(scene);
+
     this.setKeyboardListeners(scene);
+  }
+  setCaret() {
+    const current = this.listItemGameObjects[this.focusedChildIndex];
+    this.caret.x = this.padding/2;
+    this.caret.y = current.y;
   }
   constructPanel(scene: Phaser.Scene) {
     this.panel = scene.add.nineslice(
@@ -86,10 +85,11 @@ class DialogPanel {
     const toFocus = this.listItems[idx];
     if (toFocus) {
       this.listItems[idx].focused = true;
-      console.log(`Focusing: ${toFocus.name}`)
     } else {
       console.warn(`List item at ${idx} does not exist`);
     }
+    this.setCaret();
+
   }
   focusNext() {
     this.focusedChildIndex = this.focusedChildIndex >= this.listItems.length - 1 ? 0 : this.focusedChildIndex + 1;
@@ -109,13 +109,27 @@ class DialogPanel {
   }
   renderListItems() {
     this.listItems.forEach((listItem, idx) => {
-      this.scene.add.text((this.position.x+this.padding), 10*idx, listItem.name, {
+      const text = this.scene.add.text((this.position.x + this.padding), 10 * idx, listItem.name, {
         fontFamily: 'pixel',
         fontSize: '8px',
         fill: '#000000',
       }
-      )
+      );
+      this.listItemGameObjects.push(text);
     });
+    return this;
+  }
+  createCaret(){
+    this.caret = this.scene.add.text(0, 0, ">", {
+      fontFamily: 'pixel',
+      fontSize: '8px',
+      fill: '#000000',
+    });
+  }
+  initUI(){
+    this.createCaret();
+    this.focusListItem(0);
+
   }
 }
 

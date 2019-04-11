@@ -10,6 +10,14 @@ export class MenuScene extends Phaser.Scene {
   }
   init(data) {
     this.uiBuilder = new UIBuilder(this, 'dialog-purple');
+    const testPanel = this.uiBuilder.buildPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
+    testPanel
+      .addListItem('Items', () => console.log('Items Selected'))
+      .addListItem('Party', () => console.log('Party Selected'))
+      .addListItem('Call Mom', () => console.log('Call Mom Selected'))
+      .addListItem('Cancel', () => this.closeMenuScene())
+      .renderListItems()
+      .initUI();
     this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
         this.closeMenuScene();
