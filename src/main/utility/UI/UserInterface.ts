@@ -13,10 +13,12 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.name = 'UI';
     this.createCaret();
     scene.add.existing(this);
-    this.visible = true;
-    this.add(scene.add.text(0,0,"Almost there Ryan", {fontSize: '15px',}));
   }
-  buildPanel(dimensions: Coords, position: Coords) {
+
+  closeUI() {
+    this.scene.events.emit('close');
+  }
+  public createPanel(dimensions: Coords, position: Coords) {
     const panel = new DialogPanelContainer(
       dimensions, position,
       this.spriteKey,
@@ -25,10 +27,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.add(panel);
     return panel;
   }
-  closeUI() {
-    this.scene.events.emit('close');
-  }
-  createCaret() {
+  private createCaret() {
     this.caret = this.scene.add.text(-100, -100, ">", {
       fontFamily: 'pixel',
       fontSize: '8px',
@@ -36,7 +35,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     });
     this.add(this.caret);
   }
-  setCaret() {
+  private setCaret() {
     const panel = this.findActivePanel();
     const current = this.findFocusedElementInActivePanel();
     const x = panel.pos.x * 16;

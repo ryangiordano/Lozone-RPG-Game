@@ -13,28 +13,27 @@ export class MenuScene extends Phaser.Scene {
     const sm = StateManager.getInstance();
 
     this.UI = new UserInterface(this, 'dialog-white');
-    const mainPanel = this.UI.buildPanel({ x: 3, y: 9 }, { x: 0, y: 0 });
+    const mainPanel = this.UI.createPanel({ x: 3, y: 9 }, { x: 0, y: 0 });
     mainPanel
-      .addListItem('Items', () => {
-        // this.UI.makePanelActive(itemPanel);
+      .addOption('Items', () => {
+        this.UI.makePanelActive(itemPanel);
       })
-      .addListItem('Party', () => {
+      .addOption('Party', () => {
         // this.UI.makePanelActive(partyPanel);
       })
-      .addListItem('Cancel', () => this.closeMenuScene()).init();
-
-    //   this.UI.makePanelActive(mainPanel);
-
-      // DEBUG ONLY:
-      sm.itemRepository.addItemToPlayerContents(1);
-      sm.itemRepository.addItemToPlayerContents(2);
-      sm.itemRepository.addItemToPlayerContents(3);
-      sm.itemRepository.addItemToPlayerContents(1);
+      .addOption('Cancel', () => this.closeMenuScene()).initialize().showPanel();
 
 
-    // const itemPanel = this.UI.buildPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
+    // DEBUG ONLY:
+    sm.itemRepository.addItemToPlayerContents(1);
+    sm.itemRepository.addItemToPlayerContents(2);
+    sm.itemRepository.addItemToPlayerContents(3);
+    sm.itemRepository.addItemToPlayerContents(1);
+
+
+    // const itemPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
     // sm.itemRepository.getItemsOnPlayer().forEach(item => {
-    //   itemPanel.addListItem(item.name, () => sm.itemRepository.consumeItem(item.id));
+    //   itemPanel.addOption(item.name, () => sm.itemRepository.consumeItem(item.id));
     // });
     // itemPanel.init();
     // const partyPanel = this.UI.buildPanel({ x: 7, y: 9 }, { x: 3, y: 0 })

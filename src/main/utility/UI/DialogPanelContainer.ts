@@ -1,65 +1,27 @@
-
-export class DialogListItem {
-  public disabled: boolean;
-  public focused: boolean;
-  constructor(public name: string, public selectEvent: Function) {
-
-  }
-  select() {
-    if (!this.disabled) {
-      this.selectEvent();
-    }
-  }
-}
-export class DialogPanelContainer extends Phaser.GameObjects.Container{
+export class DialogPanelContainer extends Phaser.GameObjects.Container {
   public panel: Phaser.GameObjects.RenderTexture;
   public active: boolean = false;
   public listItems: DialogListItem[] = [];
   public listItemGameObjects: Phaser.GameObjects.Text[] = [];
-  private focusedChildIndex: number = 0;
   public padding: number = 6;
+  private focusedChildIndex: number = 0;
+
   constructor(
     public dimensions: Coords,
     public pos: Coords,
     private spriteKey: string,
     public scene: Phaser.Scene,
     public id: number = Math.random() * 500) {
-    super(scene, 0,0);
+    super(scene, 0, 0);
+
     this.constructPanel(scene);
     this.hidePanel();
-    this.visible = true;
-    this.height = 100;
-    this.width = 100;
     this.name = id.toString();
-  }
-  getFocusedTextItem() {
-    return this.listItemGameObjects[this.focusedChildIndex];
+    scene.add.existing(this);
   }
   constructPanel(scene: Phaser.Scene) {
-    this.panel = scene.add.nineslice(0,0, this.dimensions.x * 16, this.dimensions.y * 16, this.spriteKey, 5);
+    this.panel = scene.add.nineslice(0, 0, this.dimensions.x * 16, this.dimensions.y * 16, this.spriteKey, 5);
     this.add(this.panel)
-  }
-  setKeyboardListeners() {
-    this.scene.input.keyboard.on('keydown', (event) => this.setKeyboardEvents(event));
-  }
-  removeKeyboardListeners() {
-    this.scene.input.keyboard.off('keydown', (event) => this.setKeyboardEvents(event));
-  }
-  private setKeyboardEvents(event) {
-    switch (event.keyCode) {
-      case Phaser.Input.Keyboard.KeyCodes.UP:
-      case Phaser.Input.Keyboard.KeyCodes.LEFT:
-        this.panel.active ? this.focusPrevious() : null;
-        break;
-      case Phaser.Input.Keyboard.KeyCodes.RIGHT:
-      case Phaser.Input.Keyboard.KeyCodes.DOWN:
-        this.panel.active ? this.focusNext() : null;
-        break;
-      case Phaser.Input.Keyboard.KeyCodes.SPACE:
-        this.panel.active ? this.selectFocusedItem() : null;
-      default:
-        break;
-    }
   }
   hidePanel() {
     this.panel.visible = false;
@@ -70,8 +32,16 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container{
   getPanel() {
     return this.panel;
   }
-  addListItem(name: string, selectCallback: Function): DialogPanelContainer {
-    this.listItems.push(new DialogListItem(name, selectCallback));
+  public addOption(text: string, selectCallback: Function): DialogPanelContainer {
+    const lastItem = <Phaser.GameObjects.Text> this.list[this.list.length - 1];
+    const x = this.padding;
+    const y = lastItem ? lastItem.y + 10 : 10;
+    const toAdd = new DialogListItem(this.scene, x, y, text, {
+      fontFamily: 'pixel',
+      fontSize: '8px',
+      fill: '#000000',
+    }, selectCallback);
+    this.add(toAdd);
     return this;
   }
   removeListItem(name: string) {
@@ -103,19 +73,8 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container{
       console.warn(`${toSelect.name} is unselectable.`);
     }
   }
-  private renderListItems() {
-    this.listItems.forEach((listItem, idx) => {
-      const x = this.pos.x * 16;
-      const y = this.pos.y * 16;
-      const text = this.scene.add.text((x + this.padding), y + (10 * (idx + 1)), listItem.name, {
-        fontFamily: 'pixel',
-        fontSize: '8px',
-        fill: '#000000',
-      });
-      text.visible = false;
-      this.listItemGameObjects.push(text);
-    });
-    return this;
+  getFocusedTextItem() {
+    return this.listItemGameObjects[this.focusedChildIndex];
   }
   private showListItemsText() {
     this.listItemGameObjects.forEach(item => item.visible = true);
@@ -125,8 +84,7 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container{
   }
   private removeListItems() {
   }
-  init() {
-    this.renderListItems();
+  initialize() {
     return this;
   }
   makeActive() {
@@ -139,5 +97,40 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container{
   makeInactive() {
     this.removeKeyboardListeners();
     this.active = false;
+  }
+  setKeyboardListeners() {
+    this.scene.input.keyboard.on('keydown', (event) => this.setKeyboardEvents(event));
+  }
+  removeKeyboardListeners() {
+    this.scene.input.keyboard.off('keydown', (event) => this.setKeyboardEvents(event));
+  }
+  private setKeyboardEvents(event) {
+    switch (event.keyCode) {
+      case Phaser.Input.Keyboard.KeyCodes.UP:
+      case Phaser.Input.Keyboard.KeyCodes.LEFT:
+        this.panel.active ? this.focusPrevious() : null;
+        break;
+      case Phaser.Input.Keyboard.KeyCodes.RIGHT:
+      case Phaser.Input.Keyboard.KeyCodes.DOWN:
+        this.panel.active ? this.focusNext() : null;
+        break;
+      case Phaser.Input.Keyboard.KeyCodes.SPACE:
+        this.panel.active ? this.selectFocusedItem() : null;
+      default:
+        break;
+    }
+  }
+}
+
+class DialogListItem extends Phaser.GameObjects.Text {
+  public disabled: boolean;
+  public focused: boolean;
+  constructor(scene: Phaser.Scene, x: number, y: number, public text: string, styles, public selectEvent: Function) {
+    super(scene, x, y, text, styles);
+  }
+  select() {
+    if (!this.disabled) {
+      this.selectEvent();
+    }
   }
 }
