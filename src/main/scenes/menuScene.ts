@@ -11,19 +11,18 @@ export class MenuScene extends Phaser.Scene {
   }
   init(data) {
     const sm = StateManager.getInstance();
-
     this.UI = new UserInterface(this, 'dialog-white');
     const mainPanel = this.UI.createPanel({ x: 3, y: 9 }, { x: 0, y: 0 });
     mainPanel
       .addOption('Items', () => {
-        this.UI.makePanelActive(itemPanel);
+        this.UI.focusPanel(itemPanel);
       })
       .addOption('Party', () => {
-        // this.UI.makePanelActive(partyPanel);
+        this.UI.focusPanel(partyPanel);
       })
-      .addOption('Cancel', () => this.closeMenuScene()).initialize().showPanel();
+      .addOption('Cancel', () => this.closeMenuScene()).showPanel();
 
-
+      this.UI.focusPanel(mainPanel);
     // DEBUG ONLY:
     sm.itemRepository.addItemToPlayerContents(1);
     sm.itemRepository.addItemToPlayerContents(2);
@@ -31,12 +30,12 @@ export class MenuScene extends Phaser.Scene {
     sm.itemRepository.addItemToPlayerContents(1);
 
 
-    // const itemPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
-    // sm.itemRepository.getItemsOnPlayer().forEach(item => {
-    //   itemPanel.addOption(item.name, () => sm.itemRepository.consumeItem(item.id));
-    // });
-    // itemPanel.init();
-    // const partyPanel = this.UI.buildPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
+    const itemPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
+    sm.itemRepository.getItemsOnPlayer().forEach(item => {
+      itemPanel.addOption(item.name, () => sm.itemRepository.consumeItem(item.id));
+    });
+
+    const partyPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
 
     this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
