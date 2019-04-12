@@ -9,8 +9,8 @@ class Item {
     public spriteKey: string,
     public frame: number,
     public category: string,
-    public quantity?: number
-  ) {}
+    public quantity: number = 0
+  ) { }
   incrementQuantity() {
     if (this.quantity >= this.limit) {
       this.quantity = this.quantity;
@@ -39,12 +39,12 @@ export class ItemRepository {
     this.itemsFromDB = items;
     this.playerContents = [];
   }
-  addItemToPlayerContents(id:number): Item {
+  addItemToPlayerContents(id: number): Item {
     const itemToAdd = this.getItem(id);
     const itemInInventory = this.getItemOnPlayer(id);
-    if(itemInInventory){
+    if (itemInInventory) {
       itemInInventory.incrementQuantity();
-    }else{
+    } else {
       this.playerContents.push(itemToAdd);
     }
     return itemToAdd;
@@ -52,16 +52,17 @@ export class ItemRepository {
   removeItemFromPlayerContents(id) {
     const toRemoveIdx = this.playerContents.findIndex(item => item === id);
     const toRemove = this.playerContents[toRemoveIdx];
-    if(toRemove){
-      if(toRemove.quantity <=1){
-        this.playerContents.splice(toRemoveIdx,1);
-      }else{
+    if (toRemove) {
+      if (toRemove.quantity <= 1) {
+        this.playerContents.splice(toRemoveIdx, 1);
+      } else {
         toRemove.decrementQuantity();
       }
     }
   }
-  consumeItem(id){
-
+  consumeItem(id) {
+    const item = this.getItem(id);
+    console.log(`Consumed: ${item.name}`);
   }
   getItem(id: string | number): Item {
     const item = this.itemsFromDB.items[id];
@@ -80,10 +81,13 @@ export class ItemRepository {
       console.error('If an item does not appear in our records, it does not exist!');
     }
   }
+  getItemsOnPlayer(): Item[] {
+    return this.playerContents;
+  }
   getItemOnPlayer(id): Item {
-    return this.playerContents.find(item=>item.id===id);
+    return this.playerContents.find(item => item.id === id);
   }
   getItemsOnPlayerByCategory(category: string): Item[] {
-    return this.playerContents.filter(item=>item.category===category);
+    return this.playerContents.filter(item => item.category === category);
   }
 }

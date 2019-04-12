@@ -109,6 +109,15 @@
         }
       },
       {
+        "type": "spritesheet",
+        "key": "dialog-white",
+        "url": "./src/main/assets/tiles/dialog-white.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
         "type": "audio",
         "key": "startup",
         "url": "./src/main/assets/sounds/startup.mp3"
