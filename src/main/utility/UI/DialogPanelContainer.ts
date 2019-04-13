@@ -102,7 +102,7 @@ export class ConfirmPanelContainer extends DialogPanelContainer {
   /**
    *
    */
-  private panelData:any;
+  private panelData: any;
   constructor(dimensions: Coords,
     pos: Coords,
     spriteKey: string,
