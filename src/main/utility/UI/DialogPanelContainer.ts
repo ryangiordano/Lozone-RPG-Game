@@ -32,13 +32,14 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
   }
   public addOption(text: string, selectCallback: Function): DialogPanelContainer {
     const lastItem = <Phaser.GameObjects.Text>this.list[this.list.length - 1];
-    const x = this.padding;
-    const y = lastItem ? lastItem.y + 10 : 10;
+    const x = 0;
+    const y = lastItem ? lastItem.y + 10 : 0;
     const toAdd = new DialogListItem(this.scene, x, y, text, {
       fontFamily: 'pixel',
       fontSize: '8px',
       fill: '#000000',
     }, selectCallback);
+    toAdd.setPadding(10, 0, 0, 0);
     this.add(toAdd);
     this.options.push(toAdd)
     return this;
@@ -47,10 +48,10 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     this.options.filter(listItem => listItem.name !== name);
   }
   focusOption(index: number) {
-    this.options.forEach((option, i)=>{
-      if(i===index){
+    this.options.forEach((option, i) => {
+      if (i === index) {
         option.focused = true;
-      }else{
+      } else {
         option.focused = false;
       }
     });
@@ -61,8 +62,8 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     this.focusOption(toFocus);
   }
   getFocusIndex() {
-    const current = this.options.find(opt=>opt.focused);
-    return this.options.findIndex(opt=>opt===current);
+    const current = this.options.find(opt => opt.focused);
+    return this.options.findIndex(opt => opt === current);
 
   }
   focusPreviousOption() {
@@ -72,7 +73,7 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
   }
   getFocusedOption() {
     const option = this.options.find(opt => opt.focused);
-    if(option){
+    if (option) {
       return option;
     }
     console.error("Focused ption does not exist");
@@ -97,16 +98,34 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
   }
 
 }
+export class ConfirmPanelContainer extends DialogPanelContainer {
+  /**
+   *
+   */
+  private panelData:any;
+  constructor(dimensions: Coords,
+    pos: Coords,
+    spriteKey: string,
+    scene: Phaser.Scene) {
+    super(pos, dimensions, spriteKey, scene);
+    this.scene.events.on('pass-data-to-confirm', (data) => {
+
+    });
+  }
+}
 
 class DialogListItem extends Phaser.GameObjects.Text {
   public disabled: boolean;
   public focused: boolean = false;
-  constructor(scene: Phaser.Scene, x: number, y: number, public text: string, styles, public selectEvent: Function) {
+  //TODO: Refactor this into a separate class for dialog confirm panels and confirm panel Options
+  constructor(scene: Phaser.Scene, x: number, y: number, public text: string, styles, public selectEvent: Function, private dialogData?: any) {
     super(scene, x, y, text, styles);
+
   }
   select() {
     if (!this.disabled) {
-      this.selectEvent();
+      this.selectEvent(this.dialogData);
     }
   }
 }
+

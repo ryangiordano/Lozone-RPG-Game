@@ -32,10 +32,22 @@ export class MenuScene extends Phaser.Scene {
 
     const itemPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
     sm.itemRepository.getItemsOnPlayer().forEach(item => {
-      itemPanel.addOption(item.name, () => sm.itemRepository.consumeItem(item.id));
+      itemPanel.addOption(item.name, () =>{
+        sm.itemRepository.consumeItem(item.id);
+        //Maybe make this a UI method?
+        itemConfirmPanel.showPanel();
+        this.UI.focusPanel(itemPanel);
+      });
     });
 
     const partyPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
+
+    const itemConfirmPanel = this.UI.createPanel({x:2,y:2}, {x:6,y:6});
+
+    itemConfirmPanel.addOption('Use',({id})=>{
+      sm.itemRepository.consumeItem(id);
+
+    })
 
     this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
