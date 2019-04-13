@@ -13,7 +13,7 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     super(scene, pos.x * 16, pos.y * 16);
 
     this.constructPanel(scene);
-    this.hidePanel();
+    this.closePanel();
     this.name = id.toString();
     scene.add.existing(this);
   }
@@ -21,7 +21,7 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     this.panel = scene.add.nineslice(0, 0, this.dimensions.x * 16, this.dimensions.y * 16, this.spriteKey, 5);
     this.add(this.panel)
   }
-  hidePanel() {
+  closePanel() {
     this.visible = false;
   }
   showPanel() {
@@ -89,42 +89,37 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     }
   }
   focusPanel() {
-    this.showPanel();
-    this.focusOption(0);
-    this.focused = true;
+    if(this.visible){
+      this.focusOption(0);
+      this.focused = true;
+      this.alpha = 1;
+    }else{
+      console.error(`Panel ${this.id} is not visible`);
+    }
+
   }
   blurPanel() {
     this.focused = false;
+    this.alpha = 0.9;
+  }
+  refreshPanel(){
+
   }
 
 }
-export class ConfirmPanelContainer extends DialogPanelContainer {
-  /**
-   *
-   */
-  private panelData: any;
-  constructor(dimensions: Coords,
-    pos: Coords,
-    spriteKey: string,
-    scene: Phaser.Scene) {
-    super(pos, dimensions, spriteKey, scene);
-    this.scene.events.on('pass-data-to-confirm', (data) => {
 
-    });
-  }
-}
 
 class DialogListItem extends Phaser.GameObjects.Text {
   public disabled: boolean;
   public focused: boolean = false;
   //TODO: Refactor this into a separate class for dialog confirm panels and confirm panel Options
-  constructor(scene: Phaser.Scene, x: number, y: number, public text: string, styles, public selectEvent: Function, private dialogData?: any) {
+  constructor(scene: Phaser.Scene, x: number, y: number, public text: string, styles, public selectCallback: Function, private dialogData?: any) {
     super(scene, x, y, text, styles);
 
   }
   select() {
     if (!this.disabled) {
-      this.selectEvent(this.dialogData);
+      this.selectCallback(this.dialogData);
     }
   }
 }

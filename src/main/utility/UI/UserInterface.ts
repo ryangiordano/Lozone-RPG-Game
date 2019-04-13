@@ -45,6 +45,11 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.dialogPanelContainers.push(panel);
     return panel;
   }
+  public addPanel(panel: DialogPanelContainer){
+    this.add(panel);
+    this.dialogPanelContainers.push(panel);
+    return panel;
+  }
   findFocusedPanel() {
     return this.dialogPanelContainers.find(d => d.focused);
   }
@@ -61,12 +66,32 @@ export class UserInterface extends Phaser.GameObjects.Container {
     })
     this.focusedPanel.focusOption(0);
     this.setCaret();
+    console.log(this.panelTravelHistory)
+  }
+  showPanel(panel: DialogPanelContainer){
+    this.panelTravelHistory.push(panel);
+    panel.showPanel();
+    return this;
+  }
+  closePanel(panel: DialogPanelContainer){
+    this.panelTravelHistory.pop();
+    panel.closePanel();
+    if(this.panelTravelHistory.length){
+      this.focusPanel(this.panelTravelHistory[this.panelTravelHistory.length-1]);
+    }else{
+      this.scene.events.emit('close');
+    }
+    return this;
   }
   setKeyboardListeners() {
     this.scene.input.keyboard.on('keydown', (event) => this.setKeyboardEvents(event));
   }
   removeKeyboardListeners() {
     this.scene.input.keyboard.off('keydown', (event) => this.setKeyboardEvents(event));
+  }
+  traverseBackward(){
+    const lastPanel = this.panelTravelHistory.pop();
+
   }
   private setKeyboardEvents(event) {
     switch (event.keyCode) {
@@ -77,6 +102,10 @@ export class UserInterface extends Phaser.GameObjects.Container {
         break;
       case Phaser.Input.Keyboard.KeyCodes.RIGHT:
       case Phaser.Input.Keyboard.KeyCodes.DOWN:
+        this.focusedPanel.focusNextOption();
+        this.setCaret();
+        break;
+        case Phaser.Input.Keyboard.KeyCodes.ESC:
         this.focusedPanel.focusNextOption();
         this.setCaret();
         break;

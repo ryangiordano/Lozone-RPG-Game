@@ -1,4 +1,4 @@
-class Item {
+export class Item {
   private limit = 99;
   constructor(
     public id: number | string,
@@ -50,7 +50,7 @@ export class ItemRepository {
     return itemToAdd;
   }
   removeItemFromPlayerContents(id) {
-    const toRemoveIdx = this.playerContents.findIndex(item => item === id);
+    const toRemoveIdx = this.playerContents.findIndex(item => item.id === id);
     const toRemove = this.playerContents[toRemoveIdx];
     if (toRemove) {
       if (toRemove.quantity <= 1) {
@@ -62,7 +62,7 @@ export class ItemRepository {
   }
   consumeItem(id) {
     const item = this.getItem(id);
-    console.log(`Consumed: ${item.name}`);
+    this.removeItemFromPlayerContents(id);
   }
   getItem(id: string | number): Item {
     const item = this.itemsFromDB.items[id];

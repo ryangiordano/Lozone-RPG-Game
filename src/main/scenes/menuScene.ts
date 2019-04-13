@@ -1,5 +1,7 @@
 import { UserInterface } from "../utility/UI/UserInterface";
 import { StateManager } from "../utility/state/StateManager";
+import { DialogPanelContainer } from "../utility/UI/DialogPanelContainer";
+import { Item } from "../utility/state/ItemRepository";
 
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
@@ -15,14 +17,13 @@ export class MenuScene extends Phaser.Scene {
     const mainPanel = this.UI.createPanel({ x: 3, y: 9 }, { x: 0, y: 0 });
     mainPanel
       .addOption('Items', () => {
-        this.UI.focusPanel(itemPanel);
+        this.UI.showPanel(itemPanel).focusPanel(itemPanel)
       })
       .addOption('Party', () => {
-        this.UI.focusPanel(partyPanel);
+        this.UI.showPanel(partyPanel).focusPanel(partyPanel)
       })
-      .addOption('Cancel', () => this.closeMenuScene()).showPanel();
-
-      this.UI.focusPanel(mainPanel);
+      .addOption('Cancel', () => this.closeMenuScene());
+    this.UI.showPanel(mainPanel).focusPanel(mainPanel);
     // DEBUG ONLY:
     sm.itemRepository.addItemToPlayerContents(1);
     sm.itemRepository.addItemToPlayerContents(2);
@@ -30,24 +31,43 @@ export class MenuScene extends Phaser.Scene {
     sm.itemRepository.addItemToPlayerContents(1);
 
 
+    // Item Panel
     const itemPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
     sm.itemRepository.getItemsOnPlayer().forEach(item => {
-      itemPanel.addOption(item.name, () =>{
+      // Item Options
+      itemPanel.addOption(item.name, () => {
         sm.itemRepository.consumeItem(item.id);
-        //Maybe make this a UI method?
-        itemConfirmPanel.showPanel();
-        this.UI.focusPanel(itemPanel);
+        this.UI.showPanel(itemConfirmPanel);
+        this.UI.focusPanel(itemConfirmPanel);
+        itemConfirmPanel.setPanelData(item);
       });
     });
+    itemPanel.addOption('Cancel',()=>{
+       this.UI.closePanel(itemPanel);
+    })
 
     const partyPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
 
-    const itemConfirmPanel = this.UI.createPanel({x:2,y:2}, {x:6,y:6});
+    // Add item use confirmation panel.
+    const itemConfirmPanel = new ConfirmItemPanelContainer({ x: 3, y: 3 }, { x: 7, y: 6 }, 'dialog-blue', this);
 
-    itemConfirmPanel.addOption('Use',({id})=>{
-      sm.itemRepository.consumeItem(id);
+    this.UI.addPanel(itemConfirmPanel);
+    // Add option for confirmation
+    itemConfirmPanel.addOption('Use', () => {
+      const item = itemConfirmPanel.getPanelData();
+      sm.itemRepository.consumeItem(item.id);
+      itemPanel.refreshPanel();
+      this.UI.closePanel(itemConfirmPanel);
 
+    }).addOption('Drop', () => {
+      const item = itemConfirmPanel.getPanelData();
+      sm.itemRepository.removeItemFromPlayerContents(item.id);
+      itemPanel.refreshPanel();
+      this.UI.closePanel(itemConfirmPanel);
     })
+      .addOption('Cancel', () => {
+        this.UI.closePanel(itemConfirmPanel);
+      })
 
     this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
@@ -65,5 +85,24 @@ export class MenuScene extends Phaser.Scene {
   update(): void { }
   destroyed() {
 
+  }
+}
+
+
+
+class ConfirmItemPanelContainer extends DialogPanelContainer {
+  private itemData: Item;
+  constructor(dimensions: Coords,
+    pos: Coords,
+    spriteKey: string,
+    scene: Phaser.Scene) {
+    super(pos, dimensions, spriteKey, scene);
+
+  }
+  setPanelData(item:Item) {
+    this.itemData = item;
+  }
+  getPanelData(){
+    return this.itemData;
   }
 }
