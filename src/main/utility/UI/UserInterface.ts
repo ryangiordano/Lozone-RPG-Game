@@ -24,11 +24,14 @@ export class UserInterface extends Phaser.GameObjects.Container {
       fill: '#000000',
     });
     this.add(this.caret);
+    
   }
   private setCaret() {
     const focusedOption = this.focusedPanel.getFocusedOption();
-    this.caret.x = focusedOption.x;
-    this.caret.y = focusedOption.y;
+    const parentPanel = focusedOption.parentContainer;
+    this.caret.x = parentPanel.x + focusedOption.x +5;
+    this.caret.y = parentPanel.y + focusedOption.y;
+    
     this.moveTo(this.caret,this.list.length-1);
 
   }
