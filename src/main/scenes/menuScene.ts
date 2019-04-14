@@ -61,6 +61,11 @@ export class MenuScene extends Phaser.Scene {
         this.UI.closePanel(itemConfirmPanel);
       })
 
+    // Party Panel
+    const partyPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 }).addOption('Cancel', () => {
+      this.UI.closePanel(partyPanel);
+    })
+
     this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
         this.closeMenuScene();
@@ -68,18 +73,13 @@ export class MenuScene extends Phaser.Scene {
 
     });
 
-
-    // Party Panel
-    const partyPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 });
-
-
-
     this.events.on('close', () => this.closeMenuScene())
   }
 
   closeMenuScene() {
     //TODO: Make more generic
     this.scene.setActive(true, 'Explore')
+    this.events.off('close', ()=>this.closeMenuScene());
     this.scene.stop();
   }
   update(): void { }

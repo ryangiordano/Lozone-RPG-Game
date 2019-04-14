@@ -10,7 +10,7 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     public scene: Phaser.Scene,
     public id: number = Math.random() * 500) {
     super(scene, pos.x * 16, pos.y * 16);
-    
+
     this.constructPanel(scene);
     this.closePanel();
     this.name = id.toString();
@@ -75,7 +75,7 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     if (option) {
       return option;
     }
-    console.error("Focused ption does not exist");
+    console.error("Focused option does not exist");
 
   }
   selectFocusedOption() {
@@ -83,16 +83,13 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     if (toSelect && !toSelect.disabled) {
       toSelect.select();
     }
-    else {
-      console.warn(`${toSelect.name} is unselectable.`);
-    }
   }
   focusPanel() {
-    if(this.visible){
+    if (this.visible) {
       this.focusOption(0);
       this.focused = true;
       this.alpha = 1;
-    }else{
+    } else {
       console.error(`Panel ${this.id} is not visible`);
     }
 

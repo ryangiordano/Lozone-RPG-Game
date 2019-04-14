@@ -58,7 +58,6 @@ export class UserInterface extends Phaser.GameObjects.Container {
 
     this.dialogPanelContainers.forEach(panel=>{
       if(panel.id===toFocus.id){
-        console.log(`Showing Panel`)
         panel.focusPanel();
       }else{
         panel.blurPanel();
@@ -66,7 +65,6 @@ export class UserInterface extends Phaser.GameObjects.Container {
     })
     this.focusedPanel.focusOption(0);
     this.setCaret();
-    console.log(this.panelTravelHistory)
   }
   showPanel(panel: DialogPanelContainer){
     this.panelTravelHistory.push(panel);
@@ -91,7 +89,12 @@ export class UserInterface extends Phaser.GameObjects.Container {
   }
   traverseBackward(){
     const lastPanel = this.panelTravelHistory.pop();
-
+    lastPanel.closePanel();
+    if(this.panelTravelHistory.length){
+      this.focusPanel(this.panelTravelHistory[this.panelTravelHistory.length-1]);
+    }else{
+      this.closeUI();
+    }
   }
   private setKeyboardEvents(event) {
     switch (event.keyCode) {
@@ -106,8 +109,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
         this.setCaret();
         break;
         case Phaser.Input.Keyboard.KeyCodes.ESC:
-        this.focusedPanel.focusNextOption();
-        this.setCaret();
+        this.traverseBackward();
         break;
       case Phaser.Input.Keyboard.KeyCodes.SPACE:
         this.focusedPanel.selectFocusedOption();
