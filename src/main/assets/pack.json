@@ -42,6 +42,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "computer",
+        "url": "./src/main/assets/sprites/computer.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "chest",
         "url": "./src/main/assets/sprites/chest.png",
         "frameConfig": {

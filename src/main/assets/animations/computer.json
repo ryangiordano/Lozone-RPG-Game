@@ -1,0 +1,13 @@
+{
+  "anims": [{
+      "key": "open",
+      "frames": {
+        "typeOfGeneration": "generateFrameNumbers",
+        "frames": [0,1,2,3,4,5],
+        "key": "computer"
+      },
+      "repeat": 0,
+      "frameRate": 30
+    }
+  ]
+}
