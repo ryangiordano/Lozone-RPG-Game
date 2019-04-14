@@ -55,7 +55,7 @@
       "content": ["Chinese books about raising babies.", "I think mom is trying to hint at something..."]
     },
     "19": {
-      "content": ["A bunch of stuff that Ryan saves 'just in case'."]
+      "content": ["Some University: Bachelor's in something?  Maybe?  Ryan Giordano"]
     },
     "20": {
       "content": ["Old Dragonball Z and City Hunter manga."]
@@ -66,6 +66,12 @@
     "22": {
       "content": ["The sun burns too brightly.",  "Or it's rainy.",  
         "Or it's too cold.",  "Either way, this cat's staying inside, thank you very much."]
+    },
+    "23": {
+      "content": ["Nagoya University: Master's in Computer Science. Lo Yang"]
+    },
+    "24":{
+      "content":[]
     }
   }
 }
