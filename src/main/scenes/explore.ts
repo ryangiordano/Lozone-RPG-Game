@@ -43,7 +43,9 @@ export class Explore extends Phaser.Scene {
     this.sound.add('beep');
     this.sound.add('chest');
   }
+  destroy(){
 
+  }
   create(): void {
     this.backgroundLayer = this.map.createStaticLayer(
       'background',
@@ -96,6 +98,9 @@ export class Explore extends Phaser.Scene {
         cast.destroy();
         if (trigger.properties.type === 'trigger') {
           if (trigger.properties.warpId && trigger.properties.map) {
+            // Because we're starting up the same scene, different map, 
+            // We have to unsubscribe from events in the current scene.
+            this.events.off('item-acquired', this.acquiredItemCallback)
             this.scene.start('Explore', {
               map: trigger.properties.map, // room
               tileset: trigger.properties.tileset, //room tiles
@@ -105,7 +110,6 @@ export class Explore extends Phaser.Scene {
         }
       }
     );
-
     this.afterCreate();
   }
   afterCreate() {
@@ -134,7 +138,11 @@ export class Explore extends Phaser.Scene {
     });
 
 
-    this.events.on('item-acquired', ({ itemId, id }) => {
+    this.events.on('item-acquired',this.acquiredItemCallback, this);
+
+    this['updates'].addMultiple([this.lo]);
+  }
+  acquiredItemCallback({ itemId, id }){
       const sm = StateManager.getInstance();
       // TODO: Refactor to hide the repositories and give the state methods to access them
       const item = sm.itemRepository.addItemToPlayerContents(itemId);
@@ -143,11 +151,7 @@ export class Explore extends Phaser.Scene {
       setTimeout(() => {
         this.dialogManager.displayDialog([`Lo got ${item.name}`]);
       }, 300);
-    });
-
-    this['updates'].addMultiple([this.lo]);
   }
-
   update(): void { }
 
   private loadObjectsFromTilemap(): void {

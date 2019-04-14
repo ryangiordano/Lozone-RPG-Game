@@ -9,23 +9,24 @@ export class Item {
     public spriteKey: string,
     public frame: number,
     public category: string,
-    public quantity: number = 0
-  ) { }
-  incrementQuantity() {
+    public quantity: number = 1
+  ) {
+  }
+  public incrementQuantity() {
     if (this.quantity >= this.limit) {
       this.quantity = this.quantity;
     } else {
       this.quantity++;
     }
   }
-  decrementQuantity() {
+  public decrementQuantity() {
     if (this.quantity <= 0) {
       this.quantity = this.quantity;
     } else {
       this.quantity--;
     }
   }
-  setQuantity(amount: number) {
+  public setQuantity(amount: number) {
     this.quantity = amount;
   }
 }
@@ -65,18 +66,19 @@ export class ItemRepository {
     this.removeItemFromPlayerContents(id);
   }
   getItem(id: string | number): Item {
-    const item = this.itemsFromDB.items[id];
-    if (item) {
-      return new Item(
+    const itemFromDB = this.itemsFromDB.items[id];
+    if (itemFromDB) {
+      const item = new Item(
         id,
-        item.name,
-        item.description,
-        item.effectId,
-        item.effectPotency,
-        item.spriteKey,
-        item.frame,
-        item.category
+        itemFromDB.name,
+        itemFromDB.description,
+        itemFromDB.effectId,
+        itemFromDB.effectPotency,
+        itemFromDB.spriteKey,
+        itemFromDB.frame,
+        itemFromDB.category
       );
+      return item;
     } else {
       console.error('If an item does not appear in our records, it does not exist!');
     }

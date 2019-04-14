@@ -25,31 +25,23 @@ export class MenuScene extends Phaser.Scene {
       .addOption('Cancel', () => this.closeMenuScene());
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
     // DEBUG ONLY:
-    sm.itemRepository.addItemToPlayerContents(1);
-    sm.itemRepository.addItemToPlayerContents(2);
-    sm.itemRepository.addItemToPlayerContents(3);
-    sm.itemRepository.addItemToPlayerContents(1);
+
 
 
     // Item Panel
-    const itemPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
-    sm.itemRepository.getItemsOnPlayer().forEach(item => {
-      // Item Options
-      itemPanel.addOption(item.name, () => {
-        sm.itemRepository.consumeItem(item.id);
-        this.UI.showPanel(itemConfirmPanel);
-        this.UI.focusPanel(itemConfirmPanel);
-        itemConfirmPanel.setPanelData(item);
-      });
+    const itemPanel = new ItemPanelContainer({ x: 7, y: 9 }, { x: 3, y: 0 }, 'dialog-white', this, sm.itemRepository.getItemsOnPlayer());
+    this.UI.addPanel(itemPanel)
+    itemPanel.on('item-selected', (item) => {
+      this.UI.showPanel(itemConfirmPanel);
+      this.UI.focusPanel(itemConfirmPanel);
+      itemConfirmPanel.setPanelData(item);
     });
-    itemPanel.addOption('Cancel',()=>{
-       this.UI.closePanel(itemPanel);
+    itemPanel.on('panel-close', () => {
+      this.UI.closePanel(itemPanel);
     })
 
-    const partyPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 })
-
     // Add item use confirmation panel.
-    const itemConfirmPanel = new ConfirmItemPanelContainer({ x: 3, y: 3 }, { x: 7, y: 6 }, 'dialog-blue', this);
+    const itemConfirmPanel = new ConfirmItemPanelContainer({ x: 3, y: 3 }, { x: 7, y: 6 }, 'dialog-white', this);
 
     this.UI.addPanel(itemConfirmPanel);
     // Add option for confirmation
@@ -75,8 +67,16 @@ export class MenuScene extends Phaser.Scene {
       }
 
     });
+
+
+    // Party Panel
+    const partyPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 });
+
+
+
     this.events.on('close', () => this.closeMenuScene())
   }
+
   closeMenuScene() {
     //TODO: Make more generic
     this.scene.setActive(true, 'Explore')
@@ -96,13 +96,43 @@ class ConfirmItemPanelContainer extends DialogPanelContainer {
     pos: Coords,
     spriteKey: string,
     scene: Phaser.Scene) {
-    super(pos, dimensions, spriteKey, scene);
+    super(dimensions, pos, spriteKey, scene);
 
   }
-  setPanelData(item:Item) {
+  setPanelData(item: Item) {
     this.itemData = item;
   }
-  getPanelData(){
+  getPanelData() {
     return this.itemData;
   }
+}
+
+class ItemPanelContainer extends DialogPanelContainer {
+  constructor(dimensions: Coords,
+    pos: Coords,
+    spriteKey: string,
+    scene: Phaser.Scene, private items: Item[]) {
+    super(dimensions, pos, spriteKey, scene);
+    this.addOptionsViaData();
+  }
+  setPanelData(items: Item[]) {
+    this.items = items;
+  }
+  addOptionsViaData() {
+    this.items.forEach(item => {
+      // Item Options
+      this.addOption(`${item.name} x${item.quantity}`, () => {
+        this.emit('item-selected', item);
+      });
+    });
+    this.addOption('Cancel', () => {
+      this.emit('panel-close');
+    })
+  }
+  refreshPanel() {
+    this.list = this.list.filter(item=>item.type!=="Text");
+    this.options =[];
+    this.addOptionsViaData();
+  }
+
 }

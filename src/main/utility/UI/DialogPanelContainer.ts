@@ -3,7 +3,6 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
   public focused: boolean = false;
   public options: DialogListItem[] = [];
   public padding: number = 6;
-
   constructor(
     public dimensions: Coords,
     public pos: Coords,
@@ -11,7 +10,7 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     public scene: Phaser.Scene,
     public id: number = Math.random() * 500) {
     super(scene, pos.x * 16, pos.y * 16);
-
+    
     this.constructPanel(scene);
     this.closePanel();
     this.name = id.toString();
@@ -102,10 +101,6 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     this.focused = false;
     this.alpha = 0.9;
   }
-  refreshPanel(){
-
-  }
-
 }
 
 

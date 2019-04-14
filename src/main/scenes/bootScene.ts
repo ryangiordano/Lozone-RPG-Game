@@ -34,6 +34,11 @@ export class BootScene extends Phaser.Scene {
         const sm = StateManager.getInstance();
         sm.initialize(this.game);
         sm.addFlagModule('chests');
+        // sm.itemRepository.addItemToPlayerContents(1);
+        // sm.itemRepository.addItemToPlayerContents(2);
+        // sm.itemRepository.addItemToPlayerContents(3);
+        // sm.itemRepository.addItemToPlayerContents(1);
+        sm.itemRepository.addItemToPlayerContents(1);
       },
       this
     );
