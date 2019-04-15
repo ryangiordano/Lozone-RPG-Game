@@ -4,6 +4,7 @@ import { BootScene } from './scenes/bootScene';
 import PhaserUpdatePlugin from './utility/UpdatePlugin';
 import { Plugin as NineSlicePlugin } from 'phaser3-nineslice';
 import { MenuScene } from './scenes/menuScene';
+import { CreditsScene } from './scenes/creditsScene';
 // main game configuration
 const config: GameConfig = {
   width: 160,
@@ -11,7 +12,7 @@ const config: GameConfig = {
   zoom: 4,
   type: Phaser.AUTO,
   parent: 'game',
-  scene: [BootScene, Explore, MenuScene],
+  scene: [BootScene, Explore, MenuScene, CreditsScene],
   input: {
     keyboard: true
   },

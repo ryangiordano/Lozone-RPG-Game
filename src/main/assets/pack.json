@@ -32,6 +32,21 @@
         "url": "./src/main/assets/sprites/loportrait.png"
       },
       {
+        "type": "image",
+        "key": "mountains",
+        "url": "./src/main/assets/images/credits-mountains.png"
+      },
+      {
+        "type": "image",
+        "key": "ground",
+        "url": "./src/main/assets/images/credits-ground.png"
+      },
+      {
+        "type": "image",
+        "key": "sky",
+        "url": "./src/main/assets/images/credits-sky.png"
+      },
+      {
         "type": "spritesheet",
         "key": "lo",
         "url": "./src/main/assets/sprites/lo.png",
@@ -90,6 +105,13 @@
         "key": "bump",
         "url": "./src/main/assets/sounds/bump.mp3"
       },
+
+      {
+        "type": "audio",
+        "key": "credits",
+        "url": "./src/main/assets/music/credits.mp3"
+      },
+
       {
         "type": "spritesheet",
         "key": "dialog-beige",
