@@ -8,7 +8,7 @@
          "name":"sky",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":20,
          "x":0,
          "y":0
@@ -20,7 +20,7 @@
          "name":"background",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":20,
          "x":0,
          "y":0
@@ -48,7 +48,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":15,
+ "nextlayerid":18,
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"right-down",

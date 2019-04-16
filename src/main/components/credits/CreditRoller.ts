@@ -4,8 +4,8 @@ export class CreditRoller extends Phaser.GameObjects.Container {
    */
   private fadeIn: Phaser.Tweens.Tween;
   private fadeOut: Phaser.Tweens.Tween;
-  private showDuration = 5000;
-  private creditInterval = 1000;
+  private showDuration = 7000;
+  private creditInterval = 1500;
   constructor(pos: Coords, scene: Phaser.Scene, private credits: any[]) {
     super(scene, pos.x, pos.y);
     this.alpha = 0;
@@ -45,7 +45,6 @@ export class CreditRoller extends Phaser.GameObjects.Container {
         }, this.creditInterval);
       }
     });
-    this.rollCredits();
   }
   showCredits(credits: any[]) {
     this.removeCredits();
@@ -73,7 +72,7 @@ export class CreditRoller extends Phaser.GameObjects.Container {
   createCredit(credit: any, coords: Coords) {
     //TODO : Lots of copied/pasted code. Refactor.
     if (credit.type === 'heading') {
-      this.add(new Phaser.GameObjects.Text(this.scene, 0,<number>this.scene.game.config.height / 3, credit.heading, {
+      this.add(new Phaser.GameObjects.Text(this.scene, 0, <number>this.scene.game.config.height / 3, credit.heading, {
         fontFamily: 'pixel',
         fontSize: '8px',
         fill: '#000000',
@@ -100,10 +99,12 @@ export class CreditRoller extends Phaser.GameObjects.Container {
 
   }
   removeCredits() {
-    this.removeAll(true);
+    if (this.list.length) {
+      this.removeAll(true);
+    }
   }
   rollCredits() {
-    this.fadeIn.play(true);
+    this.fadeOut.play(true);
   }
   creditsDone() {
     this.emit('credits-finished');

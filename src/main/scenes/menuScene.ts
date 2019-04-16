@@ -14,7 +14,7 @@ export class MenuScene extends Phaser.Scene {
   init(data) {
     const sm = StateManager.getInstance();
     this.UI = new UserInterface(this, 'dialog-white');
-    const mainPanel = this.UI.createPanel({ x: 3, y: 9 }, { x: 0, y: 0 });
+    const mainPanel = this.UI.createPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
     mainPanel
       .addOption('Items', () => {
         this.UI.showPanel(itemPanel).focusPanel(itemPanel)
@@ -22,14 +22,18 @@ export class MenuScene extends Phaser.Scene {
       .addOption('Party', () => {
         this.UI.showPanel(partyPanel).focusPanel(partyPanel)
       })
+      .addOption('Dungeons', () => {
+        this.scene.start('CreditsScene');
+      })
+      .addOption('Credits', () => {
+        this.scene.start('CreditsScene');
+      })
       .addOption('Cancel', () => this.closeMenuScene());
+
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
-    // DEBUG ONLY:
-
-
 
     // Item Panel
-    const itemPanel = new ItemPanelContainer({ x: 7, y: 9 }, { x: 3, y: 0 }, 'dialog-white', this, sm.itemRepository.getItemsOnPlayer());
+    const itemPanel = new ItemPanelContainer({ x: 6, y: 9 }, { x: 4, y: 0 }, 'dialog-white', this, sm.itemRepository.getItemsOnPlayer());
     this.UI.addPanel(itemPanel)
     itemPanel.on('item-selected', (item) => {
       this.UI.showPanel(itemConfirmPanel);
@@ -62,7 +66,7 @@ export class MenuScene extends Phaser.Scene {
       })
 
     // Party Panel
-    const partyPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 }).addOption('Cancel', () => {
+    const partyPanel = this.UI.createPanel({ x: 6, y: 9 }, { x: 4, y: 0 }).addOption('Cancel', () => {
       this.UI.closePanel(partyPanel);
     })
 

@@ -38,7 +38,7 @@ export class BootScene extends Phaser.Scene {
         sm.addFlagModule('chests');
 
         setTimeout(()=>{
-          this.scene.start('CreditsScene', { map: 'room', tileset: 'room-tiles' });
+          this.scene.start('Explore', { map: 'room', tileset: 'room-tiles' });
         },10);
       },
       this
