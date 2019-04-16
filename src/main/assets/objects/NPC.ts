@@ -1,5 +1,5 @@
-import { Directions, createThrottle } from '../../utility/Utility';
-import { Moveable } from '../../utility/components/entities/Movement';
+import { Directions } from '../../utility/Utility';
+import { Moveable } from '../../components/entities/Movement';
 
 export class NPC extends Moveable {
   properties: any = {};

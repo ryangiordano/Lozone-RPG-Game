@@ -1,6 +1,6 @@
-import { Directions, createThrottle } from "../../Utility";
-import { Cast } from "../../../assets/objects/Cast";
-import { Entity } from "../../../assets/objects/Entity";
+import { Directions, createThrottle } from "../../utility/Utility";
+import { Cast } from "../../assets/objects/Cast";
+import { Entity } from "../../assets/objects/Entity";
 
 export class Moveable extends Entity {
   protected isMoving = false;

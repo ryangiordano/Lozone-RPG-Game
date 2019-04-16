@@ -1,6 +1,6 @@
-import { UserInterface } from "../utility/UI/UserInterface";
+import { UserInterface } from "../components/UI/UserInterface";
 import { StateManager } from "../utility/state/StateManager";
-import { DialogPanelContainer } from "../utility/UI/DialogPanelContainer";
+import { DialogPanelContainer } from "../components/UI/DialogPanelContainer";
 import { Item } from "../utility/state/ItemRepository";
 
 export class MenuScene extends Phaser.Scene {
