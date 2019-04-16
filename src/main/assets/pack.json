@@ -47,6 +47,26 @@
         "url": "./src/main/assets/images/credits-sky.png"
       },
       {
+        "type": "image",
+        "key": "cloud_1",
+        "url": "./src/main/assets/images/cloud_1.png"
+      },
+      {
+        "type": "image",
+        "key": "cloud_2",
+        "url": "./src/main/assets/images/cloud_2.png"
+      },
+      {
+        "type": "image",
+        "key": "cloud_3",
+        "url": "./src/main/assets/images/cloud_3.png"
+      },
+      {
+        "type": "image",
+        "key": "cloud_4",
+        "url": "./src/main/assets/images/cloud_4.png"
+      },
+      {
         "type": "spritesheet",
         "key": "lo",
         "url": "./src/main/assets/sprites/lo.png",
@@ -187,6 +207,11 @@
         "type": "json",
         "key": "dialog",
         "url": "./src/main/data/dialog.json"
+      },
+      {
+        "type": "json",
+        "key": "credits",
+        "url": "./src/main/data/credit.json"
       }
     ]
   }

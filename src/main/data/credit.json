@@ -1,0 +1,114 @@
+{
+  "credits":[
+    {
+      "heading": "Special Thanks To Everyone In Our Life",
+      "type": "heading"
+    },
+    {
+      "name": "Lo Yang",
+      "title": "Wifeperson",
+      "type": "credit"
+    },
+    {
+      "name": "Yang Zaihua",
+      "title": "Eternally Young Mom",
+      "type": "credit"
+    },
+    {
+      "name": "Pati Okon",
+      "title": "Yoga Mom",
+      "type": "credit"
+    },
+    {
+      "name": "Steve Giordano",
+      "title": "Chief Executive Officer",
+      "type": "credit"
+    },
+    {
+      "name": "Mika Damato",
+      "title": "Cake Baker",
+      "type": "credit"
+    },
+    {
+      "name": "David Damato",
+      "title": "Little Debbie Eater",
+      "type": "credit"
+    },
+    {
+      "name": "Benny Damato",
+      "title": "Professional Baby",
+      "type": "credit"
+    },
+    {
+      "name": "Sumiko Okon",
+      "title": "Obaasan",
+      "type": "credit"
+    },
+    {
+      "name": "Yoshiko Kamiya",
+      "title": "Obasan",
+      "type": "credit"
+    },
+    {
+      "name": "Liz, Bill, Chris and Jamie Mertz",
+      "title": "Texas Family",
+      "type": "credit"
+    },
+    {
+      "name": "Pete, Donna, Rachel and Clair Okon",
+      "title": "Texas Family",
+      "type": "credit"
+    },
+    {
+      "name": "Tom Okons",
+      "title": "Texas Family",
+      "type": "credit"
+    },
+
+    {
+      "name": "Software Engineer",
+      "title": "Jun Zhou",
+      "type": "credit"
+    },
+    {
+      "name": "Jordan Todd",
+      "title": "Executive Quality Assurance Manager",
+      "type": "credit"
+    },
+    {
+      "name": "Andrew Levenson",
+      "title": "Burger Analist",
+      "type": "credit"
+    },
+    {
+      "name": "Andrea and Alan Levenson",
+      "title": "Advisors",
+      "type": "credit"
+    },
+    {
+      "name": "Yaya",
+      "title": "Museum Coordinator",
+      "type": "credit"
+    },
+    {
+      "name": "Huanmo",
+      "title": "NGO Rabbit",
+      "type": "credit"
+    },
+    {
+      "name": "Sundeep Kutumbaka",
+      "title": "Board Gamer",
+      "type": "credit"
+    },
+    {
+      "name": "Israh Valtiel",
+      "title": "Purplest Redmage",
+      "type": "credit"
+    },
+    {
+      "name": "Aesir Maelstrom",
+      "title": "Oh what I can't sneeze",
+      "type": "credit"
+    }
+  ]
+}

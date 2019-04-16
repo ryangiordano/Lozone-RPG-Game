@@ -1,11 +1,11 @@
-import { NPC } from "../assets/objects/NPC";
-
 export class CreditsScene extends Phaser.Scene {
   private sky: Phaser.GameObjects.Image;
   private ground: Phaser.GameObjects.Image;
   private mountains: Phaser.GameObjects.Image;
   private backgroundContainer: Phaser.GameObjects.Container;
-  private foregroundContainer: Phaser.GameObjects.Container
+  private foregroundContainer: Phaser.GameObjects.Container;
+  private cloudLayer: Phaser.GameObjects.Container;
+  private creditRoller: CreditRoller
   constructor() {
     super({ key: 'CreditsScene' });
   }
@@ -23,13 +23,19 @@ export class CreditsScene extends Phaser.Scene {
     this.sky = this.add.image(10, 0, 'sky');
 
     this.backgroundContainer = new Phaser.GameObjects.Container(this, 0, 0);
+    this.cloudLayer = new Phaser.GameObjects.Container(this, 0, 0);
+    const credits = this.game.cache.json.get('credits');
+    this.creditRoller = new CreditRoller({ x: 0, y: 0 }, this, credits);
     this.foregroundContainer = new Phaser.GameObjects.Container(this);
 
     this.backgroundContainer.add(this.sky);
     this.add.existing(this.backgroundContainer);
+    this.add.existing(this.cloudLayer);
     this.add.existing(this.foregroundContainer);
+    this.add.existing(this.creditRoller);
     this.setGround();
     this.setMountains();
+
 
   }
   create() {
@@ -49,7 +55,7 @@ export class CreditsScene extends Phaser.Scene {
       frameRate: 3,
       repeat: -1
     })
-    lo.anims.delayedPlay(300,'loWalk');
+    lo.anims.delayedPlay(300, 'loWalk');
     ryan.anims.play('ryanWalk', true);
   }
   init(data) {
@@ -108,6 +114,86 @@ class ScrollingElement extends Phaser.GameObjects.Image {
     this.x += this.speedX;
     this.y += this.speedY;
     this.checkIfDestroyable();
+  }
+
+}
+
+class Cloud extends Phaser.GameObjects.Image {
+  /**
+   *
+   */
+  constructor(private currentScene: Phaser.Scene,
+    private startX: number,
+    private startY: number,
+    private key: string,
+    private speedX: number,
+    private speedY: number,
+    private container: Phaser.GameObjects.Container) {
+    super(currentScene, startX, startY, key);
+
+  }
+}
+class CreditRoller extends Phaser.GameObjects.Container {
+  /**
+   * Takes in an array of  credit objects.
+   */
+  private fadeIn: Phaser.Tweens.Tween;
+  private fadeOut: Phaser.Tweens.Tween;
+  constructor(
+    pos: Coords,
+    scene: Phaser.Scene, private credits: any[]) {
+    super(scene, pos.x, pos.y);
+
+    this.fadeIn = scene.add.tween({
+      targets: [this],
+      ease: 'Sine.easeInOut',
+      duration: 1000,
+      delay: 0,
+      paused:true,
+      alpha: {
+        getStart: () => 1,
+        getEnd: () => 0
+      },
+      onComplete: () => {
+        //handle completion
+        console.log("Done")
+      }
+    });
+    this.fadeOut = scene.add.tween({
+      targets: [this],
+      ease: 'Sine.easeInOut',
+      duration: 1000,
+      delay: 0,
+      paused:true,
+      alpha: {
+        getStart: () => 1,
+        getEnd: () => 0
+      },
+      onComplete: () => {
+        //handle completion
+        console.log("Done")
+      }
+    });
+
+    this.add(new Phaser.GameObjects.Text(scene, 0, 0, 'HELLO', {
+      fontFamily: 'pixel',
+      fontSize: '8px',
+      fill: '#000000'
+    }))
+
+    setTimeout(()=>{
+      this.fadeOut.play(true);
+    },2000)
+  }
+  rollCredits() {
+
+  }
+  setTimeBetweenCredits() {
+
+  }
+
+  creditsDone() {
+    this.emit('credits-finished');
   }
 
 }
