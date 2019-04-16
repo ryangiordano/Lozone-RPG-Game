@@ -23,7 +23,7 @@ export class MenuScene extends Phaser.Scene {
         this.UI.showPanel(partyPanel).focusPanel(partyPanel)
       })
       .addOption('Dungeons', () => {
-        this.scene.start('CreditsScene');
+        this.UI.showPanel(dungeonPanel).focusPanel(dungeonPanel)
       })
       .addOption('Credits', () => {
         this.scene.start('CreditsScene');
@@ -68,7 +68,17 @@ export class MenuScene extends Phaser.Scene {
     // Party Panel
     const partyPanel = this.UI.createPanel({ x: 6, y: 9 }, { x: 4, y: 0 }).addOption('Cancel', () => {
       this.UI.closePanel(partyPanel);
-    })
+    });
+
+    const dungeonPanel = this.UI.createPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
+      .addOption('Dungeon One', () => {
+        this.scene.stop('House')
+        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1 });
+        
+      })
+      .addOption('Cancel', () => {
+        this.UI.closePanel(dungeonPanel);
+      })
 
     this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
@@ -83,7 +93,7 @@ export class MenuScene extends Phaser.Scene {
   closeMenuScene() {
     //TODO: Make more generic
     this.scene.setActive(true, 'Explore')
-    this.events.off('close', ()=>this.closeMenuScene());
+    this.events.off('close', () => this.closeMenuScene());
     this.scene.stop();
   }
   update(): void { }
@@ -134,8 +144,8 @@ class ItemPanelContainer extends DialogPanelContainer {
     })
   }
   refreshPanel() {
-    this.list = this.list.filter(item=>item.type!=="Text");
-    this.options =[];
+    this.list = this.list.filter(item => item.type !== "Text");
+    this.options = [];
     this.addOptionsViaData();
   }
 

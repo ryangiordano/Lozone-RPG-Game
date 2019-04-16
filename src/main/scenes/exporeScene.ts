@@ -1,4 +1,4 @@
-import { Chest } from './../assets/objects/Chest';
+import { Chest } from '../assets/objects/Chest';
 import { Cast } from '../assets/objects/Cast';
 import { Player } from '../assets/objects/Player';
 import { NPC } from '../assets/objects/NPC';
@@ -13,25 +13,21 @@ export class Explore extends Phaser.Scene {
   private tileset: Phaser.Tilemaps.Tileset;
   private backgroundLayer: Phaser.Tilemaps.StaticTilemapLayer;
   private foregroundLayer: Phaser.Tilemaps.StaticTilemapLayer;
-  private lo: Player;
-  private ryan: NPC;
   private interactive: Phaser.GameObjects.Group;
-  private beep: Phaser.Sound.BaseSound;
   private casts: Phaser.GameObjects.Group;
-  private dialogManager: DialogManager;
   private triggers: Phaser.GameObjects.Group;
+  protected player: Player;
+  protected dialogManager: DialogManager;
   private warpId: number;
-  constructor() {
+  constructor(key) {
     super({
-      key: 'Explore'
+      key: key || 'Explore'
     });
   }
   init(data) {
     // Specify the tileset you want to use based on the data passed to the scene.
     const { map, tileset, warpId } = data;
     this.map = this.make.tilemap({ key: map });
-    // TODO: Create a utility class to handle this.  Maybe we can cache tilesets/maps.
-
     this.tileset = this.map.addTilesetImage(tileset, tileset, 16, 16, 0, 0, 1);
     if (warpId) {
       this.warpId = warpId;
@@ -43,118 +39,51 @@ export class Explore extends Phaser.Scene {
     this.sound.add('beep');
     this.sound.add('chest');
   }
-  destroy(){
-
-  }
   create(): void {
-    this.backgroundLayer = this.map.createStaticLayer(
-      'background',
-      this.tileset
-    );
-    this.foregroundLayer = this.map.createStaticLayer(
-      'foreground',
-      this.tileset
-    );
-    this.backgroundLayer.setName('background');
-    this.foregroundLayer.setName('foreground');
+    this.setGroups();
+    this.setMapLayers();
+    this.loadObjectsFromTilemap();
+    this.setColliders();
+    this.setEvents();
+    console.log('Created')
+    this.dialogManager = new DialogManager(this, () => {
+      //TODO: Refactor the logic controlling time before relinquishing control back to player
+      // After a dialog is closed.
+      setTimeout(() => {
+        this.player.controllable.canInput = true;
+      }, 200);
+    });
+    this['updates'].addMultiple([this.player]);
+  }
 
-    //Game Objects
+  protected setEvents() {
+    this.input.keyboard.on('keydown', event => {
+      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.SPACE) {
+        // If there is dialog on screen, cycle through the text.
+        if (this.dialogManager.dialogVisible()) {
+          this.dialogManager.handleNextDialog();
+        }
+      }
+      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
+        this.scene.setActive(false, this.scene.key)
+        this.game.scene.start('MenuScene', {});
+        this.scene.setActive(true, 'MenuScene').bringToTop('MenuScene');
+      }
+    });
+    this.events.on('item-acquired', this.acquiredItemCallback, this);
+  }
+  protected setGroups() {
     this.interactive = this.add.group({
       runChildUpdate: true
     });
     this.casts = this.add.group({
       runChildUpdate: true
     });
-
     this.triggers = this.add.group({
       runChildUpdate: true
     });
-
-    this.loadObjectsFromTilemap();
-
-    // *****************************************************************
-    // COLLIDERS
-    // *****************************************************************
-    this.physics.add.overlap(
-      this.casts,
-      this.interactive,
-      (cast: Cast, interactive: any) => {
-        cast.destroy();
-        if (interactive.properties.type === 'interactive') {
-          // TODO: Get this from the sm.dialogRepository
-          this.dialogManager.displayDialog(interactive.properties.message);
-          this.lo.controllable.canInput = false;
-        }
-        if (interactive.properties.type === 'chest') {
-          interactive.openChest();
-        }
-      }
-    );
-
-    this.physics.add.overlap(
-      this.casts,
-      this.triggers,
-      (cast: Cast, trigger: any) => {
-        cast.destroy();
-        if (trigger.properties.type === 'trigger') {
-          if (trigger.properties.warpId && trigger.properties.map) {
-            // Because we're starting up the same scene, different map, 
-            // We have to unsubscribe from events in the current scene.
-            this.events.off('item-acquired', this.acquiredItemCallback)
-            this.scene.start('Explore', {
-              map: trigger.properties.map, // room
-              tileset: trigger.properties.tileset, //room tiles
-              warpId: trigger.properties.warpId
-            });
-          }
-        }
-      }
-    );
-    this.afterCreate();
   }
-  afterCreate() {
-    this.dialogManager = new DialogManager(this, () => {
-      setTimeout(() => {
-        this.lo.controllable.canInput = true;
-      }, 200);
-    });
-
-    // If there is dialog on screen, cycle throw the text.
-    this.input.keyboard.on('keydown', event => {
-      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.SPACE) {
-        if (this.dialogManager.dialogVisible()) {
-          this.dialogManager.handleNextDialog();
-        }
-      }
-      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
-        // this.scene.pause();
-        this.scene.setActive(false, 'Explore')
-        this.game.scene.start('MenuScene',{});
-        this.scene.setActive(true, 'MenuScene');
-        // this.scene.setActive(true, 'MenuScene',{sceneName: 'MenuScene'});
-
-      }
-
-    });
-
-
-    this.events.on('item-acquired',this.acquiredItemCallback, this);
-
-    this['updates'].addMultiple([this.lo]);
-  }
-  acquiredItemCallback({ itemId, id }){
-      const sm = StateManager.getInstance();
-      // TODO: Refactor to hide the repositories and give the state methods to access them
-      const item = sm.itemRepository.addItemToPlayerContents(itemId);
-      sm.flags.get('chests').setFlag(id, true);
-      this.lo.controllable.canInput = false;
-      setTimeout(() => {
-        this.dialogManager.displayDialog([`Lo got ${item.name}`]);
-      }, 300);
-  }
-  update(): void { }
-
-  private loadObjectsFromTilemap(): void {
+  protected loadObjectsFromTilemap() {
     const objects = this.map.getObjectLayer('objects').objects as any[];
     const sm = StateManager.getInstance();
     let spawn;
@@ -169,7 +98,7 @@ export class Explore extends Phaser.Scene {
       spawn = objects.find(o => o.type === 'spawn');
     }
     // TODO: Make this its own abstraction (spawning)
-    this.lo = new Player({
+    this.player = new Player({
       scene: this,
       x: spawn.x + 8,
       y: spawn.y + 8,
@@ -269,12 +198,71 @@ export class Explore extends Phaser.Scene {
         this.interactive.add(toAdd);
       }
     });
-    this.cameras.main.startFollow(this.lo);
+    this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(
       0,
       0,
       this.map.widthInPixels,
       this.map.heightInPixels
     );
+  }
+  protected setColliders() {
+    this.physics.add.overlap(
+      this.casts,
+      this.interactive,
+      (cast: Cast, interactive: any) => {
+        cast.destroy();
+        if (interactive.properties.type === 'interactive') {
+          // TODO: Get this from the sm.dialogRepository
+          this.dialogManager.displayDialog(interactive.properties.message);
+          this.player.controllable.canInput = false;
+        }
+        if (interactive.properties.type === 'chest') {
+          interactive.openChest();
+        }
+      }
+    );
+
+    this.physics.add.overlap(
+      this.casts,
+      this.triggers,
+      (cast: Cast, trigger: any) => {
+        cast.destroy();
+        if (trigger.properties.type === 'trigger') {
+          if (trigger.properties.warpId && trigger.properties.map) {
+            // Because we're starting up the same scene, different map, 
+            // We have to unsubscribe from events in the current scene.
+            this.events.off('item-acquired', this.acquiredItemCallback)
+            this.scene.start('House', {
+              map: trigger.properties.map, // room
+              tileset: trigger.properties.tileset, //room tiles
+              warpId: trigger.properties.warpId
+            });
+          }
+        }
+      }
+    );
+  }
+  protected setMapLayers() {
+    this.backgroundLayer = this.map.createStaticLayer(
+      'background',
+      this.tileset
+    );
+    this.foregroundLayer = this.map.createStaticLayer(
+      'foreground',
+      this.tileset
+    );
+    this.backgroundLayer.setName('background');
+    this.foregroundLayer.setName('foreground');
+  }
+
+  acquiredItemCallback({ itemId, id }) {
+    const sm = StateManager.getInstance();
+    const item = sm.itemRepository.addItemToPlayerContents(itemId);
+    sm.flags.get('chests').setFlag(id, true);
+    this.player.controllable.canInput = false;
+    setTimeout(() => {
+      this.dialogManager.displayDialog([`Lo got ${item.name}`]);
+    }, 300);
   }
 }

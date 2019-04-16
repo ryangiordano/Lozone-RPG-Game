@@ -12,9 +12,19 @@
         "url": "./src/main/assets/maps/upstairs.json"
       },
       {
+        "type": "tilemapTiledJSON",
+        "key": "dungeon_1",
+        "url": "./src/main/assets/maps/dungeons/dungeon_1/dungeon_1.json"
+      },
+      {
         "type": "image",
         "key": "room-tiles",
         "url": "./src/main/assets/tiles/room.png"
+      },
+      {
+        "type": "image",
+        "key": "dungeon",
+        "url": "./src/main/assets/tiles/dungeon.png"
       },
       {
         "type": "image",

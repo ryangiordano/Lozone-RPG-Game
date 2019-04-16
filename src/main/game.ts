@@ -1,10 +1,12 @@
 import 'phaser';
-import { Explore } from './scenes/explore';
+import { Explore } from './scenes/exporeScene';
 import { BootScene } from './scenes/bootScene';
 import PhaserUpdatePlugin from './utility/UpdatePlugin';
 import { Plugin as NineSlicePlugin } from 'phaser3-nineslice';
 import { MenuScene } from './scenes/menuScene';
 import { CreditsScene } from './scenes/creditsScene';
+import { HouseScene } from './scenes/houseScene';
+import { DungeonScene } from './scenes/dungeonScene';
 // main game configuration
 const config: GameConfig = {
   width: 160,
@@ -12,7 +14,7 @@ const config: GameConfig = {
   zoom: 4,
   type: Phaser.AUTO,
   parent: 'game',
-  scene: [BootScene, Explore, MenuScene, CreditsScene],
+  scene: [BootScene, HouseScene, MenuScene, DungeonScene, CreditsScene],
   input: {
     keyboard: true
   },

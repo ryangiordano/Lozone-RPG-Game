@@ -37,9 +37,7 @@ export class BootScene extends Phaser.Scene {
         sm.initialize(this.game);
         sm.addFlagModule('chests');
 
-        setTimeout(()=>{
-          this.scene.start('Explore', { map: 'room', tileset: 'room-tiles' });
-        },10);
+        this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
       },
       this
     );
@@ -47,7 +45,7 @@ export class BootScene extends Phaser.Scene {
     this.load.pack('preload', './src/main/assets/pack.json', 'preload');
   }
   private createLoadingGraphics(): void {
-      // We can specify the type of config we want to send.
+    // We can specify the type of config we want to send.
 
   }
 }

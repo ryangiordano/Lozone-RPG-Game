@@ -1,4 +1,5 @@
-{ "height":20,
+{ "backgroundcolor":"#383838",
+ "height":20,
  "infinite":false,
  "layers":[
         {
@@ -40,6 +41,89 @@
                  "width":16,
                  "x":32,
                  "y":272
+                }, 
+                {
+                 "height":16,
+                 "id":3,
+                 "name":"down",
+                 "rotation":0,
+                 "type":"next",
+                 "visible":true,
+                 "width":16,
+                 "x":272,
+                 "y":32
+                }, 
+                {
+                 "height":16,
+                 "id":4,
+                 "name":"chest",
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":16,
+                 "x":64,
+                 "y":48
+                }, 
+                {
+                 "height":16,
+                 "id":5,
+                 "name":"chest",
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":3
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":16,
+                 "x":256,
+                 "y":240
+                }, 
+                {
+                 "height":16,
+                 "id":6,
+                 "name":"spawn",
+                 "properties":[
+                        {
+                         "name":"warpId",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":16,
+                 "x":48,
+                 "y":272
+                }, 
+                {
+                 "height":0,
+                 "id":7,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":64,
+                 "y":160
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -48,7 +132,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":2,
+ "nextobjectid":8,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
