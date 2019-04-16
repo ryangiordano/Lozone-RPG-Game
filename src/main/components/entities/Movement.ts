@@ -34,6 +34,7 @@ export class Moveable extends Entity {
     if (this.x === this.target.x && this.y === this.target.y) {
       this.isMoving = false;
       this.queryUnderfoot();
+      this.emit('finished-movement');
     } else {
       if (this.x !== this.target.x) {
         this.x += this.velocityX;

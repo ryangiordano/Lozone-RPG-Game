@@ -45,7 +45,6 @@ export class Explore extends Phaser.Scene {
     this.loadObjectsFromTilemap();
     this.setColliders();
     this.setEvents();
-    console.log('Created')
     this.dialogManager = new DialogManager(this, () => {
       //TODO: Refactor the logic controlling time before relinquishing control back to player
       // After a dialog is closed.
@@ -54,8 +53,11 @@ export class Explore extends Phaser.Scene {
       }, 200);
     });
     this['updates'].addMultiple([this.player]);
+    this.afterCreated();
   }
+  protected afterCreated(){
 
+  };
   protected setEvents() {
     this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.SPACE) {
@@ -66,7 +68,7 @@ export class Explore extends Phaser.Scene {
       }
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
         this.scene.setActive(false, this.scene.key)
-        this.game.scene.start('MenuScene', {});
+        this.game.scene.start('MenuScene', {callingSceneKey: this.scene.key});
         this.scene.setActive(true, 'MenuScene').bringToTop('MenuScene');
       }
     });

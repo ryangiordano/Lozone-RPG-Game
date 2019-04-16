@@ -1,4 +1,4 @@
-import { Explore } from "./exporeScene";
+import { Explore } from "./exploreScene";
 
 export class HouseScene extends Explore {
   constructor() {

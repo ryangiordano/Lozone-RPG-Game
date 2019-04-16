@@ -19,7 +19,7 @@ export class ScrollingElement extends Phaser.GameObjects.Image {
     }
   }
   addNew() {
-    const newElement: ScrollingElement = new ScrollingElement(this.currentScene, -<number>this.width, this.startY, this.key, this.speedX, this.speedY, this.container);
+    const newElement: ScrollingElement = new ScrollingElement(this.currentScene, -<number>this.width+1, this.startY, this.key, this.speedX, this.speedY, this.container);
     this.container.add(newElement);
     this.addedNew = true;
   }

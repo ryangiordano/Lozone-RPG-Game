@@ -3,8 +3,10 @@ import { StateManager } from "../utility/state/StateManager";
 import { DialogPanelContainer } from "../components/UI/DialogPanelContainer";
 import { Item } from "../utility/state/ItemRepository";
 
+
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
+  private callingSceneKey: string;
   constructor() {
     super({ key: 'MenuScene' });
   }
@@ -12,6 +14,7 @@ export class MenuScene extends Phaser.Scene {
     // Handle loading assets here, adding sounds etc
   }
   init(data) {
+    this.callingSceneKey = data.callingSceneKey;
     const sm = StateManager.getInstance();
     this.UI = new UserInterface(this, 'dialog-white');
     const mainPanel = this.UI.createPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
@@ -26,6 +29,7 @@ export class MenuScene extends Phaser.Scene {
         this.UI.showPanel(dungeonPanel).focusPanel(dungeonPanel)
       })
       .addOption('Credits', () => {
+        this.scene.stop(this.callingSceneKey)
         this.scene.start('CreditsScene');
       })
       .addOption('Cancel', () => this.closeMenuScene());
@@ -92,7 +96,7 @@ export class MenuScene extends Phaser.Scene {
 
   closeMenuScene() {
     //TODO: Make more generic
-    this.scene.setActive(true, 'Explore')
+    this.scene.setActive(true, this.callingSceneKey)
     this.events.off('close', () => this.closeMenuScene());
     this.scene.stop();
   }
