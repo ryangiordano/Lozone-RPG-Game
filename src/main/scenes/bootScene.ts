@@ -30,7 +30,8 @@ export class BootScene extends Phaser.Scene {
           this.sound.play('startup');
         });
         new AnimationHelper(this, this.cache.json.get('loAnimation'));
-
+        //TODO: Find a way to generalize this
+        new AnimationHelper(this, this.cache.json.get('ryanAnimation'));
         // When we get to the point where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.
         const sm = StateManager.getInstance();
         sm.initialize(this.game);

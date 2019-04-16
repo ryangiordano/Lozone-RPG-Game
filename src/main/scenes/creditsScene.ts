@@ -1,3 +1,5 @@
+import { NPC } from "../assets/objects/NPC";
+
 export class CreditsScene extends Phaser.Scene {
   private sky: Phaser.GameObjects.Image;
   private ground: Phaser.GameObjects.Image;
@@ -25,27 +27,44 @@ export class CreditsScene extends Phaser.Scene {
 
     this.backgroundContainer.add(this.sky);
     this.add.existing(this.backgroundContainer);
+    this.add.existing(this.foregroundContainer);
     this.setGround();
     this.setMountains();
 
-
-    // Handle loading assets here, adding sounds etc
-
+  }
+  create() {
+    const ryan = this.add.sprite(9 * 16, 6.6 * 16, 'ryan');
+    const lo = this.add.sprite(8 * 16, 6.6 * 16, 'lo');
+    this.foregroundContainer.add(lo);
+    this.foregroundContainer.add(ryan);
+    this.anims.create({
+      key: 'ryanWalk',
+      frames: this.anims.generateFrameNumbers('ryan', { frames: [7, 6, 8, 6] }),
+      frameRate: 3,
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'loWalk',
+      frames: this.anims.generateFrameNumbers('lo', { frames: [7, 6, 8, 6] }),
+      frameRate: 3,
+      repeat: -1
+    })
+    lo.anims.delayedPlay(300,'loWalk');
+    ryan.anims.play('ryanWalk', true);
   }
   init(data) {
     // Get passed the data from scene.start('SceneName', {data})
     // Create tleset here.
   }
   setMountains(coords?: Coords) {
-    const mountains = new ScrollingElement(this, -150, 3 * 16, 'mountains', .1, null, this.backgroundContainer);
+    const mountains = new ScrollingElement(this, -150, 3 * 16, 'mountains', .05, null, this.backgroundContainer);
     this.backgroundContainer.add(mountains);
   }
   setGround() {
-    const ground = new ScrollingElement(this, -150, 8 * 16, 'ground', .3, null, this.backgroundContainer);
+    const ground = new ScrollingElement(this, -150, 8 * 16, 'ground', .2, null, this.backgroundContainer);
     this.backgroundContainer.add(ground);
   }
   update(): void {
-    this.events.emit('update');
   }
 }
 
@@ -53,7 +72,7 @@ class ScrollingElement extends Phaser.GameObjects.Image {
   /**
    * An element that destroys itself when it's far enough off screen.
    */
-  private addedNew =false;
+  private addedNew = false;
   constructor(
     private currentScene: Phaser.Scene,
     private startX: number,
@@ -63,15 +82,14 @@ class ScrollingElement extends Phaser.GameObjects.Image {
     private speedY: number,
     private container: Phaser.GameObjects.Container) {
     super(currentScene, startX, startY, key);
-      // this.scene['updates'].add(this)
-      this.setOrigin(0,.5);
-      this.currentScene.events.on('update', this.update, this)
+    this.setOrigin(0, .5);
+    this.currentScene.events.on('update', this.update, this)
   }
   checkIfDestroyable() {
-    if(this.x >= 0 && !this.addedNew){
+    if (this.x >= 0 && !this.addedNew) {
       this.addNew();
     }
-    if ((this.x >this.currentScene.game.config.width)) {
+    if ((this.x > this.currentScene.game.config.width)) {
       this.currentScene.events.off('update', this.update, this)
       this.destroy(true);
       this.container.remove(this, true);

@@ -170,6 +170,11 @@
       },
       {
         "type": "json",
+        "key": "ryanAnimation",
+        "url": "./src/main/assets/animations/ryan.json"
+      },
+      {
+        "type": "json",
         "key": "ryanAndLoAnimation",
         "url": "./src/main/assets/animations/ryanandlo.json"
       },
