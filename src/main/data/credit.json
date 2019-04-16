@@ -1,7 +1,7 @@
 {
-  "credits":[
+  "credits": [
     {
-      "heading": "Special Thanks To Everyone In Our Life",
+      "heading": "Special Thanks to Everyone Who Contributed to Our Life",
       "type": "heading"
     },
     {
@@ -50,13 +50,13 @@
       "type": "credit"
     },
     {
-      "name": "Liz, Bill, Chris and Jamie Mertz",
-      "title": "Texas Family",
+      "name": "Liz and Bill Mertz",
+      "title": "Aunt and Uncle",
       "type": "credit"
     },
     {
-      "name": "Pete, Donna, Rachel and Clair Okon",
-      "title": "Texas Family",
+      "name": "Pete and Donna Okon",
+      "title": "Aunt and Uncle",
       "type": "credit"
     },
     {
@@ -64,15 +64,29 @@
       "title": "Texas Family",
       "type": "credit"
     },
-
     {
-      "name": "Software Engineer",
-      "title": "Jun Zhou",
+      "name": "Rachel and Claire Okon",
+      "title": "Texas Cousins",
+      "type": "credit"
+    },
+    {
+      "name": "Chris and Jamie Mertz",
+      "title": "Texas Cousins",
+      "type": "credit"
+    },
+    {
+      "name": "Jun Zhou",
+      "title": "Lo's Brother",
       "type": "credit"
     },
     {
       "name": "Jordan Todd",
-      "title": "Executive Quality Assurance Manager",
+      "title": "Executive QA",
+      "type": "credit"
+    },
+    {
+      "name": "Andrew Knabel",
+      "title": "Angry Soccer Fan",
       "type": "credit"
     },
     {
@@ -81,7 +95,7 @@
       "type": "credit"
     },
     {
-      "name": "Andrea and Alan Levenson",
+      "name": "Andrea, Alan Levenson",
       "title": "Advisors",
       "type": "credit"
     },
@@ -96,13 +110,8 @@
       "type": "credit"
     },
     {
-      "name": "Sundeep Kutumbaka",
-      "title": "Board Gamer",
-      "type": "credit"
-    },
-    {
       "name": "Israh Valtiel",
-      "title": "Purplest Redmage",
+      "title": "Littlest Redmage",
       "type": "credit"
     },
     {
