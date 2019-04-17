@@ -10,8 +10,11 @@ enum ModifierStatType {
 }
 
 class Spell {
-  public id: number;
-  constructor() {
+  constructor(
+    public id: number,
+    public name: string,
+    public effectId: number, 
+    public potency: number) {
 
   }
 }
@@ -100,7 +103,7 @@ export class Combatant {
     target.receivePhysicalDamage(potency);
 
   }
-  receivePhysicalDamage(potency:number){
+  receivePhysicalDamage(potency: number) {
     const defensePotency = this.getDefensePower();
     const actualDamage = Math.max(0, defensePotency - potency);
   }
@@ -108,7 +111,7 @@ export class Combatant {
     //TODO: Factor in equipment as well
     return this.strength * this.level;
   }
-  getDefensePower(){
+  getDefensePower() {
     return this.stamina * this.level;
   }
   getModifierValue() {

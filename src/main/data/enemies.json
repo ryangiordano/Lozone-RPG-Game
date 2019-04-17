@@ -1,0 +1,63 @@
+{
+  "1": {
+    "name": "snake",
+    "spriteKey": "snake",
+    "hp": 40,
+    "mp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 10,
+    "wisdom": 2,
+    "stamina": 3,
+    "strength": 4
+  },
+  "2": {
+    "name": "bugbat",
+    "spriteKey": "bugbat",
+    "hp": 20,
+    "mp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 7,
+    "wisdom": 2,
+    "stamina": 1,
+    "strength": 3
+  },
+  "3": {
+    "name": "orc",
+    "spriteKey": "orc",
+    "hp": 60,
+    "mp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 3,
+    "wisdom": 2,
+    "stamina": 5,
+    "strength": 8
+  },
+  "4": {
+    "name": "slime",
+    "spriteKey": "slime",
+    "hp": 40,
+    "mp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 10,
+    "wisdom": 2,
+    "stamina": 3,
+    "strength": 4
+  },
+  "4": {
+    "name": "eggception",
+    "spriteKey": "eggception",
+    "hp": 100,
+    "mp": 10,
+    "level": 1,
+    "intellect": 12,
+    "dexterity": 13,
+    "wisdom": 12,
+    "stamina": 1,
+    "strength": 4,
+    "spells":[1]
+  }
+}
