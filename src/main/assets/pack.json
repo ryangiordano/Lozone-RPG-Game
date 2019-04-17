@@ -77,6 +77,11 @@
         "url": "./src/main/assets/images/cloud_4.png"
       },
       {
+        "type": "image",
+        "key": "dungeon_battle_background",
+        "url": "./src/main/assets/images/battle-backgrounds/dungeon.png"
+      },
+      {
         "type": "spritesheet",
         "key": "lo",
         "url": "./src/main/assets/sprites/lo.png",
