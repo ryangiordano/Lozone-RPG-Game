@@ -3,7 +3,7 @@ import { Cast } from '../assets/objects/Cast';
 import { Player } from '../assets/objects/Player';
 import { NPC } from '../assets/objects/NPC';
 import { Interactive } from '../assets/objects/Interactive';
-import { DialogManager } from '../utility/Dialog';
+import { DialogManager } from '../components/UI/Dialog';
 import { Directions } from '../utility/Utility';
 import { Trigger } from '../assets/objects/Trigger';
 import { StateManager } from '../utility/state/StateManager';

@@ -1,5 +1,4 @@
 import 'phaser';
-import { Explore } from './scenes/exploreScene';
 import { BootScene } from './scenes/bootScene';
 import PhaserUpdatePlugin from './utility/UpdatePlugin';
 import { Plugin as NineSlicePlugin } from 'phaser3-nineslice';
