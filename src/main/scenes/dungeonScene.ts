@@ -1,5 +1,5 @@
 import { Explore } from "./exploreScene";
-import { Combatant } from "../components/entities/Combatant";
+import { Combatant } from "../components/battle/Combatant";
 
 export class DungeonScene extends Explore {
   private enemyMap:Map<number,Combatant[]>;

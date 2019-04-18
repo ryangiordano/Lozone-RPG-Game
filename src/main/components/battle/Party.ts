@@ -1,4 +1,4 @@
-import { Combatant } from "../entities/Combatant";
+import { Combatant } from "./Combatant";
 
 export class Party {
   constructor(members:Combatant[]= []) {

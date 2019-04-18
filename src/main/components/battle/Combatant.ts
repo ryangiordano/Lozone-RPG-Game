@@ -1,23 +1,5 @@
-import { Modifier } from "../../../game";
+import { Buff, Behavior, Spell, Status } from "./Battle";
 
-
-
-
-class Buff {
-  constructor(
-    public id: number,
-    public modifiers: Modifier[],
-    public name: string) {
-
-  }
-}
-class Behavior {
-  public id: number;
-}
-// For use with items and spells.
-class Effect {
-
-}
 export class Combatant {
   private buffs: Map<number, Buff>;
   private behaviors: Map<number, Behavior>;

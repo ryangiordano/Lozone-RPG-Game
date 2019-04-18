@@ -1,5 +1,6 @@
 import { Combatant } from "./Combatant";
-import { EnemyConfigObject } from "../../../game";
+import { Item } from "../entities/Item";
+import { EnemyConfigObject } from "./Battle";
 
 export class Enemy extends Combatant {
   private lootTable: Item[];
