@@ -18,7 +18,7 @@ export class BattleScene extends Phaser.Scene {
     this.add.image(0, 0, 'dungeon_battle_background').setOrigin(0, 0).setScale(.5, .5);
 
     this.partyContainer = new Phaser.GameObjects.Container(this, 0, 0);
-    this.enemyContainer = new Phaser.GameObjects.Container(this, 0, 0);
+    this.enemyContainer = new Phaser.GameObjects.Container(this, 5*8, 0);
 
     const party: Party = data.party;
     const enemies = data.enemies;

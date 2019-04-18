@@ -37,7 +37,7 @@ export class MenuScene extends Phaser.Scene {
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
 
     // Item Panel
-    const itemPanel = new ItemPanelContainer({ x: 6, y: 9 }, { x: 4, y: 0 }, 'dialog-white', this, sm.playerContents.getItemsOnPlayer());
+    const itemPanel = new ItemPanelContainer({ x: 6, y: 9 }, { x: 4, y: 0 }, 'dialog-white', this, sm.getItemsOnPlayer());
     this.UI.addPanel(itemPanel)
     itemPanel.on('item-selected', (item) => {
       this.UI.showPanel(itemConfirmPanel);
@@ -55,13 +55,13 @@ export class MenuScene extends Phaser.Scene {
     // Add option for confirmation
     itemConfirmPanel.addOption('Use', () => {
       const item = itemConfirmPanel.getPanelData();
-      sm.playerContents.consumeItem(item);
+      sm.consumeItem(item.id);
       itemPanel.refreshPanel();
       this.UI.closePanel(itemConfirmPanel);
 
     }).addOption('Drop', () => {
       const item = itemConfirmPanel.getPanelData();
-      sm.playerContents.removeItemFromcontents(item);
+      sm.removeItemFromContents(item.id);
       itemPanel.refreshPanel();
       this.UI.closePanel(itemConfirmPanel);
     }).addOption('Cancel', () => {
@@ -137,6 +137,7 @@ class ItemPanelContainer extends DialogPanelContainer {
   }
   addOptionsViaData() {
     this.items.forEach(item => {
+      debugger;
       // Item Options
       this.addOption(`${item.name} x${item.quantity}`, () => {
         this.emit('item-selected', item);

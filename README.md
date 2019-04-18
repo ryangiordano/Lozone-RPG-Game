@@ -3,7 +3,13 @@
   Lo's Birthday Game.
 </p>
 
+
 # Lozone RPG
+
+
+## Dev Diary
+Follow development <a href="https://darumadevdiary.home.blog/" target="_blank">here</a>
+
 
 [Phaser](https://github.com/photonstorm/phaser) is a wonderful, fast and
 free open source HTML5 game framework.
