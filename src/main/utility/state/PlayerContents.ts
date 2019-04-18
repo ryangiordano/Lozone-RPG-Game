@@ -3,12 +3,14 @@ export class PlayerContents {
   private contents: Item[] = [];
   constructor() { }
   addItemToContents(itemToAdd: Item) {
-    debugger;
-    const itemInInventory = this.createInventoryItem(this.getItemOnPlayer(itemToAdd));
+
+    const itemInInventory = this.getItemOnPlayer(itemToAdd);
     if (itemInInventory) {
       itemInInventory.incrementQuantity();
     } else {
-      this.contents.push(itemToAdd);
+      const newItemToAdd = this.createInventoryItem(itemToAdd);
+
+      this.contents.push(newItemToAdd);
     }
   }
   private createInventoryItem(itemFromDB) {

@@ -137,7 +137,6 @@ class ItemPanelContainer extends DialogPanelContainer {
   }
   addOptionsViaData() {
     this.items.forEach(item => {
-      debugger;
       // Item Options
       this.addOption(`${item.name} x${item.quantity}`, () => {
         this.emit('item-selected', item);
