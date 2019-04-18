@@ -1,5 +1,4 @@
 {
-  "items": {
     "1": {
       "name": "blueberry",
       "description": "Delicious blueberry.  Restores 10HP",
@@ -27,5 +26,4 @@
       "frame": 3,
       "category": "consumable"
     }
-  }
 }

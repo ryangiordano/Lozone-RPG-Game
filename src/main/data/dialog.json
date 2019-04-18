@@ -1,77 +1,136 @@
 {
-  "dialog": {
-    "1": {
-      "content": ["Hello my dear wife.  I'm currently working on your anniversary present.", "Would you please make me a sandwich?"]
-    },
-    "2": {
-      "content": ["My dresser, jam-packed with clothes I'll never wear."]
-    },
-    "3": {
-      "content": ["I get free food at my job, so I leave all the cooking up to Ryan.", "I'm not even sure I know how to spell the word 'stove'."]
-    },
-    "4": {
-      "content": ["Filled with the husks of food long gone bad.  Blame it on Ryan."]
-    },
-    "5": {
-      "content": ["A large screen TV.  It doesn't seem like it gets much use... "]
-    },
-    "6": {
-      "content": ["Ryan's old Nintendo 64.  It has a gold cartridge in it with a gold controller."]
-    },
-    "7": {
-      "content": ["This plant is not in a good way..."]
-    },
-    "8": {
-      "content": ["I need to water this little guy.", "...", "I'll do it tomorrow"]
-    },
-    "9": {
-      "content": ["The table is scuffed, with deep scratches and water stains layered on top."]
-    },
-    "10": {
-      "content": ["A picture of Ryan and I at Kamikouchi.", "The trees in the background are green and beautiful, and there is a coursing river flowing through the mountains.", "We look happy."]
-    },
-    "11": {
-      "content": ["Ryan's cell phone from when he was in highschool.", "I wonder if some of his old girlfriend's text messages are still...", "...", "Nah."]
-    },
-    "12": {
-      "content": ["My shoe collection.  Someday I'll wear a pair."]
-    },
-    "13":{
-      "content":["Ryan's computer.  5 years old, yet still able to run the latest games.", "Like this one!"]
-    },
-    "14": {
-      "content": ["Jam-packed with bootleg purses fresh off the streets of Chengdu.", "Someday we'll give these away as gifts."]
-    },
-    "15": {
-      "content": ["A cache of old smartphones.", "They are are stacked one on top of the other, with the oldest ones at the bottom of the pile."]
-    },
-    "16": {
-      "content": ["Dried fragrant mushrooms."]
-    },
-    "17": {
-      "content": ["Loads of old programming books and books on Chinese and Japanese language."]
-    },
-    "18": {
-      "content": ["Chinese books about raising babies.", "I think mom is trying to hint at something..."]
-    },
-    "19": {
-      "content": ["Some University: Bachelor's in something?  Maybe?  Ryan Giordano"]
-    },
-    "20": {
-      "content": ["Old Dragonball Z and City Hunter manga."]
-    },
-    "21": {
-      "content": ["This plant is not in a good way..."]
-    },
-    "22": {
-      "content": ["The sun burns too brightly.",  "Or it's rainy.",  
-        "Or it's too cold.",  "Either way, this cat's staying inside, thank you very much."]
-    },
-    "23": {
-      "content": ["Nagoya University: Master's in Computer Science. Lo Yang"]
-    },
-    "24":{
-      "content":[]
-    }
+  "1": {
+    "content": [
+      "Hello my dear wife.  I'm currently working on your anniversary present.",
+      "Would you please make me a sandwich?"
+    ]
+  },
+  "2": {
+    "content": [
+      "My dresser, jam-packed with clothes I'll never wear."
+    ]
+  },
+  "3": {
+    "content": [
+      "I get free food at my job, so I leave all the cooking up to Ryan.",
+      "I'm not even sure I know how to spell the word 'stove'."
+    ]
+  },
+  "4": {
+    "content": [
+      "Filled with the husks of food long gone bad.  Blame it on Ryan."
+    ]
+  },
+  "5": {
+    "content": [
+      "A large screen TV.  It doesn't seem like it gets much use... "
+    ]
+  },
+  "6": {
+    "content": [
+      "Ryan's old Nintendo 64.  It has a gold cartridge in it with a gold controller."
+    ]
+  },
+  "7": {
+    "content": [
+      "This plant is not in a good way..."
+    ]
+  },
+  "8": {
+    "content": [
+      "I need to water this little guy.",
+      "...",
+      "I'll do it tomorrow"
+    ]
+  },
+  "9": {
+    "content": [
+      "The table is scuffed, with deep scratches and water stains layered on top."
+    ]
+  },
+  "10": {
+    "content": [
+      "A picture of Ryan and I at Kamikouchi.",
+      "The trees in the background are green and beautiful, and there is a coursing river flowing through the mountains.",
+      "We look happy."
+    ]
+  },
+  "11": {
+    "content": [
+      "Ryan's cell phone from when he was in highschool.",
+      "I wonder if some of his old girlfriend's text messages are still...",
+      "...",
+      "Nah."
+    ]
+  },
+  "12": {
+    "content": [
+      "My shoe collection.  Someday I'll wear a pair."
+    ]
+  },
+  "13": {
+    "content": [
+      "Ryan's computer.  5 years old, yet still able to run the latest games.",
+      "Like this one!"
+    ]
+  },
+  "14": {
+    "content": [
+      "Jam-packed with bootleg purses fresh off the streets of Chengdu.",
+      "Someday we'll give these away as gifts."
+    ]
+  },
+  "15": {
+    "content": [
+      "A cache of old smartphones.",
+      "They are are stacked one on top of the other, with the oldest ones at the bottom of the pile."
+    ]
+  },
+  "16": {
+    "content": [
+      "Dried fragrant mushrooms."
+    ]
+  },
+  "17": {
+    "content": [
+      "Loads of old programming books and books on Chinese and Japanese language."
+    ]
+  },
+  "18": {
+    "content": [
+      "Chinese books about raising babies.",
+      "I think mom is trying to hint at something..."
+    ]
+  },
+  "19": {
+    "content": [
+      "Some University: Bachelor's in something?  Maybe?  Ryan Giordano"
+    ]
+  },
+  "20": {
+    "content": [
+      "Old Dragonball Z and City Hunter manga."
+    ]
+  },
+  "21": {
+    "content": [
+      "This plant is not in a good way..."
+    ]
+  },
+  "22": {
+    "content": [
+      "The sun burns too brightly.",
+      "Or it's rainy.",
+      "Or it's too cold.",
+      "Either way, this cat's staying inside, thank you very much."
+    ]
+  },
+  "23": {
+    "content": [
+      "Nagoya University: Master's in Computer Science. Lo Yang"
+    ]
+  },
+  "24": {
+    "content": []
   }
 }

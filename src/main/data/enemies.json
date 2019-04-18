@@ -20,7 +20,7 @@
   },
   "2": {
     "name": "bugbat",
-    "spriteKey": "bugbat",
+    "spriteKey": "bat",
     "hp": 20,
     "mp": 10,
     "level": 1,
@@ -66,12 +66,12 @@
     "lootTable": [
       1
     ],
-    "goldValue": 2,
-    "experiencePoints": 5
+    "goldValue": 3,
+    "experiencePoints": 7
   },
   "5": {
     "name": "eggception",
-    "spriteKey": "eggception",
+    "spriteKey": "egg",
     "hp": 100,
     "mp": 10,
     "level": 1,
@@ -88,5 +88,22 @@
     ],
     "goldValue": 15,
     "experiencePoints": 15
+  },
+  "6": {
+    "name": "baby slime",
+    "spriteKey": "baby_slime",
+    "hp": 10,
+    "mp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 4,
+    "wisdom": 2,
+    "stamina": 3,
+    "strength": 4,
+    "lootTable": [
+      1
+    ],
+    "goldValue": 1,
+    "experiencePoints": 5
   }
 }

@@ -36,7 +36,7 @@ export class ItemRepository {
     this.removeItemFromPlayerContents(id);
   }
   getItem(id: string | number): Item {
-    const itemFromDB = this.itemsFromDB.items[id];
+    const itemFromDB = this.itemsFromDB[id];
     if (itemFromDB) {
       const item = new Item(
         id,

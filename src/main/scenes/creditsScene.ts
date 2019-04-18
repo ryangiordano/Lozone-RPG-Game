@@ -1,5 +1,5 @@
-import { CreditRoller } from "../components/dungeon/credits/CreditRoller";
-import { ScrollingElement } from "../components/dungeon/credits/ScrollingElement";
+import { CreditRoller } from "../components/credits/CreditRoller";
+import { ScrollingElement } from "../components/credits/ScrollingElement";
 
 export class CreditsScene extends Phaser.Scene {
   private sky: Phaser.GameObjects.Image;
