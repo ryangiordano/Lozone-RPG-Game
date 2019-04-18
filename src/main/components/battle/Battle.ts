@@ -1,4 +1,5 @@
 import { Item } from "../entities/Item";
+import { Enemy } from "./Enemy";
 
 export interface Buff {
   id: number;
@@ -38,4 +39,9 @@ export interface Effect {
   // For use with items and spells.
   //TODO: implement a db for this
 }
+
+export interface EnemyParty {
+  enemies:Enemy[]
+}
+
 export interface EnemyConfigObject { id: number; name: string; spriteKey: string; hp: number; mp: number; level: number; intellect: number; dexterity: number; strength: number; wisdom: number; stamina: number; lootTable: Item[]; experiencePoints: number; goldValue: number; spells?: Spell[]; }

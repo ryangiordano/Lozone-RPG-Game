@@ -237,6 +237,11 @@
         "type": "json",
         "key": "enemy-parties",
         "url": "./src/main/data/enemy-parties.json"
+      },
+      {
+        "type": "json",
+        "key": "party-members",
+        "url": "./src/main/data/party-members.json"
       }
     ]
   }

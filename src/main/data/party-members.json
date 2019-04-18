@@ -1,0 +1,14 @@
+{
+  "1": {
+    "name": "Lo",
+    "spriteKey": "lo",
+    "hp": 40,
+    "mp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 10,
+    "wisdom": 2,
+    "stamina": 3,
+    "strength": 4
+  }
+}
