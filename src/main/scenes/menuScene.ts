@@ -37,7 +37,7 @@ export class MenuScene extends Phaser.Scene {
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
 
     // Item Panel
-    const itemPanel = new ItemPanelContainer({ x: 6, y: 9 }, { x: 4, y: 0 }, 'dialog-white', this, sm.itemRepository.getItemsOnPlayer());
+    const itemPanel = new ItemPanelContainer({ x: 6, y: 9 }, { x: 4, y: 0 }, 'dialog-white', this, sm.playerContents.getItemsOnPlayer());
     this.UI.addPanel(itemPanel)
     itemPanel.on('item-selected', (item) => {
       this.UI.showPanel(itemConfirmPanel);
@@ -55,19 +55,18 @@ export class MenuScene extends Phaser.Scene {
     // Add option for confirmation
     itemConfirmPanel.addOption('Use', () => {
       const item = itemConfirmPanel.getPanelData();
-      sm.itemRepository.consumeItem(item.id);
+      sm.playerContents.consumeItem(item);
       itemPanel.refreshPanel();
       this.UI.closePanel(itemConfirmPanel);
 
     }).addOption('Drop', () => {
       const item = itemConfirmPanel.getPanelData();
-      sm.itemRepository.removeItemFromPlayerContents(item.id);
+      sm.playerContents.removeItemFromcontents(item);
       itemPanel.refreshPanel();
       this.UI.closePanel(itemConfirmPanel);
+    }).addOption('Cancel', () => {
+      this.UI.closePanel(itemConfirmPanel);
     })
-      .addOption('Cancel', () => {
-        this.UI.closePanel(itemConfirmPanel);
-      })
 
     // Party Panel
     const partyPanel = this.UI.createPanel({ x: 6, y: 9 }, { x: 4, y: 0 }).addOption('Cancel', () => {
@@ -78,7 +77,7 @@ export class MenuScene extends Phaser.Scene {
       .addOption('Dungeon One', () => {
         this.scene.stop('House')
         this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1 });
-        
+
       })
       .addOption('Cancel', () => {
         this.UI.closePanel(dungeonPanel);

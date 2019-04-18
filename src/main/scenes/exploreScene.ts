@@ -55,7 +55,7 @@ export class Explore extends Phaser.Scene {
     this['updates'].addMultiple([this.player]);
     this.afterCreated();
   }
-  protected afterCreated(){
+  protected afterCreated() {
 
   };
   protected setEvents() {
@@ -68,7 +68,7 @@ export class Explore extends Phaser.Scene {
       }
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
         this.scene.setActive(false, this.scene.key)
-        this.game.scene.start('MenuScene', {callingSceneKey: this.scene.key});
+        this.game.scene.start('MenuScene', { callingSceneKey: this.scene.key });
         this.scene.setActive(true, 'MenuScene').bringToTop('MenuScene');
       }
     });
@@ -112,7 +112,7 @@ export class Explore extends Phaser.Scene {
     objects.forEach(object => {
       if (object.type === 'interactive') {
         const id = object.properties.find(p => p.name === 'dialogId').value;
-        const message = sm.dialogRepository.getDialogById(id);
+        const message = sm.dialogController.getDialogById(id);
         this.interactive.add(
           new Interactive({
             scene: this,
@@ -162,7 +162,7 @@ export class Explore extends Phaser.Scene {
       }
       if (object.type === 'npc') {
         const id = object.properties.find(p => p.name === 'dialogId').value;
-        const message = sm.dialogRepository.getDialogById(id);
+        const message = sm.dialogController.getDialogById(id);
         const key = object.properties.find(p => p.name === 'sprite-key');
         this.interactive.add(
           new NPC(
@@ -260,7 +260,7 @@ export class Explore extends Phaser.Scene {
 
   acquiredItemCallback({ itemId, id }) {
     const sm = StateManager.getInstance();
-    const item = sm.itemRepository.addItemToPlayerContents(itemId);
+    const item = sm.playerContents.addItemToContents(itemId);
     sm.flags.get('chests').setFlag(id, true);
     this.player.controllable.canInput = false;
     setTimeout(() => {

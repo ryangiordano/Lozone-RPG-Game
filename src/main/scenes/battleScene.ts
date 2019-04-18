@@ -15,7 +15,6 @@ export class BattleScene extends Phaser.Scene {
     this.enemyController = new EnemyController(this.game);
     const lo = this.partyController.getPartyMemberById(1);
     const slime = this.enemyController.getEnemyById(6);
-    debugger;
     this.add.image(0, 0, 'dungeon_battle_background').setOrigin(0, 0).setScale(.5, .5);
 
     this.partyContainer = new Phaser.GameObjects.Container(this, 0, 0);

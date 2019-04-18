@@ -1,4 +1,8 @@
-class Dialog extends Phaser.GameObjects.Sprite {
+export interface Dialog {
+  content: string;
+}
+
+class DialogSprite extends Phaser.GameObjects.Sprite {
   /**
    *
    */
@@ -14,14 +18,14 @@ class Dialog extends Phaser.GameObjects.Sprite {
   }
 }
 export class DialogManager {
-  private dialog: Dialog;
+  private dialog: DialogSprite;
   private dialogArray: string[] = [];
   private currentText: Phaser.GameObjects.Text;
   constructor(
     private currentScene: Phaser.Scene,
     private hideDialogCallback?: Function
   ) {
-    this.dialog = new Dialog({ scene: this.currentScene, x: 80, y: 120 });
+    this.dialog = new DialogSprite({ scene: this.currentScene, x: 80, y: 120 });
     this.dialog.setScrollFactor(0);
     this.currentScene.add.existing(this.dialog);
     this.hideDialogCallback = hideDialogCallback;
