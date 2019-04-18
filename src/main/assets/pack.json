@@ -227,6 +227,16 @@
         "type": "json",
         "key": "credits",
         "url": "./src/main/data/credit.json"
+      },
+      {
+        "type": "json",
+        "key": "enemies",
+        "url": "./src/main/data/enemies.json"
+      },
+      {
+        "type": "json",
+        "key": "enemy-parties",
+        "url": "./src/main/data/enemy-parties.json"
       }
     ]
   }

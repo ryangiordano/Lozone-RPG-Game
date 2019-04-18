@@ -9,7 +9,14 @@
     "dexterity": 10,
     "wisdom": 2,
     "stamina": 3,
-    "strength": 4
+    "strength": 4,
+    "lootTable": [
+      1,
+      2,
+      3
+    ],
+    "goldValue": 10,
+    "experiencePoints": 10
   },
   "2": {
     "name": "bugbat",
@@ -21,7 +28,12 @@
     "dexterity": 7,
     "wisdom": 2,
     "stamina": 1,
-    "strength": 3
+    "strength": 3,
+    "lootTable": [
+      1
+    ],
+    "goldValue": 2,
+    "experiencePoints": 5
   },
   "3": {
     "name": "orc",
@@ -33,7 +45,12 @@
     "dexterity": 3,
     "wisdom": 2,
     "stamina": 5,
-    "strength": 8
+    "strength": 8,
+    "lootTable": [
+      3
+    ],
+    "goldValue": 20,
+    "experiencePoints": 15
   },
   "4": {
     "name": "slime",
@@ -45,9 +62,14 @@
     "dexterity": 10,
     "wisdom": 2,
     "stamina": 3,
-    "strength": 4
+    "strength": 4,
+    "lootTable": [
+      1
+    ],
+    "goldValue": 2,
+    "experiencePoints": 5
   },
-  "4": {
+  "5": {
     "name": "eggception",
     "spriteKey": "eggception",
     "hp": 100,
@@ -58,6 +80,13 @@
     "wisdom": 12,
     "stamina": 1,
     "strength": 4,
-    "spells":[1]
+    "spells": [
+      1
+    ],
+    "lootTable": [
+      2
+    ],
+    "goldValue": 15,
+    "experiencePoints": 15
   }
 }

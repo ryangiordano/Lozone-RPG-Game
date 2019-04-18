@@ -21,6 +21,7 @@ export class BootScene extends Phaser.Scene {
           fill: '#000000',
           fontWeight: 'bold'
         });
+
         new AnimationHelper(this, this.cache.json.get('ryanAndLoAnimation'));
         const sprite = this.add.sprite(80, 65, 'ryanandlo');
         sprite.scaleX = 0.3;
@@ -29,9 +30,10 @@ export class BootScene extends Phaser.Scene {
         sprite.on('animationcomplete', () => {
           this.sound.play('startup');
         });
+        // TODO Move animation helper calls to individual sprites that use the animation
         new AnimationHelper(this, this.cache.json.get('loAnimation'));
-        //TODO: Find a way to generalize this
         new AnimationHelper(this, this.cache.json.get('ryanAnimation'));
+
         // When we get to the point where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.
         const sm = StateManager.getInstance();
         sm.initialize(this.game);

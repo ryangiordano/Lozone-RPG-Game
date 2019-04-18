@@ -1,32 +1,8 @@
-enum Status {
-  sleep,
-  paralyzed,
-  blinded,
-  confused,
-  fainted
-}
-enum ModifierStatType {
-  strength, stamina, speed, intellect, wisdom, dexterity, hp, mp
-}
+import { Modifier } from "../../../game";
 
-class Spell {
-  constructor(
-    public id: number,
-    public name: string,
-    public effectId: number, 
-    public potency: number) {
 
-  }
-}
-class Modifier {
-  constructor(
-    public id: number,
-    public name: string,
-    public modifierStatType: ModifierStatType,
-    public modifierPotency: number) {
 
-  }
-}
+
 class Buff {
   constructor(
     public id: number,
@@ -42,7 +18,6 @@ class Behavior {
 class Effect {
 
 }
-// export class Spell
 export class Combatant {
   private buffs: Map<number, Buff>;
   private behaviors: Map<number, Behavior>;

@@ -1,5 +1,5 @@
-import { ItemRepository } from './ItemRepository';
-import { DialogRepository } from './DialogRepository';
+import { ItemRepository } from '../../data/repositories/ItemRepository';
+import { DialogRepository } from '../../data/repositories/DialogRepository';
 class FlagModule {
   private flagMap: Map<string, boolean>;
   constructor() {
