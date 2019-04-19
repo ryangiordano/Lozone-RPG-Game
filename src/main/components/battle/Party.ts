@@ -16,7 +16,7 @@ export class Party {
     }
     return false;
   }
-  getParty() {
+  getParty(): Combatant[] {
     return this.members;
   }
 

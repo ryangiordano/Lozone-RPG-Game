@@ -5,4 +5,7 @@ export class HouseScene extends Explore {
     super('House');
 
   }
+  afterInit(data) {
+    // Custom initialization stuff
+  }
 }

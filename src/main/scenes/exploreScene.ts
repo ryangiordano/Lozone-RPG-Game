@@ -8,7 +8,7 @@ import { Directions } from '../utility/Utility';
 import { Trigger } from '../assets/objects/Trigger';
 import { StateManager } from '../utility/state/StateManager';
 
-export class Explore extends Phaser.Scene {
+export abstract class Explore extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap;
   private tileset: Phaser.Tilemaps.Tileset;
   private backgroundLayer: Phaser.Tilemaps.StaticTilemapLayer;
@@ -32,7 +32,9 @@ export class Explore extends Phaser.Scene {
     if (warpId) {
       this.warpId = warpId;
     }
+    this.afterInit(data);
   }
+  protected abstract afterInit(data);
   preload(): void {
     // TODO: Gather these into a map
     this.sound.add('bump');
