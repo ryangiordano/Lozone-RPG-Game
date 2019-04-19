@@ -1,10 +1,23 @@
 import { Combatant } from "./Combatant";
+import { PartyController } from "../../data/controllers/PartyController";
 
 export class Party {
-  constructor(members:Combatant[]= []) {
-    // members.
+  private partyController: PartyController;
+  private members: Combatant[] = [];
+  constructor(memberIds: number[], game: Phaser.Game) {
+    this.partyController = new PartyController(game);
+    memberIds.forEach((id) => this.addMemberById(id));
   }
-  addMember(combatant:Combatant){
-    // this.members.push(combatant)
+  addMemberById(id: number) {
+    const toAdd = this.partyController.getPartyMemberById(id);
+    if (toAdd && !this.members.find(member => member.id === id)) {
+      this.members.push(toAdd);
+      return true;
+    }
+    return false;
   }
+  getParty() {
+    return this.members;
+  }
+
 }

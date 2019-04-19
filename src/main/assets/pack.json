@@ -83,6 +83,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "slime",
+        "url": "./src/main/assets/sprites/monsters/slime.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "lo",
         "url": "./src/main/assets/sprites/lo.png",
         "frameConfig": {

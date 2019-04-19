@@ -3,7 +3,6 @@ export class PlayerContents {
   private contents: Item[] = [];
   constructor() { }
   addItemToContents(itemToAdd: Item) {
-
     const itemInInventory = this.getItemOnPlayer(itemToAdd);
     if (itemInInventory) {
       itemInInventory.incrementQuantity();
@@ -41,11 +40,11 @@ export class PlayerContents {
   consumeItem(item: Item) {
     this.removeItemFromContents(item);
   }
-  getItemsOnPlayer(): Item[] {
-    return this.contents;
-  }
   getItemOnPlayer(itemToGet: Item): Item {
     return this.contents.find(item => item.id === itemToGet.id);
+  }
+  getItemsOnPlayer(): Item[] {
+    return this.contents;
   }
   getItemsOnPlayerByCategory(category: string): Item[] {
     return this.contents.filter(item => item.category === category);
