@@ -24,8 +24,9 @@ export class BattleScene extends Phaser.Scene {
     this.add.existing(this.enemyContainer);
 
 
-    this.partyContainer.populateContainerRandomly();
+    this.partyContainer.populateContainer();
     this.enemyContainer.populateContainerRandomly();
+
     // DEBUG
     this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
@@ -44,7 +45,6 @@ class CombatSprite extends Phaser.GameObjects.Sprite {
     super(scene, x, y, combatant.spriteKey);
     this.combatant = combatant;
   }
-  // Logic for manipulating the combatants....
 }
 
 class CombatContainer extends Phaser.GameObjects.Container {
@@ -57,18 +57,24 @@ class CombatContainer extends Phaser.GameObjects.Container {
     });
 
   }
-  populateContainerRandomly() {
-    let x = 0;
-    let y = 0;
-    this.combatSprites.forEach((combatSprite, i) => {
+  public populateContainer() {
+    // TODO:For now let's populate four characters in four corners of the grid. Later let's store the position somewhere on the combatant themselves.
+    const positions = [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 2 }, { x: 2, y: 2 }];
+    this.combatSprites.forEach(combatSprite => {
       this.add(combatSprite);
-      // Get the last sprite and place it off from that.
+      const currentPosition = positions.pop();
+      this.combatGrid.placeAt(currentPosition, combatSprite);
+      combatSprite.setOrigin(.5, .5)
+      combatSprite.setAlpha(1);
+    })
+  }
+  public populateContainerRandomly() {
+    this.combatSprites.forEach(combatSprite => {
+      this.add(combatSprite);
       const y = Math.floor(Math.random() * 3);
       this.combatGrid.placeAtRandomOpenPosition(combatSprite);
-      this.combatGrid.placeAt({ x: i, y }, combatSprite);
       y > 1 ? this.bringToTop(combatSprite) : this.sendToBack(combatSprite);
-      combatSprite.setOrigin(.5,.5)
-
+      combatSprite.setOrigin(.5, .5)
       combatSprite.setAlpha(1);
     });
   }
