@@ -4,7 +4,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
   private dialogPanelContainers: DialogPanelContainer[] = [];
   private caret: Phaser.GameObjects.Text;
   private focusedPanel: DialogPanelContainer;
-  private panelTravelHistory: DialogPanelContainer[]=[];
+  private panelTravelHistory: DialogPanelContainer[] = [];
   constructor(protected scene: Phaser.Scene, private spriteKey: string) {
     super(scene, 0, 0);
     this.name = 'UI';
@@ -24,28 +24,29 @@ export class UserInterface extends Phaser.GameObjects.Container {
       fill: '#000000',
     });
     this.add(this.caret);
-    
+
   }
   private setCaret() {
     const focusedOption = this.focusedPanel.getFocusedOption();
     const parentPanel = focusedOption.parentContainer;
-    this.caret.x = parentPanel.x + focusedOption.x +5;
+    this.caret.x = parentPanel.x + focusedOption.x + 5;
     this.caret.y = parentPanel.y + focusedOption.y;
-    
-    this.moveTo(this.caret,this.list.length-1);
+
+    this.moveTo(this.caret, this.list.length - 1);
 
   }
-  public createPanel(dimensions: Coords, position: Coords) {
+  public createPanel(dimensions: Coords, position: Coords, escapable?: boolean) {
     const panel = new DialogPanelContainer(
       dimensions, position,
       this.spriteKey,
-      this.scene
+      this.scene,
+      escapable
     );
     this.add(panel);
     this.dialogPanelContainers.push(panel);
     return panel;
   }
-  public addPanel(panel: DialogPanelContainer){
+  public addPanel(panel: DialogPanelContainer) {
     this.add(panel);
     this.dialogPanelContainers.push(panel);
     return panel;
@@ -56,27 +57,27 @@ export class UserInterface extends Phaser.GameObjects.Container {
   focusPanel(toFocus: DialogPanelContainer) {
     this.focusedPanel = toFocus;
 
-    this.dialogPanelContainers.forEach(panel=>{
-      if(panel.id===toFocus.id){
+    this.dialogPanelContainers.forEach(panel => {
+      if (panel.id === toFocus.id) {
         panel.focusPanel();
-      }else{
+      } else {
         panel.blurPanel();
       }
     })
     this.focusedPanel.focusOption(0);
     this.setCaret();
   }
-  showPanel(panel: DialogPanelContainer){
+  showPanel(panel: DialogPanelContainer) {
     this.panelTravelHistory.push(panel);
     panel.showPanel();
     return this;
   }
-  closePanel(panel: DialogPanelContainer){
+  closePanel(panel: DialogPanelContainer) {
     this.panelTravelHistory.pop();
     panel.closePanel();
-    if(this.panelTravelHistory.length){
-      this.focusPanel(this.panelTravelHistory[this.panelTravelHistory.length-1]);
-    }else{
+    if (this.panelTravelHistory.length) {
+      this.focusPanel(this.panelTravelHistory[this.panelTravelHistory.length - 1]);
+    } else {
       this.scene.events.emit('close');
     }
     return this;
@@ -87,14 +88,17 @@ export class UserInterface extends Phaser.GameObjects.Container {
   removeKeyboardListeners() {
     this.scene.input.keyboard.off('keydown', (event) => this.setKeyboardEvents(event));
   }
-  traverseBackward(){
-    const lastPanel = this.panelTravelHistory.pop();
-    lastPanel.closePanel();
-    if(this.panelTravelHistory.length){
-      this.focusPanel(this.panelTravelHistory[this.panelTravelHistory.length-1]);
-    }else{
-      this.closeUI();
+  traverseBackward() {
+    if (this.panelTravelHistory[this.panelTravelHistory.length - 1].escapable) {
+      const lastPanel = this.panelTravelHistory.pop();
+      lastPanel.closePanel();
+      if (this.panelTravelHistory.length) {
+        this.focusPanel(this.panelTravelHistory[this.panelTravelHistory.length - 1]);
+      } else {
+        this.closeUI();
+      }
     }
+
   }
   private setKeyboardEvents(event) {
     switch (event.keyCode) {
@@ -108,7 +112,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
         this.focusedPanel.focusNextOption();
         this.setCaret();
         break;
-        case Phaser.Input.Keyboard.KeyCodes.ESC:
+      case Phaser.Input.Keyboard.KeyCodes.ESC:
         this.traverseBackward();
         break;
       case Phaser.Input.Keyboard.KeyCodes.SPACE:

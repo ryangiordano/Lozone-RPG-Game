@@ -8,7 +8,9 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     public pos: Coords,
     private spriteKey: string,
     public scene: Phaser.Scene,
-    public id: number = Math.random() * 500) {
+    public escapable: boolean = true,
+    public id: number = Math.random() * 500,
+    ) {
     super(scene, pos.x * 16, pos.y * 16);
 
     this.constructPanel(scene);

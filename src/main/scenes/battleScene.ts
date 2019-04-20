@@ -16,14 +16,6 @@ export class BattleScene extends Phaser.Scene {
 
     this.addAndPopulateContainers(data.enemies);
     this.createUI();
-
-    // DEBUG
-    this.input.keyboard.on('keydown', event => {
-      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
-        this.endBattle();
-      }
-    });
-    // DEBUG
   }
   private addAndPopulateContainers(enemies) {
     const sm = StateManager.getInstance();
@@ -40,8 +32,9 @@ export class BattleScene extends Phaser.Scene {
   }
   private createUI() {
     this.UI = new UserInterface(this, 'dialog-white');
-    const mainPanel = this.UI.createPanel({ x: 3, y: 3 }, { x: 0, y: 6 })
+    const mainPanel = this.UI.createPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption('Attack', () => {
+        this.UI.showPanel(enemyTargetPanel).focusPanel(enemyTargetPanel);
       })
       .addOption('Defend', () => {
       })
@@ -51,6 +44,15 @@ export class BattleScene extends Phaser.Scene {
         this.endBattle();
       })
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
+
+    const enemyTargetPanel = this.UI.createPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
+    this.enemyContainer.getCombatants().forEach(combatSprite => {
+      enemyTargetPanel.addOption(combatSprite.getCombatant().name, () => {
+        console.log("Attackin' you");
+      })
+    })
+
+
   }
   private endBattle() {
     this.scene.stop();

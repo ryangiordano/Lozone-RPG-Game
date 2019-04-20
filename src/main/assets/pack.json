@@ -43,6 +43,11 @@
       },
       {
         "type": "image",
+        "key": "battle-target",
+        "url": "./src/main/assets/images/battle-target.png"
+      },
+      {
+        "type": "image",
         "key": "mountains",
         "url": "./src/main/assets/images/credits-mountains.png"
       },

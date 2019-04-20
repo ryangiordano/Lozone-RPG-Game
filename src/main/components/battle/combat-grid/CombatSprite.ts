@@ -5,4 +5,7 @@ export class CombatSprite extends Phaser.GameObjects.Sprite {
     super(scene, x, y, combatant.spriteKey);
     this.combatant = combatant;
   }
+  getCombatant() {
+    return this.combatant;
+  }
 }
