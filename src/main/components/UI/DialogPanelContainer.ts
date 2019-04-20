@@ -30,9 +30,9 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     return this.panel;
   }
   public addOption(text: string, selectCallback: Function): DialogPanelContainer {
-    const lastItem = <Phaser.GameObjects.Text>this.list[this.list.length - 1];
+    const lastItem = <Phaser.GameObjects.Text>this.options[this.options.length - 1];
     const x = 0;
-    const y = lastItem ? lastItem.y + 10 : 0;
+    const y = lastItem ? lastItem.y + 10 : 5;
     const toAdd = new DialogListItem(this.scene, x, y, text, {
       fontFamily: 'pixel',
       fontSize: '8px',

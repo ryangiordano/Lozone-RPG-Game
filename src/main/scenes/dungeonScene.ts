@@ -10,7 +10,6 @@ export class DungeonScene extends Explore {
   private rollEncounter = createRandom(10);
   constructor() {
     super('Dungeon');
-
   }
   afterInit(data) {
     this.enemyController = new EnemyController(this.game);

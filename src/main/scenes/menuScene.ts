@@ -15,8 +15,9 @@ export class MenuScene extends Phaser.Scene {
   }
   init(data) {
     this.callingSceneKey = data.callingSceneKey;
-    const sm = StateManager.getInstance();
     this.UI = new UserInterface(this, 'dialog-white');
+
+    const sm = StateManager.getInstance();
     const mainPanel = this.UI.createPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
     mainPanel
       .addOption('Items', () => {
