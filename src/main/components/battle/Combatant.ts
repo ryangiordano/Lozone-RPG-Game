@@ -1,4 +1,4 @@
-import { Buff, Behavior, Spell, Status } from "./Battle";
+import { Buff, Behavior, Spell, Status, CombatActions, CombatResult } from "./Battle";
 
 export class Combatant {
   private buffs: Map<number, Buff>;
@@ -10,15 +10,15 @@ export class Combatant {
   constructor(
     public id: number,
     public name: string,
-    private spriteKey: string,
-    private hp: number,
-    private mp: number,
-    private level: number,
-    private intellect: number,
-    private dexterity: number,
-    private strength: number,
-    private wisdom: number,
-    private stamina: number,
+    public spriteKey: string,
+    public hp: number,
+    public mp: number,
+    public level: number,
+    public intellect: number,
+    public dexterity: number,
+    public strength: number,
+    public wisdom: number,
+    public stamina: number,
     spells?: Spell[]) {
     this.status = new Set<Status>();
     this.buffs = new Map<number, Buff>();
@@ -55,14 +55,20 @@ export class Combatant {
   removeSpell(spellId) {
     this.spells.delete(spellId);
   }
-  attackTarget(target: Combatant) {
+  attackTarget(target: Combatant): CombatResult {
     const potency = this.getAttackPower();
-    target.receivePhysicalDamage(potency);
-
+    const damageDone = target.receivePhysicalDamage(potency);
+    return {
+      action: CombatActions.attack,
+      executorName: this.name,
+      targetName: target.name,
+      resultingValue: damageDone
+    }
   }
   receivePhysicalDamage(potency: number) {
     const defensePotency = this.getDefensePower();
-    const actualDamage = Math.max(0, defensePotency - potency);
+    const actualDamage = Math.max(1, defensePotency - potency);
+    return actualDamage;
   }
   getAttackPower() {
     //TODO: Factor in equipment as well

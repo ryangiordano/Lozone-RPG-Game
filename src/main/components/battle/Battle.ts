@@ -41,7 +41,21 @@ export interface Effect {
 }
 
 export interface EnemyParty {
-  enemies:Enemy[]
+  enemies: Enemy[]
 }
 
 export interface EnemyConfigObject { id: number; name: string; spriteKey: string; hp: number; mp: number; level: number; intellect: number; dexterity: number; strength: number; wisdom: number; stamina: number; lootTable: Item[]; experiencePoints: number; goldValue: number; spells?: Spell[]; }
+
+export interface CombatResult {
+  //define later 
+  action: CombatActions,
+  executorName: string,
+  targetName: string,
+  resultingValue: number
+}
+export enum CombatActions {
+  attack,
+  defend,
+  castSpell,
+  useItem
+}
