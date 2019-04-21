@@ -60,6 +60,11 @@
       "type": "credit"
     },
     {
+      "name": "Charlie and Debbie Okon",
+      "title": "Aunt and Uncle",
+      "type": "credit"
+    },
+    {
       "name": "Tom Okons",
       "title": "Texas Family",
       "type": "credit"
@@ -75,13 +80,33 @@
       "type": "credit"
     },
     {
+      "name": "Kay and Haley Giordano",
+      "title": "Florida Family",
+      "type": "credit"
+    },
+    {
+      "name": "Marian and Tom Joiner",
+      "title": "Aunt and Uncle",
+      "type": "credit"
+    },
+    {
+      "name": "Jeb and Jessica Joiner",
+      "title": "Atlanta Cousins",
+      "type": "credit"
+    },
+    {
+      "name": "Matt and Maddie Caldwell",
+      "title": "Boardgamers",
+      "type": "credit"
+    },
+    {
       "name": "Jun Zhou",
-      "title": "Lo's Brother",
+      "title": "Lo's Friend",
       "type": "credit"
     },
     {
       "name": "Jordan Todd",
-      "title": "Executive QA",
+      "title": "Executive QA Manager",
       "type": "credit"
     },
     {
@@ -91,7 +116,7 @@
     },
     {
       "name": "Andrew Levenson",
-      "title": "Burger Analist",
+      "title": "Analist of our Hearts",
       "type": "credit"
     },
     {
@@ -111,7 +136,7 @@
     },
     {
       "name": "Israh Valtiel",
-      "title": "Littlest Redmage",
+      "title": "Virtuos PhD",
       "type": "credit"
     },
     {

@@ -2,11 +2,13 @@ export class CreditRoller extends Phaser.GameObjects.Container {
   /**
    * Takes in an array of  credit objects.
    */
-  private fadeIn: Phaser.Tweens.Tween;
-  private fadeOut: Phaser.Tweens.Tween;
+  public fadeIn: Phaser.Tweens.Tween;
+  public fadeOut: Phaser.Tweens.Tween;
   private showDuration = 7000;
+  // private showDuration = 300;
   private creditInterval = 1500;
-  constructor(pos: Coords, scene: Phaser.Scene, private credits: any[]) {
+  // private creditInterval = 200;
+  constructor(pos: Coords, scene: Phaser.Scene, private credits: any[], private creditsFinishedCallback: Function) {
     super(scene, pos.x, pos.y);
     this.alpha = 0;
     this.fadeIn = scene.add.tween({
@@ -20,7 +22,6 @@ export class CreditRoller extends Phaser.GameObjects.Container {
         getEnd: () => 1
       },
       onComplete: () => {
-        //handle completion
         setTimeout(() => {
           this.fadeOut.restart();
         }, this.showDuration);
@@ -37,8 +38,11 @@ export class CreditRoller extends Phaser.GameObjects.Container {
         getEnd: () => 0
       },
       onComplete: () => {
-        //handle completion
         setTimeout(() => {
+          if (!this.credits.length) {
+            this.creditsFinishedCallback();
+            return;
+          }
           const toShowNext = this.nextCredits();
           this.showCredits(toShowNext);
           this.fadeIn.restart();
@@ -54,8 +58,6 @@ export class CreditRoller extends Phaser.GameObjects.Container {
     });
   }
   nextCredits() {
-    if (!this.credits.length)
-      return [];
     if (this.credits.length && this.credits[0].type === 'heading') {
       return [this.credits.shift()];
     }
