@@ -1,0 +1,21 @@
+{
+  "preload": {
+    "files": [
+      {
+        "type": "tilemapTiledJSON",
+        "key": "room",
+        "url": "./src/main/assets/maps/room.json"
+      },
+      {
+        "type": "tilemapTiledJSON",
+        "key": "upstairs",
+        "url": "./src/main/assets/maps/upstairs.json"
+      },
+      {
+        "type": "tilemapTiledJSON",
+        "key": "dungeon_1",
+        "url": "./src/main/assets/maps/dungeons/dungeon_1/dungeon_1.json"
+      }
+    ]
+  }
+}

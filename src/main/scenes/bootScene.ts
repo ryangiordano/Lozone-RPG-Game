@@ -40,11 +40,30 @@ export class BootScene extends Phaser.Scene {
         sm.addFlagModule('chests');
 
         // this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
-        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1, enemyParties:[4,5,6]});
+        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1, enemyParties: [4, 5, 6] });
       },
       this
     );
-    // Load the package
+    // Load the packages
+    this.load.pack(
+      'preload_spritesheets',
+      './src/main/assets/pack/spritesheets.json', 'preload_spritesheets');
+    this.load.pack(
+      'preload_images',
+      './src/main/assets/pack/image.json',
+      'preload_images')
+    this.load.pack(
+      'preload_audio',
+      './src/main/assets/pack/audio.json',
+      'preload_audio')
+    this.load.pack(
+      'preload_data',
+      './src/main/assets/pack/data.json',
+      'preload_data')
+    this.load.pack(
+      'preload_tilemaps',
+      './src/main/assets/pack/tilemaps.json',
+      'preload_tilemaps')
     this.load.pack('preload', './src/main/assets/pack.json', 'preload');
   }
   private createLoadingGraphics(): void {

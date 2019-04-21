@@ -1,0 +1,114 @@
+{
+  "preload": {
+    "files": [
+      {
+        "type": "spritesheet",
+        "key": "dialog-beige",
+        "url": "./src/main/assets/tiles/dialog-beige.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "dialog-blue",
+        "url": "./src/main/assets/tiles/dialog-blue.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "dialog-purple",
+        "url": "./src/main/assets/tiles/dialog-purple.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "dialog-white",
+        "url": "./src/main/assets/tiles/dialog-white.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "slime",
+        "url": "./src/main/assets/sprites/monsters/slime.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "lo",
+        "url": "./src/main/assets/sprites/lo.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "lo",
+        "url": "./src/main/assets/sprites/lo.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "computer",
+        "url": "./src/main/assets/sprites/computer.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "chest",
+        "url": "./src/main/assets/sprites/chest.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "items",
+        "url": "./src/main/assets/sprites/items.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "ryanandlo",
+        "url": "./src/main/assets/sprites/ryanandlo.png",
+        "frameConfig": {
+          "frameWidth": 500,
+          "frameHeight": 103
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "ryan",
+        "url": "./src/main/assets/sprites/ryan.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      }
+    ]
+  }
+}
