@@ -11,6 +11,10 @@ export class BattleScene extends Phaser.Scene {
   private UI: UserInterface;
   private previousSceneKey: string;
   private combatManager: CombatManager;
+
+  private pendingPartyMembers: CombatSprite[] = [];
+  private setPartyMembers: CombatSprite[] = [];
+  private currentFocusedPartyMember: CombatSprite;
   constructor() {
     super('Battle');
   }
@@ -22,13 +26,19 @@ export class BattleScene extends Phaser.Scene {
 
     this.addAndPopulateContainers(data.enemies, party);
 
-    this.combatManager = new CombatManager(data.enemies, party);
+    this.combatManager = new CombatManager(this);
 
     this.createUI();
 
     this.events.on('loop-finished', () => {
       //reactivate the UI. Resetart input loop
-    })
+      console.log("Round over, reset pedning inputs")
+    });
+
+    this.pendingPartyMembers = this.partyContainer.getCombatants();
+        
+    this.currentFocusedPartyMember = this.pendingPartyMembers.shift();
+
   }
   private addAndPopulateContainers(enemies, party) {
     this.partyContainer = new CombatContainer({ x: 1, y: 3 }, this, party.getParty());
@@ -39,9 +49,12 @@ export class BattleScene extends Phaser.Scene {
 
     this.partyContainer.populateContainer();
     this.enemyContainer.populateContainerRandomly();
+
+
   }
   private createUI() {
     this.UI = new UserInterface(this, 'dialog-white');
+
 
 
 
@@ -55,15 +68,28 @@ export class BattleScene extends Phaser.Scene {
       })
       .addOption('Run', () => {
         this.endBattle();
-      })
+      });
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
 
-    const enemyTargetPanel = this.UI.createPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
+// ATTACK ENEMIES
+    const enemyTargetPanel = this.UI.createPanel(
+      { x: 7, y: 3 },
+      { x: 3, y: 6 });
+
     this.enemyContainer.getCombatants().forEach(combatSprite => {
+
       enemyTargetPanel.addOption(combatSprite.getCombatant().name, () => {
+        const partyMember = this.currentFocusedPartyMember;
+        this.setPartyMembers.push(partyMember);
+        this.combatManager.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack));
+        if(this.pendingPartyMembers.length){
+          this.currentFocusedPartyMember = this.pendingPartyMembers.shift();
+        }else{
+          this.combatManager.startLoop();
+        }
         //Input all of your attacks, then deactivate the UI.
       })
-    })
+    });
 
 
   }
@@ -88,13 +114,17 @@ class CombatEvent {
     const target = this.target.getCombatant();
     const executor = this.executor.getCombatant();
     const results: CombatResult = executor.attackTarget(target);
+    console.log(`${executor.name} attacks ${target.name} for ${results.resultingValue}`)
+    
+
+    //TODO: broadcast actions to an in battle dialog 
   }
 
 }
 
 class CombatManager {
   private combatEvents: CombatEvent[] = [];
-  constructor(private scene: Phaser.Scene, party: Party) {
+  constructor(private scene: Phaser.Scene) {
 
   }
   addEvent(combatEvent) {
@@ -104,6 +134,12 @@ class CombatManager {
     this.combatEvents.sort((a, b) => {
       return a.executor.getCombatant().dexterity - a.target.getCombatant().dexterity;
     });
+  }
+  public startLoop(){
+    this.combatEvents.forEach(combatEvent=>{
+      combatEvent.executeAction();
+
+    })
   }
   public nextTurn() {
     if (this.combatEvents.length) {

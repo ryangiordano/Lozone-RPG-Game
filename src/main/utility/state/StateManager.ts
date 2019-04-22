@@ -58,7 +58,7 @@ export class StateManager {
     this.playerContents = new PlayerContents();
     // For now, just use Lo to get the ball rolling
 
-    this.party = new Party([1], this.game);
+    this.party = new Party([1,2], this.game);
     this.flags = new Map<string, FlagModule>();
   }
   public addFlagModule(name: string) {
