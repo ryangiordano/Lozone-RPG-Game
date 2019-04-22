@@ -10,7 +10,7 @@ export class CombatContainer extends Phaser.GameObjects.Container {
     combatants.forEach(combatant => {
       this.combatSprites.push(new CombatSprite(scene, 0, 0, combatant).setAlpha(0));
     });
-    this.battleTarget = new Phaser.GameObjects.Image(this.scene,0,0,'battle-target')
+    this.battleTarget = new Phaser.GameObjects.Image(this.scene, 0, 0, 'battle-target')
   }
   public populateContainer() {
     // TODO:For now let's populate four characters in four corners of the grid. Later let's store the position somewhere on the combatant themselves.
@@ -36,7 +36,7 @@ export class CombatContainer extends Phaser.GameObjects.Container {
   addCombatant(combatSprite: CombatSprite) {
     this.add(combatSprite);
   }
-  public getCombatants(){
+  public getCombatants() {
     return this.combatSprites;
   }
 
