@@ -13,7 +13,6 @@ export class CombatCel {
   }
   set(combatant: CombatSprite): boolean {
     if (this.isEmpty()) {
-      console.log("Setting via pixelcoordinates");
       this.combatantInCel = combatant;
       this.combatantInCel.setX(this.pixelCoordinates.x);
       this.combatantInCel.setY(this.pixelCoordinates.y);

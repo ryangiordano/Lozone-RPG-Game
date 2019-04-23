@@ -8,12 +8,41 @@ export class CombatManager {
   private enemyContainer: CombatContainer;
   private UI: UserInterface;
   private combatEvents: CombatEvent[] = [];
-  private pendingPartyMembers: CombatSprite[] = [];
-  private setPartyMembers: CombatSprite[] = [];
-  private currentFocusedPartyMember: CombatSprite;
-  constructor(private scene: Phaser.Scene, party: Combatant[], enemies) {
+  private partyMembers: CombatSprite[]=[];
+  private enemies: CombatSprite[]=[];
+  private currentPartyFocusIndex: number = 0;
+  constructor(private scene: Phaser.Scene, party: Combatant[], enemies: Combatant[]) {
+    party.forEach(member=>this.partyMembers.push(this.combatantToCombatSprite(member)));
+    enemies.forEach(enemy=>this.enemies.push(this.combatantToCombatSprite(enemy)));
   }
-  createUI() {
+  focusPartyInput(index: number) {
+    this.currentPartyFocusIndex = index;
+  }
+  focusNextPartyInput(): boolean {
+    // move to the next party member to get their input.
+    const count = this.partyMembers.length - 1;
+    if (this.currentPartyFocusIndex < count) {
+      this.currentPartyFocusIndex += 1;
+      return true;
+    }
+    return false;
+  }
+  private combatantToCombatSprite(combatant: Combatant){
+    return new CombatSprite(this.scene,0,0,combatant);
+  }
+  focusPreviousPartyInput() {
+    //move to the previous party member and pop their event out of the event array.
+    if (this.currentPartyFocusIndex <= 0) {
+      this.currentPartyFocusIndex -= 1;
+      this.combatEvents.pop();
+      return true;
+    }
+    return false;
+  }
+  teardownInputUI() {
+    this.UI.destroy();
+  }
+  constructInputUI() {
     this.UI = new UserInterface(this.scene, 'dialog-white');
 
     const mainPanel = this.UI.createPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
@@ -37,20 +66,24 @@ export class CombatManager {
     this.enemyContainer.getCombatants().forEach(combatSprite => {
 
       enemyTargetPanel.addOption(combatSprite.getCombatant().name, () => {
-        const partyMember = this.currentFocusedPartyMember;
-        this.setPartyMembers.push(partyMember);
+
+        const partyMember = this.partyMembers[this.currentPartyFocusIndex];
         this.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack));
-        if (this.pendingPartyMembers.length) {
-          this.currentFocusedPartyMember = this.pendingPartyMembers.shift();
-        } else {
-          this.startLoop();
-          this.resetParty();
-        }
+
+        const hasNextInput = this.focusNextPartyInput();
         this.UI.closePanel(enemyTargetPanel);
-        //Input all of your attacks, then deactivate the UI.
+
+        if (!hasNextInput) {
+          this.startLoop();
+          this.resetPartyFocusIndex();
+        }
       })
     });
+  }
+  private finalizeSelection() {
 
+  }
+  private setAttackEvent() {
 
   }
   public sortEventsBySpeed() {
@@ -76,23 +109,18 @@ export class CombatManager {
   addEvent(combatEvent) {
     this.combatEvents.push(combatEvent);
   }
-  resetParty() {
-    this.pendingPartyMembers = [...this.partyContainer.getCombatants()];
-    this.setPartyMembers = [];
-    this.currentFocusedPartyMember = this.pendingPartyMembers.shift();
+  resetPartyFocusIndex() {
+    this.currentPartyFocusIndex = 0;
   }
-  addAndPopulateContainers(enemies, party) {
-    debugger;
-    this.partyContainer = new CombatContainer({ x: 1, y: 3 }, this.scene, party);
-    this.enemyContainer = new CombatContainer({ x: 7, y: 3 }, this.scene, enemies);
+  addAndPopulateContainers() {
+    this.partyContainer = new CombatContainer({ x: 1, y: 3 }, this.scene, this.partyMembers);
+    this.enemyContainer = new CombatContainer({ x: 7, y: 3 }, this.scene, this.enemies);
 
     this.scene.add.existing(this.partyContainer);
     this.scene.add.existing(this.enemyContainer);
 
     this.partyContainer.populateContainer();
     this.enemyContainer.populateContainerRandomly();
-
-
   }
 }
 

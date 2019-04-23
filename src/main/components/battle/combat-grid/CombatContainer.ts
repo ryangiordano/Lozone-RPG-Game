@@ -2,14 +2,10 @@ import { Combatant } from "../Combatant";
 import { CombatGrid } from "./CombatGrid";
 import { CombatSprite } from "./CombatSprite";
 export class CombatContainer extends Phaser.GameObjects.Container {
-  private combatSprites: CombatSprite[] = [];
   private combatGrid: CombatGrid = new CombatGrid({ x: 3, y: 3 }, 16);
   private battleTarget: Phaser.GameObjects.Image;
-  constructor(position: Coords, scene, combatants: Combatant[] = []) {
+  constructor(position: Coords, scene, private combatSprites: CombatSprite[] = []) {
     super(scene, position.x * 16, position.y * 16);
-    combatants.forEach(combatant => {
-      this.combatSprites.push(new CombatSprite(scene, 0, 0, combatant).setAlpha(0));
-    });
     this.battleTarget = new Phaser.GameObjects.Image(this.scene, 0, 0, 'battle-target')
   }
   public populateContainer() {
