@@ -3,17 +3,19 @@ import { CombatSprite } from "./combat-grid/CombatSprite";
 import { CombatActions, CombatResult } from "./Battle";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import { UserInterface } from "../UI/UserInterface";
+import { CombatMenuScene } from "../../scenes/CombatMenuScene";
 export class CombatManager {
   private partyContainer: CombatContainer;
   private enemyContainer: CombatContainer;
   private UI: UserInterface;
   private combatEvents: CombatEvent[] = [];
-  private partyMembers: CombatSprite[]=[];
-  private enemies: CombatSprite[]=[];
+  private partyMembers: CombatSprite[] = [];
+  private enemies: CombatSprite[] = [];
   private currentPartyFocusIndex: number = 0;
+  private combatMenuScenes: CombatMenuScene[];
   constructor(private scene: Phaser.Scene, party: Combatant[], enemies: Combatant[]) {
-    party.forEach(member=>this.partyMembers.push(this.combatantToCombatSprite(member)));
-    enemies.forEach(enemy=>this.enemies.push(this.combatantToCombatSprite(enemy)));
+    party.forEach(member => this.partyMembers.push(this.combatantToCombatSprite(member)));
+    enemies.forEach(enemy => this.enemies.push(this.combatantToCombatSprite(enemy)));
   }
   focusPartyInput(index: number) {
     this.currentPartyFocusIndex = index;
@@ -27,8 +29,8 @@ export class CombatManager {
     }
     return false;
   }
-  private combatantToCombatSprite(combatant: Combatant){
-    return new CombatSprite(this.scene,0,0,combatant);
+  private combatantToCombatSprite(combatant: Combatant) {
+    return new CombatSprite(this.scene, 0, 0, combatant);
   }
   focusPreviousPartyInput() {
     //move to the previous party member and pop their event out of the event array.
@@ -40,9 +42,10 @@ export class CombatManager {
     return false;
   }
   teardownInputUI() {
-    this.UI.destroy();
+    this.UI.destroyContainer();
   }
   constructInputUI() {
+    console.log("RECONSTRUCTING UI")
     this.UI = new UserInterface(this.scene, 'dialog-white');
 
     const mainPanel = this.UI.createPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
@@ -71,8 +74,13 @@ export class CombatManager {
         this.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack));
 
         const hasNextInput = this.focusNextPartyInput();
-        this.UI.closePanel(enemyTargetPanel);
+        console.log("Attack?")
+        // this.UI.closePanel(enemyTargetPanel);
+        this.teardownInputUI();
+        setTimeout(()=>{
+          this.constructInputUI();
 
+        },1000)
         if (!hasNextInput) {
           this.startLoop();
           this.resetPartyFocusIndex();
@@ -96,14 +104,6 @@ export class CombatManager {
       combatEvent.executeAction();
     });
     this.combatEvents = [];
-  }
-  public nextTurn() {
-    if (this.combatEvents.length) {
-      const currentEvent = this.combatEvents.unshift();
-    }
-    else {
-      this.scene.events.emit('loop-finished');
-    }
   }
 
   addEvent(combatEvent) {

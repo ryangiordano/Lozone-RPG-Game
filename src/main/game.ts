@@ -6,7 +6,7 @@ import { MenuScene } from './scenes/menuScene';
 import { CreditsScene } from './scenes/creditsScene';
 import { HouseScene } from './scenes/houseScene';
 import { DungeonScene } from './scenes/dungeonScene';
-import { BattleScene } from './scenes/battleScene';
+import { BattleScene } from './scenes/battle/battleScene';
 // main game configuration
 const config: GameConfig = {
   width: 160,

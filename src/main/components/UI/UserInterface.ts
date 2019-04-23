@@ -5,6 +5,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
   private caret: Phaser.GameObjects.Text;
   private focusedPanel: DialogPanelContainer;
   private panelTravelHistory: DialogPanelContainer[] = [];
+  private keyboardMuted: boolean = false;
   constructor(protected scene: Phaser.Scene, private spriteKey: string) {
     super(scene, 0, 0);
     this.name = 'UI';
@@ -16,7 +17,11 @@ export class UserInterface extends Phaser.GameObjects.Container {
   closeUI() {
     this.scene.events.emit('close');
   }
-
+  destroyContainer() {
+    this.removeKeyboardListeners();
+    this.caret.destroy();
+    this.destroy();
+  }
   private createCaret() {
     this.caret = this.scene.add.text(-100, -100, ">", {
       fontFamily: 'pixel',
@@ -29,11 +34,11 @@ export class UserInterface extends Phaser.GameObjects.Container {
   private setCaret() {
     const focusedOption = this.focusedPanel.getFocusedOption();
     const parentPanel = focusedOption.parentContainer;
-    this.caret.x = parentPanel.x + focusedOption.x + 5;
-    this.caret.y = parentPanel.y + focusedOption.y;
-
-    this.moveTo(this.caret, this.list.length - 1);
-
+    if (this.caret && focusedOption && parentPanel) {
+      this.caret.x = parentPanel.x + focusedOption.x + 5;
+      this.caret.y = parentPanel.y + focusedOption.y;
+      this.moveTo(this.caret, this.list.length - 1);
+    }
   }
   public createPanel(dimensions: Coords, position: Coords, escapable?: boolean) {
     const panel = new DialogPanelContainer(
@@ -83,10 +88,19 @@ export class UserInterface extends Phaser.GameObjects.Container {
     return this;
   }
   setKeyboardListeners() {
-    this.scene.input.keyboard.on('keydown', (event) => this.setKeyboardEvents(event));
+    this.scene.input.keyboard.on('keydown', (event) => this.invokeKeyboardEvent(event));
+  }
+  muteKeyboardEvents(muted: boolean) {
+    this.keyboardMuted = muted;
+  }
+  hideUI(){
+
+  }
+  showUI(){
+
   }
   removeKeyboardListeners() {
-    this.scene.input.keyboard.off('keydown', (event) => this.setKeyboardEvents(event));
+    this.scene.input.keyboard.off('keydown');
   }
   traverseBackward() {
     if (this.panelTravelHistory[this.panelTravelHistory.length - 1].escapable) {
@@ -98,9 +112,9 @@ export class UserInterface extends Phaser.GameObjects.Container {
         this.closeUI();
       }
     }
-
   }
-  private setKeyboardEvents(event) {
+  private invokeKeyboardEvent(event) {
+    console.log("invoking keyboard")
     switch (event.keyCode) {
       case Phaser.Input.Keyboard.KeyCodes.UP:
       case Phaser.Input.Keyboard.KeyCodes.LEFT:

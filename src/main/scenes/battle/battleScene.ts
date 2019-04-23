@@ -1,5 +1,5 @@
-import { StateManager } from "../utility/state/StateManager";
-import { CombatManager } from "../components/battle/CombatManager";
+import { StateManager } from "../../utility/state/StateManager";
+import { CombatManager } from "../../components/battle/CombatManager";
 
 export class BattleScene extends Phaser.Scene {
   private previousSceneKey: string;
@@ -8,7 +8,6 @@ export class BattleScene extends Phaser.Scene {
     super('Battle');
   }
   init(data) {
-
     this.previousSceneKey = data.key;
     this.add.image(0, 0, 'dungeon_battle_background').setOrigin(0, 0).setScale(.5, .5);
 
