@@ -22,7 +22,7 @@ export class Combatant {
     spells?: Spell[]) {
     this.status = new Set<Status>();
     this.buffs = new Map<number, Buff>();
-
+    this.initializeStatus();
     this.spells = new Map<number, Spell>();
     if (spells) {
       spells.forEach(this.addSpell)
@@ -35,7 +35,7 @@ export class Combatant {
       }
     })
   }
-  initializeStatus(currentHp: number, currentMp: number, statusArray: Status[] = [], buffArray: Buff[] = []) {
+  initializeStatus(currentHp?: number, currentMp?: number, statusArray: Status[] = [], buffArray: Buff[] = []) {
     this.currentHp = currentHp || this.hp;
     this.currentMp = currentMp || this.mp;
     statusArray.forEach(status => {
@@ -67,7 +67,8 @@ export class Combatant {
   }
   receivePhysicalDamage(potency: number) {
     const defensePotency = this.getDefensePower();
-    const actualDamage = Math.max(1, defensePotency - potency);
+    const actualDamage = Math.max(1, potency - defensePotency);
+    this.damageFor(actualDamage);
     return actualDamage;
   }
   getAttackPower() {
@@ -83,10 +84,13 @@ export class Combatant {
   private changeCurrent(property, value: number) {
     property = Math.min(property + value, property);
   }
-  public healFor(property, value: number) {
-    this.changeCurrent(property, value);
+  public healFor(hitPoints: number) {
+    this.currentHp = Math.min(this.hp, this.currentHp + hitPoints);
   }
-  public damageFor(property, value: number) {
-    this.changeCurrent(property, -value);
+  public damageFor(hitPoints: number) {
+    this.currentHp = Math.max(0, this.currentHp - hitPoints);
+    if (this.currentHp === 0) {
+      console.log("We ded.")
+    }
   }
 }

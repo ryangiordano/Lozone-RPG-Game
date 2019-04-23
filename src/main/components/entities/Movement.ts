@@ -51,9 +51,6 @@ export class Moveable extends Entity {
   public stop(){
     this.facing = Directions.down;
     this.target = this.getTileBelowFoot();
-    // this.handleMovement(this.facing,()=>{
-    //   console.log('stopped')
-    // });
   }
   public move(direction: Directions, callback: Function, spaces?: number) {
     this.facing = direction;

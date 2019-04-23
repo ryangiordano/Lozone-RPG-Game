@@ -45,7 +45,6 @@ export class CombatManager {
     this.UI.destroyContainer();
   }
   constructInputUI() {
-    console.log("RECONSTRUCTING UI")
     this.UI = new UserInterface(this.scene, 'dialog-white');
 
     const mainPanel = this.UI.createPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
@@ -74,18 +73,21 @@ export class CombatManager {
         this.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack));
 
         const hasNextInput = this.focusNextPartyInput();
-        console.log("Attack?")
-        // this.UI.closePanel(enemyTargetPanel);
         this.teardownInputUI();
-        setTimeout(()=>{
-          this.constructInputUI();
 
-        },1000)
+
+
+
         if (!hasNextInput) {
           this.startLoop();
           this.resetPartyFocusIndex();
+        } else {
+          setTimeout(() => {
+            this.constructInputUI();
+          }, 500)
         }
-      })
+      });
+
     });
   }
   private finalizeSelection() {
@@ -100,10 +102,15 @@ export class CombatManager {
     });
   }
   public startLoop() {
-    this.combatEvents.forEach(combatEvent => {
-      combatEvent.executeAction();
+    if (!this.combatEvents.length) {
+      // Send control back to user for next round of inputs.
+      this.constructInputUI();
+      return false;
+    }
+    const combatEvent = this.combatEvents.pop();
+    combatEvent.executeAction().then((result) => {
+      this.startLoop();
     });
-    this.combatEvents = [];
   }
 
   addEvent(combatEvent) {
@@ -132,12 +139,34 @@ export class CombatEvent {
       public action: CombatActions) {
 
   }
-  executeAction() {
+  executeAction(): Promise<CombatResult> {
+    return new Promise((resolve) => {
+      const target = this.target.getCombatant();
+      const executor = this.executor.getCombatant();
+
+      // Needs to be replaced with animations/tweening and callbacks, but it works asynchronously.
+      this.executor.setX(this.executor.x + 15);
+      setTimeout(() => {
+        this.executor.setX(this.executor.x - 15);
+        setTimeout(() => {
+          this.target.setAlpha(.5);
+          setTimeout(() => {
+            this.target.setAlpha(1);
+            const results: CombatResult = executor.attackTarget(target);
+            console.log(`${executor.name} attacks ${target.name} for ${results.resultingValue}`);
+            console.log(`${target.name} has ${target.currentHp} HP out of ${target.hp} left.`);
+
+            return resolve(results);
+          }, 100)
+        }, 500)
+      }, 100)
+    })
     //For now, just let them attack.
-    const target = this.target.getCombatant();
-    const executor = this.executor.getCombatant();
-    const results: CombatResult = executor.attackTarget(target);
-    console.log(`${executor.name} attacks ${target.name} for ${results.resultingValue}`)
+
+
+    // We want to be able to show executor attacking.  Then when that is done, show target taking damage.
+    // Then return results.
+
 
 
     //TODO: broadcast actions to an in battle dialog 

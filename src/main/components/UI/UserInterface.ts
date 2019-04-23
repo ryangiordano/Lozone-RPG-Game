@@ -114,7 +114,6 @@ export class UserInterface extends Phaser.GameObjects.Container {
     }
   }
   private invokeKeyboardEvent(event) {
-    console.log("invoking keyboard")
     switch (event.keyCode) {
       case Phaser.Input.Keyboard.KeyCodes.UP:
       case Phaser.Input.Keyboard.KeyCodes.LEFT:
