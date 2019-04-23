@@ -98,7 +98,7 @@ export class CombatManager {
   }
   public sortEventsBySpeed() {
     this.combatEvents.sort((a, b) => {
-      return a.executor.getCombatant().dexterity - a.target.getCombatant().dexterity;
+      return a.executorCombatSprite.getCombatant().dexterity - a.targetCombatSprite.getCombatant().dexterity;
     });
   }
   public startLoop() {
@@ -109,6 +109,9 @@ export class CombatManager {
     }
     const combatEvent = this.combatEvents.pop();
     combatEvent.executeAction().then((result) => {
+      if (result.targetDown) {
+
+      }
       this.startLoop();
     });
   }
@@ -134,29 +137,29 @@ export class CombatManager {
 
 export class CombatEvent {
   constructor
-    (public executor: CombatSprite,
-      public target: CombatSprite,
+    (public executorCombatSprite: CombatSprite,
+      public targetCombatSprite: CombatSprite,
       public action: CombatActions) {
 
   }
-  executeAction(): Promise<CombatResult> {
+  executeAction(): Promise<any> {
     return new Promise((resolve) => {
-      const target = this.target.getCombatant();
-      const executor = this.executor.getCombatant();
+      const target = this.targetCombatSprite.getCombatant();
+      const executor = this.executorCombatSprite.getCombatant();
 
       // Needs to be replaced with animations/tweening and callbacks, but it works asynchronously.
-      this.executor.setX(this.executor.x + 15);
+      this.executorCombatSprite.setX(this.executorCombatSprite.x + 15);
       setTimeout(() => {
-        this.executor.setX(this.executor.x - 15);
+        this.executorCombatSprite.setX(this.executorCombatSprite.x - 15);
         setTimeout(() => {
-          this.target.setAlpha(.5);
+          this.targetCombatSprite.setAlpha(.5);
           setTimeout(() => {
-            this.target.setAlpha(1);
+            this.targetCombatSprite.setAlpha(1);
             const results: CombatResult = executor.attackTarget(target);
             console.log(`${executor.name} attacks ${target.name} for ${results.resultingValue}`);
             console.log(`${target.name} has ${target.currentHp} HP out of ${target.hp} left.`);
 
-            return resolve(results);
+            return resolve({ targetCombatSprite: this.targetCombatSprite, executorCombatSprite: this.executorCombatSprite, results });
           }, 100)
         }, 500)
       }, 100)

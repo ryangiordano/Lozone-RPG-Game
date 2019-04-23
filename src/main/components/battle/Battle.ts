@@ -1,5 +1,6 @@
 import { Item } from "../entities/Item";
 import { Enemy } from "./Enemy";
+import { Combatant } from "./Combatant";
 
 export interface Buff {
   id: number;
@@ -47,9 +48,10 @@ export interface EnemyParty {
 export interface CombatResult {
   //define later 
   action: CombatActions,
-  executorName: string,
-  targetName: string,
-  resultingValue: number
+  executor: Combatant,
+  target: Combatant,
+  resultingValue: number,
+  targetDown?: boolean
 }
 export enum CombatActions {
   attack,

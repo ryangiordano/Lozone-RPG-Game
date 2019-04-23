@@ -9,7 +9,7 @@
     "dexterity": 5,
     "wisdom": 5,
     "stamina": 10,
-    "strength": 7
+    "strength": 17
   },
   "2": {
     "name": "Yaya",
@@ -21,7 +21,7 @@
     "dexterity": 10,
     "wisdom": 2,
     "stamina": 4,
-    "strength": 5
+    "strength": 15
   },
   "3": {
     "name": "Tuzi",

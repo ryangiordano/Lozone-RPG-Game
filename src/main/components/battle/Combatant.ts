@@ -60,9 +60,10 @@ export class Combatant {
     const damageDone = target.receivePhysicalDamage(potency);
     return {
       action: CombatActions.attack,
-      executorName: this.name,
-      targetName: target.name,
-      resultingValue: damageDone
+      executor: this,
+      target,
+      resultingValue: damageDone,
+      targetDown: target.currentHp === 0
     }
   }
   receivePhysicalDamage(potency: number) {
