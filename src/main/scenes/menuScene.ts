@@ -91,19 +91,15 @@ export class MenuScene extends Phaser.Scene {
 
     });
 
-    this.events.on('close', () => this.closeMenuScene())
+    this.events.once('close', () => this.closeMenuScene());
   }
 
   closeMenuScene() {
     //TODO: Make more generic
     this.scene.setActive(true, this.callingSceneKey)
-    this.events.off('close', () => this.closeMenuScene());
     this.scene.stop();
   }
   update(): void { }
-  destroyed() {
-
-  }
 }
 
 

@@ -4,6 +4,7 @@ import { CombatActions, CombatResult } from "./Battle";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import { UserInterface } from "../UI/UserInterface";
 import { CombatMenuScene } from "../../scenes/battle/battleMenuScene";
+import { TextFactory } from "../../utility/TextFactory";
 
 export class Combat {
   private partyContainer: CombatContainer;
@@ -52,8 +53,7 @@ export class Combat {
   constructInputUI() {
     this.UI = new UserInterface(this.scene, 'dialog-white');
     const partyMember = this.partyMembers[this.currentPartyFocusIndex];
-    this.UI.add(this.scene.add.text(0, 0, partyMember.getCombatant().name));
-    // const playerDataPanel = this.UI.createPanel()
+
     const mainPanel = this.UI.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption('Attack', () => {
         this.UI.showPanel(enemyTargetPanel).focusPanel(enemyTargetPanel);
@@ -65,6 +65,9 @@ export class Combat {
       .addOption('Run', () => {
         this.scene.events.emit('end-battle');
       });
+    const mainStatusPanel = this.createStatusPanel(partyMember);
+
+    mainPanel.addChildPanel('status', mainStatusPanel)
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
 
     // ATTACK ENEMIES
@@ -80,6 +83,19 @@ export class Combat {
       });
 
     });
+  }
+  private createStatusPanel(partyMember: CombatSprite) {
+    const tf = new TextFactory();
+    const statusPanel = this.UI.createPresentationPanel({ x: 4, y: 3 }, { x: 3, y: 6 });
+    const combatant = partyMember.getCombatant();
+    const name = tf.createText(combatant.name, { x: 5, y: 5 }, this.scene);
+    const hp = tf.createText(`HP: ${combatant.currentHp}/${combatant.hp}`, { x: 5, y: 15 }, this.scene);
+    const mp = tf.createText(`MP: ${combatant.currentMp}/${combatant.mp}`, { x: 5, y: 25 }, this.scene);
+    [hp, mp, name].forEach(gameObject => {
+      this.scene.add.existing(gameObject);
+      statusPanel.add(gameObject);
+    });
+    return statusPanel;
   }
   private addEvent(combatEvent) {
     this.combatEvents.push(combatEvent);

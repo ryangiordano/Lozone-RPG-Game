@@ -3,61 +3,83 @@ export class PanelContainer extends Phaser.GameObjects.Container {
   public focused: boolean = false;
   public options: DialogListItem[] = [];
   public padding: number = 6;
+  public childPanels: Map<string, PanelContainer>;
+
   constructor(
     public dimensions: Coords,
     public pos: Coords,
     private spriteKey: string,
     public scene: Phaser.Scene,
-    public escapable: boolean = true,
     public id: number = Math.random() * 500,
-    ) {
+  ) {
     super(scene, pos.x * 16, pos.y * 16);
-
     this.constructPanel(scene);
-    this.closePanel();
     this.name = id.toString();
     scene.add.existing(this);
+    this.childPanels = new Map<string, PanelContainer>();
+    this.closePanel();
+
   }
-  constructPanel(scene: Phaser.Scene) {
+  public constructPanel(scene: Phaser.Scene) {
     this.panel = scene.add.nineslice(0, 0, this.dimensions.x * 16, this.dimensions.y * 16, this.spriteKey, 5);
     this.add(this.panel)
   }
-  closePanel() {
-    this.visible = false;
-  }
-  showPanel() {
+  public showPanel() {
     this.visible = true;
+    this.showChildren();
   }
-  getPanel() {
+  public closePanel() {
+    this.visible = false;
+    this.hideChildren();
+  }
+  public getPanel() {
     return this.panel;
   }
+  public focusPanel() {
+    console.log("Panel focused. Showing children maybe")
 
-  focusPanel() {
     if (this.visible) {
+
       this.focused = true;
       this.alpha = 1;
+      this.showChildren();
     } else {
       console.error(`Panel ${this.id} is not visible`);
     }
-
   }
-  blurPanel() {
+  public showChildren() {
+    this.childPanels.forEach(panel => panel.showPanel())
+  }
+  public hideChildren() {
+    this.childPanels.forEach(panel => panel.closePanel())
+  }
+  public blurPanel() {
     this.focused = false;
     this.alpha = 0.9;
+    this.hideChildren();
+  }
+  public addChildPanel(name: string, panel: PanelContainer) {
+    if (this.childPanels.has(name)) {
+      console.warn(`A panel with the name ${name} already exists`);
+    } else {
+      this.childPanels.set(name, panel);
+    }
+    return this;
+  }
+  public removeChildPanel(name, panel) {
+    this.childPanels.delete(name);
   }
 }
 
 export class UIPanel extends PanelContainer {
-  public focusPanel() {
-    if (this.visible) {
-      this.focusOption(0);
-      this.focused = true;
-      this.alpha = 1;
-    } else {
-      console.error(`Panel ${this.id} is not visible`);
-    }
-
+  constructor(dimensions: Coords,
+    pos: Coords,
+    spriteKey: string,
+    scene: Phaser.Scene,
+    public escapable: boolean = true) {
+    super(dimensions, pos, spriteKey, scene);
   }
+
   public addOption(text: string, selectCallback: Function): UIPanel {
     const lastItem = <Phaser.GameObjects.Text>this.options[this.options.length - 1];
     const x = 0;
@@ -72,10 +94,10 @@ export class UIPanel extends PanelContainer {
     this.options.push(toAdd)
     return this;
   }
-  removeListItem(name: string) {
+  public removeListItem(name: string) {
     this.options.filter(listItem => listItem.name !== name);
   }
-  focusOption(index: number) {
+  public focusOption(index: number) {
     this.options.forEach((option, i) => {
       if (i === index) {
         option.focused = true;
@@ -84,35 +106,34 @@ export class UIPanel extends PanelContainer {
       }
     });
   }
-  focusNextOption() {
+  public focusNextOption() {
     const index = this.getFocusIndex();
     const toFocus = index >= this.options.length - 1 ? 0 : index + 1;
     this.focusOption(toFocus);
   }
-  getFocusIndex() {
+  public getFocusIndex() {
     const current = this.options.find(opt => opt.focused);
     return this.options.findIndex(opt => opt === current);
-
   }
-  focusPreviousOption() {
+  public focusPreviousOption() {
     const index = this.getFocusIndex();
     const toFocus = index <= 0 ? this.options.length - 1 : index - 1;
     this.focusOption(toFocus);
   }
-  getFocusedOption() {
+  public getFocusedOption() {
     const option = this.options.find(opt => opt.focused);
     if (option) {
       return option;
     }
     console.error("Focused option does not exist");
-
   }
-  selectFocusedOption() {
+  public selectFocusedOption() {
     const toSelect = this.getFocusedOption();
     if (toSelect && !toSelect.disabled) {
       toSelect.select();
     }
   }
+
 }
 
 
@@ -124,7 +145,7 @@ class DialogListItem extends Phaser.GameObjects.Text {
     super(scene, x, y, text, styles);
 
   }
-  select() {
+  public select() {
     if (!this.disabled) {
       this.selectCallback(this.dialogData);
     }

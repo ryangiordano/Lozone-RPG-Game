@@ -13,12 +13,10 @@ export class CombatMenuScene extends Phaser.Scene {
   }
   init(data) {
     this.callingSceneKey = data.callingSceneKey;
-    //we need list of items,list of enemies,party member data where we can get list of spells and skills
     this.enemies = data.enemies;
     this.partyMember = data.partyMember;
     const sm = State.getInstance();
     this.items = sm.getItemsOnPlayer();
-
   }
   closeMenu() {
     this.scene.setActive(true, this.callingSceneKey);

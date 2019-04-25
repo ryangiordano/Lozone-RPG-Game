@@ -171,6 +171,15 @@
           "frameWidth": 32,
           "frameHeight": 32
         }
+      },
+      {
+        "type": "spritesheet",
+        "key": "nose-wiper",
+        "url": "./src/main/assets/sprites/monsters/nose-wiper.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
       }
     ]
   }

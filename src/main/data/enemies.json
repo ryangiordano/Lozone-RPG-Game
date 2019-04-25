@@ -122,5 +122,22 @@
     ],
     "goldValue": 50,
     "experiencePoints": 20
+  },
+  "8": {
+    "name": "nose-wiper",
+    "spriteKey": "nose-wiper",
+    "hp": 10,
+    "mp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 8,
+    "wisdom": 2,
+    "stamina": 8,
+    "strength": 8,
+    "lootTable": [
+      1,2,3
+    ],
+    "goldValue": 50,
+    "experiencePoints": 15
   }
 }

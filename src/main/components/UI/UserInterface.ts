@@ -1,7 +1,7 @@
-import { UIPanel } from "./PanelContainer";
+import { UIPanel, PanelContainer } from "./PanelContainer";
 
 export class UserInterface extends Phaser.GameObjects.Container {
-  private panelContainers: UIPanel[] = [];
+  private panelContainers: PanelContainer[] = [];
   private caret: Phaser.GameObjects.Text;
   private focusedPanel: UIPanel;
   private panelTravelHistory: UIPanel[] = [];
@@ -51,10 +51,11 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.panelContainers.push(panel);
     return panel;
   }
-  public createPresentationPanel(dimensions, position){
-    const panel = new UIPanel(dimensions, position, this.spriteKey, this.scene);
+  public createPresentationPanel(dimensions, position) {
+    const panel = new PanelContainer(dimensions, position, this.spriteKey, this.scene);
     this.add(panel);
-    this.panelContainers.push(panel);
+    // this.panelContainers.push(panel);
+    return panel;
   }
   public addPanel(panel: UIPanel) {
     this.add(panel);
@@ -98,10 +99,10 @@ export class UserInterface extends Phaser.GameObjects.Container {
   muteKeyboardEvents(muted: boolean) {
     this.keyboardMuted = muted;
   }
-  hideUI(){
+  hideUI() {
 
   }
-  showUI(){
+  showUI() {
 
   }
   removeKeyboardListeners() {
@@ -112,6 +113,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
       const lastPanel = this.panelTravelHistory.pop();
       lastPanel.closePanel();
       if (this.panelTravelHistory.length) {
+        console.log()
         this.focusPanel(this.panelTravelHistory[this.panelTravelHistory.length - 1]);
       } else {
         this.closeUI();
