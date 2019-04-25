@@ -1,4 +1,4 @@
-export class DialogPanelContainer extends Phaser.GameObjects.Container {
+export class PanelContainer extends Phaser.GameObjects.Container {
   public panel: Phaser.GameObjects.RenderTexture;
   public focused: boolean = false;
   public options: DialogListItem[] = [];
@@ -31,7 +31,34 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
   getPanel() {
     return this.panel;
   }
-  public addOption(text: string, selectCallback: Function): DialogPanelContainer {
+
+  focusPanel() {
+    if (this.visible) {
+      this.focused = true;
+      this.alpha = 1;
+    } else {
+      console.error(`Panel ${this.id} is not visible`);
+    }
+
+  }
+  blurPanel() {
+    this.focused = false;
+    this.alpha = 0.9;
+  }
+}
+
+export class UIPanel extends PanelContainer {
+  public focusPanel() {
+    if (this.visible) {
+      this.focusOption(0);
+      this.focused = true;
+      this.alpha = 1;
+    } else {
+      console.error(`Panel ${this.id} is not visible`);
+    }
+
+  }
+  public addOption(text: string, selectCallback: Function): UIPanel {
     const lastItem = <Phaser.GameObjects.Text>this.options[this.options.length - 1];
     const x = 0;
     const y = lastItem ? lastItem.y + 10 : 5;
@@ -85,20 +112,6 @@ export class DialogPanelContainer extends Phaser.GameObjects.Container {
     if (toSelect && !toSelect.disabled) {
       toSelect.select();
     }
-  }
-  focusPanel() {
-    if (this.visible) {
-      this.focusOption(0);
-      this.focused = true;
-      this.alpha = 1;
-    } else {
-      console.error(`Panel ${this.id} is not visible`);
-    }
-
-  }
-  blurPanel() {
-    this.focused = false;
-    this.alpha = 0.9;
   }
 }
 

@@ -15,8 +15,12 @@ export class Combat {
   private currentPartyFocusIndex: number = 0;
   private combatMenuScenes: CombatMenuScene[];
   constructor(private scene: Phaser.Scene, party: Combatant[], enemies: Combatant[]) {
+
     party.forEach(member => this.partyMembers.push(this.combatantToCombatSprite(member)));
     enemies.forEach(enemy => this.enemies.push(this.combatantToCombatSprite(enemy)));
+
+    this.addAndPopulateContainers();
+    this.constructInputUI();
   }
   focusPartyInput(index: number) {
     this.currentPartyFocusIndex = index;
@@ -47,8 +51,10 @@ export class Combat {
   }
   constructInputUI() {
     this.UI = new UserInterface(this.scene, 'dialog-white');
-
-    const mainPanel = this.UI.createPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
+    const partyMember = this.partyMembers[this.currentPartyFocusIndex];
+    this.UI.add(this.scene.add.text(0, 0, partyMember.getCombatant().name));
+    // const playerDataPanel = this.UI.createPanel()
+    const mainPanel = this.UI.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption('Attack', () => {
         this.UI.showPanel(enemyTargetPanel).focusPanel(enemyTargetPanel);
       })
@@ -62,29 +68,15 @@ export class Combat {
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
 
     // ATTACK ENEMIES
-    const enemyTargetPanel = this.UI.createPanel(
+    const enemyTargetPanel = this.UI.createUIPanel(
       { x: 7, y: 3 },
       { x: 3, y: 6 });
 
     this.enemyContainer.getCombatants().forEach(combatSprite => {
 
       enemyTargetPanel.addOption(combatSprite.getCombatant().name, () => {
-
-        const partyMember = this.partyMembers[this.currentPartyFocusIndex];
-        this.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack));
-
-        const hasNextInput = this.focusNextPartyInput();
-        this.teardownInputUI();
-        if (!hasNextInput) {
-          this.applyEnemyTurns();
-          this.sortEventsBySpeed()
-          this.startLoop();
-          this.resetPartyFocusIndex();
-        } else {
-          setTimeout(() => {
-            this.constructInputUI();
-          }, 500)
-        }
+        this.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack, Orientation.left));
+        this.confirmSelection();
       });
 
     });
@@ -92,10 +84,26 @@ export class Combat {
   private addEvent(combatEvent) {
     this.combatEvents.push(combatEvent);
   }
+
+  private confirmSelection() {
+    const hasNextInput = this.focusNextPartyInput();
+    this.teardownInputUI();
+    setTimeout(() => {
+      if (!hasNextInput) {
+        this.applyEnemyTurns();
+        this.sortEventsBySpeed()
+        this.startLoop();
+        this.resetPartyFocusIndex();
+      } else {
+        this.constructInputUI();
+      }
+    }, 300)
+
+  }
   private applyEnemyTurns() {
     this.enemies.forEach(enemy => {
       // In here we would query the enemy's behavior script, and check the state of the battlefield before making a decision for what to do.  For now, we attack;
-      this.addEvent(new CombatEvent(enemy, this.partyMembers[0], CombatActions.attack));
+      this.addEvent(new CombatEvent(enemy, this.partyMembers[0], CombatActions.attack, Orientation.right));
     })
   }
   private finalizeSelection() {
@@ -117,8 +125,17 @@ export class Combat {
     }
     const combatEvent = this.combatEvents.pop();
     combatEvent.executeAction().then((result) => {
-      if (result.targetDown) {
-        console.log("Target is down")
+      const target = result.targetCombatSprite.getCombatant();
+      if (target.currentHp === 0) {
+        //Handle battle result object change.
+        // destroy sprite.
+        result.targetCombatSprite.destroy();
+        const index = this.enemies.findIndex(enemy => enemy === result.targetCombatSprite);
+        this.enemies.splice(index, 1);
+        if (this.enemies.length <= 0) {
+          this.scene.events.emit('end-battle');
+          console.log('battle over, distribute points')
+        }
       }
       this.startLoop();
     });
@@ -140,12 +157,15 @@ export class Combat {
   }
 }
 
-
+enum Orientation {
+  left,
+  right
+}
 export class CombatEvent {
   constructor
     (public executorCombatSprite: CombatSprite,
       public targetCombatSprite: CombatSprite,
-      public action: CombatActions) {
+      public action: CombatActions, private orientation: Orientation) {
 
   }
   executeAction(): Promise<any> {
@@ -154,9 +174,10 @@ export class CombatEvent {
       const executor = this.executorCombatSprite.getCombatant();
 
       // Needs to be replaced with animations/tweening and callbacks, but it works asynchronously.
-      this.executorCombatSprite.setX(this.executorCombatSprite.x + 15);
+      const modifier = this.orientation === Orientation.left ? 1 : -1;
+      this.executorCombatSprite.setX(this.executorCombatSprite.x + (15 * modifier));
       setTimeout(() => {
-        this.executorCombatSprite.setX(this.executorCombatSprite.x - 15);
+        this.executorCombatSprite.setX(this.executorCombatSprite.x - (15 * modifier));
         setTimeout(() => {
           this.targetCombatSprite.setAlpha(.5);
           setTimeout(() => {

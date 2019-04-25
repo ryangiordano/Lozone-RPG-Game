@@ -1,10 +1,10 @@
-import { DialogPanelContainer } from "./DialogPanelContainer";
+import { UIPanel } from "./PanelContainer";
 
 export class UserInterface extends Phaser.GameObjects.Container {
-  private dialogPanelContainers: DialogPanelContainer[] = [];
+  private panelContainers: UIPanel[] = [];
   private caret: Phaser.GameObjects.Text;
-  private focusedPanel: DialogPanelContainer;
-  private panelTravelHistory: DialogPanelContainer[] = [];
+  private focusedPanel: UIPanel;
+  private panelTravelHistory: UIPanel[] = [];
   private keyboardMuted: boolean = false;
   constructor(protected scene: Phaser.Scene, private spriteKey: string) {
     super(scene, 0, 0);
@@ -40,29 +40,34 @@ export class UserInterface extends Phaser.GameObjects.Container {
       this.moveTo(this.caret, this.list.length - 1);
     }
   }
-  public createPanel(dimensions: Coords, position: Coords, escapable?: boolean) {
-    const panel = new DialogPanelContainer(
+  public createUIPanel(dimensions: Coords, position: Coords, escapable?: boolean): UIPanel {
+    const panel = new UIPanel(
       dimensions, position,
       this.spriteKey,
       this.scene,
       escapable
     );
     this.add(panel);
-    this.dialogPanelContainers.push(panel);
+    this.panelContainers.push(panel);
     return panel;
   }
-  public addPanel(panel: DialogPanelContainer) {
+  public createPresentationPanel(dimensions, position){
+    const panel = new UIPanel(dimensions, position, this.spriteKey, this.scene);
     this.add(panel);
-    this.dialogPanelContainers.push(panel);
+    this.panelContainers.push(panel);
+  }
+  public addPanel(panel: UIPanel) {
+    this.add(panel);
+    this.panelContainers.push(panel);
     return panel;
   }
   findFocusedPanel() {
-    return this.dialogPanelContainers.find(d => d.focused);
+    return this.panelContainers.find(d => d.focused);
   }
-  focusPanel(toFocus: DialogPanelContainer) {
+  focusPanel(toFocus: UIPanel) {
     this.focusedPanel = toFocus;
 
-    this.dialogPanelContainers.forEach(panel => {
+    this.panelContainers.forEach(panel => {
       if (panel.id === toFocus.id) {
         panel.focusPanel();
       } else {
@@ -72,12 +77,12 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.focusedPanel.focusOption(0);
     this.setCaret();
   }
-  showPanel(panel: DialogPanelContainer) {
+  showPanel(panel: UIPanel) {
     this.panelTravelHistory.push(panel);
     panel.showPanel();
     return this;
   }
-  closePanel(panel: DialogPanelContainer) {
+  closePanel(panel: UIPanel) {
     this.panelTravelHistory.pop();
     panel.closePanel();
     if (this.panelTravelHistory.length) {

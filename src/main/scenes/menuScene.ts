@@ -1,6 +1,6 @@
 import { UserInterface } from "../components/UI/UserInterface";
 import { State } from "../utility/state/State";
-import { DialogPanelContainer } from "../components/UI/DialogPanelContainer";
+import { UIPanel } from "../components/UI/PanelContainer";
 import { Item } from "../components/entities/Item";
 
 
@@ -18,7 +18,7 @@ export class MenuScene extends Phaser.Scene {
     this.UI = new UserInterface(this, 'dialog-white');
 
     const sm = State.getInstance();
-    const mainPanel = this.UI.createPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
+    const mainPanel = this.UI.createUIPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
     mainPanel
       .addOption('Items', () => {
         this.UI.showPanel(itemPanel).focusPanel(itemPanel)
@@ -70,11 +70,11 @@ export class MenuScene extends Phaser.Scene {
     })
 
     // Party Panel
-    const partyPanel = this.UI.createPanel({ x: 6, y: 9 }, { x: 4, y: 0 }).addOption('Cancel', () => {
+    const partyPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 }).addOption('Cancel', () => {
       this.UI.closePanel(partyPanel);
     });
 
-    const dungeonPanel = this.UI.createPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
+    const dungeonPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
       .addOption('Dungeon One', () => {
         this.scene.stop('House')
         this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1 });
@@ -108,7 +108,7 @@ export class MenuScene extends Phaser.Scene {
 
 
 
-class ConfirmItemPanelContainer extends DialogPanelContainer {
+class ConfirmItemPanelContainer extends UIPanel {
   private itemData: Item;
   constructor(dimensions: Coords,
     pos: Coords,
@@ -125,7 +125,7 @@ class ConfirmItemPanelContainer extends DialogPanelContainer {
   }
 }
 
-class ItemPanelContainer extends DialogPanelContainer {
+class ItemPanelContainer extends UIPanel {
   constructor(dimensions: Coords,
     pos: Coords,
     spriteKey: string,
