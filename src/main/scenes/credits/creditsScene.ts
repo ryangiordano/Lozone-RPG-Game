@@ -1,6 +1,7 @@
 import { CreditRoller } from "../../components/credits/CreditRoller";
 import { ScrollingElement } from "../../components/credits/ScrollingElement";
 import { makeFadeOut, makeFadeIn } from "../../utility/tweens/fade";
+import { getRandomCeil } from "../../utility/Utility";
 
 export class CreditsScene extends Phaser.Scene {
   private sky: Phaser.GameObjects.Image;
@@ -181,8 +182,8 @@ export class CreditsScene extends Phaser.Scene {
       'cloud_3',
       'cloud_4'];
     setInterval(() => {
-      const randomCloud = clouds[Math.ceil(Math.random() * clouds.length - 1)];
-      const randomPlacement = Math.ceil(Math.random() * 30)
+      const randomCloud = clouds[getRandomCeil(clouds.length - 1)];
+      const randomPlacement = getRandomCeil(30)
       const cloud = new ScrollingElement(this, -30, randomPlacement, randomCloud, .1, null, false, this.cloudLayer);
       // cloud.setScale(.25, .25)
       cloud.setOrigin(.5, .5)

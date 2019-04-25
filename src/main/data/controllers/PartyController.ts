@@ -1,6 +1,5 @@
 import { PartyRepository } from "../repositories/PartyRepository";
-import { Combatant } from "../../components/battle/Combatant";
-import { PartyMember } from "../../components/entities/PartyMember";
+import { PartyMember } from "../../components/battle/PartyMember";
 
 export class PartyController {
   private partyRepository: PartyRepository;
@@ -12,7 +11,7 @@ export class PartyController {
     const partyMember = this.partyRepository.getById(partyMemberId);
     // TODO: create a mapping between the database entitity and the entity you'd like to be transformed into.
     const { id, name, spriteKey, hp, mp, level, intellect, dexterity, strength, wisdom, stamina } = partyMember;
-    const combatant = new Combatant(
+    const combatant = new PartyMember(
       id, name, spriteKey, hp, mp, level, intellect, dexterity, strength, wisdom, stamina
     );
     return combatant;

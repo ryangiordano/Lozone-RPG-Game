@@ -1,6 +1,7 @@
 import { Combatant } from "../Combatant";
 import { CombatGrid } from "./CombatGrid";
 import { CombatSprite } from "./CombatSprite";
+import { getRandomFloor } from "../../../utility/Utility";
 export class CombatContainer extends Phaser.GameObjects.Container {
   private combatGrid: CombatGrid = new CombatGrid({ x: 3, y: 3 }, 16);
   private battleTarget: Phaser.GameObjects.Image;
@@ -22,7 +23,7 @@ export class CombatContainer extends Phaser.GameObjects.Container {
   public populateContainerRandomly() {
     this.combatSprites.forEach(combatSprite => {
       this.add(combatSprite);
-      const y = Math.floor(Math.random() * 3);
+      const y = getRandomFloor(3);
       this.combatGrid.placeAtRandomOpenPosition(combatSprite);
       y > 1 ? this.bringToTop(combatSprite) : this.sendToBack(combatSprite);
       combatSprite.setOrigin(.5, .5);

@@ -1,5 +1,6 @@
 import { Combatant } from "./Combatant";
 import { Item } from "../entities/Item";
+import { CombatantType } from "./Battle";
 
 export class Enemy extends Combatant {
   public lootTable: Item[];
@@ -10,6 +11,6 @@ export class Enemy extends Combatant {
     this.lootTable = lootTable;
     this.experiencePoints = experiencePoints;
     this.goldValue = goldValue;
-
+    this.type = CombatantType.enemy;
   }
 }

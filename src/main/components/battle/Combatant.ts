@@ -1,4 +1,4 @@
-import { Buff, Behavior, Spell, Status, CombatActions, CombatResult } from "./Battle";
+import { Buff, Behavior, Spell, Status, CombatActions, CombatResult, CombatantType } from "./Battle";
 
 export class Combatant {
   private buffs: Map<number, Buff>;
@@ -7,6 +7,7 @@ export class Combatant {
   public currentHp: number;
   public currentMp: number;
   public status: Set<Status>;
+  public type: CombatantType;
   constructor(
     public id: number,
     public name: string,
@@ -93,5 +94,11 @@ export class Combatant {
     if (this.currentHp === 0) {
       console.log("We ded.")
     }
+  }
+  public addStatusCondition(status: Status) {
+    this.status.add(status);
+  }
+  public removeStatusCondition(status: Status) {
+    this.status.delete(status);
   }
 }

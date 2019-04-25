@@ -1,10 +1,11 @@
 import { Combatant } from "./Combatant";
 import { CombatSprite } from "./combat-grid/CombatSprite";
-import { CombatActions, CombatResult } from "./Battle";
+import { CombatActions, CombatResult, CombatantType, Orientation, Status } from "./Battle";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import { UserInterface } from "../UI/UserInterface";
 import { CombatMenuScene } from "../../scenes/battle/battleMenuScene";
 import { TextFactory } from "../../utility/TextFactory";
+import { getRandomFloor } from "../../utility/Utility";
 
 export class Combat {
   private partyContainer: CombatContainer;
@@ -21,19 +22,29 @@ export class Combat {
     enemies.forEach(enemy => this.enemies.push(this.combatantToCombatSprite(enemy)));
 
     this.addAndPopulateContainers();
-    this.constructInputUI();
+    this.constructInputUI(this.getCurrentPartyMember());
   }
   focusPartyInput(index: number) {
     this.currentPartyFocusIndex = index;
   }
   focusNextPartyInput(): boolean {
     // move to the next party member to get their input.
-    const count = this.partyMembers.length - 1;
-    if (this.currentPartyFocusIndex < count) {
-      this.currentPartyFocusIndex += 1;
-      return true;
+    const count = this.partyMembers.length;
+    let tempIndex = this.currentPartyFocusIndex + 1;
+    while (tempIndex < count) {
+      if (this.partyMemberHasImobileStatus(this.partyMembers[tempIndex].getCombatant())) {
+        tempIndex += 1;
+      } else {
+        this.currentPartyFocusIndex = tempIndex;
+        return true;
+      }
     }
     return false;
+  }
+  private partyMemberHasImobileStatus(partyMember:Combatant){
+    return partyMember.status.has(Status.fainted) ||
+    partyMember.status.has(Status.confused) ||
+    partyMember.status.has(Status.paralyzed);
   }
   private combatantToCombatSprite(combatant: Combatant) {
     return new CombatSprite(this.scene, 0, 0, combatant);
@@ -50,9 +61,9 @@ export class Combat {
   teardownInputUI() {
     this.UI.destroyContainer();
   }
-  constructInputUI() {
+  constructInputUI(partyMember) {
     this.UI = new UserInterface(this.scene, 'dialog-white');
-    const partyMember = this.partyMembers[this.currentPartyFocusIndex];
+
 
     const mainPanel = this.UI.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption('Attack', () => {
@@ -111,7 +122,7 @@ export class Combat {
         this.startLoop();
         this.resetPartyFocusIndex();
       } else {
-        this.constructInputUI();
+        this.constructInputUI(this.getCurrentPartyMember());
       }
     }, 300)
 
@@ -119,38 +130,50 @@ export class Combat {
   private applyEnemyTurns() {
     this.enemies.forEach(enemy => {
       // In here we would query the enemy's behavior script, and check the state of the battlefield before making a decision for what to do.  For now, we attack;
-      this.addEvent(new CombatEvent(enemy, this.partyMembers[0], CombatActions.attack, Orientation.right));
+      const randomPartyMember = this.getRandomAttackablePartyMember();
+      this.addEvent(new CombatEvent(enemy, randomPartyMember, CombatActions.attack, Orientation.right));
     })
   }
-  private finalizeSelection() {
-
+  private getRandomAttackablePartyMember(){
+    const targetablePartyMembers = this.partyMembers.filter(partyMember=>!partyMember.getCombatant().status.has(Status.fainted));
+    return targetablePartyMembers[getRandomFloor(targetablePartyMembers.length)];
   }
-  private setAttackEvent() {
 
-  }
   public sortEventsBySpeed() {
     this.combatEvents.sort((a, b) => {
       return a.executorCombatSprite.getCombatant().dexterity - a.targetCombatSprite.getCombatant().dexterity;
     });
   }
+  private getCurrentPartyMember() {
+    const partyMember = this.partyMembers[this.currentPartyFocusIndex];
+    return partyMember;
+  }
   public startLoop() {
     if (!this.combatEvents.length) {
       // Send control back to user for next round of inputs.
-      this.constructInputUI();
+
+      this.constructInputUI(this.getCurrentPartyMember());
       return false;
     }
     const combatEvent = this.combatEvents.pop();
     combatEvent.executeAction().then((result) => {
-      const target = result.targetCombatSprite.getCombatant();
+      const target = <Combatant>result.targetCombatSprite.getCombatant();
       if (target.currentHp === 0) {
-        //Handle battle result object change.
-        // destroy sprite.
-        result.targetCombatSprite.destroy();
-        const index = this.enemies.findIndex(enemy => enemy === result.targetCombatSprite);
-        this.enemies.splice(index, 1);
-        if (this.enemies.length <= 0) {
-          this.scene.events.emit('end-battle');
-          console.log('battle over, distribute points')
+        if (target.type === CombatantType.enemy) {
+          //Handle battle result object change.
+          // destroy sprite.
+          result.targetCombatSprite.destroy();
+          const index = this.enemies.findIndex(enemy => enemy === result.targetCombatSprite);
+          this.enemies.splice(index, 1);
+          if (this.enemies.length <= 0) {
+            this.scene.events.emit('end-battle');
+            //TODO: Battle over, distribute Points and treasure
+          }
+        } else if (target.type === CombatantType.partyMember) {
+          target.addStatusCondition(Status.fainted);
+          if (this.partyMembers.every(partyMember => partyMember.getCombatant().status.has(Status.fainted))) {
+            this.scene.events.emit('game-over');
+          }
         }
       }
       this.startLoop();
@@ -173,10 +196,7 @@ export class Combat {
   }
 }
 
-enum Orientation {
-  left,
-  right
-}
+
 export class CombatEvent {
   constructor
     (public executorCombatSprite: CombatSprite,

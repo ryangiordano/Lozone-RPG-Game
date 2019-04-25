@@ -1,9 +1,10 @@
 import { Combatant } from "./Combatant";
 import { PartyController } from "../../data/controllers/PartyController";
+import { PartyMember } from "./PartyMember";
 
 export class Party {
   private partyController: PartyController;
-  private members: Combatant[] = [];
+  private members: PartyMember[] = [];
   constructor(memberIds: number[], game: Phaser.Game) {
     this.partyController = new PartyController(game);
     memberIds.forEach((id) => this.addMemberById(id));

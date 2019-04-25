@@ -2,7 +2,7 @@
   "1": {
     "name": "Lo",
     "spriteKey": "lo",
-    "hp": 40,
+    "hp": 5,
     "mp": 20,
     "level": 1,
     "intellect": 7,
@@ -14,7 +14,7 @@
   "2": {
     "name": "Yaya",
     "spriteKey": "yaya",
-    "hp": 30,
+    "hp": 5,
     "mp": 10,
     "level": 1,
     "intellect": 5,

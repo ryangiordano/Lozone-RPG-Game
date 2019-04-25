@@ -25,6 +25,10 @@ export class BattleScene extends Phaser.Scene {
       console.log(battleResults)
       this.endBattle();
     });
+    this.events.once('game-over', (battleResults) => {
+      alert('You have died.')
+      //TODO: change scene to game over scene.
+    });
   }
 
   private endBattle() {

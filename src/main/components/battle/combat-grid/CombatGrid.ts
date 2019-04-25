@@ -1,5 +1,6 @@
 import { CombatSprite } from "./CombatSprite";
 import { CombatCel } from "./CombatCel";
+import { getRandomFloor } from "../../../utility/Utility";
 export class CombatGrid {
   public grid = [];
   constructor(private size: Coords, private celSize: number) {
@@ -33,6 +34,6 @@ export class CombatGrid {
   }
   private findRandomEmptyCel() {
     const flattenedEmptyGrid: CombatCel[] = this.flattenGrid().filter(cel => cel.isEmpty);
-    return flattenedEmptyGrid[Math.floor(Math.random() * flattenedEmptyGrid.length)];
+    return flattenedEmptyGrid[getRandomFloor(flattenedEmptyGrid.length)];
   }
 }

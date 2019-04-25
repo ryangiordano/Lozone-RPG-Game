@@ -36,10 +36,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     return this.panel;
   }
   public focusPanel() {
-    console.log("Panel focused. Showing children maybe")
-
     if (this.visible) {
-
       this.focused = true;
       this.alpha = 1;
       this.showChildren();

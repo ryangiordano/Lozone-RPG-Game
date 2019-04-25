@@ -7,7 +7,15 @@ export interface Buff {
   modifiers: Modifier[];
   name: string;
 }
-
+export enum CombatantType{
+  partyMember,
+  enemy,
+  boss
+}
+export enum Orientation {
+  left,
+  right
+}
 export enum Status {
   sleep,
   paralyzed,
