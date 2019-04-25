@@ -1,9 +1,9 @@
-import { StateManager } from "../../utility/state/StateManager";
-import { CombatManager } from "../../components/battle/CombatManager";
+import { State } from "../../utility/state/StateManager";
+import { Combat } from "../../components/battle/CombatManager";
 
 export class BattleScene extends Phaser.Scene {
   private previousSceneKey: string;
-  private combatManager: CombatManager;
+  private combatManager: Combat;
   constructor() {
     super('Battle');
   }
@@ -11,8 +11,8 @@ export class BattleScene extends Phaser.Scene {
     this.previousSceneKey = data.key;
     this.add.image(0, 0, 'dungeon_battle_background').setOrigin(0, 0).setScale(.5, .5);
 
-    const party = StateManager.getInstance().getCurrentParty();
-    this.combatManager = new CombatManager(this, party.getParty(), data.enemies);
+    const party = State.getInstance().getCurrentParty();
+    this.combatManager = new Combat(this, party.getParty(), data.enemies);
     this.combatManager.addAndPopulateContainers();
 
     this.combatManager.constructInputUI();

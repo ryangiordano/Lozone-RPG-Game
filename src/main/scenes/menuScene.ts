@@ -1,5 +1,5 @@
 import { UserInterface } from "../components/UI/UserInterface";
-import { StateManager } from "../utility/state/StateManager";
+import { State } from "../utility/state/StateManager";
 import { DialogPanelContainer } from "../components/UI/DialogPanelContainer";
 import { Item } from "../components/entities/Item";
 
@@ -17,7 +17,7 @@ export class MenuScene extends Phaser.Scene {
     this.callingSceneKey = data.callingSceneKey;
     this.UI = new UserInterface(this, 'dialog-white');
 
-    const sm = StateManager.getInstance();
+    const sm = State.getInstance();
     const mainPanel = this.UI.createPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
     mainPanel
       .addOption('Items', () => {

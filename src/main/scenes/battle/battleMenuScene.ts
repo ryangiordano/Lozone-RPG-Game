@@ -1,4 +1,4 @@
-import { StateManager } from "../../utility/state/StateManager";
+import { State } from "../../utility/state/StateManager";
 import { CombatSprite } from "../../components/battle/combat-grid/CombatSprite";
 import { Item } from "../../components/entities/Item";
 
@@ -16,7 +16,7 @@ export class BattleMenuScene extends Phaser.Scene {
     //we need list of items,list of enemies,party member data where we can get list of spells and skills
     this.enemies = data.enemies;
     this.partyMember = data.partyMember;
-    const sm = StateManager.getInstance();
+    const sm = State.getInstance();
     this.items = sm.getItemsOnPlayer();
 
   }

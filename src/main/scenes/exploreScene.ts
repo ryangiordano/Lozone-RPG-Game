@@ -6,7 +6,7 @@ import { Interactive } from '../assets/objects/Interactive';
 import { DialogManager } from '../components/UI/Dialog';
 import { Directions } from '../utility/Utility';
 import { Trigger } from '../assets/objects/Trigger';
-import { StateManager } from '../utility/state/StateManager';
+import { State } from '../utility/state/StateManager';
 
 export abstract class Explore extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap;
@@ -90,7 +90,7 @@ export abstract class Explore extends Phaser.Scene {
   }
   protected loadObjectsFromTilemap() {
     const objects = this.map.getObjectLayer('objects').objects as any[];
-    const sm = StateManager.getInstance();
+    const sm = State.getInstance();
     let spawn;
     if (this.warpId) {
       spawn = objects.find(
@@ -262,7 +262,7 @@ export abstract class Explore extends Phaser.Scene {
   }
 
   acquiredItemCallback({ itemId, id }) {
-    const sm = StateManager.getInstance();
+    const sm = State.getInstance();
     const item = sm.addItemToContents(itemId);
     sm.flags.get('chests').setFlag(id, true);
     this.player.controllable.canInput = false;

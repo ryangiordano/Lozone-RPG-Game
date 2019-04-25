@@ -1,5 +1,5 @@
 import { AnimationHelper } from '../utility/animation-helper';
-import { StateManager } from '../utility/state/StateManager';
+import { State } from '../utility/state/StateManager';
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
@@ -35,7 +35,7 @@ export class BootScene extends Phaser.Scene {
         new AnimationHelper(this, this.cache.json.get('ryanAnimation'));
 
         // When we get to the point where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.
-        const sm = StateManager.getInstance();
+        const sm = State.getInstance();
         sm.initialize(this.game);
         sm.addFlagModule('chests');
 

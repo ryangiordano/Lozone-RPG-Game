@@ -4,7 +4,7 @@ import { CombatActions, CombatResult } from "./Battle";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import { UserInterface } from "../UI/UserInterface";
 import { CombatMenuScene } from "../../scenes/CombatMenuScene";
-export class CombatManager {
+export class Combat {
   private partyContainer: CombatContainer;
   private enemyContainer: CombatContainer;
   private UI: UserInterface;

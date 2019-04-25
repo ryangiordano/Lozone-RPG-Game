@@ -4,12 +4,12 @@ import { FlagModule } from './FlagModule';
 import { PlayerContents } from './PlayerContents';
 import { Party } from '../../components/battle/Party';
 
-export class StateManager {
+export class State {
   /**
    *  Handles the state of the game.
    * Items, events, state switches, current party
    */
-  private static instance: StateManager;
+  private static instance: State;
   private game: Phaser.Game;
   public flags: Map<string, FlagModule>;
   public itemController: ItemController;
@@ -20,8 +20,8 @@ export class StateManager {
 
   }
   static getInstance() {
-    if (!StateManager.instance) {
-      StateManager.instance = new StateManager();
+    if (!State.instance) {
+      State.instance = new State();
     }
     return this.instance;
   }
