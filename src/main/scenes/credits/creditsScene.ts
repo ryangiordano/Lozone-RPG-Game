@@ -1,6 +1,6 @@
-import { CreditRoller } from "../components/credits/CreditRoller";
-import { ScrollingElement } from "../components/credits/ScrollingElement";
-import { makeFadeOut, makeFadeIn } from "../utility/tweens/fade";
+import { CreditRoller } from "../../components/credits/CreditRoller";
+import { ScrollingElement } from "../../components/credits/ScrollingElement";
+import { makeFadeOut, makeFadeIn } from "../../utility/tweens/fade";
 
 export class CreditsScene extends Phaser.Scene {
   private sky: Phaser.GameObjects.Image;

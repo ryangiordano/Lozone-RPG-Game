@@ -1,8 +1,8 @@
-import { State } from "../../utility/state/StateManager";
+import { State } from "../../utility/state/State";
 import { CombatSprite } from "../../components/battle/combat-grid/CombatSprite";
 import { Item } from "../../components/entities/Item";
 
-export class BattleMenuScene extends Phaser.Scene {
+export class CombatMenuScene extends Phaser.Scene {
   private callingSceneKey: string;
   private enemies: CombatSprite[];
   private partyMember:CombatSprite[];

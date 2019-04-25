@@ -3,7 +3,8 @@ import { CombatSprite } from "./combat-grid/CombatSprite";
 import { CombatActions, CombatResult } from "./Battle";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import { UserInterface } from "../UI/UserInterface";
-import { CombatMenuScene } from "../../scenes/CombatMenuScene";
+import { CombatMenuScene } from "../../scenes/battle/battleMenuScene";
+
 export class Combat {
   private partyContainer: CombatContainer;
   private enemyContainer: CombatContainer;

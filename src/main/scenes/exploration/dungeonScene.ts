@@ -1,6 +1,6 @@
 import { Explore } from "./exploreScene";
-import { EnemyController } from "../data/controllers/EnemyController";
-import { Enemy } from "../components/battle/Enemy";
+import { EnemyController } from "../../data/controllers/EnemyController";
+import { Enemy } from "../../components/battle/Enemy";
 
 const createRandom = (upTo) => () => Math.ceil(Math.random() * upTo);
 

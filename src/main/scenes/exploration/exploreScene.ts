@@ -1,12 +1,12 @@
-import { Chest } from '../assets/objects/Chest';
-import { Cast } from '../assets/objects/Cast';
-import { Player } from '../assets/objects/Player';
-import { NPC } from '../assets/objects/NPC';
-import { Interactive } from '../assets/objects/Interactive';
-import { DialogManager } from '../components/UI/Dialog';
-import { Directions } from '../utility/Utility';
-import { Trigger } from '../assets/objects/Trigger';
-import { State } from '../utility/state/StateManager';
+import { Chest } from '../../assets/objects/Chest';
+import { Cast } from '../../assets/objects/Cast';
+import { Player } from '../../assets/objects/Player';
+import { NPC } from '../../assets/objects/NPC';
+import { Interactive } from '../../assets/objects/Interactive';
+import { DialogManager } from '../../components/UI/Dialog';
+import { Directions } from '../../utility/Utility';
+import { Trigger } from '../../assets/objects/Trigger';
+import { State } from '../../utility/state/State';
 
 export abstract class Explore extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap;

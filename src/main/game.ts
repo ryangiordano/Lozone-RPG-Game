@@ -3,9 +3,9 @@ import { BootScene } from './scenes/bootScene';
 import PhaserUpdatePlugin from './utility/UpdatePlugin';
 import { Plugin as NineSlicePlugin } from 'phaser3-nineslice';
 import { MenuScene } from './scenes/menuScene';
-import { CreditsScene } from './scenes/creditsScene';
-import { HouseScene } from './scenes/houseScene';
-import { DungeonScene } from './scenes/dungeonScene';
+import { CreditsScene } from './scenes/credits/creditsScene';
+import { HouseScene } from './scenes/exploration/houseScene';
+import { DungeonScene } from './scenes/exploration/dungeonScene';
 import { BattleScene } from './scenes/battle/battleScene';
 // main game configuration
 const config: GameConfig = {

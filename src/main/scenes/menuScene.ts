@@ -1,5 +1,5 @@
 import { UserInterface } from "../components/UI/UserInterface";
-import { State } from "../utility/state/StateManager";
+import { State } from "../utility/state/State";
 import { DialogPanelContainer } from "../components/UI/DialogPanelContainer";
 import { Item } from "../components/entities/Item";
 

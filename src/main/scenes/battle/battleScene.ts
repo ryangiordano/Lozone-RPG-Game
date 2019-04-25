@@ -1,4 +1,4 @@
-import { State } from "../../utility/state/StateManager";
+import { State } from "../../utility/state/State";
 import { Combat } from "../../components/battle/CombatManager";
 
 export class BattleScene extends Phaser.Scene {
