@@ -74,11 +74,9 @@ export class CombatManager {
 
         const hasNextInput = this.focusNextPartyInput();
         this.teardownInputUI();
-
-
-
-
         if (!hasNextInput) {
+          this.applyEnemyTurns();
+          this.sortEventsBySpeed()
           this.startLoop();
           this.resetPartyFocusIndex();
         } else {
@@ -89,6 +87,15 @@ export class CombatManager {
       });
 
     });
+  }
+  private addEvent(combatEvent) {
+    this.combatEvents.push(combatEvent);
+  }
+  private applyEnemyTurns() {
+    this.enemies.forEach(enemy => {
+      // In here we would query the enemy's behavior script, and check the state of the battlefield before making a decision for what to do.  For now, we attack;
+      this.addEvent(new CombatEvent(enemy, this.partyMembers[0], CombatActions.attack));
+    })
   }
   private finalizeSelection() {
 
@@ -110,15 +117,13 @@ export class CombatManager {
     const combatEvent = this.combatEvents.pop();
     combatEvent.executeAction().then((result) => {
       if (result.targetDown) {
-
+        console.log("Target is down")
       }
       this.startLoop();
     });
   }
 
-  addEvent(combatEvent) {
-    this.combatEvents.push(combatEvent);
-  }
+
   resetPartyFocusIndex() {
     this.currentPartyFocusIndex = 0;
   }
@@ -164,14 +169,6 @@ export class CombatEvent {
         }, 500)
       }, 100)
     })
-    //For now, just let them attack.
-
-
-    // We want to be able to show executor attacking.  Then when that is done, show target taking damage.
-    // Then return results.
-
-
-
     //TODO: broadcast actions to an in battle dialog 
   }
 
