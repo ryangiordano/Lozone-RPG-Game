@@ -7,6 +7,7 @@ import { Item } from "../components/entities/Item";
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
   private callingSceneKey: string;
+  private state: State = State.getInstance();
   constructor() {
     super({ key: 'MenuScene' });
   }
@@ -37,52 +38,23 @@ export class MenuScene extends Phaser.Scene {
 
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
 
-    // Item Panel
-    const itemPanel = new ItemPanelContainer({ x: 6, y: 9 }, { x: 4, y: 0 }, 'dialog-white', this, sm.getItemsOnPlayer());
-    this.UI.addPanel(itemPanel)
-    itemPanel.on('item-selected', (item) => {
+    const itemPanel = this.createItemPanel();
+
+    const itemConfirmPanel = this.createItemConfirmPanel();
+
+    itemPanel.on('show-and-focus-confirm-panel', item => {
       this.UI.showPanel(itemConfirmPanel);
       this.UI.focusPanel(itemConfirmPanel);
       itemConfirmPanel.setPanelData(item);
     });
-    itemPanel.on('panel-close', () => {
-      this.UI.closePanel(itemPanel);
-    })
 
-    // Add item use confirmation panel.
-    const itemConfirmPanel = new ConfirmItemPanelContainer({ x: 3, y: 3 }, { x: 7, y: 6 }, 'dialog-white', this);
-
-    this.UI.addPanel(itemConfirmPanel);
-    // Add option for confirmation
-    itemConfirmPanel.addOption('Use', () => {
-      const item = itemConfirmPanel.getPanelData();
-      sm.consumeItem(item.id);
+    itemConfirmPanel.on('refresh-items', () => {
       itemPanel.refreshPanel();
-      this.UI.closePanel(itemConfirmPanel);
-
-    }).addOption('Drop', () => {
-      const item = itemConfirmPanel.getPanelData();
-      sm.removeItemFromContents(item.id);
-      itemPanel.refreshPanel();
-      this.UI.closePanel(itemConfirmPanel);
-    }).addOption('Cancel', () => {
-      this.UI.closePanel(itemConfirmPanel);
-    })
-
-    // Party Panel
-    const partyPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 }).addOption('Cancel', () => {
-      this.UI.closePanel(partyPanel);
     });
 
-    const dungeonPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
-      .addOption('Dungeon One', () => {
-        this.scene.stop('House')
-        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1, enemyPartyIds: [8, 6, 4, 3, 13] });
+    const partyPanel = this.createPartyPanel();
 
-      })
-      .addOption('Cancel', () => {
-        this.UI.closePanel(dungeonPanel);
-      })
+    const dungeonPanel = this.createDungeonPanel();
 
     this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
@@ -100,18 +72,73 @@ export class MenuScene extends Phaser.Scene {
     this.scene.setActive(true, this.callingSceneKey)
     this.scene.stop();
   }
+  private createItemPanel() {
+    const itemPanel = new ItemPanelContainer({ x: 6, y: 9 }, { x: 4, y: 0 }, 'dialog-white', this, this.state.getItemsOnPlayer());
+    this.UI.addPanel(itemPanel)
+    itemPanel.on('item-selected', (item) => {
+      itemPanel.emit('show-and-focus-confirm-panel', item);
+    });
+    itemPanel.on('panel-close', () => {
+      this.UI.closePanel(itemPanel);
+    });
+    return itemPanel;
+  }
+  private createItemConfirmPanel() {
+    // Add item use confirmation panel.
+    const itemConfirmPanel = new ConfirmItemPanelContainer({ x: 3, y: 3 }, { x: 7, y: 6 }, 'dialog-white', this);
+
+    this.UI.addPanel(itemConfirmPanel);
+    // Add option for confirmation
+    itemConfirmPanel.addOption('Use', () => {
+      const item = itemConfirmPanel.getPanelData();
+      this.state.consumeItem(item.id);
+      itemConfirmPanel.emit('refresh-items');
+
+      this.UI.closePanel(itemConfirmPanel);
+
+    }).addOption('Drop', () => {
+      const item = itemConfirmPanel.getPanelData();
+      this.state.removeItemFromContents(item.id);
+      itemConfirmPanel.emit('refresh-items');
+
+      this.UI.closePanel(itemConfirmPanel);
+    }).addOption('Cancel', () => {
+      this.UI.closePanel(itemConfirmPanel);
+    });
+    return itemConfirmPanel;
+  }
+  private createPartyPanel() {
+    const partyPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 }).addOption('Cancel', () => {
+      this.UI.closePanel(partyPanel);
+    });
+    return partyPanel;
+  }
+  private createDungeonPanel() {
+    const dungeonPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
+      .addOption('Dungeon One', () => {
+        this.scene.stop('House')
+        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1, enemyPartyIds: [8, 6, 4, 3, 13] });
+
+      })
+      .addOption('Cancel', () => {
+        this.UI.closePanel(dungeonPanel);
+      });
+      return dungeonPanel;
+  }
   update(): void { }
 }
 
-
+// Refresh all panels in UI.
+// Make refreshPanel something you can do on a UIPanel
+// Focus and show panel by names.
 
 class ConfirmItemPanelContainer extends UIPanel {
   private itemData: Item;
   constructor(dimensions: Coords,
     pos: Coords,
     spriteKey: string,
-    scene: Phaser.Scene) {
-    super(dimensions, pos, spriteKey, scene);
+    scene: Phaser.Scene, id?: string) {
+    super(dimensions, pos, spriteKey, scene, true, id);
 
   }
   setPanelData(item: Item) {
@@ -144,7 +171,7 @@ class ItemPanelContainer extends UIPanel {
       this.emit('panel-close');
     })
   }
-  refreshPanel() {
+  public refreshPanel() {
     this.list = this.list.filter(item => item.type !== "Text");
     this.options = [];
     this.addOptionsViaData();

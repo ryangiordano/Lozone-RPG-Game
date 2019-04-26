@@ -1,3 +1,5 @@
+import { getUID } from "../../utility/Utility";
+
 export class PanelContainer extends Phaser.GameObjects.Container {
   public panel: Phaser.GameObjects.RenderTexture;
   public focused: boolean = false;
@@ -10,7 +12,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     public pos: Coords,
     private spriteKey: string,
     public scene: Phaser.Scene,
-    public id: number = Math.random() * 500,
+    public id: string = getUID(),
   ) {
     super(scene, pos.x * 16, pos.y * 16);
     this.constructPanel(scene);
@@ -20,21 +22,26 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     this.closePanel();
 
   }
+
   public constructPanel(scene: Phaser.Scene) {
     this.panel = scene.add.nineslice(0, 0, this.dimensions.x * 16, this.dimensions.y * 16, this.spriteKey, 5);
     this.add(this.panel)
   }
+
   public showPanel() {
     this.visible = true;
     this.showChildren();
   }
+
   public closePanel() {
     this.visible = false;
     this.hideChildren();
   }
+
   public getPanel() {
     return this.panel;
   }
+
   public focusPanel() {
     if (this.visible) {
       this.focused = true;
@@ -44,17 +51,21 @@ export class PanelContainer extends Phaser.GameObjects.Container {
       console.error(`Panel ${this.id} is not visible`);
     }
   }
+
   public showChildren() {
     this.childPanels.forEach(panel => panel.showPanel())
   }
+
   public hideChildren() {
     this.childPanels.forEach(panel => panel.closePanel())
   }
+
   public blurPanel() {
     this.focused = false;
     this.alpha = 0.9;
     this.hideChildren();
   }
+
   public addChildPanel(name: string, panel: PanelContainer) {
     if (this.childPanels.has(name)) {
       console.warn(`A panel with the name ${name} already exists`);
@@ -63,6 +74,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     }
     return this;
   }
+
   public removeChildPanel(name, panel) {
     this.childPanels.delete(name);
   }
@@ -73,8 +85,9 @@ export class UIPanel extends PanelContainer {
     pos: Coords,
     spriteKey: string,
     scene: Phaser.Scene,
-    public escapable: boolean = true) {
-    super(dimensions, pos, spriteKey, scene);
+    public escapable: boolean = true,
+    id?: string) {
+    super(dimensions, pos, spriteKey, scene, id);
   }
 
   public addOption(text: string, selectCallback: Function): UIPanel {
@@ -91,9 +104,11 @@ export class UIPanel extends PanelContainer {
     this.options.push(toAdd)
     return this;
   }
+
   public removeListItem(name: string) {
     this.options.filter(listItem => listItem.name !== name);
   }
+
   public focusOption(index: number) {
     this.options.forEach((option, i) => {
       if (i === index) {
@@ -103,20 +118,24 @@ export class UIPanel extends PanelContainer {
       }
     });
   }
+
   public focusNextOption() {
     const index = this.getFocusIndex();
     const toFocus = index >= this.options.length - 1 ? 0 : index + 1;
     this.focusOption(toFocus);
   }
+
   public getFocusIndex() {
     const current = this.options.find(opt => opt.focused);
     return this.options.findIndex(opt => opt === current);
   }
+
   public focusPreviousOption() {
     const index = this.getFocusIndex();
     const toFocus = index <= 0 ? this.options.length - 1 : index - 1;
     this.focusOption(toFocus);
   }
+
   public getFocusedOption() {
     const option = this.options.find(opt => opt.focused);
     if (option) {
@@ -124,13 +143,13 @@ export class UIPanel extends PanelContainer {
     }
     console.error("Focused option does not exist");
   }
+
   public selectFocusedOption() {
     const toSelect = this.getFocusedOption();
     if (toSelect && !toSelect.disabled) {
       toSelect.select();
     }
   }
-
 }
 
 
@@ -140,8 +159,8 @@ class DialogListItem extends Phaser.GameObjects.Text {
   //TODO: Refactor this into a separate class for dialog confirm panels and confirm panel Options
   constructor(scene: Phaser.Scene, x: number, y: number, public text: string, styles, public selectCallback: Function, private dialogData?: any) {
     super(scene, x, y, text, styles);
-
   }
+  
   public select() {
     if (!this.disabled) {
       this.selectCallback(this.dialogData);

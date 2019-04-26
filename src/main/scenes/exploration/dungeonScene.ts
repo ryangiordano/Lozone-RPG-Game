@@ -3,17 +3,21 @@ import { createRandom, getRandomFloor } from "../../utility/Utility";
 
 export class DungeonScene extends Explore {
   private enemyPartyIds: number[] = [];
-  private rollEncounter = createRandom(10);
+  private hasRandomEncounter = () => {
+    const randomNumber = createRandom(10);
+    return randomNumber() === 10
+  };
   constructor() {
     super('Dungeon');
   }
-  afterInit(data) {
+
+  public afterInit(data) {
     this.enemyPartyIds = data.enemyPartyIds;
   }
-  afterCreated() {
+  
+  public afterCreated() {
     this.player.on('finished-movement', () => {
-      const random = this.rollEncounter();
-      if (random === 10) {
+      if (this.hasRandomEncounter()) {
         this.startRandomEncounter(this.chooseEnemyAtRandom());
       }
     });
