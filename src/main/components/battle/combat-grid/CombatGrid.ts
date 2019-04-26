@@ -2,7 +2,7 @@ import { CombatSprite } from "./CombatSprite";
 import { CombatCel } from "./CombatCel";
 import { getRandomFloor } from "../../../utility/Utility";
 export class CombatGrid {
-  public grid:CombatCel[][] = [];
+  public grid: CombatCel[][] = [];
   constructor(private size: Coords, private celSize: number) {
     this.createGrid();
   }

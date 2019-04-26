@@ -6,6 +6,7 @@ import { UserInterface } from "../UI/UserInterface";
 import { CombatMenuScene } from "../../scenes/battle/battleMenuScene";
 import { TextFactory } from "../../utility/TextFactory";
 import { getRandomFloor } from "../../utility/Utility";
+import { makeTextScaleUp } from "../../utility/tweens/text";
 
 export class Combat {
   private partyContainer: CombatContainer;
@@ -89,7 +90,7 @@ export class Combat {
     this.enemyContainer.getCombatants().forEach(combatSprite => {
 
       enemyTargetPanel.addOption(combatSprite.getCombatant().name, () => {
-        this.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack, Orientation.left, this.partyMembers, this.enemies));
+        this.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack, Orientation.left, this.partyMembers, this.enemies, this.scene));
         this.confirmSelection();
       });
 
@@ -131,7 +132,7 @@ export class Combat {
     this.enemies.forEach(enemy => {
       // In here we would query the enemy's behavior script, and check the state of the battlefield before making a decision for what to do.  For now, we attack;
       const randomPartyMember = this.getRandomAttackablePartyMember();
-      this.addEvent(new CombatEvent(enemy, randomPartyMember, CombatActions.attack, Orientation.right, this.enemies, this.partyMembers));
+      this.addEvent(new CombatEvent(enemy, randomPartyMember, CombatActions.attack, Orientation.right, this.enemies, this.partyMembers, this.scene));
     })
   }
   private getRandomAttackablePartyMember() {
@@ -209,24 +210,17 @@ export class CombatEvent {
       private orientation: Orientation,
       private executorParty: CombatSprite[],
       private targetParty: CombatSprite[],
-  ) {
+      private scene: Phaser.Scene
+    ) {
 
   }
   executeAction(): Promise<any> {
     return new Promise((resolve) => {
-      let target = this.targetCombatSprite.getCombatant();
       const executor = this.executorCombatSprite.getCombatant();
-      if (target.currentHp <= 0) {
-        const nextTargetable = this.targetParty.find(potentialTarget => {
-          return potentialTarget.getCombatant().currentHp > 0;
-        });
-        if (nextTargetable) {
-          this.targetCombatSprite = nextTargetable;
-          target = nextTargetable.getCombatant();
-        } else {
-          const results: CombatResult = executor.failedAction(target);
-          return resolve({ targetCombatSprite: this.targetCombatSprite, executorCombatSprite: this.executorCombatSprite, results });
-        }
+      const target = this.confirmTarget();
+      if (!target || !this.executorIsValid) {
+        const results: CombatResult = executor.failedAction(target);
+        return resolve({ targetCombatSprite: this.targetCombatSprite, executorCombatSprite: this.executorCombatSprite, results });
       }
       // Needs to be replaced with animations/tweening and callbacks, but it works asynchronously.
       const modifier = this.orientation === Orientation.left ? 1 : -1;
@@ -240,13 +234,52 @@ export class CombatEvent {
             const results: CombatResult = executor.attackTarget(target);
             console.log(`${executor.name} attacks ${target.name} for ${results.resultingValue}`);
             console.log(`${target.name} has ${target.currentHp} HP out of ${target.hp} left.`);
+            this.setCombatText(results.resultingValue.toString()).then(() => {
+              return resolve({ targetCombatSprite: this.targetCombatSprite, executorCombatSprite: this.executorCombatSprite, results });
+            });
 
-            return resolve({ targetCombatSprite: this.targetCombatSprite, executorCombatSprite: this.executorCombatSprite, results });
+
+
+
+
           }, 100)
         }, 500)
       }, 100)
     })
     //TODO: broadcast actions to an in battle dialog 
+  }
+  private setCombatText(value: string) {
+    return new Promise((resolve) => {
+      const target = this.targetCombatSprite;
+      const tc = new TextFactory();
+      const container = target.parentContainer;
+      const valueText = tc.createText(value, { x: target.x, y: target.y }, this.scene, '15px', { fill: '#ff2b4e' });
+      this.scene.add.existing(valueText);
+      valueText.setAlpha(0)
+      valueText.setScale(.1,.1);
+      valueText.setOrigin(.5,.5)
+      container.add(valueText);
+      const tween = makeTextScaleUp(valueText, 600, this.scene, () => {
+        valueText.destroy()
+        resolve();
+      });
+      tween.play(false);
+    })
+
+  }
+  private confirmTarget(): Combatant {
+    let target = this.targetCombatSprite.getCombatant();
+    if (target.currentHp <= 0) {
+      const nextTargetable = this.targetParty.find(potentialTarget => potentialTarget.getCombatant().currentHp > 0);
+      if (nextTargetable) {
+        this.targetCombatSprite = nextTargetable;
+        target = nextTargetable.getCombatant();
+      }
+    }
+    return target;
+  }
+  private executorIsValid(): boolean {
+    return this.executorCombatSprite.getCombatant().currentHp > 0;
   }
 
 }

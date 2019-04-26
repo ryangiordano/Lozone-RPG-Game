@@ -11,7 +11,7 @@ import { BattleScene } from './scenes/battle/battleScene';
 const config: GameConfig = {
   width: 160,
   height: 144,
-  zoom: 4,
+  zoom: 2,
   type: Phaser.AUTO,
   parent: 'game',
   scene: [BootScene, HouseScene, MenuScene, DungeonScene, CreditsScene, BattleScene],
