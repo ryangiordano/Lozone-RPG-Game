@@ -2,7 +2,7 @@ import { CombatSprite } from "./CombatSprite";
 import { CombatCel } from "./CombatCel";
 import { getRandomFloor } from "../../../utility/Utility";
 export class CombatGrid {
-  public grid = [];
+  public grid:CombatCel[][] = [];
   constructor(private size: Coords, private celSize: number) {
     this.createGrid();
   }
@@ -33,7 +33,7 @@ export class CombatGrid {
     randomEmpty.set(combatSprite);
   }
   private findRandomEmptyCel() {
-    const flattenedEmptyGrid: CombatCel[] = this.flattenGrid().filter(cel => cel.isEmpty);
+    const flattenedEmptyGrid: CombatCel[] = this.flattenGrid().filter(cel => !cel.get());
     return flattenedEmptyGrid[getRandomFloor(flattenedEmptyGrid.length)];
   }
 }
