@@ -3,7 +3,6 @@ import { State } from "../utility/state/State";
 import { UIPanel } from "../components/UI/PanelContainer";
 import { Item } from "../components/entities/Item";
 
-
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
   private callingSceneKey: string;
@@ -11,66 +10,58 @@ export class MenuScene extends Phaser.Scene {
   constructor() {
     super({ key: 'MenuScene' });
   }
-  preload(): void {
-    // Handle loading assets here, adding sounds etc
-  }
+
   init(data) {
     this.callingSceneKey = data.callingSceneKey;
     this.UI = new UserInterface(this, 'dialog-white');
 
-    const sm = State.getInstance();
-    const mainPanel = this.UI.createUIPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
-    mainPanel
-      .addOption('Items', () => {
-        this.UI.showPanel(itemPanel).focusPanel(itemPanel)
-      })
-      .addOption('Party', () => {
-        this.UI.showPanel(partyPanel).focusPanel(partyPanel)
-      })
-      .addOption('Dungeons', () => {
-        this.UI.showPanel(dungeonPanel).focusPanel(dungeonPanel)
-      })
-      .addOption('Credits', () => {
-        this.scene.stop(this.callingSceneKey)
-        this.scene.start('CreditsScene');
-      })
-      .addOption('Cancel', () => this.closeMenuScene());
-
+    const mainPanel = this.createMainPanel();
+    mainPanel.on('items-selected', () => this.UI.showPanel(itemPanel).focusPanel(itemPanel));
+    mainPanel.on('party-selected', () => this.UI.showPanel(partyPanel).focusPanel(partyPanel));
+    mainPanel.on('dungeons-selected', () => this.UI.showPanel(dungeonPanel).focusPanel(dungeonPanel));
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
 
     const itemPanel = this.createItemPanel();
-
     const itemConfirmPanel = this.createItemConfirmPanel();
-
     itemPanel.on('show-and-focus-confirm-panel', item => {
       this.UI.showPanel(itemConfirmPanel);
       this.UI.focusPanel(itemConfirmPanel);
       itemConfirmPanel.setPanelData(item);
     });
-
     itemConfirmPanel.on('refresh-items', () => {
       itemPanel.refreshPanel();
     });
 
     const partyPanel = this.createPartyPanel();
-
     const dungeonPanel = this.createDungeonPanel();
 
-    this.input.keyboard.on('keydown', event => {
-      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
-        this.closeMenuScene();
-      }
-
-    });
-
-    this.events.once('close', () => this.closeMenuScene());
+    this.setEventListeners();
+    this.setKeyboardEventListeners();
     this.UI.initialize();
   }
 
-  closeMenuScene() {
-    //TODO: Make more generic
+  private closeMenuScene() {
     this.scene.setActive(true, this.callingSceneKey)
     this.scene.stop();
+  }
+  private createMainPanel() {
+    const mainPanel = this.UI.createUIPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
+    mainPanel
+      .addOption('Items', () => {
+        mainPanel.emit('items-selected');
+      })
+      .addOption('Party', () => {
+        mainPanel.emit('party-selected');
+      })
+      .addOption('Dungeons', () => {
+        mainPanel.emit('dungeons-selected');
+      })
+      .addOption('Credits', () => {
+        this.scene.stop(this.callingSceneKey);
+        this.scene.start('CreditsScene');
+      })
+      .addOption('Cancel', () => this.closeMenuScene());
+    return mainPanel;
   }
   private createItemPanel() {
     const itemPanel = new ItemPanelContainer({ x: 6, y: 9 }, { x: 4, y: 0 }, 'dialog-white', this, this.state.getItemsOnPlayer());
@@ -123,14 +114,20 @@ export class MenuScene extends Phaser.Scene {
       .addOption('Cancel', () => {
         this.UI.closePanel(dungeonPanel);
       });
-      return dungeonPanel;
+    return dungeonPanel;
+  }
+  private setEventListeners() {
+    this.events.once('close', () => this.closeMenuScene());
+  }
+  private setKeyboardEventListeners() {
+    this.input.keyboard.on('keydown', event => {
+      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
+        this.closeMenuScene();
+      }
+    });
   }
   update(): void { }
 }
-
-// Refresh all panels in UI.
-// Make refreshPanel something you can do on a UIPanel
-// Focus and show panel by names.
 
 class ConfirmItemPanelContainer extends UIPanel {
   private itemData: Item;
@@ -139,12 +136,13 @@ class ConfirmItemPanelContainer extends UIPanel {
     spriteKey: string,
     scene: Phaser.Scene, id?: string) {
     super(dimensions, pos, spriteKey, scene, true, id);
-
   }
-  setPanelData(item: Item) {
+  
+  public setPanelData(item: Item) {
     this.itemData = item;
   }
-  getPanelData() {
+  
+  public getPanelData() {
     return this.itemData;
   }
 }
