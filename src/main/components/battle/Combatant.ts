@@ -12,8 +12,8 @@ export class Combatant {
     public id: number,
     public name: string,
     public spriteKey: string,
-    public hp: number,
-    public mp: number,
+    public maxHp: number,
+    public maxMp: number,
     public level: number,
     public intellect: number,
     public dexterity: number,
@@ -37,8 +37,8 @@ export class Combatant {
     })
   }
   initializeStatus(currentHp?: number, currentMp?: number, statusArray: Status[] = [], buffArray: Buff[] = []) {
-    this.currentHp = currentHp || this.hp;
-    this.currentMp = currentMp || this.mp;
+    this.currentHp = currentHp || this.maxHp;
+    this.currentMp = currentMp || this.maxMp;
     statusArray.forEach(status => {
       this.status.add(status);
     });
@@ -96,7 +96,7 @@ export class Combatant {
     property = Math.min(property + value, property);
   }
   public healFor(hitPoints: number) {
-    this.currentHp = Math.min(this.hp, this.currentHp + hitPoints);
+    this.currentHp = Math.min(this.maxHp, this.currentHp + hitPoints);
   }
   public damageFor(hitPoints: number) {
     this.currentHp = Math.max(0, this.currentHp - hitPoints);

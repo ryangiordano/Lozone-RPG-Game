@@ -25,7 +25,7 @@ export class CombatEvent {
             this.targetCombatSprite.setAlpha(1);
             const results: CombatResult = executor.attackTarget(target);
             console.log(`${executor.name} attacks ${target.name} for ${results.resultingValue}`);
-            console.log(`${target.name} has ${target.currentHp} HP out of ${target.hp} left.`);
+            console.log(`${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`);
             this.setCombatText(results.resultingValue.toString()).then(() => {
               return resolve({ targetCombatSprite: this.targetCombatSprite, executorCombatSprite: this.executorCombatSprite, results });
             });

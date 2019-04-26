@@ -12,7 +12,7 @@ export class EnemyController {
   public getEnemyById(enemyId: number) {
     const enemyFromDb = this.enemyRepository.getById(enemyId);
     // TODO: create a mapping between the database entitity and the entity you'd like to be transformed into.
-    const { id, name, spriteKey, hp, mp, level, intellect, dexterity, strength, wisdom, stamina, lootTable, experiencePoints, goldValue } = enemyFromDb;
+    const { id, name, spriteKey, maxHp: hp, maxMp: mp, level, intellect, dexterity, strength, wisdom, stamina, lootTable, experiencePoints, goldValue } = enemyFromDb;
     const enemy = new Enemy(
       id, name, spriteKey, hp, mp, level, intellect, dexterity, strength, wisdom, stamina, lootTable, experiencePoints, goldValue
     );

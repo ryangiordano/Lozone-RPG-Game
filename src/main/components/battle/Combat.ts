@@ -104,8 +104,8 @@ export class Combat {
     const statusPanel = this.UI.createPresentationPanel({ x: 4, y: 3 }, { x: 3, y: 6 });
     const combatant = partyMember.getCombatant();
     const name = this.textFactory.createText(combatant.name, { x: 5, y: 5 }, this.scene);
-    const hp = this.textFactory.createText(`HP: ${combatant.currentHp}/${combatant.hp}`, { x: 5, y: 15 }, this.scene);
-    const mp = this.textFactory.createText(`MP: ${combatant.currentMp}/${combatant.mp}`, { x: 5, y: 25 }, this.scene);
+    const hp = this.textFactory.createText(`HP: ${combatant.currentHp}/${combatant.maxHp}`, { x: 5, y: 15 }, this.scene);
+    const mp = this.textFactory.createText(`MP: ${combatant.currentMp}/${combatant.maxMp}`, { x: 5, y: 25 }, this.scene);
     [hp, mp, name].forEach(gameObject => {
       this.scene.add.existing(gameObject);
       statusPanel.add(gameObject);
