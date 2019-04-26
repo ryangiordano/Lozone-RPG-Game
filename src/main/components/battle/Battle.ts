@@ -65,5 +65,6 @@ export enum CombatActions {
   attack,
   defend,
   castSpell,
-  useItem
+  useItem,
+  failure
 }

@@ -67,6 +67,15 @@ export class Combatant {
       targetDown: target.currentHp === 0
     }
   }
+  failedAction(target: Combatant){
+    return {
+      action: CombatActions.failure,
+      executor: this,
+      target,
+      resultingValue: 0,
+      targetDown: target.currentHp === 0
+    }
+  }
   receivePhysicalDamage(potency: number) {
     const defensePotency = this.getDefensePower();
     const actualDamage = Math.max(1, potency - defensePotency);

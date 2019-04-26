@@ -41,10 +41,10 @@ export class Combat {
     }
     return false;
   }
-  private partyMemberHasImobileStatus(partyMember:Combatant){
+  private partyMemberHasImobileStatus(partyMember: Combatant) {
     return partyMember.status.has(Status.fainted) ||
-    partyMember.status.has(Status.confused) ||
-    partyMember.status.has(Status.paralyzed);
+      partyMember.status.has(Status.confused) ||
+      partyMember.status.has(Status.paralyzed);
   }
   private combatantToCombatSprite(combatant: Combatant) {
     return new CombatSprite(this.scene, 0, 0, combatant);
@@ -89,7 +89,7 @@ export class Combat {
     this.enemyContainer.getCombatants().forEach(combatSprite => {
 
       enemyTargetPanel.addOption(combatSprite.getCombatant().name, () => {
-        this.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack, Orientation.left));
+        this.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack, Orientation.left, this.partyMembers, this.enemies));
         this.confirmSelection();
       });
 
@@ -131,11 +131,11 @@ export class Combat {
     this.enemies.forEach(enemy => {
       // In here we would query the enemy's behavior script, and check the state of the battlefield before making a decision for what to do.  For now, we attack;
       const randomPartyMember = this.getRandomAttackablePartyMember();
-      this.addEvent(new CombatEvent(enemy, randomPartyMember, CombatActions.attack, Orientation.right));
+      this.addEvent(new CombatEvent(enemy, randomPartyMember, CombatActions.attack, Orientation.right, this.enemies, this.partyMembers));
     })
   }
-  private getRandomAttackablePartyMember(){
-    const targetablePartyMembers = this.partyMembers.filter(partyMember=>!partyMember.getCombatant().status.has(Status.fainted));
+  private getRandomAttackablePartyMember() {
+    const targetablePartyMembers = this.partyMembers.filter(partyMember => !partyMember.getCombatant().status.has(Status.fainted));
     return targetablePartyMembers[getRandomFloor(targetablePartyMembers.length)];
   }
 
@@ -162,13 +162,17 @@ export class Combat {
         if (target.type === CombatantType.enemy) {
           //Handle battle result object change.
           // destroy sprite.
+
+          const index = this.enemies.findIndex(enemy => enemy.uid === result.targetCombatSprite.uid);
           result.targetCombatSprite.destroy();
-          const index = this.enemies.findIndex(enemy => enemy === result.targetCombatSprite);
-          this.enemies.splice(index, 1);
-          if (this.enemies.length <= 0) {
-            this.scene.events.emit('end-battle');
-            //TODO: Battle over, distribute Points and treasure
+          if (index > -1) {
+            this.enemies.splice(index, 1);
+            if (this.enemies.length <= 0) {
+              this.scene.events.emit('end-battle');
+              //TODO: Battle over, distribute Points and treasure
+            }
           }
+
         } else if (target.type === CombatantType.partyMember) {
           target.addStatusCondition(Status.fainted);
           if (this.partyMembers.every(partyMember => partyMember.getCombatant().status.has(Status.fainted))) {
@@ -201,14 +205,29 @@ export class CombatEvent {
   constructor
     (public executorCombatSprite: CombatSprite,
       public targetCombatSprite: CombatSprite,
-      public action: CombatActions, private orientation: Orientation) {
+      public action: CombatActions,
+      private orientation: Orientation,
+      private executorParty: CombatSprite[],
+      private targetParty: CombatSprite[],
+  ) {
 
   }
   executeAction(): Promise<any> {
     return new Promise((resolve) => {
-      const target = this.targetCombatSprite.getCombatant();
+      let target = this.targetCombatSprite.getCombatant();
       const executor = this.executorCombatSprite.getCombatant();
-
+      if (target.currentHp <= 0) {
+        const nextTargetable = this.targetParty.find(potentialTarget => {
+          return potentialTarget.getCombatant().currentHp > 0;
+        });
+        if (nextTargetable) {
+          this.targetCombatSprite = nextTargetable;
+          target = nextTargetable.getCombatant();
+        } else {
+          const results: CombatResult = executor.failedAction(target);
+          return resolve({ targetCombatSprite: this.targetCombatSprite, executorCombatSprite: this.executorCombatSprite, results });
+        }
+      }
       // Needs to be replaced with animations/tweening and callbacks, but it works asynchronously.
       const modifier = this.orientation === Orientation.left ? 1 : -1;
       this.executorCombatSprite.setX(this.executorCombatSprite.x + (15 * modifier));

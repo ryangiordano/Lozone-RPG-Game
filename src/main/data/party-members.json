@@ -2,7 +2,7 @@
   "1": {
     "name": "Lo",
     "spriteKey": "lo",
-    "hp": 5,
+    "hp": 40,
     "mp": 20,
     "level": 1,
     "intellect": 7,
@@ -14,7 +14,7 @@
   "2": {
     "name": "Yaya",
     "spriteKey": "yaya",
-    "hp": 5,
+    "hp": 30,
     "mp": 10,
     "level": 1,
     "intellect": 5,
@@ -30,8 +30,8 @@
     "mp": 40,
     "level": 1,
     "intellect": 10,
-    "dexterity": 6,
-    "wisdom": 10,
+    "dexterity": 12,
+    "wisdom": 8,
     "stamina": 4,
     "strength": 4
   },

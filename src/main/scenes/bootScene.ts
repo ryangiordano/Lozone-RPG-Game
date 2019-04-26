@@ -40,7 +40,9 @@ export class BootScene extends Phaser.Scene {
         sm.addFlagModule('chests');
 
         // this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
-        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1, enemyPartyIds: [8,6,4,3,13] });
+        const tempParty = [8,6,4,3,13];
+        const tempParty2 = [6]
+        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1, enemyPartyIds: tempParty2 });
       },
       this
     );

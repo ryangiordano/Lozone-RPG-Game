@@ -102,6 +102,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "tuzi",
+        "url": "./src/main/assets/sprites/tuzi.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "stork",
         "url": "./src/main/assets/sprites/stork.png",
         "frameConfig": {
