@@ -2,7 +2,7 @@ import { State } from "../../utility/state/State";
 import { Combat } from "../../components/battle/Combat";
 import { EnemyController } from "../../data/controllers/EnemyController";
 
-export class BattleScene extends Phaser.Scene {
+export class CombatScene extends Phaser.Scene {
   private previousSceneKey: string;
   private enemyController: EnemyController;
   private combat: Combat;

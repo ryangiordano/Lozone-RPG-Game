@@ -80,6 +80,13 @@ export class Combat {
       .addOption('Run', () => {
         this.scene.events.emit('end-battle');
       });
+    this.UI.setEventOnPanel(mainPanel, 'keydown', (event) => {
+      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
+        console.log("------- Escaping while focused on main panel")
+
+      }
+
+    })
     const mainStatusPanel = this.createStatusPanel(partyMember);
 
     mainPanel.addChildPanel('status', mainStatusPanel)
@@ -127,7 +134,7 @@ export class Combat {
         this.startLoop();
         this.resetPartyFocusIndex();
       } else {
-        this.constructInputUI(this.getCurrentPartyMember());
+        this.displayInputControlsForCurrentPartyMember();
       }
     }, 300)
   }
@@ -154,6 +161,8 @@ export class Combat {
 
   private displayInputControlsForCurrentPartyMember() {
     this.constructInputUI(this.getCurrentPartyMember());
+    // Set Listeners after we've created the input ui.  This is
+    this.UI.initialize();
   }
 
   private getCurrentPartyMember() {

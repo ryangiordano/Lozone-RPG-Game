@@ -11,17 +11,20 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.name = 'UI';
     this.createCaret();
     scene.add.existing(this);
+  }
+  public initialize() {
     this.setKeyboardListeners();
   }
-
   closeUI() {
     this.scene.events.emit('close');
   }
+
   destroyContainer() {
     this.removeKeyboardListeners();
     this.caret.destroy();
     this.destroy();
   }
+
   private createCaret() {
     this.caret = this.scene.add.text(-100, -100, ">", {
       fontFamily: 'pixel',
@@ -29,8 +32,8 @@ export class UserInterface extends Phaser.GameObjects.Container {
       fill: '#000000',
     });
     this.add(this.caret);
-
   }
+
   private setCaret() {
     const focusedOption = this.focusedPanel.getFocusedOption();
     const parentPanel = focusedOption.parentContainer;
@@ -40,6 +43,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
       this.moveTo(this.caret, this.list.length - 1);
     }
   }
+
   public createUIPanel(dimensions: Coords, position: Coords, escapable?: boolean): UIPanel {
     const panel = new UIPanel(
       dimensions, position,
@@ -51,21 +55,24 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.panelContainers.push(panel);
     return panel;
   }
+
   public createPresentationPanel(dimensions, position) {
     const panel = new PanelContainer(dimensions, position, this.spriteKey, this.scene);
     this.add(panel);
     // this.panelContainers.push(panel);
     return panel;
   }
+
   public addPanel(panel: UIPanel) {
     this.add(panel);
     this.panelContainers.push(panel);
     return panel;
   }
-  findFocusedPanel() {
+
+  public findFocusedPanel() {
     return this.panelContainers.find(d => d.focused);
   }
-  focusPanel(toFocus: UIPanel) {
+  public focusPanel(toFocus: UIPanel) {
     this.focusedPanel = toFocus;
 
     this.panelContainers.forEach(panel => {
@@ -93,27 +100,27 @@ export class UserInterface extends Phaser.GameObjects.Container {
     }
     return this;
   }
-  setKeyboardListeners() {
+  private setKeyboardListeners() {
     this.scene.input.keyboard.on('keydown', (event) => this.invokeKeyboardEvent(event));
   }
-  muteKeyboardEvents(muted: boolean) {
+  setEventOnPanel(panel: PanelContainer, eventName: string, callback: Function) {
+    this.scene.input.keyboard.on(eventName, (event) => {
+      if (this.focusedPanel.id === panel.id) {
+        callback(event);
+      }
+    })
+  }
+  public muteKeyboardEvents(muted: boolean) {
     this.keyboardMuted = muted;
   }
-  hideUI() {
-
-  }
-  showUI() {
-
-  }
-  removeKeyboardListeners() {
+  public removeKeyboardListeners() {
     this.scene.input.keyboard.off('keydown');
   }
-  traverseBackward() {
+  private traverseBackward() {
     if (this.panelTravelHistory[this.panelTravelHistory.length - 1].escapable) {
       const lastPanel = this.panelTravelHistory.pop();
       lastPanel.closePanel();
       if (this.panelTravelHistory.length) {
-        console.log()
         this.focusPanel(this.panelTravelHistory[this.panelTravelHistory.length - 1]);
       } else {
         this.closeUI();

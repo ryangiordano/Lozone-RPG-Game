@@ -77,7 +77,7 @@ export class MenuScene extends Phaser.Scene {
     const dungeonPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
       .addOption('Dungeon One', () => {
         this.scene.stop('House')
-        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1 });
+        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1, enemyPartyIds: [8, 6, 4, 3, 13] });
 
       })
       .addOption('Cancel', () => {
@@ -92,6 +92,7 @@ export class MenuScene extends Phaser.Scene {
     });
 
     this.events.once('close', () => this.closeMenuScene());
+    this.UI.initialize();
   }
 
   closeMenuScene() {

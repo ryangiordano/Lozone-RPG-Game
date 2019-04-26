@@ -6,7 +6,7 @@ import { MenuScene } from './scenes/menuScene';
 import { CreditsScene } from './scenes/credits/creditsScene';
 import { HouseScene } from './scenes/exploration/houseScene';
 import { DungeonScene } from './scenes/exploration/dungeonScene';
-import { BattleScene } from './scenes/battle/battleScene';
+import { CombatScene } from './scenes/combat/combatScene';
 // main game configuration
 const config: GameConfig = {
   width: 160,
@@ -14,7 +14,7 @@ const config: GameConfig = {
   zoom: 4,
   type: Phaser.AUTO,
   parent: 'game',
-  scene: [BootScene, HouseScene, MenuScene, DungeonScene, CreditsScene, BattleScene],
+  scene: [BootScene, HouseScene, MenuScene, DungeonScene, CreditsScene, CombatScene],
   input: {
     keyboard: true
   },
@@ -31,14 +31,12 @@ const config: GameConfig = {
   }
 };
 
-// game class
 export class Game extends Phaser.Game {
   constructor(config: GameConfig) {
     super(config);
   }
 }
 
-// when the page is loaded, create our game instance
 window.addEventListener('load', () => {
   var game = new Game(config);
 });
