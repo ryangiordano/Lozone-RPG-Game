@@ -7,11 +7,17 @@ import { TextFactory } from "../../utility/TextFactory";
 import { getRandomFloor, Directions } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
-
+class CombatInterface extends UserInterface {
+  constructor(scene: Phaser.Scene, spriteKey: string) {
+    super(scene, spriteKey);
+    console.log("Hello There")
+    //TODO: Refactor the combat interface logic here.
+  }
+}
 export class Combat {
   private partyContainer: CombatContainer;
   private enemyContainer: CombatContainer;
-  private UI: UserInterface;
+  private combatUI: CombatInterface;
   private combatEvents: CombatEvent[] = [];
   private partyMembers: CombatSprite[] = [];
   private enemies: CombatSprite[] = [];
@@ -63,15 +69,15 @@ export class Combat {
   }
 
   private teardownInputUI() {
-    this.UI.destroyContainer();
+    this.combatUI.destroyContainer();
   }
 
   private constructInputUI(partyMember) {
-    this.UI = new UserInterface(this.scene, 'dialog-white');
+    this.combatUI = new CombatInterface(this.scene, 'dialog-white');
 
-    const mainPanel = this.UI.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
+    const mainPanel = this.combatUI.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption('Attack', () => {
-        this.UI.showPanel(enemyTargetPanel).focusPanel(enemyTargetPanel);
+        this.combatUI.showPanel(enemyTargetPanel).focusPanel(enemyTargetPanel);
       })
       .addOption('Defend', () => {
       })
@@ -80,7 +86,7 @@ export class Combat {
       .addOption('Run', () => {
         this.scene.events.emit('end-battle');
       });
-    this.UI.setEventOnPanel(mainPanel, 'keydown', (event) => {
+    this.combatUI.setEventOnPanel(mainPanel, 'keydown', (event) => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
         console.log("------- Escaping while focused on main panel")
 
@@ -90,10 +96,10 @@ export class Combat {
     const mainStatusPanel = this.createStatusPanel(partyMember);
 
     mainPanel.addChildPanel('status', mainStatusPanel)
-    this.UI.showPanel(mainPanel).focusPanel(mainPanel);
+    this.combatUI.showPanel(mainPanel).focusPanel(mainPanel);
 
     // ATTACK ENEMIES
-    const enemyTargetPanel = this.UI.createUIPanel(
+    const enemyTargetPanel = this.combatUI.createUIPanel(
       { x: 7, y: 3 },
       { x: 3, y: 6 });
 
@@ -108,7 +114,7 @@ export class Combat {
   }
 
   private createStatusPanel(partyMember: CombatSprite) {
-    const statusPanel = this.UI.createPresentationPanel({ x: 4, y: 3 }, { x: 3, y: 6 });
+    const statusPanel = this.combatUI.createPresentationPanel({ x: 4, y: 3 }, { x: 3, y: 6 });
     const combatant = partyMember.getCombatant();
     const name = this.textFactory.createText(combatant.name, { x: 5, y: 5 }, this.scene);
     const hp = this.textFactory.createText(`HP: ${combatant.currentHp}/${combatant.maxHp}`, { x: 5, y: 15 }, this.scene);
@@ -162,7 +168,7 @@ export class Combat {
   private displayInputControlsForCurrentPartyMember() {
     this.constructInputUI(this.getCurrentPartyMember());
     // Set Listeners after we've created the input ui.  This is
-    this.UI.initialize();
+    this.combatUI.initialize();
   }
 
   private getCurrentPartyMember() {

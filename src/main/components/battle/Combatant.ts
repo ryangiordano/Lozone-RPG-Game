@@ -8,6 +8,7 @@ export class Combatant {
   public currentMp: number;
   public status: Set<Status>;
   public type: CombatantType;
+  private sprite: Phaser.GameObjects.Sprite;
   constructor(
     public id: number,
     public name: string,
@@ -28,6 +29,9 @@ export class Combatant {
     if (spells) {
       spells.forEach(this.addSpell)
     }
+  }
+  public setSprite(scene: Phaser.Scene){
+    // this.sprite = new Phaser.GameObjects
   }
   addBehaviors(behaviors: Behavior[]) {
     behaviors.forEach(behavior => {
