@@ -1,39 +1,26 @@
 import { Combatant } from "./Combatant";
-import { CombatSprite } from "./combat-grid/CombatSprite";
 import { CombatActions, CombatantType, Orientation, Status } from "./Battle";
 import { CombatContainer } from "./combat-grid/CombatContainer";
-import { UserInterface } from "../UI/UserInterface";
-import { TextFactory } from "../../utility/TextFactory";
 import { getRandomFloor, Directions } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
-class CombatInterface extends UserInterface {
-  constructor(scene: Phaser.Scene, spriteKey: string) {
-    super(scene, spriteKey);
-    console.log("Hello There")
-    //TODO: Refactor the combat interface logic here.
-  }
-}
+import { CombatInterface } from "./CombatInterface";
+
 export class Combat {
   private partyContainer: CombatContainer;
   private enemyContainer: CombatContainer;
   private combatUI: CombatInterface;
   private combatEvents: CombatEvent[] = [];
-  private partyMembers: CombatSprite[] = [];
-  private enemies: CombatSprite[] = [];
+  private partyMembers: Combatant[] = [];
+  private enemies: Combatant[] = [];
   private currentPartyFocusIndex: number = 0;
-  private textFactory: TextFactory = new TextFactory();
   constructor(private scene: Phaser.Scene, party: Combatant[], enemies: Combatant[]) {
-    party.forEach(member => this.partyMembers.push(this.combatantToCombatSprite(member)));
+    party.forEach(member => this.partyMembers.push(member));
 
-    enemies.forEach(enemy => this.enemies.push(this.combatantToCombatSprite(enemy)));
+    enemies.forEach(enemy => this.enemies.push(enemy));
 
     this.addAndPopulateContainers();
     this.displayInputControlsForCurrentPartyMember();
-  }
-
-  private combatantToCombatSprite(combatant: Combatant) {
-    return new CombatSprite(this.scene, 0, 0, combatant);
   }
 
   public focusPreviousPartyInput(): boolean {
@@ -51,7 +38,7 @@ export class Combat {
     let tempIndex = previous ? this.currentPartyFocusIndex - 1 : this.currentPartyFocusIndex + 1;
 
     while (previous ? tempIndex > 0 : tempIndex < count) {
-      if (this.partyMemberHasImobileStatus(this.partyMembers[tempIndex].getCombatant())) {
+      if (this.partyMemberHasImobileStatus(this.partyMembers[tempIndex])) {
         previous ? tempIndex-- : tempIndex++;
       } else {
         this.currentPartyFocusIndex = tempIndex;
@@ -72,59 +59,14 @@ export class Combat {
     this.combatUI.destroyContainer();
   }
 
-  private constructInputUI(partyMember) {
-    this.combatUI = new CombatInterface(this.scene, 'dialog-white');
+  private constructInputUI(partyMember: Combatant) {
+    this.combatUI = new CombatInterface(this.scene, 'dialog-white', this.partyMembers, this.enemies);
+    this.combatUI.create(partyMember);
 
-    const mainPanel = this.combatUI.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
-      .addOption('Attack', () => {
-        this.combatUI.showPanel(enemyTargetPanel).focusPanel(enemyTargetPanel);
-      })
-      .addOption('Defend', () => {
-      })
-      .addOption('Item', () => {
-      })
-      .addOption('Run', () => {
-        this.scene.events.emit('end-battle');
-      });
-    this.combatUI.setEventOnPanel(mainPanel, 'keydown', (event) => {
-      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
-        console.log("------- Escaping while focused on main panel")
 
-      }
-
-    })
-    const mainStatusPanel = this.createStatusPanel(partyMember);
-
-    mainPanel.addChildPanel('status', mainStatusPanel)
-    this.combatUI.showPanel(mainPanel).focusPanel(mainPanel);
-
-    // ATTACK ENEMIES
-    const enemyTargetPanel = this.combatUI.createUIPanel(
-      { x: 7, y: 3 },
-      { x: 3, y: 6 });
-
-    this.enemyContainer.getCombatants().forEach(combatSprite => {
-
-      enemyTargetPanel.addOption(combatSprite.getCombatant().name, () => {
-        this.addEvent(new CombatEvent(partyMember, combatSprite, CombatActions.attack, Orientation.left, this.partyMembers, this.enemies, this.scene));
-        this.confirmSelection();
-      });
-
-    });
   }
 
-  private createStatusPanel(partyMember: CombatSprite) {
-    const statusPanel = this.combatUI.createPresentationPanel({ x: 4, y: 3 }, { x: 3, y: 6 });
-    const combatant = partyMember.getCombatant();
-    const name = this.textFactory.createText(combatant.name, { x: 5, y: 5 }, this.scene);
-    const hp = this.textFactory.createText(`HP: ${combatant.currentHp}/${combatant.maxHp}`, { x: 5, y: 15 }, this.scene);
-    const mp = this.textFactory.createText(`MP: ${combatant.currentMp}/${combatant.maxMp}`, { x: 5, y: 25 }, this.scene);
-    [hp, mp, name].forEach(gameObject => {
-      this.scene.add.existing(gameObject);
-      statusPanel.add(gameObject);
-    });
-    return statusPanel;
-  }
+
 
   private addEvent(combatEvent) {
     this.combatEvents.push(combatEvent);
@@ -150,18 +92,18 @@ export class Combat {
       //TODO: In here we would query the enemy's behavior script, and check the state of the battlefield before making a decision for what to do.  For now, we attack;
       const randomPartyMember = this.getRandomAttackablePartyMember();
 
-      this.addEvent(new CombatEvent(enemy, randomPartyMember, CombatActions.attack, Orientation.right, this.enemies, this.partyMembers, this.scene));
+      this.addEvent(new CombatEvent(enemy, randomPartyMember, CombatActions.attack, Orientation.right, this.scene));
     })
   }
 
   private getRandomAttackablePartyMember() {
-    const targetablePartyMembers = this.partyMembers.filter(partyMember => !partyMember.getCombatant().status.has(Status.fainted));
+    const targetablePartyMembers = this.partyMembers.filter(partyMember => !partyMember.status.has(Status.fainted));
     return targetablePartyMembers[getRandomFloor(targetablePartyMembers.length)];
   }
 
   public sortEventsBySpeed() {
     this.combatEvents.sort((a, b) => {
-      return a.executorCombatSprite.getCombatant().dexterity - a.targetCombatSprite.getCombatant().dexterity;
+      return a.executor.dexterity - a.target.dexterity;
     });
   }
 
@@ -202,7 +144,7 @@ export class Combat {
 
         } else if (target.type === CombatantType.partyMember) {
           target.addStatusCondition(Status.fainted);
-          if (this.partyMembers.every(partyMember => partyMember.getCombatant().status.has(Status.fainted))) {
+          if (this.partyMembers.every(partyMember => partyMember.status.has(Status.fainted))) {
             this.scene.events.emit('game-over');
           }
         }

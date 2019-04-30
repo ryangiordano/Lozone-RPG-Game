@@ -2,7 +2,7 @@ import { DialogController } from '../../data/controllers/DialogController';
 import { ItemController } from '../../data/controllers/ItemController';
 import { FlagModule } from './FlagModule';
 import { PlayerContents } from './PlayerContents';
-import { Party } from '../../components/battle/Party';
+import { HeroParty } from '../../components/battle/Party';
 
 export class State {
   /**
@@ -15,7 +15,7 @@ export class State {
   public itemController: ItemController;
   public dialogController: DialogController;
   public playerContents: PlayerContents;
-  private party: Party;
+  private party: HeroParty;
   private constructor() {
 
   }
@@ -58,7 +58,7 @@ export class State {
     this.playerContents = new PlayerContents();
     // For now, just use Lo to get the ball rolling
 
-    this.party = new Party([1,2,3], this.game);
+    this.party = new HeroParty([1,2,3], this.game);
     this.flags = new Map<string, FlagModule>();
   }
   public addFlagModule(name: string) {

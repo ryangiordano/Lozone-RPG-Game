@@ -1,6 +1,6 @@
-import { CombatSprite } from "./CombatSprite";
+import { Combatant } from "../Combatant";
 export class CombatCel {
-  constructor(private pixelCoordinates: Coords, private combatantInCel?: CombatSprite) {
+  constructor(private pixelCoordinates: Coords, private combatantInCel?: Combatant) {
   }
   getX() {
     return this.pixelCoordinates.x;
@@ -8,10 +8,10 @@ export class CombatCel {
   getY() {
     return this.pixelCoordinates.y;
   }
-  get(): CombatSprite {
+  get(): Combatant {
     return this.combatantInCel;
   }
-  set(combatant: CombatSprite): boolean {
+  set(combatant: Combatant): boolean {
     if (this.isEmpty()) {
       this.combatantInCel = combatant;
       this.combatantInCel.setX(this.pixelCoordinates.x);

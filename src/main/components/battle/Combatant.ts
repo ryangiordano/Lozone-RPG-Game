@@ -1,4 +1,6 @@
 import { Buff, Behavior, Spell, Status, CombatActions, CombatResult, CombatantType } from "./Battle";
+import { getUID } from "../../utility/Utility";
+import { HeroParty, Party } from "./Party";
 
 export class Combatant {
   private buffs: Map<number, Buff>;
@@ -9,6 +11,8 @@ export class Combatant {
   public status: Set<Status>;
   public type: CombatantType;
   private sprite: Phaser.GameObjects.Sprite;
+  public uid: string = getUID();
+  protected currentParty;
   constructor(
     public id: number,
     public name: string,
@@ -30,8 +34,8 @@ export class Combatant {
       spells.forEach(this.addSpell)
     }
   }
-  public setSprite(scene: Phaser.Scene){
-    // this.sprite = new Phaser.GameObjects
+  public setSprite(scene: Phaser.Scene) {
+    this.sprite = new Phaser.GameObjects.Sprite(scene, 0, 0, this.spriteKey);
   }
   addBehaviors(behaviors: Behavior[]) {
     behaviors.forEach(behavior => {
@@ -71,7 +75,7 @@ export class Combatant {
       targetDown: target.currentHp === 0
     }
   }
-  failedAction(target: Combatant){
+  failedAction(target: Combatant) {
     return {
       action: CombatActions.failure,
       executor: this,
@@ -113,5 +117,20 @@ export class Combatant {
   }
   public removeStatusCondition(status: Status) {
     this.status.delete(status);
+  }
+  public setX(x: number) {
+    this.sprite.setX(x)
+  }
+  public setY(y: number) {
+    this.sprite.setX(y)
+  }
+  public getSprite() {
+    return this.sprite;
+  }
+  public setParty(party) {
+    this.currentParty = party;
+  }
+  public getParty() {
+    return this.currentParty;
   }
 }

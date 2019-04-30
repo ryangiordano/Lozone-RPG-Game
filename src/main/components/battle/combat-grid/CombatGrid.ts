@@ -1,6 +1,6 @@
-import { CombatSprite } from "./CombatSprite";
 import { CombatCel } from "./CombatCel";
 import { getRandomFloor } from "../../../utility/Utility";
+import { Combatant } from "../Combatant";
 export class CombatGrid {
   public grid: CombatCel[][] = [];
   constructor(private size: Coords, private celSize: number) {
@@ -19,18 +19,18 @@ export class CombatGrid {
     this.grid[from.y][from.x].set(this.grid[to.y][to.x].get());
     this.grid[to.y][to.x].set(temp);
   }
-  placeAt(position: Coords, combatSprite: CombatSprite) {
+  placeAt(position: Coords, combatant: Combatant) {
     const cel = this.grid[position.y][position.x];
-    cel.set(combatSprite);
+    cel.set(combatant);
   }
   private flattenGrid() {
     return this.grid.reduce((acc, row) => {
       return [...acc, ...row];
     }, []);
   }
-  placeAtRandomOpenPosition(combatSprite: CombatSprite) {
+  placeAtRandomOpenPosition(combatant: Combatant) {
     const randomEmpty = this.findRandomEmptyCel();
-    randomEmpty.set(combatSprite);
+    randomEmpty.set(combatant);
   }
   private findRandomEmptyCel() {
     const flattenedEmptyGrid: CombatCel[] = this.flattenGrid().filter(cel => !cel.get());
