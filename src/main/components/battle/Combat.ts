@@ -30,7 +30,7 @@ export class Combat {
     this.displayInputControlsForCurrentPartyMember();
   }
   private setListenersOnUI() {
-    this.combatUI.events.on('enemy-selected', (event) => {
+    this.combatUI.events.on('option-selected', (event) => {
       this.addEvent(event);
       this.confirmSelection();
     })
@@ -115,7 +115,7 @@ export class Combat {
 
   public sortEventsBySpeed() {
     this.combatEvents.sort((a, b) => {
-      return a.executor.dexterity - a.target.dexterity;
+      return a.executor.dexterity - b.executor.dexterity;
     });
   }
 
@@ -139,7 +139,7 @@ export class Combat {
     const combatEvent = this.combatEvents.pop();
     combatEvent.executeAction().then((result) => {
       const target = result.target;
-      if (target.currentHp === 0) {
+      if (target && target.currentHp === 0) {
         if (target.type === CombatantType.enemy) {
           //Handle battle result object change.
           // destroy sprite.

@@ -38,6 +38,8 @@ export class CombatInterface extends UserInterface {
         this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
       })
       .addOption('Defend', () => {
+        const event = new CombatEvent(this.currentPartyMember, null, CombatActions.defend, Orientation.left, this.scene);
+        this.events.emit('option-selected', event);
       })
       .addOption('Item', () => {
       })
@@ -48,6 +50,7 @@ export class CombatInterface extends UserInterface {
     this.setEventOnPanel(this.mainPanel, 'keydown', (event) => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
         //TODO: Handle iterating backward through the combat input loop.
+
       }
     });
   }
@@ -61,7 +64,7 @@ export class CombatInterface extends UserInterface {
 
       this.enemyTargetPanel.addOption(enemyCombatant.name, () => {
         const event = new CombatEvent(this.currentPartyMember, enemyCombatant, CombatActions.attack, Orientation.left, this.scene);
-        this.events.emit('enemy-selected', event);
+        this.events.emit('option-selected', event);
       });
 
     });

@@ -74,7 +74,7 @@ export class Combatant {
       targetDown: target.currentHp === 0
     }
   }
-  failedAction(target: Combatant):CombatResult {
+  failedAction(target: Combatant): CombatResult {
     return {
       action: CombatActions.failure,
       executor: this,
@@ -98,6 +98,16 @@ export class Combatant {
   }
   getModifierValue() {
 
+  }
+  public defendSelf(): CombatResult {
+    //TODO: Implement defending self
+    return {
+      action: CombatActions.defend,
+      executor: this,
+      target: null,
+      resultingValue: 0,
+      targetDown: null
+    }
   }
   private changeCurrent(property, value: number) {
     property = Math.min(property + value, property);
