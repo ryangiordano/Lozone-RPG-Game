@@ -6,6 +6,12 @@ export class CombatGrid {
   constructor(private size: Coords, private celSize: number) {
     this.createGrid();
   }
+  public getWidth() {
+    return this.grid.length;
+  }
+  public getHeight() {
+    return this.grid[0].length;
+  }
   private createGrid() {
     for (let row = 0; row < this.size.y; row++) {
       this.grid.push([]);
@@ -34,6 +40,7 @@ export class CombatGrid {
   }
   private findRandomEmptyCel() {
     const flattenedEmptyGrid: CombatCel[] = this.flattenGrid().filter(cel => !cel.get());
+
     return flattenedEmptyGrid[getRandomFloor(flattenedEmptyGrid.length)];
   }
 }

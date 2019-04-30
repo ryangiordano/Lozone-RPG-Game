@@ -16,6 +16,7 @@ export class HeroParty {
   constructor(memberIds: number[], game: Phaser.Game) {
     this.partyController = new PartyController(game);
     memberIds.forEach((id) => this.addMemberById(id));
+    this.members.forEach(member => member.setParty(this));
   }
   addMemberById(id: number) {
     const toAdd = this.partyController.getPartyMemberById(id);
@@ -39,6 +40,7 @@ export class EnemyParty extends Party<Enemy>{
     this.enemyController = new EnemyController(game);
     const enemyPartyIds = this.enemyController.getEnemyPartyById(enemyPartyId);
     enemyPartyIds.forEach((id) => this.addMemberById(id));
+    this.members.forEach(member => member.setParty(this));
   }
   addMemberById(id: number) {
     const toAdd = this.enemyController.getEnemyById(id);

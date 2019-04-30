@@ -25,7 +25,7 @@ export class CombatContainer extends Phaser.GameObjects.Container {
     this.combatants.forEach(combatant => {
       const sprite = combatant.getSprite();
       this.add(sprite);
-      const y = getRandomFloor(3);
+      const y = getRandomFloor(this.combatGrid.getHeight());
       this.combatGrid.placeAtRandomOpenPosition(combatant);
       y > 1 ? this.bringToTop(sprite) : this.sendToBack(sprite);
       sprite.setOrigin(.5, .5);

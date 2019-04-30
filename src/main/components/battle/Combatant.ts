@@ -1,6 +1,5 @@
 import { Buff, Behavior, Spell, Status, CombatActions, CombatResult, CombatantType } from "./CombatDataStructures";
 import { getUID } from "../../utility/Utility";
-import { HeroParty, Party } from "./Party";
 
 export class Combatant {
   private buffs: Map<number, Buff>;

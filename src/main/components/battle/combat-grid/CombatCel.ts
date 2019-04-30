@@ -14,8 +14,8 @@ export class CombatCel {
   set(combatant: Combatant): boolean {
     if (this.isEmpty()) {
       this.combatantInCel = combatant;
-      this.combatantInCel.setX(this.pixelCoordinates.x);
-      this.combatantInCel.setY(this.pixelCoordinates.y);
+      this.combatantInCel.getSprite().setX(this.pixelCoordinates.x);
+      this.combatantInCel.getSprite().setY(this.pixelCoordinates.y);
       return true;
     }
     return false;

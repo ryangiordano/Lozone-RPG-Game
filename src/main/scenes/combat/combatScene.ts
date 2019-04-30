@@ -9,8 +9,8 @@ export class CombatScene extends Phaser.Scene {
   private combat: Combat;
   constructor() {
     super('Battle');
-
   }
+  
   init(data) {
     this.enemyController = new EnemyController(this.game);
     this.previousSceneKey = data.key;

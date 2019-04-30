@@ -2,6 +2,7 @@ import { Combatant } from "./Combatant";
 import { CombatActions, CombatResult, Orientation } from "./CombatDataStructures";
 import { TextFactory } from "../../utility/TextFactory";
 import { makeTextScaleUp } from "../../utility/tweens/text";
+
 export class CombatEvent {
   private textFactory: TextFactory = new TextFactory();
   constructor(
@@ -11,6 +12,7 @@ export class CombatEvent {
     private orientation: Orientation,
     private scene: Phaser.Scene) {
   }
+
   public executeAction(): Promise<CombatResult> {
     return new Promise((resolve) => {
       const executor = this.executor;
@@ -41,9 +43,11 @@ export class CombatEvent {
     });
     //TODO: broadcast actions to an in battle dialog 
   }
+
   private returnFailedAction(executor: Combatant, target: Combatant): CombatResult {
     return executor.failedAction(target);
   }
+
   private setCombatText(value: string) {
     return new Promise((resolve) => {
       const target = this.target;
@@ -61,10 +65,11 @@ export class CombatEvent {
       tween.play(false);
     });
   }
+
   private confirmTarget(): Combatant {
     let target = this.target;
     if (target.currentHp <= 0) {
-      const nextTargetable = target.getParty().find(potentialTarget => potentialTarget.currentHp > 0);
+      const nextTargetable = target.getParty().members.find(potentialTarget => potentialTarget.currentHp > 0);
       if (nextTargetable) {
         this.target = nextTargetable;
         target = nextTargetable;
@@ -72,6 +77,7 @@ export class CombatEvent {
     }
     return target;
   }
+
   private executorIsValid(): boolean {
     return this.executor.currentHp > 0;
   }

@@ -6,8 +6,6 @@ import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./CombatInterface";
 
-
-
 export class Combat {
   private partyContainer: CombatContainer;
   private enemyContainer: CombatContainer;
