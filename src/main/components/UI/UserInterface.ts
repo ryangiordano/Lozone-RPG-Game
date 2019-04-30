@@ -6,6 +6,8 @@ export class UserInterface extends Phaser.GameObjects.Container {
   private focusedPanel: UIPanel;
   private panelTravelHistory: UIPanel[] = [];
   private keyboardMuted: boolean = false;
+  public events = new Phaser.Events.EventEmitter();
+
   constructor(protected scene: Phaser.Scene, private spriteKey: string) {
     super(scene, 0, 0);
     this.name = 'UI';
@@ -149,4 +151,5 @@ export class UserInterface extends Phaser.GameObjects.Container {
         break;
     }
   }
+
 }

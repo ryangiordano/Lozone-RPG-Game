@@ -1,5 +1,5 @@
 import { Combatant } from "./Combatant";
-import { CombatantType } from "./Battle";
+import { CombatantType } from "./CombatDataStructures";
 
 export class PartyMember extends Combatant {
   constructor(

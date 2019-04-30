@@ -1,8 +1,7 @@
 import { UserInterface } from "../UI/UserInterface";
 import { TextFactory } from "../../utility/TextFactory";
-import { CombatSprite } from "./combat-grid/CombatSprite";
 import { CombatEvent } from "./CombatEvent";
-import { Orientation, CombatActions } from "./Battle";
+import { Orientation, CombatActions } from "./CombatDataStructures";
 import { PartyMember } from "./PartyMember";
 import { Combatant } from "./Combatant";
 import { UIPanel, PanelContainer } from "../UI/PanelContainer";
@@ -26,6 +25,10 @@ export class CombatInterface extends UserInterface {
     this.currentPartyMember = partyMember;
     this.createMainPanel();
     this.createStatusPanel();
+
+    this.mainPanel.addChildPanel('status', this.statusPanel)
+    this.showPanel(this.mainPanel).focusPanel(this.mainPanel);
+
     this.createEnemyTargetPanel();
   }
 
@@ -47,9 +50,6 @@ export class CombatInterface extends UserInterface {
         //TODO: Handle iterating backward through the combat input loop.
       }
     });
-
-    this.mainPanel.addChildPanel('status', this.statusPanel)
-    this.showPanel(this.mainPanel).focusPanel(this.mainPanel);
   }
 
   private createEnemyTargetPanel() {
@@ -60,9 +60,8 @@ export class CombatInterface extends UserInterface {
     this.enemies.forEach(enemyCombatant => {
 
       this.enemyTargetPanel.addOption(enemyCombatant.name, () => {
-        this.addEvent(new CombatEvent(this.currentPartyMember, enemyCombatant, CombatActions.attack, Orientation.left, this.scene));
-        this.confirmSelection();
-
+        const event = new CombatEvent(this.currentPartyMember, enemyCombatant, CombatActions.attack, Orientation.left, this.scene);
+        this.events.emit('enemy-selected', event);
       });
 
     });
@@ -78,7 +77,8 @@ export class CombatInterface extends UserInterface {
       this.scene.add.existing(gameObject);
       this.statusPanel.add(gameObject);
     });
+
     return this.statusPanel;
   }
-  
+
 }

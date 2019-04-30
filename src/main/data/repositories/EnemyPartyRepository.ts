@@ -1,5 +1,5 @@
 import { Repository } from "./Repository";
-import { EnemyParty } from "../../components/battle/Battle";
+import { EnemyParty } from "../../components/battle/CombatDataStructures";
 
 export class EnemyPartyRepository extends Repository<EnemyParty> {
   constructor(game: Phaser.Game) {

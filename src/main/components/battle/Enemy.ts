@@ -1,6 +1,6 @@
 import { Combatant } from "./Combatant";
 import { Item } from "../entities/Item";
-import { CombatantType } from "./Battle";
+import { CombatantType } from "./CombatDataStructures";
 
 export class Enemy extends Combatant {
   public lootTable: Item[];

@@ -1,10 +1,12 @@
 import { Combatant } from "./Combatant";
-import { CombatActions, CombatantType, Orientation, Status } from "./Battle";
+import { CombatActions, CombatantType, Orientation, Status } from "./CombatDataStructures";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import { getRandomFloor, Directions } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./CombatInterface";
+
+
 
 export class Combat {
   private partyContainer: CombatContainer;
@@ -14,13 +16,27 @@ export class Combat {
   private partyMembers: Combatant[] = [];
   private enemies: Combatant[] = [];
   private currentPartyFocusIndex: number = 0;
-  constructor(private scene: Phaser.Scene, party: Combatant[], enemies: Combatant[]) {
-    party.forEach(member => this.partyMembers.push(member));
 
-    enemies.forEach(enemy => this.enemies.push(enemy));
+  constructor(private scene: Phaser.Scene, party: Combatant[], enemies: Combatant[]) {
+    party.forEach(member => {
+      member.setSprite(scene);
+      this.partyMembers.push(member)
+    });
+
+    enemies.forEach(enemy => {
+      enemy.setSprite(scene);
+      this.enemies.push(enemy)
+    });
 
     this.addAndPopulateContainers();
     this.displayInputControlsForCurrentPartyMember();
+  }
+  private setListenersOnUI() {
+    this.combatUI.events.on('enemy-selected', (event) => {
+      this.addEvent(event);
+      this.confirmSelection();
+    })
+
   }
 
   public focusPreviousPartyInput(): boolean {
@@ -62,11 +78,9 @@ export class Combat {
   private constructInputUI(partyMember: Combatant) {
     this.combatUI = new CombatInterface(this.scene, 'dialog-white', this.partyMembers, this.enemies);
     this.combatUI.create(partyMember);
-
+    this.setListenersOnUI();
 
   }
-
-
 
   private addEvent(combatEvent) {
     this.combatEvents.push(combatEvent);
@@ -126,14 +140,14 @@ export class Combat {
     }
     const combatEvent = this.combatEvents.pop();
     combatEvent.executeAction().then((result) => {
-      const target = <Combatant>result.targetCombatSprite.getCombatant();
+      const target = result.target;
       if (target.currentHp === 0) {
         if (target.type === CombatantType.enemy) {
           //Handle battle result object change.
           // destroy sprite.
 
-          const index = this.enemies.findIndex(enemy => enemy.uid === result.targetCombatSprite.uid);
-          result.targetCombatSprite.destroy();
+          const index = this.enemies.findIndex(enemy => enemy.uid === target.uid);
+          target.getSprite().destroy();
           if (index > -1) {
             this.enemies.splice(index, 1);
             if (this.enemies.length <= 0) {

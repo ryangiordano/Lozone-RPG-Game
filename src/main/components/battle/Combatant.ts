@@ -1,4 +1,4 @@
-import { Buff, Behavior, Spell, Status, CombatActions, CombatResult, CombatantType } from "./Battle";
+import { Buff, Behavior, Spell, Status, CombatActions, CombatResult, CombatantType } from "./CombatDataStructures";
 import { getUID } from "../../utility/Utility";
 import { HeroParty, Party } from "./Party";
 
@@ -75,7 +75,7 @@ export class Combatant {
       targetDown: target.currentHp === 0
     }
   }
-  failedAction(target: Combatant) {
+  failedAction(target: Combatant):CombatResult {
     return {
       action: CombatActions.failure,
       executor: this,

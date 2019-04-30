@@ -1,6 +1,5 @@
 import { Combatant } from "./Combatant";
-import { CombatSprite } from "./combat-grid/CombatSprite";
-import { CombatActions, CombatResult, Orientation } from "./Battle";
+import { CombatActions, CombatResult, Orientation } from "./CombatDataStructures";
 import { TextFactory } from "../../utility/TextFactory";
 import { makeTextScaleUp } from "../../utility/tweens/text";
 export class CombatEvent {
@@ -12,7 +11,7 @@ export class CombatEvent {
     private orientation: Orientation,
     private scene: Phaser.Scene) {
   }
-  public executeAction(): Promise<any> {
+  public executeAction(): Promise<CombatResult> {
     return new Promise((resolve) => {
       const executor = this.executor;
       const target = this.confirmTarget();
@@ -34,10 +33,7 @@ export class CombatEvent {
             console.log(`${executor.name} attacks ${target.name} for ${results.resultingValue}`);
             console.log(`${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`);
             this.setCombatText(results.resultingValue.toString()).then(() => {
-              return resolve({
-                target: this.target,
-                executor: this.executor, results
-              });
+              return resolve(results);
             });
           }, 100);
         }, 500);
@@ -45,11 +41,8 @@ export class CombatEvent {
     });
     //TODO: broadcast actions to an in battle dialog 
   }
-  private returnFailedAction(executor, target) {
-    return {
-      targetCombatSprite: this.target, executorCombatSprite: this.executor,
-      results: executor.failedAction(target)
-    };
+  private returnFailedAction(executor: Combatant, target: Combatant): CombatResult {
+    return executor.failedAction(target);
   }
   private setCombatText(value: string) {
     return new Promise((resolve) => {

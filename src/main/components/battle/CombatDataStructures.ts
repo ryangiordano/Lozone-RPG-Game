@@ -1,5 +1,3 @@
-import { Item } from "../entities/Item";
-import { Enemy } from "./Enemy";
 import { Combatant } from "./Combatant";
 
 export interface Buff {

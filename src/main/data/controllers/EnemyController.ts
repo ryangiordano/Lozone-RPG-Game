@@ -1,6 +1,7 @@
 import { EnemyRepository } from "../repositories/EnemyRepository";
 import { EnemyPartyRepository } from "../repositories/EnemyPartyRepository";
 import { Enemy } from "../../components/battle/Enemy";
+import { EnemyParty } from "../../components/battle/Party";
 
 export class EnemyController {
   private enemyRepository: EnemyRepository;
@@ -18,9 +19,8 @@ export class EnemyController {
     );
     return enemy;
   }
-  public getEnemyPartyById(id: number): Enemy[] {
-    const party = this.enemyPartyRepository.getById(id);
-    const populatedParty = party.enemies.map(enemyId => this.getEnemyById(enemyId));
-    return populatedParty;
+  public getEnemyPartyById(enemyPartyId: number): number[] {
+    const enemyPartyFromDb = this.enemyPartyRepository.getById(enemyPartyId);
+    return enemyPartyFromDb.enemies;
   }
 }

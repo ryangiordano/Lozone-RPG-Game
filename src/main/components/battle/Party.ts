@@ -5,7 +5,7 @@ import { Enemy } from "./Enemy";
 import { EnemyController } from "../../data/controllers/EnemyController";
 
 export abstract class Party<T> {
-  protected members: T[];
+  protected members: T[] = [];
   abstract addMemberById(id: number);
   abstract getParty(): T[];
 }
@@ -34,10 +34,11 @@ export class HeroParty {
 export class EnemyParty extends Party<Enemy>{
   private enemyController: EnemyController;
 
-  constructor(enemyIds: number[], game: Phaser.Game) {
+  constructor(enemyPartyId: number, game: Phaser.Game) {
     super();
     this.enemyController = new EnemyController(game);
-    enemyIds.forEach((id) => this.addMemberById(id));
+    const enemyPartyIds = this.enemyController.getEnemyPartyById(enemyPartyId);
+    enemyPartyIds.forEach((id) => this.addMemberById(id));
   }
   addMemberById(id: number) {
     const toAdd = this.enemyController.getEnemyById(id);

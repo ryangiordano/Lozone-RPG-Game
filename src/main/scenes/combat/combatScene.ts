@@ -1,6 +1,7 @@
 import { State } from "../../utility/state/State";
 import { Combat } from "../../components/battle/Combat";
 import { EnemyController } from "../../data/controllers/EnemyController";
+import { EnemyParty } from "../../components/battle/Party";
 
 export class CombatScene extends Phaser.Scene {
   private previousSceneKey: string;
@@ -17,10 +18,9 @@ export class CombatScene extends Phaser.Scene {
 
     const party = State.getInstance().getCurrentParty();
 
-    const enemyParty = this.enemyController.getEnemyPartyById(data.enemyPartyId);
+    const enemyParty = new EnemyParty(data.enemyPartyId, this.game);
 
-    this.combat = new Combat(this, party.getParty(), enemyParty);
-    
+    this.combat = new Combat(this, party.getParty(), enemyParty.getParty());
     this.events.once('end-battle', (battleResults) => {
       console.log(battleResults)
       this.endBattle();
