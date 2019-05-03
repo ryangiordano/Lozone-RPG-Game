@@ -3,9 +3,10 @@ import { Combatant } from "./Combatant";
 export interface Buff {
   id: number;
   modifiers: Modifier[];
+  duration: number;
   name: string;
 }
-export enum CombatantType{
+export enum CombatantType {
   partyMember,
   enemy,
   boss
@@ -52,17 +53,23 @@ export interface EnemyParty {
 }
 
 export interface CombatResult {
-  //define later 
-  action: CombatActions,
+  actionType: CombatActionTypes,
   executor: Combatant,
   target: Combatant,
   resultingValue: number,
   targetDown?: boolean
 }
-export enum CombatActions {
+export enum CombatActionTypes {
   attack,
+  heal,
   defend,
   castSpell,
   useItem,
   failure
+}
+
+export interface CombatAction {
+  name: string,
+  description: string,
+  action: CombatResult,
 }

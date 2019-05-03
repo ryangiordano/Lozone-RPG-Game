@@ -1,5 +1,5 @@
 import { Combatant } from "./Combatant";
-import { CombatActions, CombatResult, Orientation } from "./CombatDataStructures";
+import { CombatActionTypes, CombatResult, Orientation } from "./CombatDataStructures";
 import { TextFactory } from "../../utility/TextFactory";
 import { makeTextScaleUp } from "../../utility/tweens/text";
 
@@ -8,7 +8,7 @@ export class CombatEvent {
   constructor(
     public executor: Combatant,
     public target: Combatant,
-    public action: CombatActions,
+    public action: CombatActionTypes,
     private orientation: Orientation,
     private scene: Phaser.Scene) {
   }
@@ -18,14 +18,15 @@ export class CombatEvent {
       const executor = this.executor;
       const target = this.confirmTarget();
 
-      if (this.action === CombatActions.attack) {
+      // This is where we implement our Actions.ts actions. 
+      if (this.action === CombatActionTypes.attack) {
         if (!target || !this.executorIsValid) {
           resolve(this.returnFailedAction(executor, target));
         }
         this.handleAttack(executor, target).then((results) => resolve(results));
       }
-      if (this.action === CombatActions.defend) {
-        this.handleDefend(executor, target).then((results) => resolve(results))
+      if (this.action === CombatActionTypes.defend) {
+        this.handleDefend(executor).then((results) => resolve(results))
       }
       // Needs to be replaced with animations/tweening and callbacks, but it works asynchronously.
       // TODO: depending on the this.action value, execute a certain command.
@@ -34,7 +35,7 @@ export class CombatEvent {
     //TODO: broadcast actions to an in battle dialog 
   }
 
-  private handleDefend(executor, target): Promise<any> {
+  private handleDefend(executor: Combatant): Promise<any> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const results: CombatResult = executor.defendSelf();
@@ -44,10 +45,10 @@ export class CombatEvent {
           return resolve(results);
         });
       }, 100);
-    })
-
+    });
   }
-  private handleAttack(executor, target): Promise<any> {
+
+  private handleAttack(executor: Combatant, target: Combatant): Promise<any> {
     return new Promise((resolve) => {
       const modifier = this.orientation === Orientation.left ? 1 : -1;
       this.executor.setX(this.executor.getSprite().x + (15 * modifier));
@@ -68,8 +69,8 @@ export class CombatEvent {
         }, 500);
       }, 100);
     });
-
   }
+
   private returnFailedAction(executor: Combatant, target: Combatant): CombatResult {
     return executor.failedAction(target);
   }
@@ -89,7 +90,8 @@ export class CombatEvent {
 
     return valueText;
   }
-  playCombatText(textObject: Phaser.GameObjects.Text): Promise<any> {
+
+  public playCombatText(textObject: Phaser.GameObjects.Text): Promise<any> {
 
     return new Promise((resolve) => {
       const tween = makeTextScaleUp(textObject, 600, this.scene, () => {

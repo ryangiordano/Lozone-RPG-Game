@@ -1,7 +1,7 @@
 import { UserInterface } from "../UI/UserInterface";
 import { TextFactory } from "../../utility/TextFactory";
 import { CombatEvent } from "./CombatEvent";
-import { Orientation, CombatActions } from "./CombatDataStructures";
+import { Orientation, CombatActionTypes } from "./CombatDataStructures";
 import { PartyMember } from "./PartyMember";
 import { Combatant } from "./Combatant";
 import { UIPanel, PanelContainer } from "../UI/PanelContainer";
@@ -38,7 +38,7 @@ export class CombatInterface extends UserInterface {
         this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
       })
       .addOption('Defend', () => {
-        const event = new CombatEvent(this.currentPartyMember, null, CombatActions.defend, Orientation.left, this.scene);
+        const event = new CombatEvent(this.currentPartyMember, null, CombatActionTypes.defend, Orientation.left, this.scene);
         this.events.emit('option-selected', event);
       })
       .addOption('Item', () => {
@@ -63,7 +63,7 @@ export class CombatInterface extends UserInterface {
     this.enemies.forEach(enemyCombatant => {
 
       this.enemyTargetPanel.addOption(enemyCombatant.name, () => {
-        const event = new CombatEvent(this.currentPartyMember, enemyCombatant, CombatActions.attack, Orientation.left, this.scene);
+        const event = new CombatEvent(this.currentPartyMember, enemyCombatant, CombatActionTypes.attack, Orientation.left, this.scene);
         this.events.emit('option-selected', event);
       });
 

@@ -1,5 +1,5 @@
 import { Combatant } from "./Combatant";
-import { CombatActions, CombatantType, Orientation, Status } from "./CombatDataStructures";
+import { CombatActionTypes, CombatantType, Orientation, Status } from "./CombatDataStructures";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import { getRandomFloor, Directions } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
@@ -104,7 +104,7 @@ export class Combat {
       //TODO: In here we would query the enemy's behavior script, and check the state of the battlefield before making a decision for what to do.  For now, we attack;
       const randomPartyMember = this.getRandomAttackablePartyMember();
 
-      this.addEvent(new CombatEvent(enemy, randomPartyMember, CombatActions.attack, Orientation.right, this.scene));
+      this.addEvent(new CombatEvent(enemy, randomPartyMember, CombatActionTypes.attack, Orientation.right, this.scene));
     })
   }
 

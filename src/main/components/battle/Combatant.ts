@@ -1,5 +1,6 @@
-import { Buff, Behavior, Spell, Status, CombatActions, CombatResult, CombatantType } from "./CombatDataStructures";
+import { Buff, Behavior, Spell, Status, CombatActionTypes, CombatResult, CombatantType } from "./CombatDataStructures";
 import { getUID } from "../../utility/Utility";
+import { Defend } from "./Actions";
 
 export class Combatant {
   private buffs: Map<number, Buff>;
@@ -24,6 +25,8 @@ export class Combatant {
     public strength: number,
     public wisdom: number,
     public stamina: number,
+    public physicalResist: number,
+    public magicalResist: number,
     spells?: Spell[]) {
     this.status = new Set<Status>();
     this.buffs = new Map<number, Buff>();
@@ -67,7 +70,7 @@ export class Combatant {
     const potency = this.getAttackPower();
     const damageDone = target.receivePhysicalDamage(potency);
     return {
-      action: CombatActions.attack,
+      actionType: CombatActionTypes.attack,
       executor: this,
       target,
       resultingValue: damageDone,
@@ -76,7 +79,7 @@ export class Combatant {
   }
   failedAction(target: Combatant): CombatResult {
     return {
-      action: CombatActions.failure,
+      actionType: CombatActionTypes.failure,
       executor: this,
       target,
       resultingValue: 0,
@@ -90,24 +93,22 @@ export class Combatant {
     return actualDamage;
   }
   getAttackPower() {
-    //TODO: Factor in equipment as well
+    //TODO: Factor in equipment as well, and factor in a modifier.
     return this.strength * this.level;
   }
-  getDefensePower() {
+  public getMagicPower(){
+    return this.intellect * this.level;
+  }
+  public getDefensePower() {
     return this.stamina * this.level;
   }
-  getModifierValue() {
+  public getModifierValue() {
 
   }
-  public defendSelf(): CombatResult {
+  public defendSelf() {
     //TODO: Implement defending self
-    return {
-      action: CombatActions.defend,
-      executor: this,
-      target: null,
-      resultingValue: 0,
-      targetDown: null
-    }
+    
+
   }
   private changeCurrent(property, value: number) {
     property = Math.min(property + value, property);

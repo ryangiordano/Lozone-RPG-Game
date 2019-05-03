@@ -1,0 +1,10 @@
+{
+  "1": {
+    "name": "Defense Up",
+    "description": "Increases physical resistance",
+    "attribute": 1,
+    "potency": 10,
+    "particle": 1,
+    "frame": 1
+  }
+}
