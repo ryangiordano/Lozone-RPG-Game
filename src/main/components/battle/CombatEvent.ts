@@ -17,9 +17,9 @@ export class CombatEvent {
     return new Promise((resolve) => {
       const executor = this.executor;
       const target = this.confirmTarget();
-
       // This is where we implement our Actions.ts actions. 
       if (this.action === CombatActionTypes.attack) {
+        
         if (!target || !this.executorIsValid) {
           resolve(this.returnFailedAction(executor, target));
         }
