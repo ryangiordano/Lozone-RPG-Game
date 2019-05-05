@@ -1,5 +1,5 @@
 import { AnimationHelper } from '../utility/animation-helper';
-import { StateManager } from '../utility/state/StateManager';
+import { State } from '../utility/state/State';
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
@@ -21,7 +21,7 @@ export class BootScene extends Phaser.Scene {
           fill: '#000000',
           fontWeight: 'bold'
         });
-        new AnimationHelper(this, this.cache.json.get('loAnimation'));
+
         new AnimationHelper(this, this.cache.json.get('ryanAndLoAnimation'));
         const sprite = this.add.sprite(80, 65, 'ryanandlo');
         sprite.scaleX = 0.3;
@@ -30,25 +30,46 @@ export class BootScene extends Phaser.Scene {
         sprite.on('animationcomplete', () => {
           this.sound.play('startup');
         });
+        // TODO Move animation helper calls to individual sprites that use the animation
+        new AnimationHelper(this, this.cache.json.get('loAnimation'));
+        new AnimationHelper(this, this.cache.json.get('ryanAnimation'));
+
         // When we get to the point where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.
-        const sm = StateManager.getInstance();
+        const sm = State.getInstance();
         sm.initialize(this.game);
         sm.addFlagModule('chests');
-        // sm.itemRepository.addItemToPlayerContents(1);
-        // sm.itemRepository.addItemToPlayerContents(2);
-        // sm.itemRepository.addItemToPlayerContents(3);
-        // sm.itemRepository.addItemToPlayerContents(1);
-        sm.itemRepository.addItemToPlayerContents(1);
+
+        // this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
+        const tempParty = [8,6,4,3,13];
+        const tempParty2 = [6]
+        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1, enemyPartyIds: tempParty });
       },
       this
     );
-    // Load the package
+    // Load the packages
+    this.load.pack(
+      'preload_spritesheets',
+      './src/main/assets/pack/spritesheets.json', 'preload_spritesheets');
+    this.load.pack(
+      'preload_images',
+      './src/main/assets/pack/image.json',
+      'preload_images')
+    this.load.pack(
+      'preload_audio',
+      './src/main/assets/pack/audio.json',
+      'preload_audio')
+    this.load.pack(
+      'preload_data',
+      './src/main/assets/pack/data.json',
+      'preload_data')
+    this.load.pack(
+      'preload_tilemaps',
+      './src/main/assets/pack/tilemaps.json',
+      'preload_tilemaps')
     this.load.pack('preload', './src/main/assets/pack.json', 'preload');
   }
   private createLoadingGraphics(): void {
-    setTimeout(() => {
-      // We can specify the type of config we want to send.
-      this.scene.start('Explore', { map: 'room', tileset: 'room-tiles' });
-    }, 500);
+    // We can specify the type of config we want to send.
+
   }
 }

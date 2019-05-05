@@ -1,5 +1,4 @@
 {
-  "items": {
     "1": {
       "name": "blueberry",
       "description": "Delicious blueberry.  Restores 10HP",
@@ -11,7 +10,7 @@
     },
     "2": {
       "name": "tamarind",
-      "description": "Delicious blueberry.  Restores 30HP",
+      "description": "A crispy shell hiding sweet fruit.  Restores 30HP",
       "effectId": 1,
       "effectPotency": 30,
       "spriteKey": "items",
@@ -20,12 +19,11 @@
     },
     "3": {
       "name": "mango",
-      "description": "Delicious blueberry.  Restores 100HP",
+      "description": "A rainbow-colored mango.  Restores 100HP",
       "effectId": 1,
       "effectPotency": 100,
       "spriteKey": "items",
       "frame": 3,
       "category": "consumable"
     }
-  }
 }

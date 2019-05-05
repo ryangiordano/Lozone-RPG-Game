@@ -1,45 +1,80 @@
-import { UserInterface } from "../utility/UI/UserInterface";
-import { StateManager } from "../utility/state/StateManager";
-import { DialogPanelContainer } from "../utility/UI/DialogPanelContainer";
-import { Item } from "../utility/state/ItemRepository";
+import { UserInterface } from "../components/UI/UserInterface";
+import { State } from "../utility/state/State";
+import { UIPanel } from "../components/UI/PanelContainer";
+import { Item } from "../components/entities/Item";
 
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
+  private callingSceneKey: string;
+  private state: State = State.getInstance();
   constructor() {
     super({ key: 'MenuScene' });
   }
-  preload(): void {
-    // Handle loading assets here, adding sounds etc
-  }
+
   init(data) {
-    const sm = StateManager.getInstance();
+    this.callingSceneKey = data.callingSceneKey;
     this.UI = new UserInterface(this, 'dialog-white');
-    const mainPanel = this.UI.createPanel({ x: 3, y: 9 }, { x: 0, y: 0 });
-    mainPanel
-      .addOption('Items', () => {
-        this.UI.showPanel(itemPanel).focusPanel(itemPanel)
-      })
-      .addOption('Party', () => {
-        this.UI.showPanel(partyPanel).focusPanel(partyPanel)
-      })
-      .addOption('Cancel', () => this.closeMenuScene());
+
+    const mainPanel = this.createMainPanel();
+    mainPanel.on('items-selected', () => this.UI.showPanel(itemPanel).focusPanel(itemPanel));
+    mainPanel.on('party-selected', () => this.UI.showPanel(partyPanel).focusPanel(partyPanel));
+    mainPanel.on('dungeons-selected', () => this.UI.showPanel(dungeonPanel).focusPanel(dungeonPanel));
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
-    // DEBUG ONLY:
 
-
-
-    // Item Panel
-    const itemPanel = new ItemPanelContainer({ x: 7, y: 9 }, { x: 3, y: 0 }, 'dialog-white', this, sm.itemRepository.getItemsOnPlayer());
-    this.UI.addPanel(itemPanel)
-    itemPanel.on('item-selected', (item) => {
+    const itemPanel = this.createItemPanel();
+    const itemConfirmPanel = this.createItemConfirmPanel();
+    itemPanel.on('show-and-focus-confirm-panel', item => {
       this.UI.showPanel(itemConfirmPanel);
       this.UI.focusPanel(itemConfirmPanel);
       itemConfirmPanel.setPanelData(item);
     });
+    itemConfirmPanel.on('refresh-items', () => {
+      itemPanel.refreshPanel();
+    });
+
+    const partyPanel = this.createPartyPanel();
+    const dungeonPanel = this.createDungeonPanel();
+
+    this.setEventListeners();
+    this.setKeyboardEventListeners();
+    this.UI.initialize();
+  }
+
+  private closeMenuScene() {
+    this.scene.setActive(true, this.callingSceneKey)
+    this.scene.stop();
+  }
+  private createMainPanel() {
+    const mainPanel = this.UI.createUIPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
+    mainPanel
+      .addOption('Items', () => {
+        mainPanel.emit('items-selected');
+      })
+      .addOption('Party', () => {
+        mainPanel.emit('party-selected');
+      })
+      .addOption('Dungeons', () => {
+        mainPanel.emit('dungeons-selected');
+      })
+      .addOption('Credits', () => {
+        this.scene.stop(this.callingSceneKey);
+        this.scene.start('CreditsScene');
+      })
+      .addOption('Cancel', () => this.closeMenuScene());
+    return mainPanel;
+  }
+  private createItemPanel() {
+    const itemPanel = new ItemPanelContainer({ x: 6, y: 9 }, { x: 4, y: 0 }, 'dialog-white', this, this.state.getItemsOnPlayer());
+    this.UI.addPanel(itemPanel)
+    itemPanel.on('item-selected', (item) => {
+      itemPanel.emit('show-and-focus-confirm-panel', item);
+    });
     itemPanel.on('panel-close', () => {
       this.UI.closePanel(itemPanel);
-    })
-
+    });
+    return itemPanel;
+  }
+  private createItemConfirmPanel() {
     // Add item use confirmation panel.
     const itemConfirmPanel = new ConfirmItemPanelContainer({ x: 3, y: 3 }, { x: 7, y: 6 }, 'dialog-white', this);
 
@@ -47,67 +82,72 @@ export class MenuScene extends Phaser.Scene {
     // Add option for confirmation
     itemConfirmPanel.addOption('Use', () => {
       const item = itemConfirmPanel.getPanelData();
-      sm.itemRepository.consumeItem(item.id);
-      itemPanel.refreshPanel();
+      this.state.consumeItem(item.id);
+      itemConfirmPanel.emit('refresh-items');
+
       this.UI.closePanel(itemConfirmPanel);
 
     }).addOption('Drop', () => {
       const item = itemConfirmPanel.getPanelData();
-      sm.itemRepository.removeItemFromPlayerContents(item.id);
-      itemPanel.refreshPanel();
+      this.state.removeItemFromContents(item.id);
+      itemConfirmPanel.emit('refresh-items');
+
       this.UI.closePanel(itemConfirmPanel);
-    })
-      .addOption('Cancel', () => {
-        this.UI.closePanel(itemConfirmPanel);
-      })
-
-    // Party Panel
-    const partyPanel = this.UI.createPanel({ x: 7, y: 9 }, { x: 3, y: 0 }).addOption('Cancel', () => {
+    }).addOption('Cancel', () => {
+      this.UI.closePanel(itemConfirmPanel);
+    });
+    return itemConfirmPanel;
+  }
+  private createPartyPanel() {
+    const partyPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 }).addOption('Cancel', () => {
       this.UI.closePanel(partyPanel);
-    })
+    });
+    return partyPanel;
+  }
+  private createDungeonPanel() {
+    const dungeonPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
+      .addOption('Dungeon One', () => {
+        this.scene.stop('House')
+        this.scene.start('Dungeon', { map: 'dungeon_1', tileset: 'dungeon', warpId: 1, enemyPartyIds: [8, 6, 4, 3, 13] });
 
+      })
+      .addOption('Cancel', () => {
+        this.UI.closePanel(dungeonPanel);
+      });
+    return dungeonPanel;
+  }
+  private setEventListeners() {
+    this.events.once('close', () => this.closeMenuScene());
+  }
+  private setKeyboardEventListeners() {
     this.input.keyboard.on('keydown', event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
         this.closeMenuScene();
       }
-
     });
-
-    this.events.on('close', () => this.closeMenuScene())
-  }
-
-  closeMenuScene() {
-    //TODO: Make more generic
-    this.scene.setActive(true, 'Explore')
-    this.events.off('close', ()=>this.closeMenuScene());
-    this.scene.stop();
   }
   update(): void { }
-  destroyed() {
-
-  }
 }
 
-
-
-class ConfirmItemPanelContainer extends DialogPanelContainer {
+class ConfirmItemPanelContainer extends UIPanel {
   private itemData: Item;
   constructor(dimensions: Coords,
     pos: Coords,
     spriteKey: string,
-    scene: Phaser.Scene) {
-    super(dimensions, pos, spriteKey, scene);
-
+    scene: Phaser.Scene, id?: string) {
+    super(dimensions, pos, spriteKey, scene, true, id);
   }
-  setPanelData(item: Item) {
+  
+  public setPanelData(item: Item) {
     this.itemData = item;
   }
-  getPanelData() {
+  
+  public getPanelData() {
     return this.itemData;
   }
 }
 
-class ItemPanelContainer extends DialogPanelContainer {
+class ItemPanelContainer extends UIPanel {
   constructor(dimensions: Coords,
     pos: Coords,
     spriteKey: string,
@@ -129,9 +169,9 @@ class ItemPanelContainer extends DialogPanelContainer {
       this.emit('panel-close');
     })
   }
-  refreshPanel() {
-    this.list = this.list.filter(item=>item.type!=="Text");
-    this.options =[];
+  public refreshPanel() {
+    this.list = this.list.filter(item => item.type !== "Text");
+    this.options = [];
     this.addOptionsViaData();
   }
 

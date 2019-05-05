@@ -1,0 +1,36 @@
+{
+  "preload": {
+    "files": [
+      {
+        "type": "json",
+        "key": "items",
+        "url": "./src/main/data/items.json"
+      },
+      {
+        "type": "json",
+        "key": "dialog",
+        "url": "./src/main/data/dialog.json"
+      },
+      {
+        "type": "json",
+        "key": "credits",
+        "url": "./src/main/data/credit.json"
+      },
+      {
+        "type": "json",
+        "key": "enemies",
+        "url": "./src/main/data/enemies.json"
+      },
+      {
+        "type": "json",
+        "key": "enemy-parties",
+        "url": "./src/main/data/enemy-parties.json"
+      },
+      {
+        "type": "json",
+        "key": "party-members",
+        "url": "./src/main/data/party-members.json"
+      }
+    ]
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "1": {
+    "name": "snake",
+    "spriteKey": "snake",
+    "maxHp": 40,
+    "maxMp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 10,
+    "wisdom": 2,
+    "stamina": 3,
+    "strength": 4,
+    "lootTable": [
+      1,
+      2,
+      3
+    ],
+    "goldValue": 10,
+    "experiencePoints": 10
+  },
+  "2": {
+    "name": "bugbat",
+    "spriteKey": "bat",
+    "maxHp": 20,
+    "maxMp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 7,
+    "wisdom": 2,
+    "stamina": 1,
+    "strength": 3,
+    "lootTable": [
+      1
+    ],
+    "goldValue": 2,
+    "experiencePoints": 5
+  },
+  "3": {
+    "name": "orc",
+    "spriteKey": "orc",
+    "maxHp": 60,
+    "maxMp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 3,
+    "wisdom": 2,
+    "stamina": 5,
+    "strength": 8,
+    "lootTable": [
+      3
+    ],
+    "goldValue": 20,
+    "experiencePoints": 15
+  },
+  "4": {
+    "name": "slime",
+    "spriteKey": "slime",
+    "maxHp": 40,
+    "maxMp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 10,
+    "wisdom": 2,
+    "stamina": 3,
+    "strength": 4,
+    "lootTable": [
+      1
+    ],
+    "goldValue": 3,
+    "experiencePoints": 7
+  },
+  "5": {
+    "name": "eggception",
+    "spriteKey": "egg",
+    "maxHp": 100,
+    "maxMp": 10,
+    "level": 1,
+    "intellect": 12,
+    "dexterity": 13,
+    "wisdom": 12,
+    "stamina": 1,
+    "strength": 4,
+    "spells": [
+      1
+    ],
+    "lootTable": [
+      2
+    ],
+    "goldValue": 15,
+    "experiencePoints": 15
+  },
+  "6": {
+    "name": "baby slime",
+    "spriteKey": "baby-slime",
+    "maxHp": 10,
+    "maxMp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 4,
+    "wisdom": 2,
+    "stamina": 3,
+    "strength": 4,
+    "lootTable": [
+      1
+    ],
+    "goldValue": 1,
+    "experiencePoints": 5
+  },
+  "7": {
+    "name": "poop machine",
+    "spriteKey": "poop-machine",
+    "maxHp": 100,
+    "maxMp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 8,
+    "wisdom": 2,
+    "stamina": 3,
+    "strength": 8,
+    "lootTable": [
+      3
+    ],
+    "goldValue": 50,
+    "experiencePoints": 20
+  },
+  "8": {
+    "name": "nose-wiper",
+    "spriteKey": "nose-wiper",
+    "maxHp": 10,
+    "maxMp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 8,
+    "wisdom": 2,
+    "stamina": 8,
+    "strength": 8,
+    "lootTable": [
+      1,2,3
+    ],
+    "goldValue": 50,
+    "experiencePoints": 15
+  }
+}

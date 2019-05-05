@@ -1,0 +1,195 @@
+{
+  "preload": {
+    "files": [
+      {
+        "type": "spritesheet",
+        "key": "dialog-beige",
+        "url": "./src/main/assets/tiles/dialog-beige.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "dialog-blue",
+        "url": "./src/main/assets/tiles/dialog-blue.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "dialog-purple",
+        "url": "./src/main/assets/tiles/dialog-purple.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "dialog-white",
+        "url": "./src/main/assets/tiles/dialog-white.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "lo",
+        "url": "./src/main/assets/sprites/lo.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "computer",
+        "url": "./src/main/assets/sprites/computer.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "chest",
+        "url": "./src/main/assets/sprites/chest.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "items",
+        "url": "./src/main/assets/sprites/items.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "ryanandlo",
+        "url": "./src/main/assets/sprites/ryanandlo.png",
+        "frameConfig": {
+          "frameWidth": 500,
+          "frameHeight": 103
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "ryan",
+        "url": "./src/main/assets/sprites/ryan.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "yaya",
+        "url": "./src/main/assets/sprites/yaya.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "tuzi",
+        "url": "./src/main/assets/sprites/tuzi.png",
+        "frameConfig": {
+          "frameWidth": 16,
+          "frameHeight": 16
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "stork",
+        "url": "./src/main/assets/sprites/stork.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "slime",
+        "url": "./src/main/assets/sprites/monsters/slime.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "poop-machine",
+        "url": "./src/main/assets/sprites/monsters/poop-machine.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "baby-slime",
+        "url": "./src/main/assets/sprites/monsters/baby-slime.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "bat",
+        "url": "./src/main/assets/sprites/monsters/bat.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "orc",
+        "url": "./src/main/assets/sprites/monsters/orc.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "egg",
+        "url": "./src/main/assets/sprites/monsters/egg.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "snake",
+        "url": "./src/main/assets/sprites/monsters/snake.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "nose-wiper",
+        "url": "./src/main/assets/sprites/monsters/nose-wiper.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      }
+    ]
+  }
+}

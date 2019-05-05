@@ -1,0 +1,31 @@
+{ "height":9,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[7, 6, 6, 6, 6, 6, 6, 6, 6, 8, 7, 6, 6, 6, 6, 6, 6, 6, 6, 8, 7, 5, 5, 5, 5, 5, 5, 5, 5, 8, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25],
+         "height":9,
+         "id":1,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":2,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.2.3",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"..\/..\/tiles\/dungeon-tiles.json"
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":1.2,
+ "width":10
+}

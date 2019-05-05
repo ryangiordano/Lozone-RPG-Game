@@ -1,0 +1,33 @@
+{
+  "anims": [{
+      "key": "walkVRyan",
+      "frames": {
+        "typeOfGeneration": "generateFrameNumbers",
+        "frames": [7, 6, 8, 6],
+        "key": "ryan"
+      },
+      "repeat": 0,
+      "frameRate": 5
+    },
+    {
+      "key": "walkUpRyan",
+      "frames": {
+        "typeOfGeneration": "generateFrameNumbers",
+        "key": "ryan",
+        "frames": [4, 3, 5, 3]
+      },
+      "repeat": 0,
+      "frameRate": 5
+    },
+    {
+      "key": "walkDownRyan",
+      "frames": {
+        "typeOfGeneration": "generateFrameNumbers",
+        "key": "ryan",
+        "frames": [1, 0, 2, 0]
+      },
+      "repeat": 0,
+      "frameRate": 5
+    }
+  ]
+}

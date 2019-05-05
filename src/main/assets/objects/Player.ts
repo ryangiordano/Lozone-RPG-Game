@@ -2,7 +2,7 @@ import { createThrottle, Directions } from "../../utility/Utility";
 import {
   Moveable,
   Controllable
-} from "../../utility/components/entities/Movement";
+} from "../../components/entities/Movement";
 
 export class Player extends Moveable {
   public controllable: Controllable;

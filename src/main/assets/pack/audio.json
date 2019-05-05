@@ -1,0 +1,36 @@
+{
+  "preload": {
+    "files": [
+      {
+        "type": "audio",
+        "key": "bump",
+        "url": "./src/main/assets/sounds/bump.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "credits",
+        "url": "./src/main/assets/music/credits.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "end",
+        "url": "./src/main/assets/music/end.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "startup",
+        "url": "./src/main/assets/sounds/startup.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "beep",
+        "url": "./src/main/assets/sounds/beep.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "chest",
+        "url": "./src/main/assets/sounds/chest.wav"
+      }
+    ]
+  }
+}
