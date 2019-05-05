@@ -68,10 +68,12 @@
         "Or it's too cold.",  "Either way, this cat's staying inside, thank you very much."]
     },
     "23": {
-      "content": ["Nagoya University: Master's in Computer Science. Lo Yang"]
+      "content": ["Nagoya University: Master's in Complex Systems. Lo Yang"]
     },
     "24":{
-      "content":[]
+      "content":[
+        "Harvard University: Master's in Computer Science. Lo Yang"
+      ]
     }
   }
 }
