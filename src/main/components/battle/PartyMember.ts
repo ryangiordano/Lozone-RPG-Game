@@ -14,6 +14,8 @@ export class PartyMember extends Combatant {
     strength,
     wisdom,
     stamina,
+    physicalResist,
+    magicalResist,
     spells?) {
     super(
       id,
@@ -27,6 +29,8 @@ export class PartyMember extends Combatant {
       strength,
       wisdom,
       stamina,
+      physicalResist,
+      magicalResist,
       spells);
     this.type = CombatantType.partyMember;
 

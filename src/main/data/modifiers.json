@@ -1,9 +1,17 @@
 {
-  "1": {
+  "0": {
     "name": "Defense Up",
     "description": "Increases physical resistance",
-    "attribute": 1,
-    "potency": 10,
+    "modifierStateType": 1,
+    "modifierPotency": 10,
+    "particle": 1,
+    "frame": 1
+  },
+  "1": {
+    "name": "Attack Up",
+    "description": "Increases attack power",
+    "modifierStateType": 1,
+    "modifierPotency": 10,
     "particle": 1,
     "frame": 1
   }

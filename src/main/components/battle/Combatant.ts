@@ -1,6 +1,7 @@
-import { Buff, Behavior, Spell, Status, CombatActionTypes, CombatResult, CombatantType } from "./CombatDataStructures";
+import { IBuff, Behavior, Spell, Status, CombatActionTypes, CombatResult, CombatantType } from "./CombatDataStructures";
 import { getUID } from "../../utility/Utility";
 import { Defend } from "./Actions";
+import { Buff } from "./Buff";
 
 export class Combatant {
   private buffs: Map<number, Buff>;
@@ -105,9 +106,11 @@ export class Combatant {
   public getModifierValue() {
 
   }
+  // Ad a defense up buff that lasts one turn to yourself.
   public defendSelf() {
+    console.log("defended")
     //TODO: Implement defending self
-    
+    // this.buffs.set()
 
   }
   private changeCurrent(property, value: number) {

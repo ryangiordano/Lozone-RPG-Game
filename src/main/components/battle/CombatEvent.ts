@@ -3,6 +3,10 @@ import { CombatActionTypes, CombatResult, Orientation } from "./CombatDataStruct
 import { TextFactory } from "../../utility/TextFactory";
 import { makeTextScaleUp } from "../../utility/tweens/text";
 
+/**
+ * Is an object meant to be stored in an array of CombatEvents and then interated
+ * over during the course of a turn.
+ */
 export class CombatEvent {
   private textFactory: TextFactory = new TextFactory();
   constructor(
@@ -38,7 +42,14 @@ export class CombatEvent {
   private handleDefend(executor: Combatant): Promise<any> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        const results: CombatResult = executor.defendSelf();
+        executor.defendSelf();
+        const results: CombatResult = {
+          actionType: CombatActionTypes.defend,
+          executor,
+          target: executor,
+          resultingValue: 0,
+          targetDown: false
+        }
         console.log(`${executor.name} is defending`);
         const text = this.createCombatText('^', this.executor);
         this.playCombatText(text).then(() => {

@@ -1,6 +1,9 @@
 import { Combatant } from "./Combatant";
 
-export interface Buff {
+/*
+* duration is the number in turns left for its lifetime.
+*/
+export interface IBuff {
   id: number;
   modifiers: Modifier[];
   duration: number;
@@ -30,6 +33,8 @@ export interface Modifier {
   name: string;
   modifierStatType: ModifierStatType;
   modifierPotency: number;
+  particle: number;
+  frame: number;
 }
 export interface Spell {
   id: number;

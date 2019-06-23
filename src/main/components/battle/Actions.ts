@@ -1,4 +1,4 @@
-import { CombatAction, CombatActionTypes } from "./CombatDataStructures";
+import { CombatAction, CombatActionTypes, CombatResult } from "./CombatDataStructures";
 import { Combatant } from "./Combatant";
 
 
