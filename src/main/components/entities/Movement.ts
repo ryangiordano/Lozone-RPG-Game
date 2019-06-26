@@ -7,7 +7,7 @@ export class Moveable extends Entity {
   // TODO: Refactor this to be a state
   protected velocityX = 0;
   protected velocityY = 0;
-  protected movementSpeed = 2;
+  protected movementSpeed = 8;
   protected target = { x: 0, y: 0 };
   protected facing: Directions = Directions.down;
   constructor({ scene, x, y, key, map, casts }) {

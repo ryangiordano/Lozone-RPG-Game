@@ -13,8 +13,8 @@ class DialogSprite extends Phaser.GameObjects.Sprite {
   }
   private initSprite() {
     this.setOrigin(0.5, 0.5);
-    this.displayWidth = 160;
-    this.displayHeight = 48;
+    this.displayWidth = 160*4;
+    this.displayHeight = 48*4;
   }
 }
 export class DialogManager {
@@ -25,7 +25,7 @@ export class DialogManager {
     private currentScene: Phaser.Scene,
     private hideDialogCallback?: Function
   ) {
-    this.dialog = new DialogSprite({ scene: this.currentScene, x: 80, y: 120 });
+    this.dialog = new DialogSprite({ scene: this.currentScene, x: 80*4, y: 120*4 });
     this.dialog.setScrollFactor(0);
     this.currentScene.add.existing(this.dialog);
     this.hideDialogCallback = hideDialogCallback;
@@ -81,11 +81,11 @@ export class DialogManager {
       this.currentScene.sound.play('beep');
       const toShow = this.dialogArray.shift();
 
-      this.currentText = this.currentScene.add.text(4, 99, toShow, {
+      this.currentText = this.currentScene.add.text(4*4, 99*4, toShow, {
         fontFamily: 'pixel',
-        fontSize: '8px',
+        fontSize: '32px',
         fill: '#000000',
-        wordWrap: { width: this.dialog.width / 4.5, useAdvancedWrap: true }
+        wordWrap: { width: this.dialog.width / 4.5*4, useAdvancedWrap: true }
       });
       this.currentText.setScrollFactor(0);
     }

@@ -96,7 +96,7 @@ export class UIPanel extends PanelContainer {
     const y = lastItem ? lastItem.y + 10 : 5;
     const toAdd = new DialogListItem(this.scene, x, y, text, {
       fontFamily: 'pixel',
-      fontSize: '8px',
+      fontSize: '32px',
       fill: '#000000',
     }, selectCallback);
     toAdd.setPadding(10, 0, 0, 0);

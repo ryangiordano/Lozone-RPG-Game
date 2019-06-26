@@ -30,7 +30,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
   private createCaret() {
     this.caret = this.scene.add.text(-100, -100, ">", {
       fontFamily: 'pixel',
-      fontSize: '8px',
+      fontSize: '32px',
       fill: '#000000',
     });
     this.add(this.caret);
