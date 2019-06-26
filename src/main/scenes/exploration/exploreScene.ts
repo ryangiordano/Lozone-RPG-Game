@@ -28,7 +28,7 @@ export abstract class Explore extends Phaser.Scene {
     // Specify the tileset you want to use based on the data passed to the scene.
     const { map, tileset, warpId } = data;
     this.map = this.make.tilemap({ key: map });
-    this.tileset = this.map.addTilesetImage(tileset, tileset, 16, 16, 0, 0, 1);
+    this.tileset = this.map.addTilesetImage(tileset, tileset, 64, 64, 0, 0, 1);
     if (warpId) {
       this.warpId = warpId;
     }
@@ -105,8 +105,8 @@ export abstract class Explore extends Phaser.Scene {
     // TODO: Make this its own abstraction (spawning)
     this.player = new Player({
       scene: this,
-      x: spawn.x + 8,
-      y: spawn.y + 8,
+      x: spawn.x + 32,
+      y: spawn.y + 32,
       key: 'lo',
       map: this.map,
       casts: this.casts
@@ -119,8 +119,8 @@ export abstract class Explore extends Phaser.Scene {
         this.interactive.add(
           new Interactive({
             scene: this,
-            x: object.x + 8,
-            y: object.y + 8,
+            x: object.x + 32,
+            y: object.y + 32,
             properties: {
               type: object.type,
               id: object.id,
@@ -139,8 +139,8 @@ export abstract class Explore extends Phaser.Scene {
           this.triggers.add(
             new Trigger({
               scene: this,
-              x: object.x + 8,
-              y: object.y + 8,
+              x: object.x + 32,
+              y: object.y + 32,
               properties: {
                 type: object.type,
                 map,
@@ -153,8 +153,8 @@ export abstract class Explore extends Phaser.Scene {
           this.triggers.add(
             new Trigger({
               scene: this,
-              x: object.x + 8,
-              y: object.y + 8,
+              x: object.x + 32,
+              y: object.y + 32,
               properties: {
                 type: object.type,
                 id: object.id
@@ -171,8 +171,8 @@ export abstract class Explore extends Phaser.Scene {
           new NPC(
             {
               scene: this,
-              x: object.x + 8,
-              y: object.y + 8,
+              x: object.x + 32,
+              y: object.y + 32,
               key: key.value,
               map: this.map,
               casts: this.casts
@@ -188,8 +188,8 @@ export abstract class Explore extends Phaser.Scene {
 
         const toAdd = new Chest({
           scene: this,
-          x: object.x + 8,
-          y: object.y + 8,
+          x: object.x + 32,
+          y: object.y + 32,
           map: this.map,
           properties: {
             id: id,

@@ -6,7 +6,7 @@ export class CombatContainer extends Phaser.GameObjects.Container {
   private combatGrid: CombatGrid = new CombatGrid({ x: 3, y: 3 }, 16);
   private battleTarget: Phaser.GameObjects.Image;
   constructor(position: Coords, scene, private combatants: Combatant[] = []) {
-    super(scene, position.x * 16, position.y * 16);
+    super(scene, position.x * 64, position.y * 64);
     this.battleTarget = new Phaser.GameObjects.Image(this.scene, 0, 0, 'battle-target')
   }
   public populateContainer() {

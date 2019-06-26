@@ -9,8 +9,8 @@ export class Interactive extends Phaser.GameObjects.Sprite {
     this.currentScene = scene;
     this.currentScene.add.existing(this);
     this.initSprite();
-    this.displayWidth = 16;
-    this.displayHeight = 16;
+    this.displayWidth = 64;
+    this.displayHeight = 64;
     this.properties = properties;
     this.visible = false;
   }

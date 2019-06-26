@@ -19,7 +19,7 @@ export class Entity extends Phaser.GameObjects.Sprite {
     this.currentScene.physics.world.enable(this);
   }
   protected getTileBelowFoot() {
-    const tile = this.currentMap.getTileAt(Math.floor(this.x / 16), Math.floor(this.y / 16), true, "foreground");
+    const tile = this.currentMap.getTileAt(Math.floor(this.x / 64), Math.floor(this.y / 64), true, "foreground");
     return tile;
   }
 }

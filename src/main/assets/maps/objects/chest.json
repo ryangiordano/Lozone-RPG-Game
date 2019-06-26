@@ -1,6 +1,6 @@
 { "object":
     {
-     "height":16,
+     "height":64,
      "id":28,
      "name":"chest",
      "properties":[
@@ -12,7 +12,7 @@
      "rotation":0,
      "type":"chest",
      "visible":true,
-     "width":16,
+     "width":64,
      "x":128,
      "y":80
     },

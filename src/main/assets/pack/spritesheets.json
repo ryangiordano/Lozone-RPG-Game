@@ -6,8 +6,8 @@
         "key": "dialog-beige",
         "url": "./src/main/assets/tiles/dialog-beige.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -15,8 +15,8 @@
         "key": "dialog-blue",
         "url": "./src/main/assets/tiles/dialog-blue.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -24,8 +24,8 @@
         "key": "dialog-purple",
         "url": "./src/main/assets/tiles/dialog-purple.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -33,8 +33,8 @@
         "key": "dialog-white",
         "url": "./src/main/assets/tiles/dialog-white.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -42,8 +42,8 @@
         "key": "lo",
         "url": "./src/main/assets/sprites/lo.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -51,8 +51,8 @@
         "key": "computer",
         "url": "./src/main/assets/sprites/computer.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -60,8 +60,8 @@
         "key": "chest",
         "url": "./src/main/assets/sprites/chest.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -69,8 +69,8 @@
         "key": "items",
         "url": "./src/main/assets/sprites/items.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -87,8 +87,8 @@
         "key": "ryan",
         "url": "./src/main/assets/sprites/ryan.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -96,8 +96,8 @@
         "key": "yaya",
         "url": "./src/main/assets/sprites/yaya.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -105,8 +105,8 @@
         "key": "tuzi",
         "url": "./src/main/assets/sprites/tuzi.png",
         "frameConfig": {
-          "frameWidth": 16,
-          "frameHeight": 16
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       },
       {
@@ -114,8 +114,8 @@
         "key": "stork",
         "url": "./src/main/assets/sprites/stork.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 32
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       },
       {
@@ -123,8 +123,8 @@
         "key": "slime",
         "url": "./src/main/assets/sprites/monsters/slime.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 32
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       },
       {
@@ -132,8 +132,8 @@
         "key": "poop-machine",
         "url": "./src/main/assets/sprites/monsters/poop-machine.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 32
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       },
       {
@@ -141,8 +141,8 @@
         "key": "baby-slime",
         "url": "./src/main/assets/sprites/monsters/baby-slime.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 32
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       },
       {
@@ -150,8 +150,8 @@
         "key": "bat",
         "url": "./src/main/assets/sprites/monsters/bat.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 32
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       },
       {
@@ -159,8 +159,8 @@
         "key": "orc",
         "url": "./src/main/assets/sprites/monsters/orc.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 32
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       },
       {
@@ -168,8 +168,8 @@
         "key": "egg",
         "url": "./src/main/assets/sprites/monsters/egg.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 32
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       },
       {
@@ -177,8 +177,8 @@
         "key": "snake",
         "url": "./src/main/assets/sprites/monsters/snake.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 32
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       },
       {
@@ -186,8 +186,8 @@
         "key": "nose-wiper",
         "url": "./src/main/assets/sprites/monsters/nose-wiper.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 32
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       }
     ]

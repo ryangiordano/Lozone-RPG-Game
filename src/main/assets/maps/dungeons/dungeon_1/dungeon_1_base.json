@@ -32,29 +32,18 @@
          "name":"objects",
          "objects":[
                 {
-                 "height":16,
+                 "height":64,
                  "id":1,
                  "name":"exit",
                  "rotation":0,
                  "type":"exit",
                  "visible":true,
-                 "width":16,
-                 "x":32,
-                 "y":272
+                 "width":64,
+                 "x":128,
+                 "y":1024
                 }, 
                 {
-                 "height":16,
-                 "id":3,
-                 "name":"down",
-                 "rotation":0,
-                 "type":"next",
-                 "visible":true,
-                 "width":16,
-                 "x":272,
-                 "y":32
-                }, 
-                {
-                 "height":16,
+                 "height":64,
                  "id":4,
                  "name":"chest",
                  "properties":[
@@ -71,12 +60,12 @@
                  "rotation":0,
                  "type":"chest",
                  "visible":true,
-                 "width":16,
-                 "x":64,
-                 "y":48
+                 "width":64,
+                 "x":320,
+                 "y":256
                 }, 
                 {
-                 "height":16,
+                 "height":64,
                  "id":5,
                  "name":"chest",
                  "properties":[
@@ -93,12 +82,12 @@
                  "rotation":0,
                  "type":"chest",
                  "visible":true,
-                 "width":16,
-                 "x":256,
-                 "y":240
+                 "width":64,
+                 "x":960,
+                 "y":1024
                 }, 
                 {
-                 "height":16,
+                 "height":64,
                  "id":6,
                  "name":"spawn",
                  "properties":[
@@ -110,21 +99,23 @@
                  "rotation":0,
                  "type":"spawn",
                  "visible":true,
-                 "width":16,
-                 "x":48,
-                 "y":272
+                 "width":64,
+                 "x":128,
+                 "y":1088
                 }, 
                 {
-                 "height":0,
-                 "id":7,
-                 "name":"",
+                 "height":64,
+                 "id":12,
+                 "name":"down",
                  "rotation":0,
-                 "type":"",
+                 "type":"next",
                  "visible":true,
-                 "width":0,
-                 "x":64,
-                 "y":160
+                 "width":64,
+                 "x":1088,
+                 "y":127
                 }],
+         "offsetx":-3.030303030303,
+         "offsety":0,
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -132,17 +123,17 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":8,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
- "tileheight":16,
+ "tileheight":64,
  "tilesets":[
         {
          "firstgid":1,
          "source":"..\/..\/..\/tiles\/dungeon-tiles.json"
         }],
- "tilewidth":16,
+ "tilewidth":64,
  "type":"map",
  "version":1.2,
  "width":20

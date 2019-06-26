@@ -14,7 +14,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     public scene: Phaser.Scene,
     public id: string = getUID(),
   ) {
-    super(scene, pos.x * 16, pos.y * 16);
+    super(scene, pos.x * 64, pos.y * 64);
     this.constructPanel(scene);
     this.name = id.toString();
     scene.add.existing(this);
@@ -24,7 +24,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
   }
 
   public constructPanel(scene: Phaser.Scene) {
-    this.panel = scene.add.nineslice(0, 0, this.dimensions.x * 16, this.dimensions.y * 16, this.spriteKey, 5);
+    this.panel = scene.add.nineslice(0, 0, this.dimensions.x * 64, this.dimensions.y * 64, this.spriteKey, 5);
     this.add(this.panel)
   }
 

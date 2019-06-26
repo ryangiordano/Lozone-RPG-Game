@@ -59,8 +59,8 @@ export class Moveable extends Entity {
   }
   private handleMovement(direction: Directions, callback?: Function) {
     const marker = { x: null, y: null };
-    marker.x = Math.floor(this.target.x / 16);
-    marker.y = Math.floor(this.target.y / 16);
+    marker.x = Math.floor(this.target.x / 64);
+    marker.y = Math.floor(this.target.y / 64);
     const backgroundTile = this.currentMap.getTileAt(
       marker.x,
       marker.y,
@@ -127,13 +127,13 @@ export class Moveable extends Entity {
   private getTileInFront(): { x: number; y: number } {
     switch (this.facing) {
       case Directions.right:
-        return { x: this.x + 16, y: this.y };
+        return { x: this.x + 64, y: this.y };
       case Directions.left:
-        return { x: this.x - 16, y: this.y };
+        return { x: this.x - 64, y: this.y };
       case Directions.down:
-        return { x: this.x, y: this.y + 16 };
+        return { x: this.x, y: this.y + 64 };
       default:
-        return { x: this.x, y: this.y - 16 };
+        return { x: this.x, y: this.y - 64 };
     }
   }
 }
