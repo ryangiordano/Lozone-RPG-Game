@@ -1,0 +1,14 @@
+{ "columns":4,
+ "image":"ending.png",
+ "imageheight":256,
+ "imagewidth":256,
+ "margin":0,
+ "name":"ending-tiles",
+ "spacing":0,
+ "tilecount":16,
+ "tiledversion":"1.2.3",
+ "tileheight":64,
+ "tilewidth":64,
+ "type":"tileset",
+ "version":1.2
+}

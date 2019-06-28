@@ -20,7 +20,7 @@
          "name":"background",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":20,
          "x":0,
          "y":0
@@ -32,7 +32,7 @@
          "name":"foreground",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":20,
          "x":0,
          "y":0
@@ -48,28 +48,28 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":24,
+ "nextlayerid":36,
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
- "tileheight":16,
+ "tileheight":64,
  "tilesets":[
         {
          "columns":4,
          "firstgid":1,
          "image":"..\/tiles\/ending.png",
-         "imageheight":64,
-         "imagewidth":64,
+         "imageheight":256,
+         "imagewidth":256,
          "margin":0,
          "name":"ending",
          "spacing":0,
          "tilecount":16,
-         "tileheight":16,
-         "tilewidth":16,
+         "tileheight":64,
+         "tilewidth":64,
          "transparentcolor":"#ff00ff"
         }],
- "tilewidth":16,
+ "tilewidth":64,
  "type":"map",
  "version":1.2,
  "width":20

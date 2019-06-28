@@ -21,15 +21,15 @@ export class CreditsScene extends Phaser.Scene {
     this.sound.add('credits');
     this.sound.add('end');
 
-    this.sound.play('credits', {
-      mute: false,
-      volume: 1,
-      rate: 1,
-      detune: 0,
-      seek: 0,
-      loop: false,
-      delay: 0
-    });
+    // this.sound.play('credits', {
+    //   mute: false,
+    //   volume: 1,
+    //   rate: 1,
+    //   detune: 0,
+    //   seek: 0,
+    //   loop: false,
+    //   delay: 0
+    // });
     this.sky = this.add.image(10, 0, 'sky');
 
     this.backgroundContainer = new Phaser.GameObjects.Container(this, 0, 0);
@@ -58,16 +58,16 @@ export class CreditsScene extends Phaser.Scene {
   private setStorkFlight() {
     this.pauseAll();
 
-    this.cameras.main.pan(80, -50, 8000, 'Linear', false, (camera, progress) => {
+    this.cameras.main.pan(320, -200, 8000, 'Linear', false, (camera, progress) => {
       if (progress === 1) {
         setTimeout(() => {
-          const stork = new Phaser.GameObjects.Sprite(this, 175, -50, 'stork')
+          const stork = new Phaser.GameObjects.Sprite(this, 175 * 4, -50 * 4, 'stork')
           this.add.existing(stork);
           this.foregroundContainer.add(stork);
           stork.anims.play('storkFly', true);
           this['updates'].add(stork)
           stork.update = () => {
-            stork.x -= .2;
+            stork.x -= .8;
             if (stork.x <= 0) {
               this.postCreditsStart();
               stork.destroy();
@@ -89,17 +89,17 @@ export class CreditsScene extends Phaser.Scene {
       delay: 3
     });
 
-    const coming = this.add.text(25, -50, "Coming December 2019", {
+    const coming = this.add.text(100, -200, "Coming December 2019", {
       fontFamily: 'pixel',
-      fontSize: '8px',
+      fontSize: '32px',
       fill: '#000000',
       align: 'center',
       padding: 2,
       wordWrap: { width: <number>this.game.config.width, useAdvancedWrap: true }
     });
-    const happyAnniversary = this.add.text(15, -50, "Happy 5 Year Anniversary, Lolobear.", {
+    const happyAnniversary = this.add.text(60, -200, "Happy 5 Year Anniversary, Lolobear.", {
       fontFamily: 'pixel',
-      fontSize: '8px',
+      fontSize: '32px',
       fill: '#000000',
       align: 'center',
       padding: 2,
@@ -116,8 +116,8 @@ export class CreditsScene extends Phaser.Scene {
   }
 
   private createAnimations() {
-    this.ryan = this.add.sprite(9 * 16, 7.6 * 16, 'ryan');
-    this.lo = this.add.sprite(8 * 16, 7.6 * 16, 'lo');
+    this.ryan = this.add.sprite(9 * 64, 7.6 * 64, 'ryan');
+    this.lo = this.add.sprite(8 * 64, 7.6 * 64, 'lo');
     this.anims.create({
       key: 'storkFly',
       frames: this.anims.generateFrameNumbers('stork', { frames: [0, 1, 2, 3, 4, 3, 2, 1] }),
@@ -169,11 +169,11 @@ export class CreditsScene extends Phaser.Scene {
     //DEBUG
   }
   setMountains(coords?: Coords) {
-    const mountains = new ScrollingElement(this, -150, 5 * 16, 'mountains', .05, null, true, this.backgroundContainer);
+    const mountains = new ScrollingElement(this, -600, 5 * 64, 'mountains', .2, null, true, this.backgroundContainer);
     this.backgroundContainer.add(mountains);
   }
   setGround() {
-    const ground = new ScrollingElement(this, -150, 8.5 * 16, 'ground', .2, null, true, this.backgroundContainer);
+    const ground = new ScrollingElement(this, -600, 8.5 * 64, 'ground', .8, null, true, this.backgroundContainer);
     this.backgroundContainer.add(ground);
   }
   setClouds() {
@@ -183,9 +183,8 @@ export class CreditsScene extends Phaser.Scene {
       'cloud_4'];
     setInterval(() => {
       const randomCloud = clouds[getRandomCeil(clouds.length - 1)];
-      const randomPlacement = getRandomCeil(30)
-      const cloud = new ScrollingElement(this, -30, randomPlacement, randomCloud, .1, null, false, this.cloudLayer);
-      // cloud.setScale(.25, .25)
+      const randomPlacement = getRandomCeil(120)
+      const cloud = new ScrollingElement(this, -120, randomPlacement, randomCloud, .4, null, false, this.cloudLayer);
       cloud.setOrigin(.5, .5)
       cloud.setAlpha(.7)
       this.cloudLayer.add(cloud)
