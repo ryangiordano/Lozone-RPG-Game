@@ -5,8 +5,6 @@ import { getRandomCeil } from "../../utility/Utility";
 
 export class CreditsScene extends Phaser.Scene {
   private sky: Phaser.GameObjects.Image;
-  private ground: Phaser.GameObjects.Image;
-  private mountains: Phaser.GameObjects.Image;
   private backgroundContainer: Phaser.GameObjects.Container;
   private foregroundContainer: Phaser.GameObjects.Container;
   private cloudLayer: Phaser.GameObjects.Container;
@@ -21,15 +19,15 @@ export class CreditsScene extends Phaser.Scene {
     this.sound.add('credits');
     this.sound.add('end');
 
-    // this.sound.play('credits', {
-    //   mute: false,
-    //   volume: 1,
-    //   rate: 1,
-    //   detune: 0,
-    //   seek: 0,
-    //   loop: false,
-    //   delay: 0
-    // });
+    this.sound.play('credits', {
+      mute: false,
+      volume: .1,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0
+    });
     this.sky = this.add.image(10, 0, 'sky');
 
     this.backgroundContainer = new Phaser.GameObjects.Container(this, 0, 0);
@@ -97,7 +95,7 @@ export class CreditsScene extends Phaser.Scene {
       padding: 2,
       wordWrap: { width: <number>this.game.config.width, useAdvancedWrap: true }
     });
-    const happyAnniversary = this.add.text(60, -200, "Happy 5 Year Anniversary, Lolobear.", {
+    const happyAnniversary = this.add.text(60, -200, "Happy Birthday, Lolobear.", {
       fontFamily: 'pixel',
       fontSize: '32px',
       fill: '#000000',

@@ -6,7 +6,7 @@ export class CreditRoller extends Phaser.GameObjects.Container {
   public fadeOut: Phaser.Tweens.Tween;
   private showDuration = 7000;
   private creditInterval = 1500;
-  
+
   constructor(
     pos: Coords,
     scene: Phaser.Scene,
@@ -89,7 +89,7 @@ export class CreditRoller extends Phaser.GameObjects.Container {
             fontSize: "32px",
             fill: "#000000",
             align: "center",
-            padding: 2,
+            padding: 8,
             wordWrap: {
               width: <number>this.scene.game.config.width,
               useAdvancedWrap: true
