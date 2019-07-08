@@ -93,13 +93,13 @@ export class UIPanel extends PanelContainer {
   public addOption(text: string, selectCallback: Function): UIPanel {
     const lastItem = <Phaser.GameObjects.Text>this.options[this.options.length - 1];
     const x = 0;
-    const y = lastItem ? lastItem.y + 10 : 5;
+    const y = lastItem ? lastItem.y + 40 : 20;
     const toAdd = new DialogListItem(this.scene, x, y, text, {
       fontFamily: 'pixel',
       fontSize: '32px',
       fill: '#000000',
     }, selectCallback);
-    toAdd.setPadding(10, 0, 0, 0);
+    toAdd.setPadding(30, 0, 0, 0);
     this.add(toAdd);
     this.options.push(toAdd)
     return this;

@@ -73,6 +73,7 @@ export class CombatEvent {
             console.log(`${executor.name} attacks ${target.name} for ${results.resultingValue}`);
             console.log(`${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`);
             const text = this.createCombatText(results.resultingValue.toString(), this.target);
+
             this.playCombatText(text).then(() => {
               return resolve(results);
             });
@@ -90,7 +91,7 @@ export class CombatEvent {
     const sprite = combatant.getSprite();
     const container = combatant.getSprite().parentContainer;
 
-    const valueText = this.textFactory.createText(value, { x: sprite.x, y: sprite.y }, this.scene, '15px', { fill: '#ff2b4e' });
+    const valueText = this.textFactory.createText(value, { x: sprite.x, y: sprite.y }, this.scene, '60px', { fill: '#ffffff' });
 
     this.scene.add.existing(valueText);
     valueText.setAlpha(0);

@@ -16,7 +16,9 @@ export class CombatGrid {
     for (let row = 0; row < this.size.y; row++) {
       this.grid.push([]);
       for (let col = 0; col < this.size.x; col++) {
-        this.grid[row].push(new CombatCel({ x: col * this.celSize, y: row * this.celSize }));
+        this.grid[row].push(
+          new CombatCel({ x: col * this.celSize, y: row * this.celSize })
+        );
       }
     }
   }
@@ -25,7 +27,7 @@ export class CombatGrid {
     this.grid[from.y][from.x].set(this.grid[to.y][to.x].get());
     this.grid[to.y][to.x].set(temp);
   }
-  placeAt(position: Coords, combatant: Combatant) {
+  public placeAt(position: Coords, combatant: Combatant) {
     const cel = this.grid[position.y][position.x];
     cel.set(combatant);
   }
@@ -39,7 +41,9 @@ export class CombatGrid {
     randomEmpty.set(combatant);
   }
   private findRandomEmptyCel() {
-    const flattenedEmptyGrid: CombatCel[] = this.flattenGrid().filter(cel => !cel.get());
+    const flattenedEmptyGrid: CombatCel[] = this.flattenGrid().filter(
+      cel => !cel.get()
+    );
 
     return flattenedEmptyGrid[getRandomFloor(flattenedEmptyGrid.length)];
   }

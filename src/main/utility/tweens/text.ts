@@ -9,9 +9,11 @@ export const makeTextScaleUp = (target, duration: number, scene: Phaser.Scene, o
       getStart: () => 0,
       getEnd: () => 1
     },
-    y:'-=20',
+    color: "#ffffff",
+    y:'-=80',
     scaleX: 1,
     scaleY: 1,
+    flipY: true,
     onComplete: () => {
       onComplete ? onComplete() : null;
     }

@@ -61,7 +61,6 @@ export class UserInterface extends Phaser.GameObjects.Container {
   public createPresentationPanel(dimensions, position) {
     const panel = new PanelContainer(dimensions, position, this.spriteKey, this.scene);
     this.add(panel);
-    // this.panelContainers.push(panel);
     return panel;
   }
 
