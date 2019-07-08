@@ -1,7 +1,11 @@
 import { Combatant } from "./Combatant";
-import { CombatActionTypes, CombatResult, Orientation } from "./CombatDataStructures";
+import {
+  CombatActionTypes,
+  CombatResult,
+  Orientation
+} from "./CombatDataStructures";
 import { TextFactory } from "../../utility/TextFactory";
-import { makeTextScaleUp } from "../../utility/tweens/text";
+import { textScaleUp } from "../../utility/tweens/text";
 
 /**
  * Is an object meant to be stored in an array of CombatEvents and then interated
@@ -14,33 +18,31 @@ export class CombatEvent {
     public target: Combatant,
     public action: CombatActionTypes,
     private orientation: Orientation,
-    private scene: Phaser.Scene) {
-  }
+    private scene: Phaser.Scene
+  ) {}
 
   public executeAction(): Promise<CombatResult> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const executor = this.executor;
       const target = this.confirmTarget();
-      // This is where we implement our Actions.ts actions. 
+      // This is where we implement our Actions.ts actions.
       if (this.action === CombatActionTypes.attack) {
-        
         if (!target || !this.executorIsValid) {
           resolve(this.returnFailedAction(executor, target));
         }
-        this.handleAttack(executor, target).then((results) => resolve(results));
+        this.handleAttack(executor, target).then(results => resolve(results));
       }
       if (this.action === CombatActionTypes.defend) {
-        this.handleDefend(executor).then((results) => resolve(results))
+        this.handleDefend(executor).then(results => resolve(results));
       }
       // Needs to be replaced with animations/tweening and callbacks, but it works asynchronously.
       // TODO: depending on the this.action value, execute a certain command.
-
     });
-    //TODO: broadcast actions to an in battle dialog 
+    //TODO: broadcast actions to an in battle dialog
   }
 
   private handleDefend(executor: Combatant): Promise<any> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         executor.defendSelf();
         const results: CombatResult = {
@@ -49,9 +51,9 @@ export class CombatEvent {
           target: executor,
           resultingValue: 0,
           targetDown: false
-        }
+        };
         console.log(`${executor.name} is defending`);
-        const text = this.createCombatText('^', this.executor);
+        const text = this.createCombatText("^", this.executor);
         this.playCombatText(text).then(() => {
           return resolve(results);
         });
@@ -60,19 +62,30 @@ export class CombatEvent {
   }
 
   private handleAttack(executor: Combatant, target: Combatant): Promise<any> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const modifier = this.orientation === Orientation.left ? 1 : -1;
-      this.executor.setX(this.executor.getSprite().x + (15 * modifier));
+      this.executor.setX(this.executor.getSprite().x + 15 * modifier);
       setTimeout(() => {
-        this.executor.setX(this.executor.getSprite().x - (15 * modifier));
+        this.executor.setX(this.executor.getSprite().x - 15 * modifier);
         setTimeout(() => {
-          this.target.getSprite().setAlpha(.5);
+          this.target.getSprite().setAlpha(0.5);
           setTimeout(() => {
             this.target.getSprite().setAlpha(1);
             const results: CombatResult = executor.attackTarget(target);
-            console.log(`${executor.name} attacks ${target.name} for ${results.resultingValue}`);
-            console.log(`${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`);
-            const text = this.createCombatText(results.resultingValue.toString(), this.target);
+            console.log(
+              `${executor.name} attacks ${target.name} for ${
+                results.resultingValue
+              }`
+            );
+            console.log(
+              `${target.name} has ${target.currentHp} HP out of ${
+                target.maxHp
+              } left.`
+            );
+            const text = this.createCombatText(
+              results.resultingValue.toString(),
+              this.target
+            );
 
             this.playCombatText(text).then(() => {
               return resolve(results);
@@ -83,42 +96,49 @@ export class CombatEvent {
     });
   }
 
-  private returnFailedAction(executor: Combatant, target: Combatant): CombatResult {
+  private returnFailedAction(
+    executor: Combatant,
+    target: Combatant
+  ): CombatResult {
     return executor.failedAction(target);
   }
 
-  private createCombatText(value: string, combatant: Combatant): Phaser.GameObjects.Text {
+  private createCombatText(
+    value: string,
+    combatant: Combatant
+  ): Phaser.GameObjects.Text {
     const sprite = combatant.getSprite();
     const container = combatant.getSprite().parentContainer;
 
-    const valueText = this.textFactory.createText(value, { x: sprite.x, y: sprite.y }, this.scene, '60px', { fill: '#ffffff' });
+    const valueText = this.textFactory.createText(
+      value,
+      { x: sprite.x, y: sprite.y },
+      this.scene,
+      "60px",
+      { fill: "#ffffff" }
+    );
 
     this.scene.add.existing(valueText);
-    valueText.setAlpha(0);
-    valueText.setScale(.1, .1);
-    valueText.setOrigin(.5, .5);
-
     container.add(valueText);
 
     return valueText;
   }
 
   public playCombatText(textObject: Phaser.GameObjects.Text): Promise<any> {
-
-    return new Promise((resolve) => {
-      const tween = makeTextScaleUp(textObject, 600, this.scene, () => {
+    return new Promise(resolve => {
+      const tween = textScaleUp(textObject, 0, this.scene, () => {
         textObject.destroy();
         resolve();
       });
-      tween.play(false);
+      tween.play();
     });
   }
   private confirmTarget(): Combatant {
     let target = this.target;
     if (target && target.currentHp <= 0) {
-      const nextTargetable = target.getParty()
-        .members
-        .find(potentialTarget => potentialTarget.currentHp > 0);
+      const nextTargetable = target
+        .getParty()
+        .members.find(potentialTarget => potentialTarget.currentHp > 0);
       if (nextTargetable) {
         this.target = nextTargetable;
         target = nextTargetable;
