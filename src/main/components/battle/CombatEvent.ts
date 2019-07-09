@@ -6,6 +6,10 @@ import {
 } from "./CombatDataStructures";
 import { TextFactory } from "../../utility/TextFactory";
 import { textScaleUp } from "../../utility/tweens/text";
+import {
+  characterAttack,
+  characterDamage
+} from "../../utility/tweens/character";
 
 /**
  * Is an object meant to be stored in an array of CombatEvents and then interated
@@ -21,21 +25,22 @@ export class CombatEvent {
     private scene: Phaser.Scene
   ) {}
 
-  public executeAction(): Promise<CombatResult> {
-    return new Promise(resolve => {
+  public async executeAction(): Promise<CombatResult> {
+    return new Promise(async resolve => {
       const executor = this.executor;
       const target = this.confirmTarget();
+      let results;
       // This is where we implement our Actions.ts actions.
       if (this.action === CombatActionTypes.attack) {
         if (!target || !this.executorIsValid) {
           resolve(this.returnFailedAction(executor, target));
         }
-        this.handleAttack(executor, target).then(results => resolve(results));
+        results = await this.handleAttack(executor, target);
       }
       if (this.action === CombatActionTypes.defend) {
-        this.handleDefend(executor).then(results => resolve(results));
+        results = await this.handleDefend(executor);
       }
-      // Needs to be replaced with animations/tweening and callbacks, but it works asynchronously.
+      return resolve(results);
       // TODO: depending on the this.action value, execute a certain command.
     });
     //TODO: broadcast actions to an in battle dialog
@@ -61,38 +66,30 @@ export class CombatEvent {
     });
   }
 
-  private handleAttack(executor: Combatant, target: Combatant): Promise<any> {
-    return new Promise(resolve => {
+  private async handleAttack(
+    executor: Combatant,
+    target: Combatant
+  ): Promise<any> {
+    return new Promise(async resolve => {
       const modifier = this.orientation === Orientation.left ? 1 : -1;
-      this.executor.setX(this.executor.getSprite().x + 15 * modifier);
-      setTimeout(() => {
-        this.executor.setX(this.executor.getSprite().x - 15 * modifier);
-        setTimeout(() => {
-          this.target.getSprite().setAlpha(0.5);
-          setTimeout(() => {
-            this.target.getSprite().setAlpha(1);
-            const results: CombatResult = executor.attackTarget(target);
-            console.log(
-              `${executor.name} attacks ${target.name} for ${
-                results.resultingValue
-              }`
-            );
-            console.log(
-              `${target.name} has ${target.currentHp} HP out of ${
-                target.maxHp
-              } left.`
-            );
-            const text = this.createCombatText(
-              results.resultingValue.toString(),
-              this.target
-            );
+      const results: CombatResult = executor.attackTarget(target);
 
-            this.playCombatText(text).then(() => {
-              return resolve(results);
-            });
-          }, 100);
-        }, 500);
-      }, 100);
+      await this.playMemberAttack(executor.getSprite(), modifier * 25);
+      await this.playMemberTakeDamage(target.getSprite());
+      const text = this.createCombatText(
+        results.resultingValue.toString(),
+        this.target
+      );
+      await this.playCombatText(text);
+
+      console.log(
+        `${executor.name} attacks ${target.name} for ${results.resultingValue}`
+      );
+      console.log(
+        `${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`
+      );
+
+      return resolve(results);
     });
   }
 
@@ -124,10 +121,32 @@ export class CombatEvent {
     return valueText;
   }
 
-  public playCombatText(textObject: Phaser.GameObjects.Text): Promise<any> {
+  public playCombatText(textObject): Promise<any> {
     return new Promise(resolve => {
       const tween = textScaleUp(textObject, 0, this.scene, () => {
         textObject.destroy();
+        resolve();
+      });
+      tween.play();
+    });
+  }
+  public playMemberAttack(partyMember, distance): Promise<any> {
+    return new Promise(resolve => {
+      const tween = characterAttack(
+        partyMember,
+        distance,
+        0.0,
+        this.scene,
+        () => {
+          resolve();
+        }
+      );
+      tween.play();
+    });
+  }
+  playMemberTakeDamage(partyMember: Phaser.GameObjects.Sprite): Promise<any> {
+    return new Promise(resolve => {
+      const tween = characterDamage(partyMember, 0.0, this.scene, () => {
         resolve();
       });
       tween.play();
