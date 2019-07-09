@@ -5,7 +5,7 @@ import {
   Orientation
 } from "./CombatDataStructures";
 import { TextFactory } from "../../utility/TextFactory";
-import { textScaleUp } from "../../utility/tweens/text";
+import { textScaleUp, slowScaleUp } from '../../utility/tweens/text';
 import {
   characterAttack,
   characterDamage
@@ -46,23 +46,20 @@ export class CombatEvent {
     //TODO: broadcast actions to an in battle dialog
   }
 
-  private handleDefend(executor: Combatant): Promise<any> {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        executor.defendSelf();
-        const results: CombatResult = {
-          actionType: CombatActionTypes.defend,
-          executor,
-          target: executor,
-          resultingValue: 0,
-          targetDown: false
-        };
-        console.log(`${executor.name} is defending`);
-        const text = this.createCombatText("^", this.executor);
-        this.playCombatText(text).then(() => {
-          return resolve(results);
-        });
-      }, 100);
+  private async handleDefend(executor: Combatant): Promise<any> {
+    return new Promise(async resolve => {
+      executor.defendSelf();
+      const results: CombatResult = {
+        actionType: CombatActionTypes.defend,
+        executor,
+        target: executor,
+        resultingValue: 0,
+        targetDown: false
+      };
+      console.log(`${executor.name} is defending`);
+      const text = this.createCombatText("^", this.executor);
+      await this.playFadeUp(text)
+      return resolve(results)
     });
   }
 
@@ -80,6 +77,7 @@ export class CombatEvent {
         results.resultingValue.toString(),
         this.target
       );
+      
       await this.playCombatText(text);
 
       console.log(
@@ -151,6 +149,14 @@ export class CombatEvent {
       });
       tween.play();
     });
+  }
+  playFadeUp(sprite):Promise<any> {
+    return new Promise(resolve => {
+      const tween = slowScaleUp(sprite, this.scene, ()=>{
+        resolve();
+      });
+      tween.play();
+    })
   }
   private confirmTarget(): Combatant {
     let target = this.target;
