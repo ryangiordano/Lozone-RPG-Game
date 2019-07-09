@@ -17,12 +17,12 @@ export class Combat {
 
   constructor(private scene: Phaser.Scene, party: Combatant[], enemies: Combatant[]) {
     party.forEach(member => {
-      member.setSprite(scene);
+      member.setSprite(scene, Directions.right);
       this.partyMembers.push(member)
     });
 
     enemies.forEach(enemy => {
-      enemy.setSprite(scene);
+      enemy.setSprite(scene, Directions.left);
       this.enemies.push(enemy)
     });
 
