@@ -1,5 +1,10 @@
 import { Combatant } from "./Combatant";
-import { CombatActionTypes, CombatantType, Orientation, Status } from "./CombatDataStructures";
+import {
+  CombatActionTypes,
+  CombatantType,
+  Orientation,
+  Status
+} from "./CombatDataStructures";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import { getRandomFloor, Directions } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
@@ -15,26 +20,29 @@ export class Combat {
   private enemies: Combatant[] = [];
   private currentPartyFocusIndex: number = 0;
 
-  constructor(private scene: Phaser.Scene, party: Combatant[], enemies: Combatant[]) {
+  constructor(
+    private scene: Phaser.Scene,
+    party: Combatant[],
+    enemies: Combatant[]
+  ) {
     party.forEach(member => {
       member.setSprite(scene, Directions.right);
-      this.partyMembers.push(member)
+      this.partyMembers.push(member);
     });
 
     enemies.forEach(enemy => {
       enemy.setSprite(scene, Directions.left);
-      this.enemies.push(enemy)
+      this.enemies.push(enemy);
     });
 
     this.addAndPopulateContainers();
     this.displayInputControlsForCurrentPartyMember();
   }
   private setListenersOnUI() {
-    this.combatUI.events.on('option-selected', (event) => {
+    this.combatUI.events.on("option-selected", event => {
       this.addEvent(event);
       this.confirmSelection();
-    })
-
+    });
   }
 
   public focusPreviousPartyInput(): boolean {
@@ -49,7 +57,9 @@ export class Combat {
     const count = this.partyMembers.length;
     const previous = direction === Directions.left;
 
-    let tempIndex = previous ? this.currentPartyFocusIndex - 1 : this.currentPartyFocusIndex + 1;
+    let tempIndex = previous
+      ? this.currentPartyFocusIndex - 1
+      : this.currentPartyFocusIndex + 1;
 
     while (previous ? tempIndex > 0 : tempIndex < count) {
       if (this.partyMemberHasImobileStatus(this.partyMembers[tempIndex])) {
@@ -64,9 +74,11 @@ export class Combat {
   }
 
   private partyMemberHasImobileStatus(partyMember: PartyMember) {
-    return (partyMember.status.has(Status.fainted) ||
+    return (
+      partyMember.status.has(Status.fainted) ||
       partyMember.status.has(Status.confused) ||
-      partyMember.status.has(Status.paralyzed));
+      partyMember.status.has(Status.paralyzed)
+    );
   }
 
   private teardownInputUI() {
@@ -74,10 +86,14 @@ export class Combat {
   }
 
   private constructInputUI(partyMember: Combatant) {
-    this.combatUI = new CombatInterface(this.scene, 'dialog-white', this.partyMembers, this.enemies);
+    this.combatUI = new CombatInterface(
+      this.scene,
+      "dialog-white",
+      this.partyMembers,
+      this.enemies
+    );
     this.combatUI.create(partyMember);
     this.setListenersOnUI();
-
   }
 
   private addEvent(combatEvent) {
@@ -90,13 +106,13 @@ export class Combat {
     setTimeout(() => {
       if (!hasNextInput) {
         this.applyEnemyTurns();
-        this.sortEventsBySpeed()
+        this.sortEventsBySpeed();
         this.startLoop();
         this.resetPartyFocusIndex();
       } else {
         this.displayInputControlsForCurrentPartyMember();
       }
-    }, 300)
+    }, 300);
   }
 
   private applyEnemyTurns() {
@@ -104,13 +120,25 @@ export class Combat {
       //TODO: In here we would query the enemy's behavior script, and check the state of the battlefield before making a decision for what to do.  For now, we attack;
       const randomPartyMember = this.getRandomAttackablePartyMember();
 
-      this.addEvent(new CombatEvent(enemy, randomPartyMember, CombatActionTypes.attack, Orientation.right, this.scene));
-    })
+      this.addEvent(
+        new CombatEvent(
+          enemy,
+          randomPartyMember,
+          CombatActionTypes.attack,
+          Orientation.right,
+          this.scene
+        )
+      );
+    });
   }
 
   private getRandomAttackablePartyMember() {
-    const targetablePartyMembers = this.partyMembers.filter(partyMember => !partyMember.status.has(Status.fainted));
-    return targetablePartyMembers[getRandomFloor(targetablePartyMembers.length)];
+    const targetablePartyMembers = this.partyMembers.filter(
+      partyMember => !partyMember.status.has(Status.fainted)
+    );
+    return targetablePartyMembers[
+      getRandomFloor(targetablePartyMembers.length)
+    ];
   }
 
   public sortEventsBySpeed() {
@@ -133,31 +161,36 @@ export class Combat {
   private startLoop() {
     if (!this.combatEvents.length) {
       // Send control back to user for next round of inputs.
-      this.displayInputControlsForCurrentPartyMember()
+      this.displayInputControlsForCurrentPartyMember();
       return false;
     }
     const combatEvent = this.combatEvents.pop();
-    combatEvent.executeAction().then((result) => {
+    combatEvent.executeAction().then(result => {
       const target = result.target;
       if (target && target.currentHp === 0) {
         if (target.type === CombatantType.enemy) {
           //Handle battle result object change.
           // destroy sprite.
 
-          const index = this.enemies.findIndex(enemy => enemy.uid === target.uid);
+          const index = this.enemies.findIndex(
+            enemy => enemy.uid === target.uid
+          );
           target.getSprite().destroy();
           if (index > -1) {
             this.enemies.splice(index, 1);
             if (this.enemies.length <= 0) {
-              this.scene.events.emit('end-battle');
+              this.scene.events.emit("end-battle");
               //TODO: Battle over, distribute Points and treasure
             }
           }
-
         } else if (target.type === CombatantType.partyMember) {
           target.addStatusCondition(Status.fainted);
-          if (this.partyMembers.every(partyMember => partyMember.status.has(Status.fainted))) {
-            this.scene.events.emit('game-over');
+          if (
+            this.partyMembers.every(partyMember =>
+              partyMember.status.has(Status.fainted)
+            )
+          ) {
+            this.scene.events.emit("game-over");
           }
         }
       }
@@ -170,8 +203,16 @@ export class Combat {
   }
 
   public addAndPopulateContainers() {
-    this.partyContainer = new CombatContainer({ x: 1, y: 3 }, this.scene, this.partyMembers);
-    this.enemyContainer = new CombatContainer({ x: 7, y: 3 }, this.scene, this.enemies);
+    this.partyContainer = new CombatContainer(
+      { x: 1, y: 3 },
+      this.scene,
+      this.partyMembers
+    );
+    this.enemyContainer = new CombatContainer(
+      { x: 7, y: 3 },
+      this.scene,
+      this.enemies
+    );
 
     this.scene.add.existing(this.partyContainer);
     this.scene.add.existing(this.enemyContainer);
@@ -180,5 +221,3 @@ export class Combat {
     this.enemyContainer.populateContainerRandomly();
   }
 }
-
-
