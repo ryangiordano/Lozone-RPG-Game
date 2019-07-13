@@ -144,5 +144,46 @@
       "title": "Japanese correspondent",
       "type": "credit"
     }
+  ],
+  "visualCredits":[
+    {
+      "heading": "Celebrating 6 Years Together",
+      "type": "heading"
+    },
+    {
+      "description": "Chongqing China, 2013",
+      "photo": "credit_1",
+      "type": "photo"
+    },
+    {
+      "description": "Louisville, Kentucky, 2015",
+      "photo": "credit_2",
+      "type": "photo"
+    },
+    {
+      "description": "Sichuan, 2015",
+      "photo": "credit_4",
+      "type": "photo"
+    },
+    {
+      "description": "Illinois, 2016",
+      "photo": "credit_3",
+      "type": "photo"
+    },
+    {
+      "description": "Chongqing China, 2018",
+      "photo": "credit_5",
+      "type": "photo"
+    },
+    {
+      "description": "Nanjing China, 2018",
+      "photo": "credit_6",
+      "type": "photo"
+    },
+    {
+      "description": "Half Moon Bay, 2019",
+      "photo": "credit_7",
+      "type": "photo"
+    }
   ]
 }

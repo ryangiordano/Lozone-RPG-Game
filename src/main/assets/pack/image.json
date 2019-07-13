@@ -1,7 +1,6 @@
 {
   "preload": {
-    "files": [
-      {
+    "files": [{
         "type": "image",
         "key": "room-tiles",
         "url": "./src/main/assets/tiles/room.png"
@@ -65,6 +64,41 @@
         "type": "image",
         "key": "dungeon_battle_background",
         "url": "./src/main/assets/images/battle-backgrounds/dungeon.png"
+      },
+      {
+        "type": "image",
+        "key": "credit_1",
+        "url": "./src/main/assets/images/credits/1.jpg"
+      },
+      {
+        "type": "image",
+        "key": "credit_2",
+        "url": "./src/main/assets/images/credits/2.jpg"
+      },
+      {
+        "type": "image",
+        "key": "credit_3",
+        "url": "./src/main/assets/images/credits/3.jpg"
+      },
+      {
+        "type": "image",
+        "key": "credit_4",
+        "url": "./src/main/assets/images/credits/4.jpg"
+      },
+      {
+        "type": "image",
+        "key": "credit_5",
+        "url": "./src/main/assets/images/credits/5.jpg"
+      },
+      {
+        "type": "image",
+        "key": "credit_6",
+        "url": "./src/main/assets/images/credits/6.jpg"
+      },
+      {
+        "type": "image",
+        "key": "credit_7",
+        "url": "./src/main/assets/images/credits/7.jpg"
       }
     ]
   }
