@@ -9,8 +9,8 @@ export class CreditsScene extends Phaser.Scene {
   private foregroundContainer: Phaser.GameObjects.Container;
   private cloudLayer: Phaser.GameObjects.Container;
   private creditRoller: CreditRoller
-  private ryan;
-  private lo;
+  private ryan: Phaser.GameObjects.Sprite;
+  private lo: Phaser.GameObjects.Sprite;
   constructor() {
     super({ key: 'CreditsScene' });
 
@@ -32,7 +32,7 @@ export class CreditsScene extends Phaser.Scene {
 
     this.backgroundContainer = new Phaser.GameObjects.Container(this, 0, 0);
     this.cloudLayer = new Phaser.GameObjects.Container(this, 0, 0);
-    const credits = [...this.game.cache.json.get('credits').credits];
+    const credits = [...this.game.cache.json.get('credits').visualCredits];
     this.creditRoller = new CreditRoller({ x: 0, y: 0 }, this, credits, () => {
       this.setStorkFlight();
     });
@@ -79,7 +79,7 @@ export class CreditsScene extends Phaser.Scene {
   private postCreditsStart() {
     this.sound.play('end', {
       mute: false,
-      volume: 1,
+      volume: .1,
       rate: 1,
       detune: 0,
       seek: 0,
@@ -153,6 +153,8 @@ export class CreditsScene extends Phaser.Scene {
         el.pause();
       }
     });
+    this.ryan.anims.stop();
+    this.lo.anims.stop();
     this.ryan.setFrame(3);
     this.lo.setFrame(3);
   }
