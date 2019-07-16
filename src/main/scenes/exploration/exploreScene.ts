@@ -63,12 +63,6 @@ export abstract class Explore extends Phaser.Scene {
   protected afterCreated() {};
   protected setEvents() {
     this.input.keyboard.on('keydown', event => {
-      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.SPACE) {
-        // If there is dialog on screen, cycle through the text.
-        if (this.dialogManager.dialogVisible()) {
-          this.dialogManager.handleNextDialog();
-        }
-      }
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
         this.scene.setActive(false, this.scene.key)
         this.game.scene.start('MenuScene', { callingSceneKey: this.scene.key });

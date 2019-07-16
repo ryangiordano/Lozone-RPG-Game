@@ -102,6 +102,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     return this;
   }
   private setKeyboardListeners() {
+    console.log("SEtting keyboard interface")
     this.scene.input.keyboard.on('keydown', (event) => this.invokeKeyboardEvent(event));
   }
   setEventOnPanel(panel: PanelContainer, eventName: string, callback: Function) {

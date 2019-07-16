@@ -10,11 +10,13 @@ import { getRandomFloor, Directions } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./CombatInterface";
+import { DialogManager } from "../UI/Dialog";
 
 export class Combat {
   private partyContainer: CombatContainer;
   private enemyContainer: CombatContainer;
   private combatUI: CombatInterface;
+  private messages: DialogManager;
   private combatEvents: CombatEvent[] = [];
   private partyMembers: Combatant[] = [];
   private enemies: Combatant[] = [];
@@ -37,6 +39,15 @@ export class Combat {
 
     this.addAndPopulateContainers();
     this.displayInputControlsForCurrentPartyMember();
+
+    this.messages = new DialogManager(this.scene, () => {
+      this.handleMessagesClose();
+    });
+
+    this.scene.events.on("dialog-finished", () => {
+
+    });
+    
   }
   private setListenersOnUI() {
     this.combatUI.events.on("option-selected", event => {
@@ -158,44 +169,51 @@ export class Combat {
     return partyMember;
   }
 
-  private startLoop() {
+  private async startLoop() {
     if (!this.combatEvents.length) {
       // Send control back to user for next round of inputs.
       this.displayInputControlsForCurrentPartyMember();
       return false;
     }
-    const combatEvent = this.combatEvents.pop();
-    combatEvent.executeAction().then(result => {
-      const target = result.target;
-      if (target && target.currentHp === 0) {
-        if (target.type === CombatantType.enemy) {
-          //Handle battle result object change.
-          // destroy sprite.
 
-          const index = this.enemies.findIndex(
-            enemy => enemy.uid === target.uid
-          );
-          target.getSprite().destroy();
-          if (index > -1) {
-            this.enemies.splice(index, 1);
-            if (this.enemies.length <= 0) {
-              this.scene.events.emit("end-battle");
-              //TODO: Battle over, distribute Points and treasure
-            }
-          }
-        } else if (target.type === CombatantType.partyMember) {
-          target.addStatusCondition(Status.fainted);
-          if (
-            this.partyMembers.every(partyMember =>
-              partyMember.status.has(Status.fainted)
-            )
-          ) {
-            this.scene.events.emit("game-over");
+    const combatEvent = this.combatEvents.pop();
+    var result = await combatEvent.executeAction();
+
+    // Awaiting until all messags are done being displayed, then we can continue
+
+    await this.messages.displayDialog(result.message);
+
+    const target = result.target;
+    this.resolveTargetDeaths(target);
+    this.startLoop();
+  }
+
+  private resolveTargetDeaths(target) {
+    if (target && target.currentHp === 0) {
+      if (target.type === CombatantType.enemy) {
+        //Handle battle result object change.
+        // destroy sprite.
+
+        const index = this.enemies.findIndex(enemy => enemy.uid === target.uid);
+        target.getSprite().destroy();
+        if (index > -1) {
+          this.enemies.splice(index, 1);
+          if (this.enemies.length <= 0) {
+            this.scene.events.emit("end-battle");
+            //TODO: Battle over, distribute Points and treasure
           }
         }
+      } else if (target.type === CombatantType.partyMember) {
+        target.addStatusCondition(Status.fainted);
+        if (
+          this.partyMembers.every(partyMember =>
+            partyMember.status.has(Status.fainted)
+          )
+        ) {
+          this.scene.events.emit("game-over");
+        }
       }
-      this.startLoop();
-    });
+    }
   }
 
   private resetPartyFocusIndex() {
@@ -219,5 +237,9 @@ export class Combat {
 
     this.partyContainer.populateContainer();
     this.enemyContainer.populateContainerRandomly();
+  }
+
+  public handleMessagesClose() {
+    console.log("Closing the messages");
   }
 }

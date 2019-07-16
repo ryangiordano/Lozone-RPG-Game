@@ -5,7 +5,7 @@ import {
   Orientation
 } from "./CombatDataStructures";
 import { TextFactory } from "../../utility/TextFactory";
-import { textScaleUp, slowScaleUp } from '../../utility/tweens/text';
+import { textScaleUp, slowScaleUp } from "../../utility/tweens/text";
 import {
   characterAttack,
   characterDamage
@@ -58,8 +58,8 @@ export class CombatEvent {
       };
       console.log(`${executor.name} is defending`);
       const text = this.createCombatText("^", this.executor);
-      await this.playFadeUp(text)
-      return resolve(results)
+      await this.playFadeUp(text);
+      return resolve(results);
     });
   }
 
@@ -77,15 +77,12 @@ export class CombatEvent {
         results.resultingValue.toString(),
         this.target
       );
-      
-      await this.playCombatText(text);
 
-      console.log(
-        `${executor.name} attacks ${target.name} for ${results.resultingValue}`
-      );
-      console.log(
+      await this.playCombatText(text);
+      results.message = [
+        `${executor.name} attacks ${target.name} for ${results.resultingValue}`,
         `${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`
-      );
+      ];
 
       return resolve(results);
     });
@@ -150,13 +147,13 @@ export class CombatEvent {
       tween.play();
     });
   }
-  playFadeUp(sprite):Promise<any> {
+  playFadeUp(sprite): Promise<any> {
     return new Promise(resolve => {
-      const tween = slowScaleUp(sprite, this.scene, ()=>{
+      const tween = slowScaleUp(sprite, this.scene, () => {
         resolve();
       });
       tween.play();
-    })
+    });
   }
   private confirmTarget(): Combatant {
     let target = this.target;

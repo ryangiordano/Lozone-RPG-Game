@@ -62,7 +62,8 @@ export interface CombatResult {
   executor: Combatant,
   target: Combatant,
   resultingValue: number,
-  targetDown?: boolean
+  targetDown?: boolean,
+  message?: string[]
 }
 export enum CombatActionTypes {
   attack,
