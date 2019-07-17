@@ -24,7 +24,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
   }
 
   public constructPanel(scene: Phaser.Scene) {
-    this.panel = scene.add.nineslice(0, 0, this.dimensions.x * 64, this.dimensions.y * 64, this.spriteKey, 5);
+    this.panel = scene.add.nineslice(0, 0, this.dimensions.x * 64, this.dimensions.y * 64, this.spriteKey, 20);
     this.add(this.panel)
   }
 

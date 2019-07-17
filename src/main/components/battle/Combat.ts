@@ -40,9 +40,7 @@ export class Combat {
     this.addAndPopulateContainers();
     this.displayInputControlsForCurrentPartyMember();
 
-    this.messages = new DialogManager(this.scene, () => {
-      this.handleMessagesClose();
-    });
+    this.messages = new DialogManager(this.scene, true, 'dialog-white');
 
     this.scene.events.on("dialog-finished", () => {
 

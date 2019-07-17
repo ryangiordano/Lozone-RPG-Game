@@ -48,13 +48,7 @@ export abstract class Explore extends Phaser.Scene {
     this.setColliders();
     this.setEvents();
 
-    this.dialogManager = new DialogManager(this, () => {
-      //TODO: Refactor the logic controlling time before relinquishing control back to player
-      // After a dialog is closed.
-      setTimeout(() => {
-        this.player.controllable.canInput = true;
-      }, 200);
-    });
+    this.dialogManager = new DialogManager(this, false, 'dialog-beige');
 
     this['updates'].addMultiple([this.player]);
 
@@ -260,8 +254,11 @@ export abstract class Explore extends Phaser.Scene {
     const item = sm.addItemToContents(itemId);
     sm.flags.get('chests').setFlag(id, true);
     this.player.controllable.canInput = false;
-    setTimeout(() => {
-      this.dialogManager.displayDialog([`Lo got ${item.name}`]);
+    setTimeout(async () => {
+      await this.dialogManager.displayDialog([`Lo got ${item.name}`]);
+      setTimeout(() => {
+        this.player.controllable.canInput = true;
+      }, 200)
     }, 300);
   }
 }
