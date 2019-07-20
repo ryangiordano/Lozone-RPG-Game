@@ -2,6 +2,7 @@ import { UserInterface } from "../components/UI/UserInterface";
 import { State } from "../utility/state/State";
 import { UIPanel } from "../components/UI/PanelContainer";
 import { Item } from "../components/entities/Item";
+import { KeyboardControl } from "../components/UI/Keyboard";
 
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
@@ -13,7 +14,7 @@ export class MenuScene extends Phaser.Scene {
 
   init(data) {
     this.callingSceneKey = data.callingSceneKey;
-    this.UI = new UserInterface(this, 'dialog-white');
+    this.UI = new UserInterface(this, 'dialog-white',new KeyboardControl(this));
 
     const mainPanel = this.createMainPanel();
     mainPanel.on('items-selected', () => this.UI.showPanel(itemPanel).focusPanel(itemPanel));

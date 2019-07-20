@@ -1,3 +1,5 @@
+import { KeyboardControl } from "./Keyboard";
+
 export interface Dialog {
   content: string;
 }
@@ -10,11 +12,21 @@ export class DialogManager {
   constructor(
     private currentScene: Phaser.Scene,
     private silent: boolean = false,
-    color?:string,
+    private sceneKeyboardControl: KeyboardControl,
+    color?: string
   ) {
-    this.dialog = currentScene.add.nineslice(0,384, 640, 192, color||'dialog-white', 20);
+    this.dialog = currentScene.add.nineslice(
+      0,
+      384,
+      640,
+      192,
+      color || "dialog-white",
+      20
+    );
     this.dialog.visible = false;
     this.dialog.setScrollFactor(0);
+
+    this.sceneKeyboardControl.setupKeyboardControl();
     this.setKeyboardListeners();
   }
 
@@ -42,7 +54,7 @@ export class DialogManager {
   }
 
   public displayDialog(message: string[]): Promise<any> {
-    this.setKeyboardListeners();
+    // this.setKeyboardListeners();
     this.dialog.visible = true;
     this.createDialogArray(message);
     this.handleNextDialog();
@@ -87,12 +99,9 @@ export class DialogManager {
     }
   }
   private setKeyboardListeners() {
-    this.currentScene.input.keyboard.on("keydown", event => {
-      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.SPACE) {
-        // If there is dialog on screen, cycle through the text.
-        if (this.dialogVisible()) {
-          this.handleNextDialog();
-        }
+    this.sceneKeyboardControl.on("space", "dialog", () => {
+      if (this.dialogVisible()) {
+        this.handleNextDialog();
       }
     });
   }

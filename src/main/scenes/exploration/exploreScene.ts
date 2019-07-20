@@ -7,6 +7,7 @@ import { DialogManager } from '../../components/UI/Dialog';
 import { Directions } from '../../utility/Utility';
 import { Trigger } from '../../assets/objects/Trigger';
 import { State } from '../../utility/state/State';
+import { KeyboardControl } from '../../components/UI/Keyboard';
 
 export abstract class Explore extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap;
@@ -16,6 +17,7 @@ export abstract class Explore extends Phaser.Scene {
   private interactive: Phaser.GameObjects.Group;
   private casts: Phaser.GameObjects.Group;
   private triggers: Phaser.GameObjects.Group;
+  protected keyboardControl: KeyboardControl;
   protected player: Player;
   protected dialogManager: DialogManager;
   private warpId: number;
@@ -48,7 +50,7 @@ export abstract class Explore extends Phaser.Scene {
     this.setColliders();
     this.setEvents();
 
-    this.dialogManager = new DialogManager(this, false, 'dialog-beige');
+    this.dialogManager = new DialogManager(this, false, new KeyboardControl(this),'dialog-beige');
 
     this['updates'].addMultiple([this.player]);
 

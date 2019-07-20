@@ -142,7 +142,6 @@ export class Combatant {
   public getModifierValue() {}
   // Ad a defense up buff that lasts one turn to yourself.
   public defendSelf() {
-    console.log("defended");
     //TODO: Implement defending self
     // this.buffs.set()
   }
@@ -155,7 +154,6 @@ export class Combatant {
   public damageFor(hitPoints: number) {
     this.currentHp = Math.max(0, this.currentHp - hitPoints);
     if (this.currentHp === 0) {
-      console.log("We ded.");
     }
   }
   public addStatusCondition(status: Status) {

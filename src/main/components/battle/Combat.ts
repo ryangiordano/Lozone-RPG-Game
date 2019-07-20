@@ -11,6 +11,7 @@ import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./CombatInterface";
 import { DialogManager } from "../UI/Dialog";
+import { KeyboardControl } from "../UI/Keyboard";
 
 export class Combat {
   private partyContainer: CombatContainer;
@@ -40,7 +41,12 @@ export class Combat {
     this.addAndPopulateContainers();
     this.displayInputControlsForCurrentPartyMember();
 
-    this.messages = new DialogManager(this.scene, true, "dialog-white");
+    this.messages = new DialogManager(
+      this.scene,
+      true,
+      new KeyboardControl(this.scene),
+      "dialog-white"
+    );
 
     this.scene.events.on("dialog-finished", () => {});
   }

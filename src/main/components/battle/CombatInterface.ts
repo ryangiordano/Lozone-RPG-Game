@@ -5,6 +5,7 @@ import { Orientation, CombatActionTypes } from "./CombatDataStructures";
 import { PartyMember } from "./PartyMember";
 import { Combatant } from "./Combatant";
 import { UIPanel, PanelContainer } from "../UI/PanelContainer";
+import { KeyboardControl } from "../UI/Keyboard";
 
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory = new TextFactory();
@@ -19,7 +20,7 @@ export class CombatInterface extends UserInterface {
     private party: PartyMember[],
     private enemies: Combatant[]
   ) {
-    super(scene, spriteKey);
+    super(scene, spriteKey, new KeyboardControl(scene));
     //TODO: Refactor the combat interface logic here.
   }
   public create(partyMember: Combatant) {

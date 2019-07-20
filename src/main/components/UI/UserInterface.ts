@@ -1,4 +1,5 @@
 import { UIPanel, PanelContainer } from "./PanelContainer";
+import { KeyboardControl } from "./Keyboard";
 
 export class UserInterface extends Phaser.GameObjects.Container {
   private panelContainers: PanelContainer[] = [];
@@ -8,9 +9,13 @@ export class UserInterface extends Phaser.GameObjects.Container {
   private keyboardMuted: boolean = false;
   public events = new Phaser.Events.EventEmitter();
 
-  constructor(protected scene: Phaser.Scene, private spriteKey: string) {
+  constructor(
+    protected scene: Phaser.Scene,
+    private spriteKey: string,
+    private menuSceneKeyboardControl: KeyboardControl
+  ) {
     super(scene, 0, 0);
-    this.name = 'UI';
+    this.name = "UI";
     this.createCaret();
     scene.add.existing(this);
   }
@@ -18,7 +23,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.setKeyboardListeners();
   }
   closeUI() {
-    this.scene.events.emit('close');
+    this.scene.events.emit("close");
   }
 
   destroyContainer() {
@@ -29,9 +34,9 @@ export class UserInterface extends Phaser.GameObjects.Container {
 
   private createCaret() {
     this.caret = this.scene.add.text(-100, -100, ">", {
-      fontFamily: 'pixel',
-      fontSize: '32px',
-      fill: '#000000',
+      fontFamily: "pixel",
+      fontSize: "32px",
+      fill: "#000000"
     });
     this.add(this.caret);
   }
@@ -46,9 +51,14 @@ export class UserInterface extends Phaser.GameObjects.Container {
     }
   }
 
-  public createUIPanel(dimensions: Coords, position: Coords, escapable?: boolean): UIPanel {
+  public createUIPanel(
+    dimensions: Coords,
+    position: Coords,
+    escapable?: boolean
+  ): UIPanel {
     const panel = new UIPanel(
-      dimensions, position,
+      dimensions,
+      position,
       this.spriteKey,
       this.scene,
       escapable
@@ -59,7 +69,12 @@ export class UserInterface extends Phaser.GameObjects.Container {
   }
 
   public createPresentationPanel(dimensions, position) {
-    const panel = new PanelContainer(dimensions, position, this.spriteKey, this.scene);
+    const panel = new PanelContainer(
+      dimensions,
+      position,
+      this.spriteKey,
+      this.scene
+    );
     this.add(panel);
     return panel;
   }
@@ -82,7 +97,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
       } else {
         panel.blurPanel();
       }
-    })
+    });
     this.focusedPanel.focusOption(0);
     this.setCaret();
   }
@@ -95,35 +110,77 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.panelTravelHistory.pop();
     panel.closePanel();
     if (this.panelTravelHistory.length) {
-      this.focusPanel(this.panelTravelHistory[this.panelTravelHistory.length - 1]);
+      this.focusPanel(
+        this.panelTravelHistory[this.panelTravelHistory.length - 1]
+      );
     } else {
-      this.scene.events.emit('close');
+      this.scene.events.emit("close");
     }
     return this;
   }
   private setKeyboardListeners() {
-    console.log("SEtting keyboard interface")
-    this.scene.input.keyboard.on('keydown', (event) => this.invokeKeyboardEvent(event));
+    this.menuSceneKeyboardControl.setupKeyboardControl();
+    this.menuSceneKeyboardControl.on(["up", "left"], "user-interface", () => {
+      this.focusedPanel.focusPreviousOption();
+      this.setCaret();
+    });
+
+    this.menuSceneKeyboardControl.on(
+      ["down", "right"],
+      "user-interface",
+      () => {
+        this.focusedPanel.focusNextOption();
+        this.setCaret();
+      }
+    );
+
+    this.menuSceneKeyboardControl.on("esc", "user-interface", () => {
+      this.traverseBackward();
+    });
+
+    this.menuSceneKeyboardControl.on("space", "user-interface", () => {
+      this.focusedPanel.selectFocusedOption();
+      this.setCaret();
+    });
+
+    // this.scene.input.keyboard.on('keydown', (event) => this.invokeKeyboardEvent(event));
   }
-  setEventOnPanel(panel: PanelContainer, eventName: string, callback: Function) {
-    this.scene.input.keyboard.on(eventName, (event) => {
+  setEventOnPanel(
+    panel: PanelContainer,
+    eventName: string,
+    callback: Function
+  ) {
+    this.scene.input.keyboard.on(eventName, event => {
       if (this.focusedPanel.id === panel.id) {
         callback(event);
       }
-    })
+    });
   }
   public muteKeyboardEvents(muted: boolean) {
     this.keyboardMuted = muted;
   }
   public removeKeyboardListeners() {
-    this.scene.input.keyboard.off('keydown');
+    this.menuSceneKeyboardControl.off("up", "user-interface");
+    this.menuSceneKeyboardControl.off("left", "user-interface");
+
+    this.menuSceneKeyboardControl.off("down", "user-interface");
+
+    this.menuSceneKeyboardControl.off("right", "user-interface");
+
+    this.menuSceneKeyboardControl.off("esc", "user-interface");
+
+    this.menuSceneKeyboardControl.off("space", "user-interface");
+
+    // this.scene.input.keyboard.off('keydown');
   }
   private traverseBackward() {
     if (this.panelTravelHistory[this.panelTravelHistory.length - 1].escapable) {
       const lastPanel = this.panelTravelHistory.pop();
       lastPanel.closePanel();
       if (this.panelTravelHistory.length) {
-        this.focusPanel(this.panelTravelHistory[this.panelTravelHistory.length - 1]);
+        this.focusPanel(
+          this.panelTravelHistory[this.panelTravelHistory.length - 1]
+        );
       } else {
         this.closeUI();
       }
@@ -151,5 +208,4 @@ export class UserInterface extends Phaser.GameObjects.Container {
         break;
     }
   }
-
 }

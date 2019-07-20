@@ -84,7 +84,6 @@ export class CombatEvent {
         `${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`
       ];
       results.message = message;
-      console.log(message);
       return resolve(results);
     });
   }
