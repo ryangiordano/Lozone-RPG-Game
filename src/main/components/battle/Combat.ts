@@ -40,12 +40,9 @@ export class Combat {
     this.addAndPopulateContainers();
     this.displayInputControlsForCurrentPartyMember();
 
-    this.messages = new DialogManager(this.scene, true, 'dialog-white');
+    this.messages = new DialogManager(this.scene, true, "dialog-white");
 
-    this.scene.events.on("dialog-finished", () => {
-
-    });
-    
+    this.scene.events.on("dialog-finished", () => {});
   }
   private setListenersOnUI() {
     this.combatUI.events.on("option-selected", event => {
@@ -238,6 +235,6 @@ export class Combat {
   }
 
   public handleMessagesClose() {
-    console.log("Closing the messages");
+    throw new Error("Not Yet Implemented");
   }
 }

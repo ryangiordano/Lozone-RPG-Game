@@ -2,7 +2,7 @@ import { TweenFactory } from "./TweenBuilder";
 
 const builder = new TweenFactory();
 
-const scaleFadeIn = (target, distance=-80, duration=100) =>
+const scaleFadeIn = (target, distance = -80, duration = 100) =>
   builder
     .createTween(target, duration, 0)
     .fadeIn()
@@ -24,16 +24,15 @@ const fadeOut = target =>
     .fadeOut()
     .getConfig();
 
-
-export const slowScaleUp = (target, scene, onComplete)=>{
+export const slowScaleUp = (target, scene, onComplete) => {
   const timeline = scene.tweens.createTimeline({
     targets: target
   });
-  timeline.add(scaleFadeIn(target,-40, 300))
-  timeline.add(fadeOut(target))
+  timeline.add(scaleFadeIn(target, -40, 300));
+  timeline.add(fadeOut(target));
   timeline.setCallback("onComplete", onComplete);
   return timeline;
-}
+};
 export const textScaleUp = (target, delay, scene: Phaser.Scene, onComplete) => {
   const timeline = scene.tweens.createTimeline({
     targets: target,

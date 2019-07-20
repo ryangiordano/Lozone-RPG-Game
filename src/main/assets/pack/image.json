@@ -13,11 +13,6 @@
       },
       {
         "type": "image",
-        "key": "dialog-sprite",
-        "url": "./src/main/assets/sprites/dialog.png"
-      },
-      {
-        "type": "image",
         "key": "ryan-portrait",
         "url": "./src/main/assets/sprites/ryanportrait.png"
       },

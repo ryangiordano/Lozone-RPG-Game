@@ -56,9 +56,9 @@ export class CombatEvent {
         resultingValue: 0,
         targetDown: false
       };
-      console.log(`${executor.name} is defending`);
       const text = this.createCombatText("^", this.executor);
       await this.playFadeUp(text);
+      results.message = [`${this.executor.name} is defending.`];
       return resolve(results);
     });
   }
@@ -79,11 +79,12 @@ export class CombatEvent {
       );
 
       await this.playCombatText(text);
-      results.message = [
+      const message = [
         `${executor.name} attacks ${target.name} for ${results.resultingValue}`,
         `${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`
       ];
-
+      results.message = message;
+      console.log(message);
       return resolve(results);
     });
   }
