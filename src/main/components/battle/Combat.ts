@@ -189,19 +189,23 @@ export class Combat {
     this.startLoop();
   }
 
-  private resolveTargetDeaths(target) {
+  private async resolveTargetDeaths(target) {
     if (target && target.currentHp === 0) {
       if (target.type === CombatantType.enemy) {
         //Handle battle result object change.
         // destroy sprite.
 
         const index = this.enemies.findIndex(enemy => enemy.uid === target.uid);
+        // Store xp and coins and stuff...
+        console.log(target)
         target.getSprite().destroy();
         if (index > -1) {
           this.enemies.splice(index, 1);
           if (this.enemies.length <= 0) {
-            this.scene.events.emit("end-battle");
             //TODO: Battle over, distribute Points and treasure
+            await this.messages.displayDialog(["You've won!"]);
+            return this.scene.events.emit("end-battle");
+            
           }
         }
       } else if (target.type === CombatantType.partyMember) {
