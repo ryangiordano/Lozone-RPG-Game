@@ -1,8 +1,8 @@
 import { Combatant } from "./Combatant";
 
 /*
-* duration is the number in turns left for its lifetime.
-*/
+ * duration is the number in turns left for its lifetime.
+ */
 export interface IBuff {
   id: number;
   modifiers: Modifier[];
@@ -26,7 +26,14 @@ export enum Status {
   fainted
 }
 export enum ModifierStatType {
-  strength, stamina, speed, intellect, wisdom, dexterity, hp, mp
+  strength,
+  stamina,
+  speed,
+  intellect,
+  wisdom,
+  dexterity,
+  hp,
+  mp
 }
 export interface Modifier {
   id: number;
@@ -54,16 +61,16 @@ export interface Effect {
 }
 
 export interface EnemyParty {
-  enemies: number[]
+  enemies: number[];
 }
 
 export interface CombatResult {
-  actionType: CombatActionTypes,
-  executor: Combatant,
-  target: Combatant,
-  resultingValue: number,
-  targetDown?: boolean,
-  message?: string[]
+  actionType: CombatActionTypes;
+  executor: Combatant;
+  target: Combatant;
+  resultingValue: number;
+  targetDown?: boolean;
+  message?: string[];
 }
 export enum CombatActionTypes {
   attack,
@@ -75,7 +82,13 @@ export enum CombatActionTypes {
 }
 
 export interface CombatAction {
-  name: string,
-  description: string,
-  action: CombatResult,
+  name: string;
+  description: string;
+  action: CombatResult;
+}
+
+export interface LootCrate {
+  itemIds: number[];
+  coin: number;
+  experiencePoints: number;
 }

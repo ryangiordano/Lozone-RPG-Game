@@ -33,7 +33,7 @@ export class CombatEvent {
       // This is where we implement our Actions.ts actions.
       if (this.action === CombatActionTypes.attack) {
         if (!target || !this.executorIsValid()) {
-          resolve(this.returnFailedAction(executor, target));
+          return resolve(this.returnFailedAction(executor, target));
         }
         results = await this.handleAttack(executor, target);
       }
@@ -41,9 +41,7 @@ export class CombatEvent {
         results = await this.handleDefend(executor);
       }
       return resolve(results);
-      // TODO: depending on the this.action value, execute a certain command.
     });
-    //TODO: broadcast actions to an in battle dialog
   }
 
   private async handleDefend(executor: Combatant): Promise<any> {
@@ -83,6 +81,7 @@ export class CombatEvent {
         `${executor.name} attacks ${target.name} for ${results.resultingValue}`,
         `${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`
       ];
+      
       results.message = message;
       return resolve(results);
     });
@@ -125,6 +124,7 @@ export class CombatEvent {
       tween.play();
     });
   }
+
   public playMemberAttack(partyMember, distance): Promise<any> {
     return new Promise(resolve => {
       const tween = characterAttack(
@@ -139,6 +139,7 @@ export class CombatEvent {
       tween.play();
     });
   }
+
   playMemberTakeDamage(partyMember: Phaser.GameObjects.Sprite): Promise<any> {
     return new Promise(resolve => {
       const tween = characterDamage(partyMember, 0.0, this.scene, () => {
@@ -147,6 +148,7 @@ export class CombatEvent {
       tween.play();
     });
   }
+
   playFadeUp(sprite): Promise<any> {
     return new Promise(resolve => {
       const tween = slowScaleUp(sprite, this.scene, () => {
@@ -155,6 +157,7 @@ export class CombatEvent {
       tween.play();
     });
   }
+
   private confirmTarget(): Combatant {
     let target = this.target;
     if (target && target.currentHp <= 0) {
@@ -170,8 +173,6 @@ export class CombatEvent {
   }
 
   private executorIsValid(): boolean {
-    console.log(this.executor)
-    console.log(this.executor.currentHp)
     return this.executor.currentHp > 0;
   }
 }

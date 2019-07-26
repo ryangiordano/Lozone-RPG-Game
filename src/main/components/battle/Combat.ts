@@ -3,17 +3,18 @@ import {
   CombatActionTypes,
   CombatantType,
   Orientation,
-  Status
+  Status,
+  LootCrate
 } from "./CombatDataStructures";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import { getRandomFloor, Directions } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./CombatInterface";
-import { DialogManager } from "../UI/Dialog";
 
 export class Combat {
   private partyContainer: CombatContainer;
+  private lootCrate: LootCrate;
   private enemyContainer: CombatContainer;
   private combatUI: CombatInterface;
   private combatEvents: CombatEvent[] = [];
@@ -30,6 +31,12 @@ export class Combat {
       member.setSprite(scene, Directions.right);
       this.partyMembers.push(member);
     });
+
+    this.lootCrate = {
+      itemIds: [],
+      coin: 0,
+      experiencePoints: 0
+    };
 
     enemies.forEach(enemy => {
       enemy.setSprite(scene, Directions.left);
@@ -174,11 +181,12 @@ export class Combat {
     }
     if (this.enemies.length <= 0) {
       await this.displayMessage(["You've won!"]);
+      await this.distributeLoot();
       return this.scene.events.emit("end-battle");
     }
 
     const combatEvent = this.combatEvents.pop();
-    var result = await combatEvent.executeAction();
+    let result = await combatEvent.executeAction();
 
     // Awaiting until all messags are done being displayed, then we can continue
     await this.displayMessage(result.message);
@@ -191,11 +199,9 @@ export class Combat {
   private async resolveTargetDeaths(target) {
     if (target && target.currentHp === 0) {
       if (target.type === CombatantType.enemy) {
-        //Handle battle result object change.
-        // destroy sprite.
-
         const index = this.enemies.findIndex(enemy => enemy.uid === target.uid);
         // Store xp and coins and stuff...
+        this.lootEnemy(target);
         target.getSprite().destroy();
         if (index > -1) {
           this.enemies.splice(index, 1);
@@ -205,29 +211,44 @@ export class Combat {
         if (
           this.partyMembers.every(partyMember =>
             partyMember.status.has(Status.fainted)
-          )    
+          )
         ) {
+          await this.displayMessage(["Your party has been defeated..."]);
           this.scene.events.emit("game-over");
         }
       }
     }
   }
 
+  private lootEnemy(target: any) {
+    this.lootCrate.coin += target.goldValue;
+    target.lootTable.forEach(itemId => this.lootCrate.itemIds.push(itemId));
+    this.lootCrate.experiencePoints += target.experiencePoints;
+  }
+
+  private async distributeLoot() {
+    await this.displayMessage([
+      `Receive items: ${this.lootCrate.itemIds}`,
+      `The party receives ${this.lootCrate.coin} coins.`,
+      `Each member receives ${this.lootCrate.experiencePoints} XP.`
+    ]);
+    // TODO: Get item names.  Add them to the party's backpack.
+  }
   /**
    * Function that results after the message scene is done doing its thing.
    * @param message
    */
   displayMessage(message: string[]): Promise<any> {
-    const dialogScene = this.scene.scene.get('DialogScene')
+    const dialogScene = this.scene.scene.get("DialogScene");
     const scenePlugin = new Phaser.Scenes.ScenePlugin(dialogScene);
     return new Promise(resolve => {
-      scenePlugin.setActive(false, 'Battle');
+      scenePlugin.setActive(false, "Battle");
       scenePlugin.start("DialogScene", {
-        callingSceneKey: 'Battle',
+        callingSceneKey: "Battle",
         color: "dialog-white",
         message
       });
-      
+
       scenePlugin.setActive(true, "DialogScene").bringToTop("DialogScene");
       dialogScene.events.once("close-dialog", () => {
         resolve();
