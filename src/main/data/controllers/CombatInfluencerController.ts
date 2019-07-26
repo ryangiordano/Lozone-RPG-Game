@@ -11,7 +11,5 @@ export class BuffController {
     }
     getBuff(id:number){
         const buff = this.buffRepository.getById(id);
-        console.log(buff)
-
     }
 }

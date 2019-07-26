@@ -51,7 +51,7 @@ export class CombatInterface extends UserInterface {
       })
       .addOption("Item", () => {})
       .addOption("Run", () => {
-        this.scene.events.emit("end-battle");
+        this.scene.events.emit("run-battle");
       });
 
     this.setEventOnPanel(this.mainPanel, "keydown", event => {

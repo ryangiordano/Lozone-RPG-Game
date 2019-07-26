@@ -2,27 +2,42 @@ export interface Dialog {
   content: string;
 }
 
-export class DialogManager {
+export class DialogScene extends Phaser.Scene {
+  /**
+   * Houses dialogs.
+   */
   private dialog: Phaser.GameObjects.RenderTexture;
   private dialogArray: string[] = [];
   private currentText: Phaser.GameObjects.Text;
   private bookmark: Function;
-  constructor(
-    private currentScene: Phaser.Scene,
-    private silent: boolean = false,
-    color?: string
-  ) {
-    this.dialog = currentScene.add.nineslice(
+  private silent: boolean;
+  private color: string;
+  private callingSceneKey: string;
+  private messages: string[];
+  private spaceKey: any;
+
+  constructor() {
+    super({ key: "DialogScene" });
+  }
+
+  init(data) {
+    this.callingSceneKey = data.callingSceneKey;
+    this.spaceKey = this.input.keyboard.addKey("Space");
+    this.color = data.color || "dialog-white";
+    this.silent = data.silent || false;
+    this.messages = data.message || [];
+    this.dialog = this.add.nineslice(
       0,
       384,
       640,
       192,
-      color || "dialog-white",
+      this.color || "dialog-white",
       20
     );
     this.dialog.visible = false;
     this.dialog.setScrollFactor(0);
-    this.setKeyboardListeners();
+
+    this.displayDialog();
   }
 
   private createDialogArray(messages: string[]) {
@@ -48,10 +63,11 @@ export class DialogManager {
     }, []);
   }
 
-  public displayDialog(message: string[]): Promise<any> {
-    // this.setKeyboardListeners();
+  public displayDialog(): Promise<any> {
+    this.setKeyboardListeners();
+
     this.dialog.visible = true;
-    this.createDialogArray(message);
+    this.createDialogArray(this.messages);
     this.handleNextDialog();
 
     return new Promise(resolve => {
@@ -75,13 +91,17 @@ export class DialogManager {
     }
 
     if (!this.dialogArray.length) {
-      this.bookmark();
       this.hideDialog();
+
+      this.scene.setActive(true, this.callingSceneKey);
+      this.removeKeyboardListeners();
+      this.events.emit("close-dialog");
+      this.scene.stop();
     } else {
-      !this.silent && this.currentScene.sound.play("beep");
+      !this.silent && this.sound.play("beep");
       const toShow = this.dialogArray.shift();
 
-      this.currentText = this.currentScene.add.text(4 * 4, 99 * 4, toShow, {
+      this.currentText = this.add.text(4 * 4, 99 * 4, toShow, {
         fontFamily: "pixel",
         fontSize: "32px",
         fill: "#000000",
@@ -94,10 +114,13 @@ export class DialogManager {
     }
   }
   private setKeyboardListeners() {
-    this.currentScene.input.keyboard.on("keydown-space", () => {
+    this.spaceKey.on("down", event => {
       if (this.dialogVisible()) {
         this.handleNextDialog();
       }
     });
+  }
+  private removeKeyboardListeners() {
+    this.spaceKey.off("down");
   }
 }

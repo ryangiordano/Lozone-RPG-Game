@@ -7,10 +7,11 @@ import { CreditsScene } from "./scenes/credits/creditsScene";
 import { HouseScene } from "./scenes/exploration/houseScene";
 import { DungeonScene } from "./scenes/exploration/dungeonScene";
 import { CombatScene } from "./scenes/combat/combatScene";
+import {DialogScene } from "./scenes/dialogscene";
 // main game configuration
 const config: GameConfig = {
-  width: 160 * 4,
-  height: 144 * 4,
+  width: 640,
+  height: 576,
   zoom: 1,
   type: Phaser.AUTO,
   parent: "game",
@@ -20,7 +21,8 @@ const config: GameConfig = {
     MenuScene,
     DungeonScene,
     CreditsScene,
-    CombatScene
+    CombatScene,
+    DialogScene,
   ],
   input: {
     keyboard: true
@@ -31,7 +33,7 @@ const config: GameConfig = {
       { key: "updatePlugin", plugin: PhaserUpdatePlugin, mapping: "updates" }
     ]
   },
-  backgroundColor: "#383838",
+  backgroundColor: "#383838", 
   physics: {
     default: "arcade",
     render: { pixelArt: true, antialias: false }

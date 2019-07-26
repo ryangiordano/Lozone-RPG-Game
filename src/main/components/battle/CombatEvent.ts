@@ -32,7 +32,7 @@ export class CombatEvent {
       let results;
       // This is where we implement our Actions.ts actions.
       if (this.action === CombatActionTypes.attack) {
-        if (!target || !this.executorIsValid) {
+        if (!target || !this.executorIsValid()) {
           resolve(this.returnFailedAction(executor, target));
         }
         results = await this.handleAttack(executor, target);
@@ -170,6 +170,8 @@ export class CombatEvent {
   }
 
   private executorIsValid(): boolean {
+    console.log(this.executor)
+    console.log(this.executor.currentHp)
     return this.executor.currentHp > 0;
   }
 }

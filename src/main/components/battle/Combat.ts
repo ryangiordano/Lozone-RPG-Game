@@ -11,13 +11,11 @@ import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./CombatInterface";
 import { DialogManager } from "../UI/Dialog";
-import { KeyboardControl } from "../UI/Keyboard";
 
 export class Combat {
   private partyContainer: CombatContainer;
   private enemyContainer: CombatContainer;
   private combatUI: CombatInterface;
-  private messages: DialogManager;
   private combatEvents: CombatEvent[] = [];
   private partyMembers: Combatant[] = [];
   private enemies: Combatant[] = [];
@@ -41,15 +39,13 @@ export class Combat {
     this.addAndPopulateContainers();
     this.displayInputControlsForCurrentPartyMember();
 
-    this.messages = new DialogManager(
-      this.scene,
-      true,
-      new KeyboardControl(this.scene),
-      "dialog-white"
-    );
-
-    this.scene.events.on("dialog-finished", () => {});
+    this.scene.events.on("run-battle", async () => {
+      await this.displayMessage(["Escaped Successfully"]);
+      this.scene.events.emit("end-battle");
+      this.scene.events.off("run-battle");
+    });
   }
+
   private setListenersOnUI() {
     this.combatUI.events.on("option-selected", event => {
       this.addEvent(event);
@@ -171,18 +167,21 @@ export class Combat {
   }
 
   private async startLoop() {
-    if (!this.combatEvents.length) {
+    if (!this.combatEvents.length && this.enemies.length) {
       // Send control back to user for next round of inputs.
       this.displayInputControlsForCurrentPartyMember();
       return false;
+    }
+    if (this.enemies.length <= 0) {
+      await this.displayMessage(["You've won!"]);
+      return this.scene.events.emit("end-battle");
     }
 
     const combatEvent = this.combatEvents.pop();
     var result = await combatEvent.executeAction();
 
     // Awaiting until all messags are done being displayed, then we can continue
-
-    await this.messages.displayDialog(result.message);
+    await this.displayMessage(result.message);
 
     const target = result.target;
     this.resolveTargetDeaths(target);
@@ -197,28 +196,43 @@ export class Combat {
 
         const index = this.enemies.findIndex(enemy => enemy.uid === target.uid);
         // Store xp and coins and stuff...
-        console.log(target)
         target.getSprite().destroy();
         if (index > -1) {
           this.enemies.splice(index, 1);
-          if (this.enemies.length <= 0) {
-            //TODO: Battle over, distribute Points and treasure
-            await this.messages.displayDialog(["You've won!"]);
-            return this.scene.events.emit("end-battle");
-            
-          }
         }
       } else if (target.type === CombatantType.partyMember) {
         target.addStatusCondition(Status.fainted);
         if (
           this.partyMembers.every(partyMember =>
             partyMember.status.has(Status.fainted)
-          )
+          )    
         ) {
           this.scene.events.emit("game-over");
         }
       }
     }
+  }
+
+  /**
+   * Function that results after the message scene is done doing its thing.
+   * @param message
+   */
+  displayMessage(message: string[]): Promise<any> {
+    const dialogScene = this.scene.scene.get('DialogScene')
+    const scenePlugin = new Phaser.Scenes.ScenePlugin(dialogScene);
+    return new Promise(resolve => {
+      scenePlugin.setActive(false, 'Battle');
+      scenePlugin.start("DialogScene", {
+        callingSceneKey: 'Battle',
+        color: "dialog-white",
+        message
+      });
+      
+      scenePlugin.setActive(true, "DialogScene").bringToTop("DialogScene");
+      dialogScene.events.once("close-dialog", () => {
+        resolve();
+      });
+    });
   }
 
   private resetPartyFocusIndex() {

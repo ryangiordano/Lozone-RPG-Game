@@ -24,9 +24,6 @@ export class CombatScene extends Phaser.Scene {
 
     this.combat = new Combat(this, party.getParty(), enemyParty.getParty());
     this.events.once('end-battle', (battleResults) => {
-      
-      console.log(battleResults)
-
       this.endBattle();
     });
     this.events.once('game-over', (battleResults) => {
@@ -37,7 +34,7 @@ export class CombatScene extends Phaser.Scene {
     this.keyboardControl = new KeyboardControl(this);
     this.keyboardControl.setupKeyboardControl();
   }
-
+  
   private endBattle() {
     this.scene.stop();
     this.scene.manager.wake(this.previousSceneKey);
