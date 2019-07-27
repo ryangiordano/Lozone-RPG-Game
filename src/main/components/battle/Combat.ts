@@ -11,6 +11,7 @@ import { getRandomFloor, Directions } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./CombatInterface";
+import { State } from "../../utility/state/State";
 
 export class Combat {
   private partyContainer: CombatContainer;
@@ -21,7 +22,7 @@ export class Combat {
   private partyMembers: Combatant[] = [];
   private enemies: Combatant[] = [];
   private currentPartyFocusIndex: number = 0;
-
+  private state = State.getInstance();
   constructor(
     private scene: Phaser.Scene,
     party: Combatant[],
@@ -173,6 +174,9 @@ export class Combat {
     return partyMember;
   }
 
+  /**
+   * The target actions are resolved here.
+   */
   private async startLoop() {
     if (!this.combatEvents.length && this.enemies.length) {
       // Send control back to user for next round of inputs.
@@ -188,7 +192,6 @@ export class Combat {
     const combatEvent = this.combatEvents.pop();
     let result = await combatEvent.executeAction();
 
-    // Awaiting until all messags are done being displayed, then we can continue
     await this.displayMessage(result.message);
 
     const target = result.target;
@@ -222,17 +225,48 @@ export class Combat {
 
   private lootEnemy(target: any) {
     this.lootCrate.coin += target.goldValue;
-    target.lootTable.forEach(itemId => this.lootCrate.itemIds.push(itemId));
+
+    target.lootTable.forEach(itemObject =>{
+      const roll = Math.random();
+      const winningRoll = roll<itemObject.rate;
+      if(winningRoll){
+        this.lootCrate.itemIds.push(itemObject.itemId)
+      }
+    });
     this.lootCrate.experiencePoints += target.experiencePoints;
   }
 
   private async distributeLoot() {
+    const itemMessages = this.handleItemDistribution();
     await this.displayMessage([
-      `Receive items: ${this.lootCrate.itemIds}`,
+      ...itemMessages,
       `The party receives ${this.lootCrate.coin} coins.`,
       `Each member receives ${this.lootCrate.experiencePoints} XP.`
     ]);
     // TODO: Get item names.  Add them to the party's backpack.
+  }
+
+  private handleItemDistribution():string[]{
+    const items = this.lootCrate.itemIds.map(id =>this.state.addItemToContents(id));
+    if(!items.length){
+      return []
+    }
+    const itemObjects: any = items.reduce((acc, item) => {
+      if (acc.hasOwnProperty(item.id)) {
+        acc[item.id].amount += 1;
+      } else {
+        acc[item.id] = {};
+        acc[item.id].name = item.name;
+        acc[item.id].amount = 1;
+      }
+      return acc;
+    }, {});
+    return Object.keys(itemObjects).map(
+      key =>
+        `Received ${itemObjects[key].amount} ${itemObjects[key].name}${
+          itemObjects[key].amount > 1 ? "s" : ""
+        }. `
+    );
   }
   /**
    * Function that results after the message scene is done doing its thing.

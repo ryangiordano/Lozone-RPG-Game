@@ -12,10 +12,18 @@
     "strength": 4,
     "physicalResist": 1,
     "magicalResist": 1,
-    "lootTable": [
-      1,
-      2,
-      3
+    "lootTable": [{
+        "rate": 0.2,
+        "itemId": 1
+      },
+      {
+        "rate": 0.2,
+        "itemId": 2
+      },
+      {
+        "rate": 0.2,
+        "itemId": 3
+      }
     ],
     "goldValue": 10,
     "experiencePoints": 10
@@ -33,9 +41,10 @@
     "strength": 3,
     "physicalResist": 1,
     "magicalResist": 1,
-    "lootTable": [
-      1
-    ],
+    "lootTable": [{
+      "rate": 0.2,
+      "itemId": 1
+    }],
     "goldValue": 2,
     "experiencePoints": 5
   },
@@ -52,9 +61,10 @@
     "strength": 8,
     "physicalResist": 1,
     "magicalResist": 1,
-    "lootTable": [
-      3
-    ],
+    "lootTable": [{
+      "rate": 0.2,
+      "itemId": 3
+    }],
     "goldValue": 20,
     "experiencePoints": 15
   },
@@ -71,9 +81,10 @@
     "strength": 4,
     "physicalResist": 1,
     "magicalResist": 1,
-    "lootTable": [
-      1
-    ],
+    "lootTable": [{
+      "rate": 0.2,
+      "itemId": 1
+    }],
     "goldValue": 3,
     "experiencePoints": 7
   },
@@ -93,9 +104,10 @@
     "spells": [
       1
     ],
-    "lootTable": [
-      2
-    ],
+    "lootTable": [{
+      "rate": 0.2,
+      "itemId": 1
+    }],
     "goldValue": 15,
     "experiencePoints": 15
   },
@@ -112,9 +124,10 @@
     "strength": 4,
     "physicalResist": 1,
     "magicalResist": 1,
-    "lootTable": [
-      1
-    ],
+    "lootTable": [{
+      "rate": 0.2,
+      "itemId": 1
+    }],
     "goldValue": 1,
     "experiencePoints": 5
   },
@@ -131,9 +144,10 @@
     "strength": 8,
     "physicalResist": 1,
     "magicalResist": 1,
-    "lootTable": [
-      3
-    ],
+    "lootTable": [{
+      "rate": 0.2,
+      "itemId": 3
+    }],
     "goldValue": 50,
     "experiencePoints": 20
   },
@@ -150,8 +164,18 @@
     "strength": 8,
     "physicalResist": 1,
     "magicalResist": 1,
-    "lootTable": [
-      1, 2, 3
+    "lootTable": [{
+        "rate": 0.2,
+        "itemId": 1
+      },
+      {
+        "rate": 0.2,
+        "itemId": 2
+      },
+      {
+        "rate": 0.2,
+        "itemId": 3
+      }
     ],
     "goldValue": 50,
     "experiencePoints": 15
