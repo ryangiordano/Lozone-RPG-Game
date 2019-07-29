@@ -243,8 +243,8 @@ export class Combat {
       `The party receives ${this.lootCrate.coin} coins.`,
       `Each member receives ${this.lootCrate.experiencePoints} XP.`
     ]);
-    // TODO: Get item names.  Add them to the party's backpack.
   }
+  
 
   private handleItemDistribution():string[]{
     const items = this.lootCrate.itemIds.map(id =>this.state.addItemToContents(id));

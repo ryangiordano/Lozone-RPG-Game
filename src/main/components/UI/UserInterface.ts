@@ -118,33 +118,6 @@ export class UserInterface extends Phaser.GameObjects.Container {
     }
     return this;
   }
-  private setKeyboardListeners() {
-    this.menuSceneKeyboardControl.setupKeyboardControl();
-    this.menuSceneKeyboardControl.on(["up", "left"], "user-interface", () => {
-      this.focusedPanel.focusPreviousOption();
-      this.setCaret();
-    });
-
-    this.menuSceneKeyboardControl.on(
-      ["down", "right"],
-      "user-interface",
-      () => {
-        this.focusedPanel.focusNextOption();
-        this.setCaret();
-      }
-    );
-
-    this.menuSceneKeyboardControl.on("esc", "user-interface", () => {
-      this.traverseBackward();
-    });
-
-    this.menuSceneKeyboardControl.on("space", "user-interface", () => {
-      this.focusedPanel.selectFocusedOption();
-      this.setCaret();
-    });
-
-    // this.scene.input.keyboard.on('keydown', (event) => this.invokeKeyboardEvent(event));
-  }
   setEventOnPanel(
     panel: PanelContainer,
     eventName: string,
@@ -159,19 +132,35 @@ export class UserInterface extends Phaser.GameObjects.Container {
   public muteKeyboardEvents(muted: boolean) {
     this.keyboardMuted = muted;
   }
+  private setKeyboardListeners() {
+    this.menuSceneKeyboardControl.setupKeyboardControl();
+    this.menuSceneKeyboardControl.on(["up", "left"], "user-interface", () => {
+      this.focusedPanel.focusPreviousOption();
+      this.setCaret();
+    });
+    this.menuSceneKeyboardControl.on(
+      ["down", "right"],
+      "user-interface",
+      () => {
+        this.focusedPanel.focusNextOption();
+        this.setCaret();
+      }
+    );
+    this.menuSceneKeyboardControl.on("esc", "user-interface", () => {
+      this.traverseBackward();
+    });
+    this.menuSceneKeyboardControl.on("space", "user-interface", () => {
+      this.focusedPanel.selectFocusedOption();
+      this.setCaret();
+    });
+  }
   public removeKeyboardListeners() {
     this.menuSceneKeyboardControl.off("up", "user-interface");
     this.menuSceneKeyboardControl.off("left", "user-interface");
-
     this.menuSceneKeyboardControl.off("down", "user-interface");
-
     this.menuSceneKeyboardControl.off("right", "user-interface");
-
     this.menuSceneKeyboardControl.off("esc", "user-interface");
-
     this.menuSceneKeyboardControl.off("space", "user-interface");
-
-    // this.scene.input.keyboard.off('keydown');
   }
   private traverseBackward() {
     if (this.panelTravelHistory[this.panelTravelHistory.length - 1].escapable) {
@@ -184,28 +173,6 @@ export class UserInterface extends Phaser.GameObjects.Container {
       } else {
         this.closeUI();
       }
-    }
-  }
-  private invokeKeyboardEvent(event) {
-    switch (event.keyCode) {
-      case Phaser.Input.Keyboard.KeyCodes.UP:
-      case Phaser.Input.Keyboard.KeyCodes.LEFT:
-        this.focusedPanel.focusPreviousOption();
-        this.setCaret();
-        break;
-      case Phaser.Input.Keyboard.KeyCodes.RIGHT:
-      case Phaser.Input.Keyboard.KeyCodes.DOWN:
-        this.focusedPanel.focusNextOption();
-        this.setCaret();
-        break;
-      case Phaser.Input.Keyboard.KeyCodes.ESC:
-        this.traverseBackward();
-        break;
-      case Phaser.Input.Keyboard.KeyCodes.SPACE:
-        this.focusedPanel.selectFocusedOption();
-        this.setCaret();
-      default:
-        break;
     }
   }
 }

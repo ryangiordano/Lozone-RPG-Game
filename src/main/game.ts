@@ -1,13 +1,14 @@
 import "phaser";
-import { BootScene } from "./scenes/bootScene";
+import { BootScene } from "./scenes/UI/bootScene";
 import PhaserUpdatePlugin from "./utility/UpdatePlugin";
 import { Plugin as NineSlicePlugin } from "phaser3-nineslice";
-import { MenuScene } from "./scenes/menuScene";
+import { MenuScene } from "./scenes/UI/menuScene";
 import { CreditsScene } from "./scenes/credits/creditsScene";
 import { HouseScene } from "./scenes/exploration/houseScene";
 import { DungeonScene } from "./scenes/exploration/dungeonScene";
 import { CombatScene } from "./scenes/combat/combatScene";
 import {DialogScene } from "./scenes/dialogscene";
+import { PartyMenuScene } from './scenes/UI/partyMenuScene';
 // main game configuration
 const config: GameConfig = {
   width: 640,
@@ -23,6 +24,7 @@ const config: GameConfig = {
     CreditsScene,
     CombatScene,
     DialogScene,
+    PartyMenuScene,
   ],
   input: {
     keyboard: true

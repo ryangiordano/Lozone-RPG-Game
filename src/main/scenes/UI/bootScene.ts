@@ -1,5 +1,5 @@
-import { AnimationHelper } from '../utility/animation-helper';
-import { State } from '../utility/state/State';
+import { AnimationHelper } from '../../utility/animation-helper';
+import { State } from '../../utility/state/State';
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;

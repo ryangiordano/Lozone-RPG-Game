@@ -2,13 +2,11 @@ import { State } from "../../utility/state/State";
 import { Combat } from "../../components/battle/Combat";
 import { EnemyController } from "../../data/controllers/EnemyController";
 import { EnemyParty } from "../../components/battle/Party";
-import { KeyboardControl } from '../../components/UI/Keyboard';
 
 export class CombatScene extends Phaser.Scene {
   private previousSceneKey: string;
   private enemyController: EnemyController;
   private combat: Combat;
-  private keyboardControl: KeyboardControl;
   constructor() {
     super('Battle');
   }
@@ -30,9 +28,6 @@ export class CombatScene extends Phaser.Scene {
       alert('You have died.')
       //TODO: change scene to game over scene.
     });
-
-    this.keyboardControl = new KeyboardControl(this);
-    this.keyboardControl.setupKeyboardControl();
   }
   
   private endBattle() {

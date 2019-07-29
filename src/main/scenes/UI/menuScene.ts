@@ -1,8 +1,8 @@
-import { UserInterface } from "../components/UI/UserInterface";
-import { State } from "../utility/state/State";
-import { UIPanel } from "../components/UI/PanelContainer";
-import { Item } from "../components/entities/Item";
-import { KeyboardControl } from "../components/UI/Keyboard";
+import { UserInterface } from "../../components/UI/UserInterface";
+import { State } from "../../utility/state/State";
+import { UIPanel } from "../../components/UI/PanelContainer";
+import { Item } from "../../components/entities/Item";
+import { KeyboardControl } from "../../components/UI/Keyboard";
 
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
@@ -24,8 +24,8 @@ export class MenuScene extends Phaser.Scene {
     mainPanel.on("items-selected", () =>
       this.UI.showPanel(itemPanel).focusPanel(itemPanel)
     );
-    mainPanel.on("party-selected", () =>
-      this.UI.showPanel(partyPanel).focusPanel(partyPanel)
+    mainPanel.on("party-selected", () =>this.startPartyMenuScene()
+      // this.UI.showPanel(partyPanel).focusPanel(partyPanel)
     );
     mainPanel.on("dungeons-selected", () =>
       this.UI.showPanel(dungeonPanel).focusPanel(dungeonPanel)
@@ -157,7 +157,14 @@ export class MenuScene extends Phaser.Scene {
       }
     });
   }
-  update(): void {}
+  private startPartyMenuScene(){
+    const partyMenuScene = this.scene.get("PartyMenuScene");
+    const scenePlugin = new Phaser.Scenes.ScenePlugin(partyMenuScene);
+      scenePlugin.setActive(false, "MenuScene");
+      scenePlugin.start("PartyMenuScene", {
+        callingSceneKey: "MenuScene",
+      });
+  }
 }
 
 class ConfirmItemPanelContainer extends UIPanel {
@@ -215,3 +222,5 @@ class ItemPanelContainer extends UIPanel {
     this.addOptionsViaData();
   }
 }
+
+class PartyPanelContainer extends UIPanel {}
