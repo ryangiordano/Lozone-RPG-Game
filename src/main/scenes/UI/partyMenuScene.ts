@@ -9,12 +9,15 @@ export class PartyMenuScene extends Phaser.Scene {
    *
    */
   private partyMenuContainer: PartyMenuContainer;
+  private callingSceneKey: string;
   constructor() {
     super({ key: "PartyMenuScene" });
   }
   public init(data) {
     //   Here we will spin up a container.
     // Fill it with party member panels
+    this.callingSceneKey = data.callingSceneKey;
+
     const state = State.getInstance();
     const party = state.getCurrentParty().getParty();
     this.partyMenuContainer = new PartyMenuContainer(
@@ -23,6 +26,11 @@ export class PartyMenuScene extends Phaser.Scene {
       party,
       new KeyboardControl(this)
     );
+
+    this.partyMenuContainer.on("close-menu", () => {
+      this.scene.setActive(true, this.callingSceneKey);
+      this.scene.stop();
+    });
   }
 }
 
@@ -55,11 +63,14 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
     this.keyboardControl.setupKeyboardControl();
     this.setupKeyboard();
   }
-  private setupKeyboard(){
-      // TODO: Set listeners for traversing and selecting character portraits.
+  private setupKeyboard() {
+    this.keyboardControl.on("esc", "party-menu-container", () =>
+      this.emit("close-menu")
+    );
+    // TODO: Set listeners for traversing and selecting character portraits.
   }
-  private teardownKeyboard(){
-
+  private teardownKeyboard() {
+    this.keyboardControl.off("esc", "party-menu-container");
   }
 }
 

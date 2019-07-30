@@ -24,7 +24,9 @@ export class MenuScene extends Phaser.Scene {
     mainPanel.on("items-selected", () =>
       this.UI.showPanel(itemPanel).focusPanel(itemPanel)
     );
-    mainPanel.on("party-selected", () =>this.startPartyMenuScene()
+    mainPanel.on(
+      "party-selected",
+      () => this.startPartyMenuScene()
       // this.UI.showPanel(partyPanel).focusPanel(partyPanel)
     );
     mainPanel.on("dungeons-selected", () =>
@@ -157,13 +159,14 @@ export class MenuScene extends Phaser.Scene {
       }
     });
   }
-  private startPartyMenuScene(){
+  private startPartyMenuScene() {
     const partyMenuScene = this.scene.get("PartyMenuScene");
     const scenePlugin = new Phaser.Scenes.ScenePlugin(partyMenuScene);
-      scenePlugin.setActive(false, "MenuScene");
-      scenePlugin.start("PartyMenuScene", {
-        callingSceneKey: "MenuScene",
-      });
+    scenePlugin.bringToTop("PartyMenuScene");
+    scenePlugin.setActive(false, "MenuScene");
+    scenePlugin.start("PartyMenuScene", {
+      callingSceneKey: "MenuScene"
+    });
   }
 }
 
