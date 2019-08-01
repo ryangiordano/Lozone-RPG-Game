@@ -30,8 +30,8 @@ export class PartyMenuScene extends Phaser.Scene {
 }
 
 class PartyMenuContainer extends Phaser.GameObjects.Container {
-  private partyMemberPanels: any[][];
-
+  private partyMemberPanels: any[][] = [];
+  private activeIndex: number[] = [0, 0];
   constructor(
     scene: Phaser.Scene,
     private coordinates: Coords,
@@ -50,46 +50,94 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
         },
         { x: col + 4, y: row * panelSize },
         "dialog-white",
-        scene
+        scene,
+        partyMember
       );
+      this.partyMemberPanels[row]
+        ? this.partyMemberPanels[row].push(partyMemberPanel)
+        : this.partyMemberPanels.push([partyMemberPanel]);
       scene.add.existing(partyMemberPanel);
     });
     this.keyboardControl.setupKeyboardControl();
     this.setupKeyboard();
+
+    this.focusActive();
   }
   private setupKeyboard() {
     this.keyboardControl.on("esc", "party-menu-container", () =>
       this.emit("close-menu")
     );
     this.keyboardControl.on("right", "party-menu-container", () =>
-      this.selectNext()
+      this.focusNext()
     );
     this.keyboardControl.on("down", "party-menu-container", () =>
-      this.selectBelow()
+      this.focusBelow()
     );
     this.keyboardControl.on("up", "party-menu-container", () =>
-      this.selectAbove()
+      this.focusAbove()
     );
     this.keyboardControl.on("left", "party-menu-container", () =>
-      this.selectPrevious()
+      this.focusPrevious()
     );
+    this.keyboardControl.on("space", "party-menu-container", () => {
+      this.selectPartyMember();
+    });
     // TODO: Set listeners for traversing and selecting character portraits.
   }
   private teardownKeyboard() {
     this.keyboardControl.off("esc", "party-menu-container");
   }
 
-  public selectNext() {
-    console.log("select NExt");
+  private focusActive() {
+    this.blurAll();
+    this.getCurrentlyFocusedPartyMemberPanel().focusPanel();
   }
-  public selectBelow() {
-    console.log("select below");
+  private blurAll() {
+    this.partyMemberPanels.forEach(row =>
+      row.forEach(panel => panel.blurPanel())
+    );
   }
-  public selectAbove() {
-    console.log("select above");
+
+  private getCurrentlyFocusedPartyMemberPanel() {
+    const i = this.activeIndex;
+    return this.partyMemberPanels[i[0]][i[1]];
   }
-  public selectPrevious() {
-    console.log("select previous");
+
+  public focusNext() {
+    const row = this.activeIndex[0];
+    const i = this.activeIndex[1] + 1;
+    const col = this.partyMemberPanels[row][i] ? i : this.activeIndex[1];
+    this.activeIndex = [row, col];
+    this.focusActive();
+  }
+  public focusPrevious() {
+    const row = this.activeIndex[0];
+    const i = this.activeIndex[1] - 1;
+    const col = Math.max(0, i);
+    this.activeIndex = [row, col];
+    this.focusActive();
+  }
+  public focusBelow() {
+    const i = this.activeIndex[0] + 1;
+    const col = this.activeIndex[1];
+    const row =
+      this.partyMemberPanels[i] && this.partyMemberPanels[i][col]
+        ? i
+        : this.activeIndex[0];
+    this.activeIndex = [row, col];
+    this.focusActive();
+  }
+  public focusAbove() {
+    const i = this.activeIndex[0] - 1;
+    const col = this.activeIndex[1];
+    const row = Math.max(0, i);
+    this.activeIndex = [row, col];
+    this.focusActive();
+  }
+
+  public selectPartyMember() {
+    //TODO: Work out Selectioon Logic
+    console.log(this.getCurrentlyFocusedPartyMemberPanel().partyMember);
   }
 }
 
@@ -101,10 +149,11 @@ class PartyMemberPanel extends PanelContainer {
     dimensions: Coords,
     position: Coords,
     spriteKey = "dialog-white",
-    scene
+    scene,
+    public partyMember
   ) {
     super(dimensions, position, spriteKey, scene);
     this.showPanel();
-    this.blurPanel()
+    this.blurPanel();
   }
 }
