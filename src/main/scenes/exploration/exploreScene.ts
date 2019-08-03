@@ -49,8 +49,6 @@ export abstract class Explore extends Phaser.Scene {
     this.setColliders();
     this.setEvents();
 
-    // this.dialogManager = new DialogManager(this, false, new KeyboardControl(this),'dialog-beige');
-
     this["updates"].addMultiple([this.player]);
 
     this.afterCreated();

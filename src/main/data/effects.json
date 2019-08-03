@@ -1,0 +1,12 @@
+{
+    "1": {
+        "name": "Heal",
+        "effectAnimation": "blank",
+        "basePotency": 40
+    },
+    "2": {
+        "name": "Damage",
+        "effectAnimation": "blank",
+        "basePotency": 40
+    }
+}

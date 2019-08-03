@@ -3,6 +3,7 @@ import { State } from "../../utility/state/State";
 import { UIPanel } from "../../components/UI/PanelContainer";
 import { Item } from "../../components/entities/Item";
 import { KeyboardControl } from "../../components/UI/Keyboard";
+import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
@@ -19,21 +20,25 @@ export class MenuScene extends Phaser.Scene {
       "dialog-white",
       new KeyboardControl(this)
     );
-
+    this.state.addItemToContents(1);
+    // ===================================
+    // Main Panel
+    // ===================================
     const mainPanel = this.createMainPanel();
     mainPanel.on("items-selected", () =>
       this.UI.showPanel(itemPanel).focusPanel(itemPanel)
     );
-    mainPanel.on(
-      "party-selected",
-      () => this.startPartyMenuScene()
-      // this.UI.showPanel(partyPanel).focusPanel(partyPanel)
+    mainPanel.on("party-selected", () =>
+      this.startPartyMenuScene({ type: PartyMenuTypes.statusCheck, entity:null })
     );
     mainPanel.on("dungeons-selected", () =>
       this.UI.showPanel(dungeonPanel).focusPanel(dungeonPanel)
     );
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
 
+    // ===================================
+    // Item Panel
+    // ===================================
     const itemPanel = this.createItemPanel();
     const itemConfirmPanel = this.createItemConfirmPanel();
     itemPanel.on("show-and-focus-confirm-panel", item => {
@@ -41,18 +46,26 @@ export class MenuScene extends Phaser.Scene {
       this.UI.focusPanel(itemConfirmPanel);
       itemConfirmPanel.setPanelData(item);
     });
-    itemConfirmPanel.on("refresh-items", () => {
-      itemPanel.refreshPanel();
-    });
 
-    const partyPanel = this.createPartyPanel();
+    itemConfirmPanel.on("refresh-items", () => itemPanel.refreshPanel());
+    itemConfirmPanel.on("use-item", (item) => {
+      itemPanel.closePanel();
+      // Reset the cursor
+      // open the party panel
+      this.openPartyPanel(item);
+    });
+    // ===================================
+    // Party Panel
+    // ===================================
     const dungeonPanel = this.createDungeonPanel();
 
     this.setEventListeners();
     this.setKeyboardEventListeners();
     this.UI.initialize();
   }
-
+  private openPartyPanel(item){
+    this.startPartyMenuScene({ type: PartyMenuTypes.itemUse, entity: item })
+  }
   private closeMenuScene() {
     this.scene.setActive(true, this.callingSceneKey);
     this.scene.stop();
@@ -63,9 +76,9 @@ export class MenuScene extends Phaser.Scene {
       .addOption("Items", () => {
         mainPanel.emit("items-selected");
       })
-      .addOption("Party", () => {
-        mainPanel.emit("party-selected");
-      })
+      // .addOption("Party", () => {
+      //   mainPanel.emit("party-selected");
+      // })
       .addOption("Dungeons", () => {
         mainPanel.emit("dungeons-selected");
       })
@@ -107,9 +120,14 @@ export class MenuScene extends Phaser.Scene {
     itemConfirmPanel
       .addOption("Use", () => {
         const item = itemConfirmPanel.getPanelData();
-        this.state.consumeItem(item.id);
-        itemConfirmPanel.emit("refresh-items");
+        //TODO:
+        // Open the party panel to select a party member.
+        // Pass in item id so that while in the party panel
+        // we can reference state to see how much we have left.
+        // this.state.consumeItem(item.id);
 
+        // itemConfirmPanel.emit("refresh-items");
+        itemConfirmPanel.emit("use-item", item);
         this.UI.closePanel(itemConfirmPanel);
       })
       .addOption("Drop", () => {
@@ -124,15 +142,7 @@ export class MenuScene extends Phaser.Scene {
       });
     return itemConfirmPanel;
   }
-  private createPartyPanel() {
-    const partyPanel = this.UI.createUIPanel(
-      { x: 6, y: 9 },
-      { x: 4, y: 0 }
-    ).addOption("Cancel", () => {
-      this.UI.closePanel(partyPanel);
-    });
-    return partyPanel;
-  }
+
   private createDungeonPanel() {
     const dungeonPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
       .addOption("Dungeon One", () => {
@@ -159,13 +169,14 @@ export class MenuScene extends Phaser.Scene {
       }
     });
   }
-  private startPartyMenuScene() {
+  private startPartyMenuScene(config: PartyMenuConfig) {
     const partyMenuScene = this.scene.get("PartyMenuScene");
     const scenePlugin = new Phaser.Scenes.ScenePlugin(partyMenuScene);
     scenePlugin.bringToTop("PartyMenuScene");
     scenePlugin.setActive(false, "MenuScene");
     scenePlugin.start("PartyMenuScene", {
-      callingSceneKey: "MenuScene"
+      callingSceneKey: "MenuScene",
+      config
     });
   }
 }

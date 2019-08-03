@@ -1,10 +1,23 @@
+import { Effect } from "../battle/CombatDataStructures";
+
+export interface ItemData {
+  id: number | string,
+  name: string,
+  description: string,
+  effectId: Effect,
+  effectPotency: number,
+  spriteKey: string,
+  frame: number,
+  category: string
+}
+
 export class Item {
   private limit = 99;
   constructor(
     public id: number | string,
     public name: string,
     public description: string,
-    public effectId: number,
+    public effect: Effect,
     public effectPotency: number,
     public spriteKey: string,
     public frame: number,

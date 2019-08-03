@@ -7,21 +7,9 @@ export class PlayerContents {
     if (itemInInventory) {
       itemInInventory.incrementQuantity();
     } else {
-      const newItemToAdd = this.createInventoryItem(itemToAdd);
 
-      this.contents.push(newItemToAdd);
+      this.contents.push(itemToAdd);
     }
-  }
-  private createInventoryItem(itemFromDB) {
-    return new Item(
-      itemFromDB.id,
-      itemFromDB.name,
-      itemFromDB.description,
-      itemFromDB.effectId,
-      itemFromDB.effectPotency,
-      itemFromDB.spriteKey,
-      itemFromDB.frame,
-      itemFromDB.category);
   }
   removeItemFromContents(itemToRemove: Item): boolean {
     const toRemoveIdx = this.contents.findIndex(item => item.id === itemToRemove.id);

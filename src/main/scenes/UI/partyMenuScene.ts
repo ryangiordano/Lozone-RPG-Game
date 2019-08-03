@@ -3,6 +3,8 @@ import { PartyMember } from "../../components/battle/PartyMember";
 import { State } from "../../utility/state/State";
 import { HeroParty, Party } from "../../components/battle/Party";
 import { KeyboardControl } from "../../components/UI/Keyboard";
+import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
+import { Combatant } from "../../components/battle/Combatant";
 
 export class PartyMenuScene extends Phaser.Scene {
   private partyMenuContainer: PartyMenuContainer;
@@ -11,6 +13,10 @@ export class PartyMenuScene extends Phaser.Scene {
     super({ key: "PartyMenuScene" });
   }
   public init(data) {
+    const config: PartyMenuConfig = data.config;
+    const { type, entity } = config;
+    console.log(type, entity);
+
     //   Here we will spin up a container.
     // Fill it with party member panels
     this.callingSceneKey = data.callingSceneKey;
@@ -20,7 +26,9 @@ export class PartyMenuScene extends Phaser.Scene {
       this,
       { x: 4 * 64, y: 0 },
       party,
-      new KeyboardControl(this)
+      new KeyboardControl(this),
+      type,
+      entity
     );
     this.partyMenuContainer.on("close-menu", () => {
       this.scene.setActive(true, this.callingSceneKey);
@@ -32,13 +40,25 @@ export class PartyMenuScene extends Phaser.Scene {
 class PartyMenuContainer extends Phaser.GameObjects.Container {
   private partyMemberPanels: any[][] = [];
   private activeIndex: number[] = [0, 0];
+  private dialog: Phaser.GameObjects.RenderTexture;
+  private currentText: Phaser.GameObjects.Text;
   constructor(
     scene: Phaser.Scene,
     private coordinates: Coords,
     private partyMembers: PartyMember[],
-    private keyboardControl: KeyboardControl
+    private keyboardControl: KeyboardControl,
+    private partyMenuType: PartyMenuTypes,
+    private entity: any
   ) {
     super(scene, coordinates.x, coordinates.y);
+    this.dialog = this.scene.add.nineslice(
+      64 * 4,
+      384,
+      384,
+      192,
+      "dialog-white",
+      20
+    );
     partyMembers.forEach((partyMember, i) => {
       const panelSize = 3;
       const row = Math.floor(i / 2);
@@ -82,7 +102,6 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
     this.keyboardControl.on("space", "party-menu-container", () => {
       this.selectPartyMember();
     });
-    // TODO: Set listeners for traversing and selecting character portraits.
   }
   private teardownKeyboard() {
     this.keyboardControl.off("esc", "party-menu-container");
@@ -136,15 +155,47 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
   }
 
   public selectPartyMember() {
-    //TODO: Work out Selectioon Logic
-    console.log(this.getCurrentlyFocusedPartyMemberPanel().partyMember);
+    const partyMember:Combatant = this.getCurrentlyFocusedPartyMemberPanel().partyMember;
+    if (this.partyMenuType === PartyMenuTypes.itemUse) {
+      console.log(this.entity)
+      this.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${this.entity.effectPotency} HP.`);
+      const potency = this.entity.effectPotency * this.entity.effect.basePotency;
+      const totalEffect = potency * .5;
+      partyMember.healFor(totalEffect);
+      console.log(partyMember.currentHp)
+      //TODO: Develop an abstraction for healing mp/hp
+      //TODO: Decrement the item quantity;
+    }
+  }
+
+  /**
+   * Function that results after the message scene is done doing its thing.
+   * @param message
+   */
+  displayMessage(message: string) {
+    this.currentText && this.clearMessage();
+    this.currentText = this.scene.add.text(
+      this.dialog.x + 20,
+      this.dialog.y + 20,
+      message,
+      {
+        fontFamily: "pixel",
+        fontSize: "32px",
+        fill: "#000000",
+        wordWrap: {
+          width: (this.dialog.width / 4.5) * 4,
+          useAdvancedWrap: true
+        }
+      }
+    );
+    this.currentText.setScrollFactor(0);
+  }
+  clearMessage() {
+    this.currentText.destroy();
   }
 }
 
 class PartyMemberPanel extends PanelContainer {
-  /**
-   *
-   */
   constructor(
     dimensions: Coords,
     position: Coords,

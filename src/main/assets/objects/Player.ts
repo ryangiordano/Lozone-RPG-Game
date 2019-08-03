@@ -14,7 +14,7 @@ export class Player extends Moveable {
   // TODO: Emit that the player bumped rather than handling playing sounds
   // From the player.
   private playBump = createThrottle(300, () => {
-    this.scene.sound.play("bump");
+    this.scene.sound.play("bump", {volume:.1});
   });
 
   update(): void {

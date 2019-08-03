@@ -98,7 +98,10 @@ export class DialogScene extends Phaser.Scene {
       this.events.emit("close-dialog");
       this.scene.stop();
     } else {
-      !this.silent && this.sound.play("beep");
+      !this.silent &&
+        this.sound.play("beep", {
+          volume: 0.1
+        });
       const toShow = this.dialogArray.shift();
 
       this.currentText = this.add.text(4 * 4, 99 * 4, toShow, {

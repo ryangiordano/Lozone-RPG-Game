@@ -30,6 +30,11 @@
         "type": "json",
         "key": "party-members",
         "url": "./src/main/data/party-members.json"
+      },
+      {
+        "type": "json",
+        "key": "effects",
+        "url": "./src/main/data/effects.json"
       }
     ]
   }

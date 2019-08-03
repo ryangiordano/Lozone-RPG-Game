@@ -268,6 +268,7 @@ export class Combat {
         }. `
     );
   }
+  //TODO: Make this message composable;
   /**
    * Function that results after the message scene is done doing its thing.
    * @param message
