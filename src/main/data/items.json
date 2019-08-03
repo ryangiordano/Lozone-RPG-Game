@@ -3,7 +3,7 @@
       "name": "blueberry",
       "description": "Delicious blueberry.  Restores 10HP",
       "effectId": 1,
-      "effectPotency": 10,
+      "effectPotency": 1,
       "spriteKey": "items",
       "frame": 1,
       "category": "consumable"
@@ -12,7 +12,7 @@
       "name": "tamarind",
       "description": "A crispy shell hiding sweet fruit.  Restores 30HP",
       "effectId": 1,
-      "effectPotency": 30,
+      "effectPotency": 1.2,
       "spriteKey": "items",
       "frame": 3,
       "category": "consumable"
@@ -21,7 +21,7 @@
       "name": "mango",
       "description": "A rainbow-colored mango.  Restores 100HP",
       "effectId": 1,
-      "effectPotency": 100,
+      "effectPotency": 1.5,
       "spriteKey": "items",
       "frame": 3,
       "category": "consumable"

@@ -39,9 +39,11 @@ export class BootScene extends Phaser.Scene {
         sm.initialize(this.game);
         sm.addFlagModule("chests");
 
+        // ===================================
+        // Start the scene in Debug Mode
+        // ===================================
         // this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
-        const tempParty = [13];
-        const tempParty2 = [6];
+        const tempParty = [13,1,2,3,4,5];
         this.scene.start("Dungeon", {
           map: "dungeon_1",
           tileset: "dungeon",

@@ -148,8 +148,10 @@ export class Combatant {
   private changeCurrent(property, value: number) {
     property = Math.min(property + value, property);
   }
-  public healFor(hitPoints: number) {
+  public healFor(hitPoints: number): number{
+    const missingHealth = this.maxHp - this.currentHp;
     this.currentHp = Math.min(this.maxHp, this.currentHp + hitPoints);
+    return Math.min(missingHealth, hitPoints) 
   }
   public damageFor(hitPoints: number) {
     this.currentHp = Math.max(0, this.currentHp - hitPoints);
