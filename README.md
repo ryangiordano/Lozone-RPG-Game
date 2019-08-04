@@ -3,6 +3,10 @@
   Lo's Birthday Game.
 </p>
 
+<p align="center">
+  <img width=100% src="https://p72.f4.n0.cdn.getcloudapp.com/items/wbuJeLPy/IMG_0828.jpg">
+</p>
+
 
 # Lozone RPG
 
