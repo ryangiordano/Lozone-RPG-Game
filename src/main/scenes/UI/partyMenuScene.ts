@@ -215,6 +215,11 @@ class PartyMemberPanel extends PanelContainer {
     this.createHpBar();
     this.createMpBar();
 
+    // Hack to get the animation to play on repeat...
+    this.sprite.anims.play(`${this.sprite.texture.key}-walkDown`, false);
+    this.sprite.anims.stop();
+
+
   }
 
   public addName() {
@@ -253,17 +258,13 @@ class PartyMemberPanel extends PanelContainer {
 
   public blurPanel() {
     super.blurPanel();
-    // this.sprite.anims.setRepeat(-1)
-    this.sprite.anims.pause();
-    console.log("blurred")
+    this.sprite.anims.stop();
   }
 
   public focusPanel() {
     super.focusPanel();
-    console.log("Focused")
-    console.log(this.sprite.anims.getRepeat())
     this.sprite.anims.setRepeat(-1)
-    this.sprite.anims.play(`${this.sprite.texture.key}-walkDown`, true);
+    this.sprite.anims.play(`${this.sprite.texture.key}-walkDown`, false);
   }
 }
 
