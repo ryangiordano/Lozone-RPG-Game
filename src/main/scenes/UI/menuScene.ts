@@ -49,7 +49,7 @@ export class MenuScene extends Phaser.Scene {
 
     itemConfirmPanel.on("refresh-items", () => itemPanel.refreshPanel());
     itemConfirmPanel.on("use-item", (item) => {
-      itemPanel.closePanel();
+      this.UI.closePanel(itemPanel)
       // Reset the cursor
       // open the party panel
       this.openPartyPanel(item);

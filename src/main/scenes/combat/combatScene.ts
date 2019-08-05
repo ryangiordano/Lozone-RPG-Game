@@ -10,7 +10,7 @@ export class CombatScene extends Phaser.Scene {
   constructor() {
     super('Battle');
   }
-  
+
   init(data) {
     this.enemyController = new EnemyController(this.game);
     this.previousSceneKey = data.key;
@@ -29,8 +29,10 @@ export class CombatScene extends Phaser.Scene {
       //TODO: change scene to game over scene.
     });
   }
-  
+
   private endBattle() {
+    this.events.off('end-battle');
+    this.events.off('game-over');
     this.scene.stop();
     this.scene.manager.wake(this.previousSceneKey);
     this.scene.bringToTop(this.previousSceneKey);
