@@ -30,7 +30,7 @@ export class Moveable extends Entity {
         this.setFrame(0);
     }
   }
-  public teleportToTarget(){
+  public teleportToTarget() {
     this.x = this.target.x;
     this.y = this.target.y;
   }
@@ -48,7 +48,7 @@ export class Moveable extends Entity {
       }
     }
   }
-  public stop(){
+  public stop() {
     this.facing = Directions.down;
     this.target = this.getTileBelowFoot();
   }
@@ -160,20 +160,20 @@ export class Controllable {
     if (this.keys.get("RIGHT").isDown && this.canInput) {
       this.moveable.setFlipX(true);
       this.moveable.move(Directions.right, () =>
-        this.moveable.anims.play("walkV", true)
+        this.moveable.anims.play("lo-walkV", true)
       );
     } else if (this.keys.get("LEFT").isDown && this.canInput) {
       this.moveable.setFlipX(false);
       this.moveable.move(Directions.left, () =>
-        this.moveable.anims.play("walkV", true)
+        this.moveable.anims.play("lo-walkV", true)
       );
     } else if (this.keys.get("DOWN").isDown && this.canInput) {
       this.moveable.move(Directions.down, () =>
-        this.moveable.anims.play("walkDown", true)
+        this.moveable.anims.play("lo-walkDown", true)
       );
     } else if (this.keys.get("UP").isDown && this.canInput) {
       this.moveable.move(Directions.up, () =>
-        this.moveable.anims.play("walkUp", true)
+        this.moveable.anims.play("lo-walkUp", true)
       );
     } else if (Phaser.Input.Keyboard.JustDown(this.keys.get("SPACE"))) {
       this.moveable.queryObject();

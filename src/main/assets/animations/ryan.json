@@ -2,7 +2,7 @@
   "anims": [{
       "key": "walkVRyan",
       "frames": {
-        "typeOfGeneration": "generateFrameNumbers",
+        "typeOfGeneration": 1,
         "frames": [7, 6, 8, 6],
         "key": "ryan"
       },
@@ -12,7 +12,7 @@
     {
       "key": "walkUpRyan",
       "frames": {
-        "typeOfGeneration": "generateFrameNumbers",
+        "typeOfGeneration": 1,
         "key": "ryan",
         "frames": [4, 3, 5, 3]
       },
@@ -22,7 +22,7 @@
     {
       "key": "walkDownRyan",
       "frames": {
-        "typeOfGeneration": "generateFrameNumbers",
+        "typeOfGeneration": 1,
         "key": "ryan",
         "frames": [1, 0, 2, 0]
       },

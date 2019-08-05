@@ -15,24 +15,25 @@ export class BootScene extends Phaser.Scene {
     this.load.on(
       "complete",
       () => {
+
         const daruma = this.add.text(50, 99, "Daruma®", {
           fontFamily: "pixel",
           fontSize: "10px",
           fill: "#000000",
           fontWeight: "bold"
         });
+        const animationHelper = new AnimationHelper(this);
+        animationHelper.createGameAnimations(this.cache.json.get("ryanAndLoAnimation").anims);
+        animationHelper.createGenericGameAnimations(['lo','yaya','tuzi'], this.cache.json.get("loAnimation").anims);
 
-        new AnimationHelper(this, this.cache.json.get("ryanAndLoAnimation"));
         const sprite = this.add.sprite(80, 65, "ryanandlo");
         sprite.scaleX = 0.3;
         sprite.scaleY = 0.3;
         sprite.anims.play("shine-in");
         sprite.on("animationcomplete", () => {
-          this.sound.play("startup", {volume:.1});
+          this.sound.play("startup", { volume: .1 });
         });
         // TODO Move animation helper calls to individual sprites that use the animation
-        new AnimationHelper(this, this.cache.json.get("loAnimation"));
-        new AnimationHelper(this, this.cache.json.get("ryanAnimation"));
 
         // When we get to the point where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.
         const sm = State.getInstance();
@@ -43,7 +44,7 @@ export class BootScene extends Phaser.Scene {
         // Start the scene in Debug Mode
         // ===================================
         // this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
-        const tempParty = [13,1,2,3,4,5];
+        const tempParty = [13, 1, 2, 3, 4, 5];
         this.scene.start("Dungeon", {
           map: "dungeon_1",
           tileset: "dungeon",

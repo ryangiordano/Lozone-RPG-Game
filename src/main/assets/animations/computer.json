@@ -2,7 +2,7 @@
   "anims": [{
       "key": "open",
       "frames": {
-        "typeOfGeneration": "generateFrameNumbers",
+        "typeOfGeneration": 1,
         "frames": [0,1,2,3,4,5],
         "key": "computer"
       },

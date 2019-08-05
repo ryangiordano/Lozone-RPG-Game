@@ -2,7 +2,7 @@
   "anims": [{
       "key": "walkV",
       "frames": {
-        "typeOfGeneration": "generateFrameNumbers",
+        "typeOfGeneration": 1,
         "frames": [7, 6, 8, 6],
         "key": "lo"
       },
@@ -12,7 +12,7 @@
     {
       "key": "walkUp",
       "frames": {
-        "typeOfGeneration": "generateFrameNumbers",
+        "typeOfGeneration": 1,
         "key": "lo",
         "frames": [4, 3, 5, 3]
       },
@@ -22,7 +22,7 @@
     {
       "key": "walkDown",
       "frames": {
-        "typeOfGeneration": "generateFrameNumbers",
+        "typeOfGeneration": 1,
         "key": "lo",
         "frames": [1, 0, 2, 0]
       },
