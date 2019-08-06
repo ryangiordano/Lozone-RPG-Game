@@ -130,7 +130,6 @@ export class AnimationHelper {
           frames: data.frames.frames || false
         });
       }
-      console.log(data.key)
       this.scene.anims.create({
         key: data.key,
         frames: frames || framesArray,

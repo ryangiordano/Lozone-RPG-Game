@@ -1,6 +1,7 @@
 import { Item } from '../../components/entities/Item';
 export class PlayerContents {
   private contents: Item[] = [];
+  private coins: number = 0;
   constructor() { }
   addItemToContents(itemToAdd: Item) {
     const itemInInventory = this.getItemOnPlayer(itemToAdd.id);
@@ -10,6 +11,15 @@ export class PlayerContents {
 
       this.contents.push(itemToAdd);
     }
+  }
+  getCoins() {
+    return this.coins;
+  }
+  addCoins(amount) {
+    this.coins += amount;
+  }
+  removeCoins(amount) {
+    this.coins = Math.max(0, this.coins - amount);
   }
   removeItemFromContents(itemToRemove: Item): boolean {
     const toRemoveIdx = this.contents.findIndex(item => item.id === itemToRemove.id);

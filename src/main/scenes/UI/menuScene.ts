@@ -1,9 +1,10 @@
 import { UserInterface } from "../../components/UI/UserInterface";
 import { State } from "../../utility/state/State";
-import { UIPanel } from "../../components/UI/PanelContainer";
+import { UIPanel, PanelContainer } from '../../components/UI/PanelContainer';
 import { Item } from "../../components/entities/Item";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
+import { TextFactory } from '../../utility/TextFactory';
 
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
@@ -20,7 +21,7 @@ export class MenuScene extends Phaser.Scene {
       "dialog-white",
       new KeyboardControl(this)
     );
-    this.state.addItemToContents(1);
+
     // ===================================
     // Main Panel
     // ===================================
@@ -57,8 +58,10 @@ export class MenuScene extends Phaser.Scene {
       this.openPartyPanel(item);
     });
     // ===================================
-    // Party Panel
+    // Coin panel
     // ===================================
+    this.createCoinPanel();
+
     const dungeonPanel = this.createDungeonPanel();
 
     this.setEventListeners();
@@ -84,10 +87,6 @@ export class MenuScene extends Phaser.Scene {
       .addOption("Status", () => {
         mainPanel.emit("party-selected", PartyMenuTypes.statusCheck);
       })
-      // .addOption("Credits", () => {
-      //   this.scene.stop(this.callingSceneKey);
-      //   this.scene.start("CreditsScene");
-      // })
       .addOption("Cancel", () => this.closeMenuScene());
     return mainPanel;
   }
@@ -108,6 +107,22 @@ export class MenuScene extends Phaser.Scene {
     });
     return itemPanel;
   }
+  private createCoinPanel() {
+    const coinPanel = new PanelContainer(
+      { x: 4, y: 1 },
+      { x: 0, y: 8 },
+      'dialog-white',
+      this);
+    coinPanel.showPanel();
+    const coin = this.add.sprite(25, 32, 'coin');
+    coinPanel.add(coin);
+    this.anims.create({ key: 'spin', frames: this.anims.generateFrameNumbers('coin', { frames: [0, 1, 2, 1] }), frameRate: 10, repeat: -1, })
+    const th = new TextFactory();
+    const coinAmount = th.createText(State.getInstance().playerContents.getCoins().toString(), { x: 50, y: 10 }, this);
+    coinPanel.add(coinAmount)
+    coin.anims.play('spin');
+
+  }
   private createItemConfirmPanel() {
     // Add item use confirmation panel.
     const itemConfirmPanel = new ConfirmItemPanelContainer(
@@ -122,13 +137,6 @@ export class MenuScene extends Phaser.Scene {
     itemConfirmPanel
       .addOption("Use", () => {
         const item = itemConfirmPanel.getPanelData();
-        //TODO:
-        // Open the party panel to select a party member.
-        // Pass in item id so that while in the party panel
-        // we can reference state to see how much we have left.
-        // this.state.consumeItem(item.id);
-
-        // itemConfirmPanel.emit("refresh-items");
         itemConfirmPanel.emit("use-item", item);
         this.UI.closePanel(itemConfirmPanel);
       })

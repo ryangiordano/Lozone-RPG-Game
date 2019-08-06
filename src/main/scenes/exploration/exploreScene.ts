@@ -273,7 +273,7 @@ export abstract class Explore extends Phaser.Scene {
       this.scene.setActive(false, this.scene.key);
       this.game.scene.start("DialogScene", {
         callingSceneKey: this.scene.key,
-        color: "dialog-beige",
+        color: "dialog-white",
         message
       });
       this.scene.setActive(true, "DialogScene").bringToTop("DialogScene");

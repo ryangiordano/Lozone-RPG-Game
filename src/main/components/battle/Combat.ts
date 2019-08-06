@@ -238,6 +238,7 @@ export class Combat {
 
   private async distributeLoot() {
     const itemMessages = this.handleItemDistribution();
+    State.getInstance().playerContents.addCoins(this.lootCrate.coin);
     await this.displayMessage([
       ...itemMessages,
       `The party receives ${this.lootCrate.coin} coins.`,

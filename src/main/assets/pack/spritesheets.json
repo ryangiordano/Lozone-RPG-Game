@@ -189,6 +189,15 @@
           "frameWidth": 128,
           "frameHeight": 128
         }
+      },
+      {
+        "type": "spritesheet",
+        "key": "coin",
+        "url": "./src/main/assets/sprites/coin.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
       }
     ]
   }
