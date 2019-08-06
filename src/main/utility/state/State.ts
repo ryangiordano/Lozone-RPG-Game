@@ -46,7 +46,9 @@ export class State {
     this.playerContents.consumeItem(itemToConsume);
     return itemToConsume;
   }
-
+  getItemOnPlayer(id: string|number) {
+    return this.playerContents.getItemOnPlayer(id);
+  }
   getItemsOnPlayer() {
     return this.playerContents.getItemsOnPlayer();
   }

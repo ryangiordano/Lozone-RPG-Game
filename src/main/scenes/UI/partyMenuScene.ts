@@ -164,13 +164,22 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
     const panel = this.getCurrentlyFocusedPartyMemberPanel()
     const partyMember: Combatant = panel.partyMember;
     if (this.partyMenuType === PartyMenuTypes.itemUse) {
+      // Item use class.  It'll handle MP/HP/other types of consumables.
       const potency = this.entity.effectPotency * this.entity.effect.basePotency;
+      const state = State.getInstance();
+      if (state.getItemOnPlayer(this.entity.id)) {
+        state.consumeItem(this.entity.id);
+        const healedFor = partyMember.healFor(potency);
+        this.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${healedFor} HP.`);
+        panel.setHp(partyMember.currentHp);
 
-      const healedFor = partyMember.healFor(potency);
-      this.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${healedFor} HP.`);
-      panel.setHp(partyMember.currentHp);
-      //TODO: Develop an abstraction for healing mp/hp
-      //TODO: Decrement the item quantity;
+      } else {
+        this.displayMessage(`Can't use ${this.entity.name} on ${partyMember.name}.`);
+      }
+      return;
+    }
+    if (this.partyMenuType === PartyMenuTypes.spellCast) {
+      // handle spell cast
     }
   }
 

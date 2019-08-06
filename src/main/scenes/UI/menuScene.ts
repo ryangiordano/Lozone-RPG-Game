@@ -25,11 +25,13 @@ export class MenuScene extends Phaser.Scene {
     // Main Panel
     // ===================================
     const mainPanel = this.createMainPanel();
-    mainPanel.on("items-selected", () =>
-      this.UI.showPanel(itemPanel).focusPanel(itemPanel)
+    mainPanel.on("items-selected", () => {
+      itemPanel.refreshPanel();
+      this.UI.showPanel(itemPanel).focusPanel(itemPanel);
+    }
     );
     mainPanel.on("party-selected", () =>
-      this.startPartyMenuScene({ type: PartyMenuTypes.statusCheck, entity:null })
+      this.startPartyMenuScene({ type: PartyMenuTypes.statusCheck, entity: null })
     );
     mainPanel.on("dungeons-selected", () =>
       this.UI.showPanel(dungeonPanel).focusPanel(dungeonPanel)
@@ -63,7 +65,7 @@ export class MenuScene extends Phaser.Scene {
     this.setKeyboardEventListeners();
     this.UI.initialize();
   }
-  private openPartyPanel(item){
+  private openPartyPanel(item) {
     this.startPartyMenuScene({ type: PartyMenuTypes.itemUse, entity: item })
   }
   private closeMenuScene() {
@@ -71,21 +73,21 @@ export class MenuScene extends Phaser.Scene {
     this.scene.stop();
   }
   private createMainPanel() {
-    const mainPanel = this.UI.createUIPanel({ x: 4, y: 9 }, { x: 0, y: 0 });
+    const mainPanel = this.UI.createUIPanel({ x: 4, y: 5 }, { x: 0, y: 0 });
     mainPanel
       .addOption("Items", () => {
-        mainPanel.emit("items-selected");
+        mainPanel.emit("items-selected", PartyMenuTypes.itemUse);
       })
-      // .addOption("Party", () => {
-      //   mainPanel.emit("party-selected");
+      .addOption("Key Items", () => {
+        mainPanel.emit("key-items-selected");
+      })
+      .addOption("Status", () => {
+        mainPanel.emit("party-selected", PartyMenuTypes.statusCheck);
+      })
+      // .addOption("Credits", () => {
+      //   this.scene.stop(this.callingSceneKey);
+      //   this.scene.start("CreditsScene");
       // })
-      .addOption("Dungeons", () => {
-        mainPanel.emit("dungeons-selected");
-      })
-      .addOption("Credits", () => {
-        this.scene.stop(this.callingSceneKey);
-        this.scene.start("CreditsScene");
-      })
       .addOption("Cancel", () => this.closeMenuScene());
     return mainPanel;
   }
@@ -236,5 +238,3 @@ class ItemPanelContainer extends UIPanel {
     this.addOptionsViaData();
   }
 }
-
-class PartyPanelContainer extends UIPanel {}
