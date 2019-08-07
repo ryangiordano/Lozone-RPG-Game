@@ -24,7 +24,7 @@ export class BootScene extends Phaser.Scene {
         });
         const animationHelper = new AnimationHelper(this);
         animationHelper.createGameAnimations(this.cache.json.get("ryanAndLoAnimation").anims);
-        animationHelper.createGenericGameAnimations(['lo','yaya','tuzi'], this.cache.json.get("loAnimation").anims);
+        animationHelper.createGenericGameAnimations(['lo', 'yaya', 'tuzi'], this.cache.json.get("npcSpriteAnimation").anims);
 
         const sprite = this.add.sprite(80, 65, "ryanandlo");
         sprite.scaleX = 0.3;

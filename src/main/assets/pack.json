@@ -1,15 +1,9 @@
 {
   "preload": {
-    "files": [
-      {
+    "files": [{
         "type": "json",
-        "key": "loAnimation",
-        "url": "./src/main/assets/animations/lo.json"
-      },
-      {
-        "type": "json",
-        "key": "ryanAnimation",
-        "url": "./src/main/assets/animations/ryan.json"
+        "key": "npcSpriteAnimation",
+        "url": "./src/main/assets/animations/npm-sprite-animation.json"
       },
       {
         "type": "json",
