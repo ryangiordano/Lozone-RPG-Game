@@ -23,5 +23,7 @@ export interface PartyMemberData {
   stamina: number,
   physicalResist: number,
   magicalResist: number,
-  classId: number
+  classId: number,
+  currentExperience: number,
+  toNextLevel: number,
 }

@@ -226,18 +226,34 @@ export class Combat {
   private lootEnemy(target: any) {
     this.lootCrate.coin += target.goldValue;
 
-    target.lootTable.forEach(itemObject =>{
+    target.lootTable.forEach(itemObject => {
       const roll = Math.random();
-      const winningRoll = roll<itemObject.rate;
-      if(winningRoll){
+      const winningRoll = roll < itemObject.rate;
+      if (winningRoll) {
         this.lootCrate.itemIds.push(itemObject.itemId)
       }
     });
     this.lootCrate.experiencePoints += target.experiencePoints;
   }
 
+  private async distributeExperience(experience) {
+    const messages = [];
+    this.partyMembers.forEach(partyMember => {
+      if (partyMember.currentHp > 0) {
+        const hasLeveledUp = partyMember.gainExperience(experience)
+        if (hasLeveledUp) {
+          messages.push(`${partyMember.name} has reached level ${partyMember.level}`)
+        }
+      }
+    });
+    if (messages) {
+      await this.displayMessage(messages);
+    }
+  }
+
   private async distributeLoot() {
     const itemMessages = this.handleItemDistribution();
+    await this.distributeExperience(this.lootCrate.experiencePoints);
     State.getInstance().playerContents.addCoins(this.lootCrate.coin);
     await this.displayMessage([
       ...itemMessages,
@@ -246,11 +262,11 @@ export class Combat {
     ]);
 
   }
-  
 
-  private handleItemDistribution():string[]{
-    const items = this.lootCrate.itemIds.map(id =>this.state.addItemToContents(id));
-    if(!items.length){
+
+  private handleItemDistribution(): string[] {
+    const items = this.lootCrate.itemIds.map(id => this.state.addItemToContents(id));
+    if (!items.length) {
       return []
     }
     const itemObjects: any = items.reduce((acc, item) => {
@@ -266,7 +282,7 @@ export class Combat {
     return Object.keys(itemObjects).map(
       key =>
         `Received ${itemObjects[key].amount} ${itemObjects[key].name}${
-          itemObjects[key].amount > 1 ? "s" : ""
+        itemObjects[key].amount > 1 ? "s" : ""
         }. `
     );
   }

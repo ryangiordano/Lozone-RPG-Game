@@ -28,6 +28,8 @@ export class PartyController {
       stamina,
       physicalResist,
       magicalResist,
+      currentExperience,
+      toNextLevel,
     } = partyMember;
     const combatant = new PartyMember(
       id,
@@ -43,7 +45,9 @@ export class PartyController {
       stamina,
       physicalResist,
       magicalResist,
-      combatClass
+      combatClass,
+      currentExperience,
+      toNextLevel,
     );
     return combatant;
   }
