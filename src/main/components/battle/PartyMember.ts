@@ -70,7 +70,7 @@ export class PartyMember extends Combatant {
   }
 
   private levelModifier() {
-    return 1 + this.level / 5;
+    return 1 + this.level / 10;
   }
 
   /**
@@ -80,7 +80,7 @@ export class PartyMember extends Combatant {
     if (!this[baseStat]) {
       throw new Error(`Base state ${baseStat} does not exist on ${this.name}`)
     }
-    return this[baseStat] * this.combatClass[baseStat] * this.levelModifier();
+    return Math.floor(this[baseStat] * this.combatClass[baseStat] * this.levelModifier());
   }
 
   // ===================================

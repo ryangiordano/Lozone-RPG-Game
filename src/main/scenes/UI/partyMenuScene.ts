@@ -167,7 +167,7 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
       // Item use class.  It'll handle MP/HP/other types of consumables.
       const potency = this.entity.effectPotency * this.entity.effect.basePotency;
       const state = State.getInstance();
-      if(state.getItemOnPlayer(this.entity.id)){
+      if (state.getItemOnPlayer(this.entity.id)) {
         this.displayMessage(`You have no ${this.entity.name} left!`);
       }
       if (partyMember.currentHp < partyMember.maxHp) {
@@ -217,6 +217,7 @@ class PartyMemberPanel extends PanelContainer {
   private textFactory = new TextFactory();
   private hpBar: Bar;
   private mpBar: Bar
+  private xpBar: Bar
   private sprite: Phaser.GameObjects.Sprite;
   constructor(
     dimensions: Coords,
@@ -231,12 +232,11 @@ class PartyMemberPanel extends PanelContainer {
     this.addName();
     this.createHpBar();
     this.createMpBar();
+    this.createXpBar();
 
     // Hack to get the animation to play on repeat...
     this.sprite.anims.play(`${this.sprite.texture.key}-walkDown`, false);
     this.sprite.anims.stop();
-
-
   }
 
   public addName() {
@@ -260,10 +260,18 @@ class PartyMemberPanel extends PanelContainer {
 
   public createMpBar() {
     const x = 100, y = 160;
-    const hpText = this.textFactory.createText('MP', { x: 15, y: 150 }, this.scene, '13px');
-    this.scene.add.existing(hpText);
-    this.add(hpText)
+    const mpText = this.textFactory.createText('MP', { x: 15, y: 150 }, this.scene, '13px');
+    this.scene.add.existing(mpText);
+    this.add(mpText)
     this.add(this.mpBar = new Bar(this.scene, { x, y }, this.partyMember.currentMp, this.partyMember.maxMp, 0x8DDAD8))
+  }
+
+  public createXpBar() {
+    const x = 100, y = 180;
+    const xpText = this.textFactory.createText('XP', { x: 15, y: 170 }, this.scene, '13px');
+    this.scene.add.existing(xpText);
+    this.add(xpText)
+    this.add(this.xpBar = new Bar(this.scene, { x, y }, this.partyMember.currentExperience, this.partyMember.getExperienceToNextLevel(), 0xD6D252));
   }
 
   public setHp(newValue: number) {
@@ -271,6 +279,10 @@ class PartyMemberPanel extends PanelContainer {
   }
   public setMp(newValue: number) {
     this.mpBar.setCurrentValue(newValue);
+  }
+
+  public setXp(newValue: number) {
+    this.xpBar.setCurrentValue(newValue);
   }
 
   public blurPanel() {
