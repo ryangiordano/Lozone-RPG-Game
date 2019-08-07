@@ -19,13 +19,13 @@ export class Combat {
   private enemyContainer: CombatContainer;
   private combatUI: CombatInterface;
   private combatEvents: CombatEvent[] = [];
-  private partyMembers: Combatant[] = [];
+  private partyMembers: PartyMember[] = [];
   private enemies: Combatant[] = [];
   private currentPartyFocusIndex: number = 0;
   private state = State.getInstance();
   constructor(
     private scene: Phaser.Scene,
-    party: Combatant[],
+    party: PartyMember[],
     enemies: Combatant[]
   ) {
     party.forEach(member => {
@@ -101,7 +101,7 @@ export class Combat {
     this.combatUI.destroyContainer();
   }
 
-  private constructInputUI(partyMember: Combatant) {
+  private constructInputUI(partyMember: PartyMember) {
     this.combatUI = new CombatInterface(
       this.scene,
       "dialog-white",
@@ -244,6 +244,7 @@ export class Combat {
       `The party receives ${this.lootCrate.coin} coins.`,
       `Each member receives ${this.lootCrate.experiencePoints} XP.`
     ]);
+
   }
   
 

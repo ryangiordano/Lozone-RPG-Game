@@ -1,4 +1,4 @@
-import { AnimationHelper } from "../../utility/animation-helper";
+import { AnimationHelper } from "../../utility/tweens/animation-helper";
 import { State } from "../../utility/state/State";
 
 export class BootScene extends Phaser.Scene {

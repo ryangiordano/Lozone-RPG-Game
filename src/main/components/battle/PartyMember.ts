@@ -16,6 +16,7 @@ export class PartyMember extends Combatant {
     stamina,
     physicalResist,
     magicalResist,
+    public combatClass:CombatClass,
     spells?) {
     super(
       id,
@@ -35,4 +36,18 @@ export class PartyMember extends Combatant {
     this.type = CombatantType.partyMember;
 
   }
+}
+
+export interface CombatClass {
+  name: string,
+  id: number,
+  maxHp: number
+  maxMp: number
+  intellect: number
+  dexterity: number
+  wisdom: number
+  stamina: number
+  strength: number
+  physicalResist: number
+  magicalResist: number
 }

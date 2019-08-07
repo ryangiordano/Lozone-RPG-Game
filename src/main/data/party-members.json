@@ -13,7 +13,10 @@
     "stamina": 10,
     "strength": 13,
     "physicalResist": 1,
-    "magicalResist": 1
+    "magicalResist": 1,
+    "currentExperience": 0,
+    "toNextLevel": 100,
+    "classId": 2
   },
   "2": {
     "name": "Yaya",
@@ -29,7 +32,10 @@
     "stamina": 4,
     "strength": 12,
     "physicalResist": 1,
-    "magicalResist": 1
+    "magicalResist": 1,
+    "currentExperience": 0,
+    "toNextLevel": 100,
+    "classId": 1
   },
   "3": {
     "name": "Tuzi",
@@ -45,7 +51,10 @@
     "stamina": 4,
     "strength": 400,
     "physicalResist": 1,
-    "magicalResist": 1
+    "magicalResist": 1,
+    "currentExperience": 0,
+    "toNextLevel": 100,
+    "classId": 3
   },
   "4": {
     "name": "Ryan",
@@ -61,6 +70,9 @@
     "stamina": 8,
     "strength": 8,
     "physicalResist": 1,
-    "magicalResist": 1
+    "magicalResist": 1,
+    "currentExperience": 0,
+    "toNextLevel": 100,
+    "classId": 1
   }
 }

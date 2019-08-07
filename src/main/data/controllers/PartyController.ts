@@ -1,13 +1,18 @@
+import { CombatClassRepositgory } from './../repositories/ClassRepository';
 import { PartyRepository } from "../repositories/PartyRepository";
 import { PartyMember } from "../../components/battle/PartyMember";
 
 export class PartyController {
   private partyRepository: PartyRepository;
+  private combatClassRepository: CombatClassRepositgory;
   constructor(game: Phaser.Game) {
     this.partyRepository = new PartyRepository(game);
+    this.combatClassRepository = new CombatClassRepositgory(game);
   }
   getPartyMemberById(partyMemberId: number) {
     const partyMember = this.partyRepository.getById(partyMemberId);
+    const combatClass = this.combatClassRepository.getById(partyMember.classId);
+
     // TODO: create a mapping between the database entitity and the entity you'd like to be transformed into.
     const {
       id,
@@ -37,7 +42,8 @@ export class PartyController {
       wisdom,
       stamina,
       physicalResist,
-      magicalResist
+      magicalResist,
+      combatClass
     );
     return combatant;
   }
