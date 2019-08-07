@@ -129,8 +129,7 @@ export class Combatant {
     this.damageFor(actualDamage);
     return actualDamage;
   }
-  getAttackPower() {
-    //TODO: Factor in equipment as well, and factor in a modifier.
+  public getAttackPower() {
     return this.strength * this.level;
   }
   public getMagicPower() {
@@ -138,6 +137,14 @@ export class Combatant {
   }
   public getDefensePower() {
     return this.stamina * this.level;
+  }
+
+  public getSpeed() {
+    return this.dexterity * this.level;
+  }
+
+  public getCritChance() {
+    return this.dexterity * .01;
   }
   public getModifierValue() {}
   // Ad a defense up buff that lasts one turn to yourself.

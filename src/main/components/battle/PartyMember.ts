@@ -47,10 +47,45 @@ export class PartyMember extends Combatant {
     this.level += 1;
   }
 
-  public getExperienceToNextLevel(){
+  public getExperienceToNextLevel() {
     return this.toNextLevel * this.level * this.experienceCurve;
   }
 
+  public getAttackPower() {
+    //TODO: Factor in equipment as well, and factor in a modifier.
+    return this.modified('strength');
+  }
+  public getMagicPower() {
+    return this.modified('intellect');
+  }
+  public getDefensePower() {
+    return this.modified('stamina');
+  }
+  public getSpeed() {
+    return this.modified('dexterity');
+  }
+
+  public getCritChance() {
+    return this.modified('dexterity') * .01;
+  }
+
+  private levelModifier() {
+    return 1 + this.level / 5;
+  }
+
+  /**
+   * the modified getters take the party member's class into consideration
+   */
+  private modified(baseStat) {
+    if (!this[baseStat]) {
+      throw new Error(`Base state ${baseStat} does not exist on ${this.name}`)
+    }
+    return this[baseStat] * this.combatClass[baseStat] * this.levelModifier();
+  }
+
+  // ===================================
+  // Leveling up
+  // ===================================
   /**
    * Returns true if leveled up;
    * @param partyMember The party member to gain experience
