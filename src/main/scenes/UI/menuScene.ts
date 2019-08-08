@@ -117,8 +117,8 @@ export class MenuScene extends Phaser.Scene {
     const coin = this.add.sprite(25, 32, 'coin');
     coinPanel.add(coin);
     this.anims.create({ key: 'spin', frames: this.anims.generateFrameNumbers('coin', { frames: [0, 1, 2, 1] }), frameRate: 10, repeat: -1, })
-    const th = new TextFactory();
-    const coinAmount = th.createText(State.getInstance().playerContents.getCoins().toString(), { x: 50, y: 10 }, this);
+    const th = new TextFactory(this);
+    const coinAmount = th.createText(State.getInstance().playerContents.getCoins().toString(), { x: 50, y: 10 });
     coinPanel.add(coinAmount)
     coin.anims.play('spin');
 

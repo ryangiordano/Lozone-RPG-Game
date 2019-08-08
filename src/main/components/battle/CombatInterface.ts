@@ -8,7 +8,7 @@ import { UIPanel, PanelContainer } from "../UI/PanelContainer";
 import { KeyboardControl } from "../UI/Keyboard";
 
 export class CombatInterface extends UserInterface {
-  private textFactory: TextFactory = new TextFactory();
+  private textFactory: TextFactory;
   private enemyTargetPanel: UIPanel;
   private statusPanel: PanelContainer;
   private mainPanel: UIPanel;
@@ -21,6 +21,7 @@ export class CombatInterface extends UserInterface {
     private enemies: Combatant[]
   ) {
     super(scene, spriteKey, new KeyboardControl(scene));
+    this.textFactory = new TextFactory(scene);
     //TODO: Refactor the combat interface logic here.
   }
   public create(partyMember: Combatant) {
@@ -49,7 +50,7 @@ export class CombatInterface extends UserInterface {
         );
         this.events.emit("option-selected", event);
       })
-      .addOption("Item", () => {})
+      .addOption("Item", () => { })
       .addOption("Run", () => {
         this.scene.events.emit("run-battle");
       });
@@ -88,19 +89,16 @@ export class CombatInterface extends UserInterface {
     const name = this.textFactory.createText(
       combatant.name,
       { x: 20, y: 10 },
-      this.scene,
       statusTextSize
     );
     const hp = this.textFactory.createText(
       `HP: ${combatant.currentHp}/${combatant.maxHp}`,
       { x: 20, y: 50 },
-      this.scene,
       statusTextSize
     );
     const mp = this.textFactory.createText(
       `MP: ${combatant.currentMp}/${combatant.maxMp}`,
       { x: 20, y: 90 },
-      this.scene,
       statusTextSize
     );
     [hp, mp, name].forEach(gameObject => {

@@ -41,8 +41,8 @@ export class PartyMenuScene extends Phaser.Scene {
 class PartyMenuContainer extends Phaser.GameObjects.Container {
   private partyMemberPanels: any[][] = [];
   private activeIndex: number[] = [0, 0];
-  private dialog: Phaser.GameObjects.RenderTexture;
-  private currentText: Phaser.GameObjects.Text;
+  private partyMessagePanel: PartyMessagePanel
+
   constructor(
     scene: Phaser.Scene,
     private coordinates: Coords,
@@ -52,14 +52,11 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
     private entity: any
   ) {
     super(scene, coordinates.x, coordinates.y);
-    this.dialog = this.scene.add.nineslice(
-      64 * 4,
-      384,
-      384,
-      192,
-      "dialog-white",
-      20
-    );
+    this.partyMessagePanel = new PartyMessagePanel(
+      scene,
+      { x: 6, y: 3 }, { x: 4, y: 6 });
+    this.scene.add.existing(this.partyMessagePanel);
+
     partyMembers.forEach((partyMember, i) => {
       const panelSize = 3;
       const row = Math.floor(i / 2);
@@ -113,8 +110,11 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
     const currentMember = this.getCurrentlyFocusedPartyMemberPanel();
     currentMember.focusPanel();
     if (this.partyMenuType === PartyMenuTypes.itemUse) {
-      this.displayMessage(`Use ${this.entity.name} on ${currentMember.partyMember.name}?`);
+      this.partyMessagePanel.displayMessage(`Use ${this.entity.name} on ${currentMember.partyMember.name}?`);
 
+    }
+    if (this.partyMenuType === PartyMenuTypes.statusCheck) {
+      this.partyMessagePanel.populateStatsPanel(currentMember.partyMember);
     }
   }
   private blurAll() {
@@ -122,6 +122,8 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
       row.forEach(panel => panel.blurPanel())
     );
   }
+
+
 
   private getCurrentlyFocusedPartyMemberPanel() {
     const i = this.activeIndex;
@@ -168,16 +170,16 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
       const potency = this.entity.effectPotency * this.entity.effect.basePotency;
       const state = State.getInstance();
       if (state.getItemOnPlayer(this.entity.id)) {
-        this.displayMessage(`You have no ${this.entity.name} left!`);
+        this.partyMessagePanel.displayMessage(`You have no ${this.entity.name} left!`);
       }
       if (partyMember.currentHp < partyMember.maxHp) {
         state.consumeItem(this.entity.id);
         const healedFor = partyMember.healFor(potency);
-        this.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${healedFor} HP.`);
+        this.partyMessagePanel.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${healedFor} HP.`);
         panel.setHp(partyMember.currentHp);
 
       } else {
-        this.displayMessage(`${partyMember.name} already has full HP!`);
+        this.partyMessagePanel.displayMessage(`${partyMember.name} already has full HP!`);
       }
       return;
     }
@@ -186,35 +188,87 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
     }
   }
 
+}
+
+class PartyMessagePanel extends PanelContainer {
+  private currentText: Phaser.GameObjects.Text;
+  /**
+   *
+   */
+  constructor(public scene, dimensions: Coords, position: Coords) {
+    super(dimensions, position, 'dialog-white', scene);
+    this.showPanel();
+    State.getInstance().addItemToContents(3);
+    this.clearPanelContainer();
+  }
+
+  public populateStatsPanel(member: PartyMember) {
+    this.clearPanelContainer()
+    // Name, level, hp mp xp to next level, 
+    // str, sta, dex, int, wis, 
+    //class
+    const tf = new TextFactory(this.scene);
+    const name = tf.createText(member.name, { x: 20, y: 10 }, '20px');
+    const level = tf.createText(
+      `Lvl.${member.level} ${member.combatClass.name} - Next Lvl:  ${member.toNextLevel} `,
+      { x: 20, y: 35 }, '16px');
+    const hp = tf.createText(
+      `HP: ${member.currentHp}/${member.maxHp}`,
+      { x: 20, y: 60 }, '20px');
+    const mp = tf.createText(
+      `MP: ${member.currentMp}/${member.maxMp}`,
+      { x: 20, y: 85 }, '20px');
+
+    const str = tf.createText(
+      `STR: ${member.getStrength()}`,
+      { x: 150, y: 60 }, '20px');
+    const sta = tf.createText(
+      `STA: ${member.getStamina()}`,
+      { x: 150, y: 85 }, '20px');
+    const dex = tf.createText(
+      `DEX: ${member.getDexterity()}`,
+      { x: 150, y: 110 }, '20px');
+    const int = tf.createText(
+      `INT: ${member.getIntellect()}`,
+      { x: 265, y: 60 }, '20px');
+    const wis = tf.createText(
+      `WIS: ${member.getWisdom()}`,
+      { x: 265, y: 85 }, '20px');
+    this.add([name, level, hp, mp, str, sta, dex, int, wis]);
+  }
   /**
    * Function that results after the message scene is done doing its thing.
    * @param message
    */
-  displayMessage(message: string) {
-    this.currentText && this.clearMessage();
+  public displayMessage(message: string) {
+    this.currentText && this.clearPanelContainer();
     this.currentText = this.scene.add.text(
-      this.dialog.x + 20,
-      this.dialog.y + 20,
+      this.panel.x + 20,
+      this.panel.y + 20,
       message,
       {
         fontFamily: "pixel",
         fontSize: "32px",
         fill: "#000000",
         wordWrap: {
-          width: (this.dialog.width / 4.5) * 4,
+          width: (this.panel.width / 4.5) * 4,
           useAdvancedWrap: true
         }
       }
     );
+    this.add(this.currentText);
     this.currentText.setScrollFactor(0);
   }
-  clearMessage() {
-    this.currentText.destroy();
+  clearPanelContainer() {
+    this.getAll('type', 'Text').forEach(child => {
+      child.destroy()
+    });
   }
+
 }
 
 class PartyMemberPanel extends PanelContainer {
-  private textFactory = new TextFactory();
+  private textFactory;
   private hpBar: Bar;
   private mpBar: Bar
   private xpBar: Bar
@@ -227,6 +281,7 @@ class PartyMemberPanel extends PanelContainer {
     public partyMember: PartyMember
   ) {
     super(dimensions, position, spriteKey, scene);
+    this.textFactory = new TextFactory(scene);
     this.showPanel();
     this.addSprite();
     this.addName();
@@ -240,7 +295,7 @@ class PartyMemberPanel extends PanelContainer {
   }
 
   public addName() {
-    const name = this.textFactory.createText(this.partyMember.name, { x: 15, y: 100 }, this.scene, '20px');
+    const name = this.textFactory.createText(this.partyMember.name, { x: 15, y: 100 }, '20px');
     this.scene.add.existing(name)
     this.add(name);
   }
@@ -252,7 +307,7 @@ class PartyMemberPanel extends PanelContainer {
 
   public createHpBar() {
     const x = 100, y = 140;
-    const hpText = this.textFactory.createText('HP', { x: 15, y: 130 }, this.scene, '13px');
+    const hpText = this.textFactory.createText('HP', { x: 15, y: 130 }, '13px');
     this.scene.add.existing(hpText);
     this.add(hpText)
     this.add(this.hpBar = new Bar(this.scene, { x, y }, this.partyMember.currentHp, this.partyMember.maxHp, 0xEC7171))
@@ -260,7 +315,7 @@ class PartyMemberPanel extends PanelContainer {
 
   public createMpBar() {
     const x = 100, y = 160;
-    const mpText = this.textFactory.createText('MP', { x: 15, y: 150 }, this.scene, '13px');
+    const mpText = this.textFactory.createText('MP', { x: 15, y: 150 }, '13px');
     this.scene.add.existing(mpText);
     this.add(mpText)
     this.add(this.mpBar = new Bar(this.scene, { x, y }, this.partyMember.currentMp, this.partyMember.maxMp, 0x8DDAD8))
@@ -268,7 +323,7 @@ class PartyMemberPanel extends PanelContainer {
 
   public createXpBar() {
     const x = 100, y = 180;
-    const xpText = this.textFactory.createText('XP', { x: 15, y: 170 }, this.scene, '13px');
+    const xpText = this.textFactory.createText('XP', { x: 15, y: 170 }, '13px');
     this.scene.add.existing(xpText);
     this.add(xpText)
     this.add(this.xpBar = new Bar(this.scene, { x, y }, this.partyMember.currentExperience, this.partyMember.getExperienceToNextLevel(), 0xD6D252));

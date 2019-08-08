@@ -1,9 +1,9 @@
 export class TextFactory {
-  constructor() {
+  constructor(private scene: Phaser.Scene) {
 
   }
-  createText(content: string, position: Coords, scene: Phaser.Scene, fontSize: string = '32px', config?: any) {
-    return new Phaser.GameObjects.Text(scene, position.x, position.y, content, {
+  createText(content: string, position: Coords, fontSize: string = '32px', config?: any) {
+    return new Phaser.GameObjects.Text(this.scene, position.x, position.y, content, {
       fontSize,
       fontFamily: 'pixel',
       fill: '#000000',

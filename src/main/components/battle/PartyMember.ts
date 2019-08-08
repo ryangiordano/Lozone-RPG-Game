@@ -72,6 +72,21 @@ export class PartyMember extends Combatant {
   private levelModifier() {
     return 1 + this.level / 10;
   }
+  public getStrength(){
+    return this.modified('strength')
+  }
+  public getStamina(){
+    return this.modified('stamina')
+  }
+  public getDexterity(){
+    return this.modified('dexterity')
+  }
+  public getIntellect(){
+    return this.modified('intellect')
+  }
+  public getWisdom(){
+    return this.modified('wisdom')
+  }
 
   /**
    * the modified getters take the party member's class into consideration

@@ -16,14 +16,16 @@ import {
  * over during the course of a turn.
  */
 export class CombatEvent {
-  private textFactory: TextFactory = new TextFactory();
+  private textFactory: TextFactory;
   constructor(
     public executor: Combatant,
     public target: Combatant,
     public action: CombatActionTypes,
     private orientation: Orientation,
     private scene: Phaser.Scene
-  ) {}
+  ) {
+    this.textFactory = new TextFactory(scene);
+  }
 
   public async executeAction(): Promise<CombatResult> {
     return new Promise(async resolve => {
@@ -81,7 +83,7 @@ export class CombatEvent {
         `${executor.name} attacks ${target.name} for ${results.resultingValue}`,
         `${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`
       ];
-      
+
       results.message = message;
       return resolve(results);
     });
@@ -104,7 +106,6 @@ export class CombatEvent {
     const valueText = this.textFactory.createText(
       value,
       { x: sprite.x, y: sprite.y },
-      this.scene,
       "60px",
       { fill: "#ffffff" }
     );
