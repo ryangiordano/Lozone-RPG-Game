@@ -92,12 +92,12 @@ export class CombatInterface extends UserInterface {
       statusTextSize
     );
     const hp = this.textFactory.createText(
-      `HP: ${combatant.currentHp}/${combatant.maxHp}`,
+      `HP: ${combatant.currentHp}/${combatant.getMaxHp()}`,
       { x: 20, y: 50 },
       statusTextSize
     );
     const mp = this.textFactory.createText(
-      `MP: ${combatant.currentMp}/${combatant.maxMp}`,
+      `MP: ${combatant.currentMp}/${combatant.getMaxMp()}`,
       { x: 20, y: 90 },
       statusTextSize
     );

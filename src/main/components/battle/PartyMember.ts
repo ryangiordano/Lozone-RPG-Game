@@ -40,7 +40,7 @@ export class PartyMember extends Combatant {
       magicalResist,
       spells);
     this.type = CombatantType.partyMember;
-
+      this.initializeStatus();
   }
 
   public levelUp() {
@@ -55,12 +55,15 @@ export class PartyMember extends Combatant {
     //TODO: Factor in equipment as well, and factor in a modifier.
     return this.modified('strength');
   }
+  
   public getMagicPower() {
     return this.modified('intellect');
   }
+
   public getDefensePower() {
     return this.modified('stamina');
   }
+
   public getSpeed() {
     return this.modified('dexterity');
   }
@@ -72,20 +75,38 @@ export class PartyMember extends Combatant {
   private levelModifier() {
     return 1 + this.level / 10;
   }
-  public getStrength(){
+
+  public getStrength() {
     return this.modified('strength')
   }
-  public getStamina(){
+  
+  public getStamina() {
     return this.modified('stamina')
   }
-  public getDexterity(){
+  public getDexterity() {
     return this.modified('dexterity')
   }
-  public getIntellect(){
+
+  public getIntellect() {
     return this.modified('intellect')
   }
-  public getWisdom(){
+
+  public getWisdom() {
     return this.modified('wisdom')
+  }
+
+  public getCurrentHp() {
+
+  }
+  /**
+   * These are getters for maxHp and maxMp, which represent the base values.
+   */
+  public getMaxHp() {
+    return Math.floor((1 + this.getStamina() / 20) * this.maxHp);
+  }
+
+  public getMaxMp() {
+    return Math.floor((1 + this.getWisdom() / 20 )* this.maxMp);
   }
 
   /**
@@ -96,6 +117,14 @@ export class PartyMember extends Combatant {
       throw new Error(`Base state ${baseStat} does not exist on ${this.name}`)
     }
     return Math.floor(this[baseStat] * this.combatClass[baseStat] * this.levelModifier());
+  }
+
+  setCurrentHp(currentHp){
+    console.log("fired")
+    this.currentHp = currentHp || this.getMaxHp();
+  }
+  setCurrentMp(currentMp){
+    this.currentMp = currentMp || this.getMaxMp();
   }
 
   // ===================================

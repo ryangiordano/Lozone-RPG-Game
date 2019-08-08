@@ -81,7 +81,7 @@ export class CombatEvent {
       await this.playCombatText(text);
       const message = [
         `${executor.name} attacks ${target.name} for ${results.resultingValue}`,
-        `${target.name} has ${target.currentHp} HP out of ${target.maxHp} left.`
+        `${target.name} has ${target.currentHp} HP out of ${target.getMaxHp()} left.`
       ];
 
       results.message = message;

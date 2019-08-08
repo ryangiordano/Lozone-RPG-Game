@@ -12,7 +12,6 @@ export class PartyController {
   getPartyMemberById(partyMemberId: number) {
     const partyMember = this.partyRepository.getById(partyMemberId);
     const combatClass = this.combatClassRepository.getById(partyMember.classId);
-
     // TODO: create a mapping between the database entitity and the entity you'd like to be transformed into.
     const {
       id,

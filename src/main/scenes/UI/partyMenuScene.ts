@@ -172,7 +172,7 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
       if (state.getItemOnPlayer(this.entity.id)) {
         this.partyMessagePanel.displayMessage(`You have no ${this.entity.name} left!`);
       }
-      if (partyMember.currentHp < partyMember.maxHp) {
+      if (partyMember.currentHp < partyMember.getMaxHp()) {
         state.consumeItem(this.entity.id);
         const healedFor = partyMember.healFor(potency);
         this.partyMessagePanel.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${healedFor} HP.`);
@@ -210,30 +210,30 @@ class PartyMessagePanel extends PanelContainer {
     const tf = new TextFactory(this.scene);
     const name = tf.createText(member.name, { x: 20, y: 10 }, '20px');
     const level = tf.createText(
-      `Lvl.${member.level} ${member.combatClass.name} - Next Lvl:  ${member.toNextLevel} `,
+      `Lvl.${member.level} ${member.combatClass.name} - Next Lvl:  ${Math.floor(member.getExperienceToNextLevel()-member.currentExperience)} `,
       { x: 20, y: 35 }, '16px');
     const hp = tf.createText(
-      `HP: ${member.currentHp}/${member.maxHp}`,
+      `HP: ${member.currentHp}/${member.getMaxHp()}`,
       { x: 20, y: 60 }, '20px');
     const mp = tf.createText(
-      `MP: ${member.currentMp}/${member.maxMp}`,
+      `MP: ${member.currentMp}/${member.getMaxMp()}`,
       { x: 20, y: 85 }, '20px');
 
     const str = tf.createText(
       `STR: ${member.getStrength()}`,
-      { x: 150, y: 60 }, '20px');
+      { x: 170, y: 60 }, '20px');
     const sta = tf.createText(
       `STA: ${member.getStamina()}`,
-      { x: 150, y: 85 }, '20px');
+      { x: 170, y: 85 }, '20px');
     const dex = tf.createText(
       `DEX: ${member.getDexterity()}`,
-      { x: 150, y: 110 }, '20px');
+      { x: 170, y: 110 }, '20px');
     const int = tf.createText(
       `INT: ${member.getIntellect()}`,
-      { x: 265, y: 60 }, '20px');
+      { x: 285, y: 60 }, '20px');
     const wis = tf.createText(
       `WIS: ${member.getWisdom()}`,
-      { x: 265, y: 85 }, '20px');
+      { x: 285, y: 85 }, '20px');
     this.add([name, level, hp, mp, str, sta, dex, int, wis]);
   }
   /**
@@ -310,7 +310,7 @@ class PartyMemberPanel extends PanelContainer {
     const hpText = this.textFactory.createText('HP', { x: 15, y: 130 }, '13px');
     this.scene.add.existing(hpText);
     this.add(hpText)
-    this.add(this.hpBar = new Bar(this.scene, { x, y }, this.partyMember.currentHp, this.partyMember.maxHp, 0xEC7171))
+    this.add(this.hpBar = new Bar(this.scene, { x, y }, this.partyMember.currentHp, this.partyMember.getMaxHp(), 0xEC7171))
   }
 
   public createMpBar() {
@@ -318,7 +318,7 @@ class PartyMemberPanel extends PanelContainer {
     const mpText = this.textFactory.createText('MP', { x: 15, y: 150 }, '13px');
     this.scene.add.existing(mpText);
     this.add(mpText)
-    this.add(this.mpBar = new Bar(this.scene, { x, y }, this.partyMember.currentMp, this.partyMember.maxMp, 0x8DDAD8))
+    this.add(this.mpBar = new Bar(this.scene, { x, y }, this.partyMember.currentMp, this.partyMember.getMaxMp(), 0x8DDAD8))
   }
 
   public createXpBar() {

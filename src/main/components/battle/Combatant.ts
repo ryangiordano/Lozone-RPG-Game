@@ -40,7 +40,6 @@ export class Combatant {
   ) {
     this.status = new Set<Status>();
     this.buffs = new Map<number, Buff>();
-    this.initializeStatus();
     this.spells = new Map<number, Spell>();
     if (spells) {
       spells.forEach(this.addSpell);
@@ -84,8 +83,8 @@ export class Combatant {
     statusArray: Status[] = [],
     buffArray: Buff[] = []
   ) {
-    this.currentHp = currentHp || this.maxHp;
-    this.currentMp = currentMp || this.maxMp;
+    this.setCurrentHp(currentHp);
+    this.setCurrentMp(currentMp);
     statusArray.forEach(status => {
       this.status.add(status);
     });
@@ -95,6 +94,14 @@ export class Combatant {
       }
     });
   }
+
+  setCurrentHp(currentHp){
+    this.currentHp = currentHp || this.maxHp;
+  }
+  setCurrentMp(currentMp){
+    this.currentMp = currentMp || this.maxMp;
+  }
+
   addSpell(spell: Spell) {
     if (!this.spells.has(spell.id)) {
       this.spells.set(spell.id, spell);
@@ -152,12 +159,21 @@ export class Combatant {
     //TODO: Implement defending self
     // this.buffs.set()
   }
+
+  public getMaxHp() {
+    return this.maxHp;
+  }
+
+  public getMaxMp() {
+    return this.maxMp;
+  }
+
   private changeCurrent(property, value: number) {
     property = Math.min(property + value, property);
   }
   public healFor(hitPoints: number): number{
-    const missingHealth = this.maxHp - this.currentHp;
-    this.currentHp = Math.min(this.maxHp, this.currentHp + hitPoints);
+    const missingHealth = this.getMaxHp() - this.currentHp;
+    this.currentHp = Math.min(this.getMaxHp(), this.currentHp + hitPoints);
     return Math.min(missingHealth, hitPoints) 
   }
   public damageFor(hitPoints: number) {

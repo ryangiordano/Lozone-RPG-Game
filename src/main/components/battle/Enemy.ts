@@ -41,6 +41,8 @@ export class Enemy extends Combatant {
       magicalResist,
       spells
     );
+    this.initializeStatus();
+
     this.lootTable = lootTable;
     this.experiencePoints = experiencePoints;
     this.goldValue = goldValue;
