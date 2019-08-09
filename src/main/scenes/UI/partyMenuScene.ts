@@ -7,12 +7,14 @@ import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 import { Combatant } from "../../components/battle/Combatant";
 import { TextFactory } from '../../utility/TextFactory';
 
-
 export class PartyMenuScene extends Phaser.Scene {
   private partyMenuContainer: PartyMenuContainer;
   private callingSceneKey: string;
   constructor() {
     super({ key: "PartyMenuScene" });
+  }
+  preload(){
+    this.sound.add("heal");
   }
   public init(data) {
     const config: PartyMenuConfig = data.config;
@@ -164,11 +166,20 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
 
   public selectPartyMember() {
     const panel = this.getCurrentlyFocusedPartyMemberPanel()
-    const partyMember: Combatant = panel.partyMember;
+    const partyMember: PartyMember = panel.partyMember;
     if (this.partyMenuType === PartyMenuTypes.itemUse) {
       // Item use class.  It'll handle MP/HP/other types of consumables.
       const potency = this.entity.effectPotency * this.entity.effect.basePotency;
       const state = State.getInstance();
+
+      //TODO: Refactor this and get it working.  Maybe make a utility class for emitters....;
+      const particles = this.scene.add.particles('heal')
+      panel.add(particles)
+      panel.bringToTop(particles)
+      const emitter = particles.createEmitter({});
+      emitter.setFrequency(-1)
+      particles.emitParticleAt(50, 50)
+
       if (state.getItemOnPlayer(this.entity.id)) {
         this.partyMessagePanel.displayMessage(`You have no ${this.entity.name} left!`);
       }
@@ -177,6 +188,7 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
         const healedFor = partyMember.healFor(potency);
         this.partyMessagePanel.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${healedFor} HP.`);
         panel.setHp(partyMember.currentHp);
+        this.scene.sound.play("heal", {volume:.1});
 
       } else {
         this.partyMessagePanel.displayMessage(`${partyMember.name} already has full HP!`);
@@ -210,7 +222,7 @@ class PartyMessagePanel extends PanelContainer {
     const tf = new TextFactory(this.scene);
     const name = tf.createText(member.name, { x: 20, y: 10 }, '20px');
     const level = tf.createText(
-      `Lvl.${member.level} ${member.combatClass.name} - Next Lvl:  ${Math.floor(member.getExperienceToNextLevel()-member.currentExperience)} `,
+      `Lvl.${member.level} ${member.combatClass.name} - Next Lvl:  ${Math.floor(member.getExperienceToNextLevel() - member.currentExperience)} `,
       { x: 20, y: 35 }, '16px');
     const hp = tf.createText(
       `HP: ${member.currentHp}/${member.getMaxHp()}`,
@@ -295,35 +307,35 @@ class PartyMemberPanel extends PanelContainer {
   }
 
   public addName() {
-    const name = this.textFactory.createText(this.partyMember.name, { x: 15, y: 100 }, '20px');
+    const name = this.textFactory.createText(this.partyMember.name, { x: 15, y: 90 }, '20px');
     this.scene.add.existing(name)
     this.add(name);
   }
   public addSprite() {
-    this.sprite = this.scene.add.sprite(95, 65, this.partyMember.spriteKey, 0);
+    this.sprite = this.scene.add.sprite(95, 55, this.partyMember.spriteKey, 0);
     this.add(this.sprite)
 
   }
 
   public createHpBar() {
-    const x = 100, y = 140;
-    const hpText = this.textFactory.createText('HP', { x: 15, y: 130 }, '13px');
+    const x = 85, y = 130;
+    const hpText = this.textFactory.createText('HP', { x: 15, y: 120 }, '13px');
     this.scene.add.existing(hpText);
     this.add(hpText)
     this.add(this.hpBar = new Bar(this.scene, { x, y }, this.partyMember.currentHp, this.partyMember.getMaxHp(), 0xEC7171))
   }
 
   public createMpBar() {
-    const x = 100, y = 160;
-    const mpText = this.textFactory.createText('MP', { x: 15, y: 150 }, '13px');
+    const x = 85, y = 150;
+    const mpText = this.textFactory.createText('MP', { x: 15, y: 140 }, '13px');
     this.scene.add.existing(mpText);
     this.add(mpText)
     this.add(this.mpBar = new Bar(this.scene, { x, y }, this.partyMember.currentMp, this.partyMember.getMaxMp(), 0x8DDAD8))
   }
 
   public createXpBar() {
-    const x = 100, y = 180;
-    const xpText = this.textFactory.createText('XP', { x: 15, y: 170 }, '13px');
+    const x = 85, y = 170;
+    const xpText = this.textFactory.createText('XP', { x: 15, y: 160 }, '13px');
     this.scene.add.existing(xpText);
     this.add(xpText)
     this.add(this.xpBar = new Bar(this.scene, { x, y }, this.partyMember.currentExperience, this.partyMember.getExperienceToNextLevel(), 0xD6D252));
@@ -356,22 +368,34 @@ class PartyMemberPanel extends PanelContainer {
 class Bar extends Phaser.GameObjects.Container {
   private barBack: Phaser.GameObjects.Rectangle;
   private barFill: Phaser.GameObjects.Rectangle;
-  private barWidth: number = 120;
+  private barWidth: number = 90;
+  private barBorder: Phaser.GameObjects.RenderTexture;
   constructor(scene: Phaser.Scene, position: Coords, private currentValue: number, private maxValue: number, color: number) {
     super(scene, position.x, position.y);
     this.barBack = new Phaser.GameObjects.Rectangle(scene,
       0,
-      0, this.barWidth, 10, 0xbfbfbf, 1);
+      0, this.barWidth, 7, 0xbfbfbf, .5);
     this.barFill = new Phaser.GameObjects.Rectangle(scene,
       0,
-      0, this.barWidth, 10, color, 1);
+      0, this.barWidth, 7, color, 1);
     this.barFill.width = 0;
+    this.barBorder = scene.add.nineslice(
+      0,
+      0,
+      this.barWidth,
+      15,
+      "bar",
+      5
+    );
+    this.barBorder.setOrigin(.5, .5)
     scene.add.existing(this)
     scene.add.existing(this.barBack);
     scene.add.existing(this.barFill);
     this.add(this.barBack);
     this.add(this.barFill);
     this.bringToTop(this.barFill);
+    this.add(this.barBorder)
+    this.bringToTop(this.barBorder);
     this.setBar();
   }
   setCurrentValue(newValue: number) {

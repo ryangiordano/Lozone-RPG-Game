@@ -24,6 +24,7 @@ export class BootScene extends Phaser.Scene {
         });
         const animationHelper = new AnimationHelper(this);
         animationHelper.createGameAnimations(this.cache.json.get("ryanAndLoAnimation").anims);
+        animationHelper.createGameAnimations(this.cache.json.get("animated-spell-effects").anims);
         animationHelper.createGenericGameAnimations(['lo', 'yaya', 'tuzi'], this.cache.json.get("npcSpriteAnimation").anims);
 
         const sprite = this.add.sprite(80, 65, "ryanandlo");
@@ -33,6 +34,7 @@ export class BootScene extends Phaser.Scene {
         sprite.on("animationcomplete", () => {
           this.sound.play("startup", { volume: .1 });
         });
+
         // TODO Move animation helper calls to individual sprites that use the animation
 
         // When we get to the point where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.

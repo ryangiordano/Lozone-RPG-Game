@@ -21,6 +21,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "bar",
+        "url": "./src/main/assets/tiles/bar.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "dialog-purple",
         "url": "./src/main/assets/tiles/dialog-purple.png",
         "frameConfig": {
@@ -194,6 +203,15 @@
         "type": "spritesheet",
         "key": "coin",
         "url": "./src/main/assets/sprites/coin.png",
+        "frameConfig": {
+          "frameWidth": 32,
+          "frameHeight": 32
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "heal",
+        "url": "./src/main/assets/sprites/heal.png",
         "frameConfig": {
           "frameWidth": 32,
           "frameHeight": 32

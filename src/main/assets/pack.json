@@ -3,12 +3,17 @@
     "files": [{
         "type": "json",
         "key": "npcSpriteAnimation",
-        "url": "./src/main/assets/animations/npm-sprite-animation.json"
+        "url": "./src/main/assets/animations/npc-sprite-animation.json"
       },
       {
         "type": "json",
         "key": "ryanAndLoAnimation",
         "url": "./src/main/assets/animations/ryanandlo.json"
+      },
+      {
+        "type": "json",
+        "key": "animated-spell-effects",
+        "url": "./src/main/assets/animations/effects.json"
       }
     ]
   }

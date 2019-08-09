@@ -30,6 +30,21 @@
         "type": "audio",
         "key": "chest",
         "url": "./src/main/assets/sounds/chest.wav"
+      },
+      {
+        "type": "audio",
+        "key": "hit",
+        "url": "./src/main/assets/sounds/hit.wav"
+      },
+      {
+        "type": "audio",
+        "key": "heal",
+        "url": "./src/main/assets/sounds/heal.wav"
+      },
+      {
+        "type": "audio",
+        "key": "dead",
+        "url": "./src/main/assets/sounds/dead.wav"
       }
     ]
   }
