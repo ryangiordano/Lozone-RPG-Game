@@ -201,6 +201,24 @@
       },
       {
         "type": "spritesheet",
+        "key": "silver-drop",
+        "url": "./src/main/assets/sprites/monsters/silver-drop.png",
+        "frameConfig": {
+          "frameWidth": 128,
+          "frameHeight": 128
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "gold-drop",
+        "url": "./src/main/assets/sprites/monsters/gold-drop.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "coin",
         "url": "./src/main/assets/sprites/coin.png",
         "frameConfig": {

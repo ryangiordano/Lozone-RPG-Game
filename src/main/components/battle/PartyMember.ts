@@ -2,7 +2,7 @@ import { Combatant } from "./Combatant";
 import { CombatantType } from "./CombatDataStructures";
 
 export class PartyMember extends Combatant {
-  private experienceCurve: number = 1.2;
+  private experienceCurve: number = 0.2;
   public setExperienceCurve(newCurve) {
     this.experienceCurve = newCurve;
   }
@@ -139,6 +139,7 @@ export class PartyMember extends Combatant {
     const total = this.currentExperience + experiencePoints;
     const overFlow = total - this.toNextLevel * this.level;
     if (total > this.getExperienceToNextLevel()) {
+      // TODO: If player gains more than one level...things get messy.
       this.levelUp();
       this.currentExperience = overFlow;
       return true;

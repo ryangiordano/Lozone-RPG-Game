@@ -26,7 +26,7 @@
       }
     ],
     "goldValue": 10,
-    "experiencePoints": 100
+    "experiencePoints": 10
   },
   "2": {
     "name": "bugbat",
@@ -46,7 +46,7 @@
       "itemId": 1
     }],
     "goldValue": 2,
-    "experiencePoints": 50
+    "experiencePoints": 5
   },
   "3": {
     "name": "orc",
@@ -66,7 +66,7 @@
       "itemId": 3
     }],
     "goldValue": 20,
-    "experiencePoints": 150
+    "experiencePoints": 15
   },
   "4": {
     "name": "slime",
@@ -86,7 +86,7 @@
       "itemId": 1
     }],
     "goldValue": 3,
-    "experiencePoints": 70
+    "experiencePoints": 7
   },
   "5": {
     "name": "eggception",
@@ -109,7 +109,7 @@
       "itemId": 1
     }],
     "goldValue": 15,
-    "experiencePoints": 150
+    "experiencePoints": 15
   },
   "6": {
     "name": "baby slime",
@@ -129,7 +129,7 @@
       "itemId": 1
     }],
     "goldValue": 1,
-    "experiencePoints": 50
+    "experiencePoints": 5
   },
   "7": {
     "name": "poop machine",
@@ -149,7 +149,7 @@
       "itemId": 3
     }],
     "goldValue": 50,
-    "experiencePoints": 200
+    "experiencePoints": 20
   },
   "8": {
     "name": "nose-wiper",
@@ -178,6 +178,64 @@
       }
     ],
     "goldValue": 50,
-    "experiencePoints": 150
+    "experiencePoints": 15
+  },
+  "9": {
+    "name": "gold-drop",
+    "spriteKey": "gold-drop",
+    "maxHp": 10,
+    "maxMp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 4,
+    "wisdom": 2,
+    "stamina": 50,
+    "strength": 1,
+    "physicalResist": 100,
+    "magicalResist": 1,
+    "lootTable": [{
+        "rate": 0.2,
+        "itemId": 1
+      },
+      {
+        "rate": 0.2,
+        "itemId": 2
+      },
+      {
+        "rate": 0.2,
+        "itemId": 3
+      }
+    ],
+    "goldValue": 500,
+    "experiencePoints": 15
+  },
+  "10": {
+    "name": "silver-drop",
+    "spriteKey": "silver-drop",
+    "maxHp": 10,
+    "maxMp": 10,
+    "level": 1,
+    "intellect": 2,
+    "dexterity": 4,
+    "wisdom": 2,
+    "stamina": 50,
+    "strength": 1,
+    "physicalResist": 100,
+    "magicalResist": 1,
+    "lootTable": [{
+        "rate": 0.2,
+        "itemId": 1
+      },
+      {
+        "rate": 0.2,
+        "itemId": 2
+      },
+      {
+        "rate": 0.2,
+        "itemId": 3
+      }
+    ],
+    "goldValue": 5,
+    "experiencePoints": 1500
   }
 }
