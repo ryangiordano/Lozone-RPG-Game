@@ -13,7 +13,7 @@ export class PartyMenuScene extends Phaser.Scene {
   constructor() {
     super({ key: "PartyMenuScene" });
   }
-  preload(){
+  preload() {
     this.sound.add("heal");
   }
   public init(data) {
@@ -173,22 +173,25 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
       const state = State.getInstance();
 
       //TODO: Refactor this and get it working.  Maybe make a utility class for emitters....;
-      const particles = this.scene.add.particles('heal')
-      panel.add(particles)
-      panel.bringToTop(particles)
-      const emitter = particles.createEmitter({});
-      emitter.setFrequency(-1)
-      particles.emitParticleAt(50, 50)
+
+      // const particles = this.scene.add.particles('heal')
+      // panel.add(particles)
+      // panel.bringToTop(particles)
+      // const emitter = particles.createEmitter({});
+      // emitter.setFrequency(-1)
+      // particles.emitParticleAt(50, 50)
 
       if (state.getItemOnPlayer(this.entity.id)) {
         this.partyMessagePanel.displayMessage(`You have no ${this.entity.name} left!`);
       }
-      if (partyMember.currentHp < partyMember.getMaxHp()) {
+      if (true) {
         state.consumeItem(this.entity.id);
         const healedFor = partyMember.healFor(potency);
         this.partyMessagePanel.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${healedFor} HP.`);
         panel.setHp(partyMember.currentHp);
-        this.scene.sound.play("heal", {volume:.1});
+        // Heal Animation
+        this.playHealAnimation(panel);
+        this.scene.sound.play("heal", { volume: .1 });
 
       } else {
         this.partyMessagePanel.displayMessage(`${partyMember.name} already has full HP!`);
@@ -199,7 +202,40 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
       //TODO: Handle spell cast
     }
   }
+  // Abstract away into animation utilities...
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+  }
 
+  private playHealAnimation(panel) {
+    const heal = this.scene.add.sprite(50, 50, 'heal');
+
+
+    heal.setAlpha(.7)
+    panel.add(heal);
+    panel.bringToTop(heal)
+    heal.anims.play('heal1')
+    heal.on('animationcomplete', () => {
+      heal.destroy();
+      for (let i = 0; i < 3; i++) {
+
+        setTimeout(() => {
+          const randx = this.getRandomInt(30, 80);
+          const randy = this.getRandomInt(30, 80);
+          const healSparkle = this.scene.add.sprite(randx, randy, 'heal-sparkle');
+          healSparkle.setAlpha(.7)
+          panel.add(healSparkle);
+          panel.bringToTop(healSparkle)
+          healSparkle.anims.play('heal-sparkle1')
+          healSparkle.on('animationcomplete', () => healSparkle.destroy())
+
+        }, i * 200)
+      }
+
+    });
+  }
 }
 
 class PartyMessagePanel extends PanelContainer {

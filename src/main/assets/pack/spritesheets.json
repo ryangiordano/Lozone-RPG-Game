@@ -213,8 +213,17 @@
         "key": "heal",
         "url": "./src/main/assets/sprites/heal.png",
         "frameConfig": {
-          "frameWidth": 32,
-          "frameHeight": 32
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "heal-sparkle",
+        "url": "./src/main/assets/sprites/heal-sparkle.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       }
     ]

@@ -55,7 +55,7 @@ export class PartyMember extends Combatant {
     //TODO: Factor in equipment as well, and factor in a modifier.
     return this.modified('strength');
   }
-  
+
   public getMagicPower() {
     return this.modified('intellect');
   }
@@ -102,11 +102,11 @@ export class PartyMember extends Combatant {
    * These are getters for maxHp and maxMp, which represent the base values.
    */
   public getMaxHp() {
-    return Math.floor((1 + this.getStamina() / 20) * this.maxHp);
+    return Math.floor((1 + this.getStamina() / 10) * this.maxHp);
   }
 
   public getMaxMp() {
-    return Math.floor((1 + this.getWisdom() / 20 )* this.maxMp);
+    return Math.floor((1 + this.getWisdom() / 10 )* this.maxMp);
   }
 
   /**

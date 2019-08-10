@@ -26,7 +26,7 @@
       }
     ],
     "goldValue": 10,
-    "experiencePoints": 10
+    "experiencePoints": 100
   },
   "2": {
     "name": "bugbat",
@@ -46,7 +46,7 @@
       "itemId": 1
     }],
     "goldValue": 2,
-    "experiencePoints": 5
+    "experiencePoints": 50
   },
   "3": {
     "name": "orc",
@@ -66,7 +66,7 @@
       "itemId": 3
     }],
     "goldValue": 20,
-    "experiencePoints": 15
+    "experiencePoints": 150
   },
   "4": {
     "name": "slime",
@@ -86,7 +86,7 @@
       "itemId": 1
     }],
     "goldValue": 3,
-    "experiencePoints": 7
+    "experiencePoints": 70
   },
   "5": {
     "name": "eggception",
@@ -109,7 +109,7 @@
       "itemId": 1
     }],
     "goldValue": 15,
-    "experiencePoints": 15
+    "experiencePoints": 150
   },
   "6": {
     "name": "baby slime",
@@ -129,7 +129,7 @@
       "itemId": 1
     }],
     "goldValue": 1,
-    "experiencePoints": 5
+    "experiencePoints": 50
   },
   "7": {
     "name": "poop machine",
@@ -149,7 +149,7 @@
       "itemId": 3
     }],
     "goldValue": 50,
-    "experiencePoints": 20
+    "experiencePoints": 200
   },
   "8": {
     "name": "nose-wiper",
@@ -178,6 +178,6 @@
       }
     ],
     "goldValue": 50,
-    "experiencePoints": 15
+    "experiencePoints": 150
   }
 }
