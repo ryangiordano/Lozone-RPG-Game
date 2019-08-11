@@ -47,4 +47,12 @@ export class CombatGrid {
 
     return flattenedEmptyGrid[getRandomFloor(flattenedEmptyGrid.length)];
   }
+  // TODO: Update this to use an event listener instead of iterating through the grid
+  update(){
+    this.grid.forEach(row=>{
+      row.forEach(cel=>{
+        cel.updateBars();
+      })
+    })
+  }
 }

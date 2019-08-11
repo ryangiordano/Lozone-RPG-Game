@@ -1,7 +1,6 @@
 {
   "preload": {
-    "files": [
-      {
+    "files": [{
         "type": "spritesheet",
         "key": "dialog-beige",
         "url": "./src/main/assets/tiles/dialog-beige.png",
@@ -233,6 +232,33 @@
         "frameConfig": {
           "frameWidth": 64,
           "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "ground-wave",
+        "url": "./src/main/assets/sprites/ground-wave.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "hit",
+        "url": "./src/main/assets/sprites/hit.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "critical-hit",
+        "url": "./src/main/assets/sprites/critical-hit.png",
+        "frameConfig": {
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       },
       {

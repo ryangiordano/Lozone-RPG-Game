@@ -10,6 +10,7 @@ import {
 import { getUID, Directions } from "../../utility/Utility";
 import { Defend } from "./Actions";
 import { Buff } from "./Buff";
+import { MpBar, HpBar } from "../../scenes/UI/partyMenuScene";
 
 export class Combatant {
   private buffs: Map<number, Buff>;
@@ -45,11 +46,6 @@ export class Combatant {
       spells.forEach(this.addSpell);
     }
   }
-  /**
-   * Creates a new sprite and sets it to the scene
-   * @param scene Scene for the sprite to be set to
-   * @param direction The direction the sprite should be facing.
-   */
   public setSprite(scene: Phaser.Scene, direction?: Directions) {
     this.sprite = new Phaser.GameObjects.Sprite(scene, 0, 0, this.spriteKey);
     if (direction === Directions.right) {
@@ -58,6 +54,7 @@ export class Combatant {
     if (direction === Directions.left) {
       this.faceLeft();
     }
+
   }
   faceRight() {
     this.sprite.setFrame(6);
@@ -95,10 +92,10 @@ export class Combatant {
     });
   }
 
-  setCurrentHp(currentHp){
+  setCurrentHp(currentHp) {
     this.currentHp = currentHp || this.maxHp;
   }
-  setCurrentMp(currentMp){
+  setCurrentMp(currentMp) {
     this.currentMp = currentMp || this.maxMp;
   }
 
@@ -153,7 +150,7 @@ export class Combatant {
   public getCritChance() {
     return this.dexterity * .01;
   }
-  public getModifierValue() {}
+  public getModifierValue() { }
   // Ad a defense up buff that lasts one turn to yourself.
   public defendSelf() {
     //TODO: Implement defending self
@@ -171,10 +168,10 @@ export class Combatant {
   private changeCurrent(property, value: number) {
     property = Math.min(property + value, property);
   }
-  public healFor(hitPoints: number): number{
+  public healFor(hitPoints: number): number {
     const missingHealth = this.getMaxHp() - this.currentHp;
     this.currentHp = Math.min(this.getMaxHp(), this.currentHp + hitPoints);
-    return Math.min(missingHealth, hitPoints) 
+    return Math.min(missingHealth, hitPoints)
   }
   public damageFor(hitPoints: number) {
     this.currentHp = Math.max(0, this.currentHp - hitPoints);

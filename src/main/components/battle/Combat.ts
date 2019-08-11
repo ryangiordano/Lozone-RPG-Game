@@ -188,15 +188,24 @@ export class Combat {
       await this.distributeLoot();
       return this.scene.events.emit("end-battle");
     }
-
+    // make this async...
+    this.updateCombatGrids();
     const combatEvent = this.combatEvents.pop();
     let result = await combatEvent.executeAction();
 
-    await this.displayMessage(result.message);
+
+
+    // await this.displayMessage(result.message);
 
     const target = result.target;
     this.resolveTargetDeaths(target);
     this.startLoop();
+  }
+
+  // TODO: Just send out a global event that the cells listen to so they can update accordingly...
+  private updateCombatGrids() {
+    this.partyContainer.updateCombatGrid();
+    this.enemyContainer.updateCombatGrid();
   }
 
   private async resolveTargetDeaths(target) {
@@ -253,12 +262,14 @@ export class Combat {
 
   private async distributeLoot() {
     const itemMessages = this.handleItemDistribution();
+    await this.displayMessage([
+      `Each member receives ${this.lootCrate.experiencePoints} XP.`
+    ]);
     await this.distributeExperience(this.lootCrate.experiencePoints);
     State.getInstance().playerContents.addCoins(this.lootCrate.coin);
     await this.displayMessage([
       ...itemMessages,
       `The party receives ${this.lootCrate.coin} coins.`,
-      `Each member receives ${this.lootCrate.experiencePoints} XP.`
     ]);
 
   }

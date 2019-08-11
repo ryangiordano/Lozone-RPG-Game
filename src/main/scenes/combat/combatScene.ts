@@ -10,6 +10,11 @@ export class CombatScene extends Phaser.Scene {
   constructor() {
     super('Battle');
   }
+  onLoad() {
+    this.sound.add("hit");
+    this.sound.add("heal");
+
+  }
 
   init(data) {
     this.enemyController = new EnemyController(this.game);

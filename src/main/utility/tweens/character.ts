@@ -16,6 +16,13 @@ const flash = target =>
     .setYoyo()
     .getConfig();
 
+const scale = target =>
+  builder
+    .createTween(target, 50, 0)
+    .scaleX(.1, 1)
+    .scaleY(.1, 1)
+    .getConfig();
+
 export const characterAttack = (
   target,
   distance,

@@ -182,7 +182,7 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
         const healedFor = partyMember.healFor(potency);
         this.partyMessagePanel.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${healedFor} HP.`);
         panel.setHp(partyMember.currentHp);
-        
+
         this.playHealAnimation(panel);
 
       } else {
@@ -320,7 +320,7 @@ class PartyMemberPanel extends PanelContainer {
     const hpText = this.textFactory.createText('HP', { x: 15, y: 120 }, '13px');
     this.scene.add.existing(hpText);
     this.add(hpText)
-    this.add(this.hpBar = new Bar(this.scene, { x, y }, this.partyMember.currentHp, this.partyMember.getMaxHp(), 0xEC7171))
+    this.add(this.hpBar = new HpBar(this.scene, { x, y }, this.partyMember.currentHp, this.partyMember.getMaxHp()))
   }
 
   public createMpBar() {
@@ -328,7 +328,7 @@ class PartyMemberPanel extends PanelContainer {
     const mpText = this.textFactory.createText('MP', { x: 15, y: 140 }, '13px');
     this.scene.add.existing(mpText);
     this.add(mpText)
-    this.add(this.mpBar = new Bar(this.scene, { x, y }, this.partyMember.currentMp, this.partyMember.getMaxMp(), 0x8DDAD8))
+    this.add(this.mpBar = new MpBar(this.scene, { x, y }, this.partyMember.currentMp, this.partyMember.getMaxMp()))
   }
 
   public createXpBar() {
@@ -336,7 +336,7 @@ class PartyMemberPanel extends PanelContainer {
     const xpText = this.textFactory.createText('XP', { x: 15, y: 160 }, '13px');
     this.scene.add.existing(xpText);
     this.add(xpText)
-    this.add(this.xpBar = new Bar(this.scene, { x, y }, this.partyMember.currentExperience, this.partyMember.getExperienceToNextLevel(), 0xD6D252));
+    this.add(this.xpBar = new XpBar(this.scene, { x, y }, this.partyMember.currentExperience, this.partyMember.getExperienceToNextLevel()));
   }
 
   public setHp(newValue: number) {
@@ -363,7 +363,7 @@ class PartyMemberPanel extends PanelContainer {
 }
 
 
-class Bar extends Phaser.GameObjects.Container {
+export class Bar extends Phaser.GameObjects.Container {
   private barBack: Phaser.GameObjects.Rectangle;
   private barFill: Phaser.GameObjects.Rectangle;
   private barWidth: number = 90;
@@ -400,12 +400,48 @@ class Bar extends Phaser.GameObjects.Container {
     this.currentValue = Math.max(0, newValue);
     this.setBar();
   }
-  setBar() {
-    const fill = this.barWidth / (this.maxValue / this.currentValue);
-    this.scene.tweens.add({
-      targets: this.barFill,
-      duration: 300,
-      width: fill,
-    });
+  setBar(): Promise<any> {
+    return new Promise(resolve => {
+      const fill = this.barWidth / (this.maxValue / this.currentValue);
+      const tween = this.scene.tweens.add({
+        targets: this.barFill,
+        duration: 300,
+        width: fill,
+        onCompleteCallback: () => {
+          resolve();
+        }
+      });
+    })
+
+  }
+}
+
+export class HpBar extends Bar {
+  /**
+   * Standard HP bar
+   */
+  constructor(scene: Phaser.Scene, position: Coords, currentValue: number, maxValue: number) {
+    super(scene, position, currentValue, maxValue, 0xEC7171);
+
+  }
+}
+
+export class MpBar extends Bar {
+  /**
+   * Standard HP bar
+   */
+  constructor(scene: Phaser.Scene, position: Coords, currentValue: number, maxValue: number) {
+    super(scene, position, currentValue, maxValue, 0x8DDAD8);
+
+  }
+}
+
+export class XpBar extends Bar {
+  /**
+   * Standard HP bar
+   */
+  constructor(scene: Phaser.Scene, position: Coords, currentValue: number, maxValue: number) {
+    super(scene, position, currentValue, maxValue, 0xD6D252);
+
   }
 }

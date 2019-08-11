@@ -18,6 +18,26 @@
             },
             "repeat": 0,
             "frameRate": 20
+        },
+        {
+            "key": "hit1",
+            "frames": {
+                "typeOfGeneration": 1,
+                "frames": [2, 3],
+                "key": "hit"
+            },
+            "repeat": 0,
+            "frameRate": 10
+        },
+        {
+            "key": "critical-hit",
+            "frames": {
+                "typeOfGeneration": 1,
+                "frames": [0, 1, 2, 3, 4, 5, 6],
+                "key": "critical-hit"
+            },
+            "repeat": 0,
+            "frameRate": 20
         }
     ]
 }

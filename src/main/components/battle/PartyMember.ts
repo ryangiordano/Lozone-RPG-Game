@@ -1,8 +1,9 @@
 import { Combatant } from "./Combatant";
 import { CombatantType } from "./CombatDataStructures";
 
+
 export class PartyMember extends Combatant {
-  private experienceCurve: number = 0.2;
+  private experienceCurve: number = 1.2;
   public setExperienceCurve(newCurve) {
     this.experienceCurve = newCurve;
   }
@@ -40,8 +41,11 @@ export class PartyMember extends Combatant {
       magicalResist,
       spells);
     this.type = CombatantType.partyMember;
-      this.initializeStatus();
+    this.initializeStatus();
+
   }
+
+
 
   public levelUp() {
     this.level += 1;
@@ -79,7 +83,7 @@ export class PartyMember extends Combatant {
   public getStrength() {
     return this.modified('strength')
   }
-  
+
   public getStamina() {
     return this.modified('stamina')
   }
@@ -95,9 +99,6 @@ export class PartyMember extends Combatant {
     return this.modified('wisdom')
   }
 
-  public getCurrentHp() {
-
-  }
   /**
    * These are getters for maxHp and maxMp, which represent the base values.
    */
@@ -106,7 +107,7 @@ export class PartyMember extends Combatant {
   }
 
   public getMaxMp() {
-    return Math.floor((1 + this.getWisdom() / 10 )* this.maxMp);
+    return Math.floor((1 + this.getWisdom() / 10) * this.maxMp);
   }
 
   /**
@@ -119,11 +120,10 @@ export class PartyMember extends Combatant {
     return Math.floor(this[baseStat] * this.combatClass[baseStat] * this.levelModifier());
   }
 
-  setCurrentHp(currentHp){
-    console.log("fired")
+  setCurrentHp(currentHp) {
     this.currentHp = currentHp || this.getMaxHp();
   }
-  setCurrentMp(currentMp){
+  setCurrentMp(currentMp) {
     this.currentMp = currentMp || this.getMaxMp();
   }
 
@@ -131,21 +131,22 @@ export class PartyMember extends Combatant {
   // Leveling up
   // ===================================
   /**
-   * Returns true if leveled up;
+   * Returns true if leveled up;  Recursively adds experience points to characters.
    * @param partyMember The party member to gain experience
    * @param experiencePoints Experience points to apply to party member
    */
   public gainExperience(experiencePoints: number) {
+    let leveledUp = false;
     const total = this.currentExperience + experiencePoints;
-    const overFlow = total - this.toNextLevel * this.level;
-    if (total > this.getExperienceToNextLevel()) {
-      // TODO: If player gains more than one level...things get messy.
+    const overFlow = total - (this.toNextLevel * this.level);
+    while (total > this.getExperienceToNextLevel()) {
       this.levelUp();
-      this.currentExperience = overFlow;
-      return true;
+      leveledUp = true;
+      this.currentExperience = 0;
+      this.gainExperience(overFlow);
     }
     this.currentExperience = total;
-    return false
+    return leveledUp;
   }
 }
 

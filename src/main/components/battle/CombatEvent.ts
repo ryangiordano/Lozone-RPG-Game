@@ -10,6 +10,7 @@ import {
   characterAttack,
   characterDamage
 } from "../../utility/tweens/character";
+import { hitEffect } from "../entities/effects/effect-animations";
 
 /**
  * Is an object meant to be stored in an array of CombatEvents and then interated
@@ -70,9 +71,8 @@ export class CombatEvent {
     return new Promise(async resolve => {
       const modifier = this.orientation === Orientation.left ? 1 : -1;
       const results: CombatResult = executor.attackTarget(target);
-
       await this.playMemberAttack(executor.getSprite(), modifier * 25);
-      await this.playMemberTakeDamage(target.getSprite());
+      await this.playCombatantTakeDamage(target.getSprite());
       const text = this.createCombatText(
         results.resultingValue.toString(),
         this.target
@@ -141,12 +141,14 @@ export class CombatEvent {
     });
   }
 
-  playMemberTakeDamage(partyMember: Phaser.GameObjects.Sprite): Promise<any> {
+  playCombatantTakeDamage(combatant: Phaser.GameObjects.Sprite): Promise<any> {
     return new Promise(resolve => {
-      const tween = characterDamage(partyMember, 0.0, this.scene, () => {
+      const tween = characterDamage(combatant, 0.0, this.scene, () => {
         resolve();
       });
       tween.play();
+      hitEffect(combatant.x, combatant.y, this.scene, combatant.parentContainer);
+
     });
   }
 
