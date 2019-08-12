@@ -38,6 +38,11 @@ export class CombatScene extends Phaser.Scene {
   private endBattle() {
     this.events.off('end-battle');
     this.events.off('game-over');
+    this.events.off('update-combat-grids');
+    this.events.off('finish-update-combat-grids');
+
+    
+
     this.scene.stop();
     this.scene.manager.wake(this.previousSceneKey);
     this.scene.bringToTop(this.previousSceneKey);

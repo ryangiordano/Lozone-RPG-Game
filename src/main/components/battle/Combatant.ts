@@ -10,7 +10,6 @@ import {
 import { getUID, Directions } from "../../utility/Utility";
 import { Defend } from "./Actions";
 import { Buff } from "./Buff";
-import { MpBar, HpBar } from "../../scenes/UI/partyMenuScene";
 
 export class Combatant {
   private buffs: Map<number, Buff>;

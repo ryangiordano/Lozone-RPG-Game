@@ -7,7 +7,7 @@ import {
   LootCrate
 } from "./CombatDataStructures";
 import { CombatContainer } from "./combat-grid/CombatContainer";
-import { getRandomFloor, Directions } from "../../utility/Utility";
+import { getRandomFloor, Directions, wait } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./CombatInterface";
@@ -189,23 +189,30 @@ export class Combat {
       return this.scene.events.emit("end-battle");
     }
     // make this async...
-    this.updateCombatGrids();
+
     const combatEvent = this.combatEvents.pop();
     let result = await combatEvent.executeAction();
-
-
-
+    this.updateCombatGrids();
     // await this.displayMessage(result.message);
-
+    // TODO: Hook this up so we don't have to use a wait here.  
+    // The goal is to get all of the cels in all of the grids to tell us when every single
+    // one is done updating, and only when the last cel is done do we continue.
+    // Right now we use wait :x
+    await wait(500);
     const target = result.target;
     this.resolveTargetDeaths(target);
     this.startLoop();
   }
 
-  // TODO: Just send out a global event that the cells listen to so they can update accordingly...
-  private updateCombatGrids() {
-    this.partyContainer.updateCombatGrid();
-    this.enemyContainer.updateCombatGrid();
+  private updateCombatGrids(): Promise<any> {
+    return new Promise(resolve => {
+      this.scene.events.emit('update-combat-grids');
+      this.scene.events.on('finish-update-combat-grids', () => {
+        this.scene.events.off('finish-update-combat-grids');
+        resolve();
+      })
+    })
+
   }
 
   private async resolveTargetDeaths(target) {

@@ -1,14 +1,13 @@
 import { CombatGrid } from "./CombatGrid";
 import { getRandomFloor } from "../../../utility/Utility";
 import { Combatant } from "../Combatant";
-import { Bar, MpBar, HpBar } from "../../../scenes/UI/partyMenuScene";
 
 export class CombatContainer extends Phaser.GameObjects.Container {
   private combatGrid: CombatGrid = new CombatGrid({ x: 3, y: 3 }, 64);
   private battleTarget: Phaser.GameObjects.Image;
   constructor(position: Coords, scene, private combatants: Combatant[] = []) {
     super(scene, position.x * 64, position.y * 64);
-    this.battleTarget = new Phaser.GameObjects.Image(this.scene, 0, 0, 'battle-target')
+    this.battleTarget = new Phaser.GameObjects.Image(this.scene, 0, 0, 'battle-target');
   }
   public populateContainer() {
     // TODO:For now let's populate four characters in four corners of the grid. Later let's store the position somewhere on the combatant themselves.
@@ -41,16 +40,12 @@ export class CombatContainer extends Phaser.GameObjects.Container {
       })
     })
   }
+
   addCombatant(combatant: Combatant) {
     this.add(combatant.getSprite());
   }
+
   public getCombatants() {
     return this.combatants;
-  }
-  /**
-   * Updates the bar's values in all of the cels of the combat grid.
-   */
-  public updateCombatGrid(){
-    this.combatGrid.update();
   }
 }

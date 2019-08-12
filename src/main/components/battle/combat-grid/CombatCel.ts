@@ -1,5 +1,5 @@
 import { Combatant } from "../Combatant";
-import { MpBar, HpBar } from "../../../scenes/UI/partyMenuScene";
+import { MpBar, HpBar } from "../../UI/Bars";
 
 export class CombatCel {
   private combatantBars: CombatantBars;
@@ -20,15 +20,27 @@ export class CombatCel {
       this.combatantInCel = combatant;
       this.combatantInCel.getSprite().setX(this.getX());
       this.combatantInCel.getSprite().setY(this.getY());
-      this.combatantBars = new CombatantBars(combatant.getSprite().parentContainer['scene'], combatant);
+      const scene = combatant.getSprite().parentContainer['scene'];
+      this.combatantBars = new CombatantBars(scene, combatant);
       this.combatantBars.setUpBars();
+
+      scene.events.on('update-combat-grids', () => {
+        this.updateBars();
+      })
       return true;
     }
 
     return false;
   }
   updateBars() {
-    this.combatantBars && this.combatantBars.update();
+    return new Promise(async resolve=>{
+      if(this.combatantBars){
+        await this.combatantBars.update();
+      }
+      resolve();
+    })
+
+    
   }
   isEmpty() {
     return !this.combatantInCel;
@@ -51,16 +63,29 @@ class CombatantBars {
     private combatant: Combatant) {
 
   }
-  update() {
-    this.updateMpBar();
-    this.updateHpBar();
-  }
-  updateMpBar() {
-    this.mpBar.setCurrentValue(this.combatant.currentMp);
+  update(): Promise<any> {
+    return new Promise(async resolve => {
+      const updates = [
+        this.updateMpBar(),
+        this.updateHpBar()
+      ]
+      await Promise.all(updates);
+      resolve();
+    })
 
   }
-  updateHpBar() {
-    this.hpBar.setCurrentValue(this.combatant.currentHp);
+  async updateMpBar(): Promise<any> {
+    return new Promise(async resolve => {
+      await this.mpBar.setCurrentValue(this.combatant.currentMp);
+      resolve();
+    })
+
+  }
+  async updateHpBar(): Promise<any> {
+    return new Promise(async resolve => {
+      await this.hpBar.setCurrentValue(this.combatant.currentHp);
+      resolve();
+    })
   }
   setUpBars() {
     this.hpBar = new HpBar(this.scene,
@@ -70,7 +95,10 @@ class CombatantBars {
     if (this.combatant.getSprite().parentContainer) {
       const container = this.combatant.getSprite().parentContainer;
       container.add(this.hpBar)
+
       container.add(this.mpBar)
+      container.bringToTop(this.hpBar)
+      container.bringToTop(this.mpBar)
     }
   }
 }
