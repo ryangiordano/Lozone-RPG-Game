@@ -19,6 +19,7 @@ export abstract class Explore extends Phaser.Scene {
   private triggers: Phaser.GameObjects.Group;
   protected keyboardControl: KeyboardControl;
   protected player: Player;
+  protected playerIsMoving: boolean = false;
   private warpId: number;
   constructor(key) {
     super({
@@ -52,11 +53,13 @@ export abstract class Explore extends Phaser.Scene {
     this["updates"].addMultiple([this.player]);
 
     this.afterCreated();
-    console.log("Create")
   }
   protected afterCreated() { }
   protected setEvents() {
     this.input.keyboard.on("keydown-Z", event => {
+      if(this.player.isMoving){
+        return false;
+      }
       this.scene.setActive(false, this.scene.key);
       this.game.scene.start("MenuScene", { callingSceneKey: this.scene.key });
       this.scene.setActive(true, "MenuScene").bringToTop("MenuScene");

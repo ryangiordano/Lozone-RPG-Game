@@ -17,6 +17,11 @@ export class Player extends Moveable {
     this.scene.sound.play("bump", {volume:.1});
   });
 
+  public stop(){
+    // super.stop();
+    this.controllable.canInput = false;
+  }
+
   update(): void {
     if (this.isMoving) {
       this.moveToTarget();

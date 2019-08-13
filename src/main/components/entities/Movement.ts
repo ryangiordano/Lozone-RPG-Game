@@ -2,8 +2,11 @@ import { Directions, createThrottle } from "../../utility/Utility";
 import { Cast } from "../../assets/objects/Cast";
 import { Entity } from "../../assets/objects/Entity";
 
+/**
+ * The base class that NPCs who can move on a tiled map should inherit from.
+ */
 export class Moveable extends Entity {
-  protected isMoving = false;
+  public isMoving = false;
   // TODO: Refactor this to be a state
   protected velocityX = 0;
   protected velocityY = 0;
