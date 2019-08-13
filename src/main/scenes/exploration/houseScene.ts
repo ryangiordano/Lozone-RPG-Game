@@ -7,5 +7,6 @@ export class HouseScene extends Explore {
   }
   afterInit(data) {
     // Custom initialization stuff
+    console.log(data)
   }
 }

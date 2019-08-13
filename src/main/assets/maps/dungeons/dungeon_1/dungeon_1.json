@@ -50,7 +50,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":6
                         }, 
                         {
                          "name":"itemId",
@@ -72,7 +72,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":15
                         }, 
                         {
                          "name":"itemId",
@@ -89,7 +89,7 @@
                 {
                  "height":64,
                  "id":6,
-                 "name":"spawn",
+                 "name":"entrance",
                  "properties":[
                         {
                          "name":"warpId",
@@ -97,7 +97,7 @@
                          "value":1
                         }],
                  "rotation":0,
-                 "type":"spawn",
+                 "type":"entrance",
                  "visible":true,
                  "width":64,
                  "x":576,
@@ -122,7 +122,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":18
                         }, 
                         {
                          "name":"itemId",
@@ -144,7 +144,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":17
                         }, 
                         {
                          "name":"itemId",
@@ -166,7 +166,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":16
                         }, 
                         {
                          "name":"itemId",
@@ -188,12 +188,12 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":7
                         }, 
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -210,7 +210,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":12
                         }, 
                         {
                          "name":"itemId",
@@ -232,7 +232,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":8
                         }, 
                         {
                          "name":"itemId",
@@ -254,7 +254,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":9
                         }, 
                         {
                          "name":"itemId",
@@ -276,7 +276,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":10
                         }, 
                         {
                          "name":"itemId",
@@ -298,7 +298,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":11
                         }, 
                         {
                          "name":"itemId",
@@ -320,7 +320,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":13
                         }, 
                         {
                          "name":"itemId",
@@ -342,7 +342,7 @@
                         {
                          "name":"id",
                          "type":"int",
-                         "value":5
+                         "value":14
                         }, 
                         {
                          "name":"itemId",
@@ -355,6 +355,23 @@
                  "width":64,
                  "x":640,
                  "y":2560
+                }, 
+                {
+                 "height":64,
+                 "id":26,
+                 "name":"spawn",
+                 "properties":[
+                        {
+                         "name":"warpId",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":64,
+                 "x":576,
+                 "y":2560
                 }],
          "offsetx":-3.030303030303,
          "offsety":0,
@@ -364,8 +381,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
- "nextobjectid":42,
+ "nextlayerid":7,
+ "nextobjectid":27,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",

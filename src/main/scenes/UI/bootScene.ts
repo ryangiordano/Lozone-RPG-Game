@@ -35,8 +35,6 @@ export class BootScene extends Phaser.Scene {
           this.sound.play("startup", { volume: .1 });
         });
 
-        // TODO Move animation helper calls to individual sprites that use the animation
-
         // When we get to the point where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.
         const sm = State.getInstance();
         sm.initialize(this.game);
@@ -45,15 +43,15 @@ export class BootScene extends Phaser.Scene {
         // ===================================
         // Start the scene in Debug Mode
         // ===================================
-        // this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
+        this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
         const tempParty = [13, 1, 2, 3, 4, 5];
         // const tempParty = [14,15,16];
-        this.scene.start("Dungeon", {
-          map: "dungeon_1",
-          tileset: "dungeon",
-          warpId: 1,
-          enemyPartyIds: tempParty
-        });
+        // this.scene.start("Dungeon", {
+        //   map: "dungeon_1",
+        //   tileset: "dungeon",
+        //   warpId: 1,
+        //   enemyPartyIds: tempParty
+        // });
       },
       this
     );

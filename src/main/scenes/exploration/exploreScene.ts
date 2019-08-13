@@ -52,8 +52,9 @@ export abstract class Explore extends Phaser.Scene {
     this["updates"].addMultiple([this.player]);
 
     this.afterCreated();
+    console.log("Create")
   }
-  protected afterCreated() {}
+  protected afterCreated() { }
   protected setEvents() {
     this.input.keyboard.on("keydown-Z", event => {
       this.scene.setActive(false, this.scene.key);
@@ -77,18 +78,23 @@ export abstract class Explore extends Phaser.Scene {
   protected loadObjectsFromTilemap() {
     const objects = this.map.getObjectLayer("objects").objects as any[];
     const sm = State.getInstance();
+
+    // ===================================
+    // Spawn the player
+    // ===================================
+    // TODO: Make this its own abstraction (spawning)
+    // Work through this here.
     let spawn;
     if (this.warpId) {
-      spawn = objects.find(
-        o =>
-          o.type === "trigger" &&
-          o.properties.find(p => p.name === "warpId").value === this.warpId
+      spawn = objects.find(o =>
+        o.type === "trigger" &&
+        o.properties.find(p => p.name === "warpId").value === this.warpId
       );
     }
     if (!spawn) {
       spawn = objects.find(o => o.type === "spawn");
     }
-    // TODO: Make this its own abstraction (spawning)
+
     this.player = new Player({
       scene: this,
       x: spawn.x + 32,
@@ -97,6 +103,10 @@ export abstract class Explore extends Phaser.Scene {
       map: this.map,
       casts: this.casts
     });
+
+    // ===================================
+    // Lay Objects down
+    // ===================================
 
     objects.forEach(object => {
       if (object.type === "interactive") {
@@ -189,6 +199,10 @@ export abstract class Explore extends Phaser.Scene {
         this.interactive.add(toAdd);
       }
     });
+
+    this.setupCamera();
+  }
+  private setupCamera() {
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(
       0,
@@ -198,21 +212,15 @@ export abstract class Explore extends Phaser.Scene {
     );
   }
   protected setColliders() {
+    console.log("setting colliders")
     this.physics.add.overlap(
       this.casts,
       this.interactive,
       (cast: Cast, interactive: any) => {
         cast.destroy();
+        console.log(interactive)
         if (interactive.properties.type === "interactive") {
-          // TODO: Get this from the sm.dialogRepository
-          this.scene.setActive(false, this.scene.key);
-          this.game.scene.start("MenuScene", {
-            callingSceneKey: this.scene.key,
-            message: interactive.properties.message
-          });
-          this.scene.setActive(true, "MenuScene").bringToTop("MenuScene");
-          // this.dialogManager.displayDialog(interactive.properties.message);
-          this.player.controllable.canInput = false;
+          this.displayMessage(interactive.properties.message)
         }
         if (interactive.properties.type === "chest") {
           interactive.openChest();
@@ -265,7 +273,7 @@ export abstract class Explore extends Phaser.Scene {
   }
 
   /**
-   * Function that results after the message scene is done doing its thing.
+   * 
    * @param message
    */
   displayMessage(message: string[]): Promise<any> {

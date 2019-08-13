@@ -20,7 +20,6 @@ export class HeroParty {
   }
   addMemberById(id: number) {
     const toAdd = this.partyController.getPartyMemberById(id);
-    console.log(toAdd)
     if (toAdd && !this.members.find(member => member.id === id)) {
       this.members.push(toAdd);
       return true;

@@ -34,6 +34,9 @@ export class Moveable extends Entity {
     this.x = this.target.x;
     this.y = this.target.y;
   }
+  /**
+   * Called until the Moving character reaches the destination
+   */
   protected moveToTarget() {
     if (this.x === this.target.x && this.y === this.target.y) {
       this.isMoving = false;
@@ -73,12 +76,8 @@ export class Moveable extends Entity {
       true,
       "foreground"
     );
-    if (
-      this.currentMap.hasTileAt(marker.x, marker.y, "background") &&
-      (backgroundTile &&
-        !backgroundTile.properties["collide"] &&
-        (foregroundTile && !foregroundTile.properties["collide"]))
-    ) {
+    
+    if (this.tileIsOpen(backgroundTile, foregroundTile)) {
       this.isMoving = true;
       const movementSpeed =
         direction === Directions.right || direction === Directions.down
@@ -103,6 +102,14 @@ export class Moveable extends Entity {
       this.emit("hit-wall");
     }
   }
+
+  private tileIsOpen(backgroundTile, foregroundTile) {
+    const backgroundTileIsOpen = backgroundTile && !backgroundTile.properties["collide"];
+    const foregroundTileIsOpen = foregroundTile && !foregroundTile.properties["collide"];
+    return backgroundTileIsOpen && foregroundTileIsOpen
+
+  }
+
   public queryObject = createThrottle(300, () => {
     const coords = this.getTileInFront();
     this.casts.add(
