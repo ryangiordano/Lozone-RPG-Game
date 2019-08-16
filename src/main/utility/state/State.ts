@@ -1,8 +1,9 @@
 import { DialogController } from "../../data/controllers/DialogController";
 import { ItemController } from "../../data/controllers/ItemController";
-import { FlagModule } from "./FlagModule";
+import { Flag } from "./FlagModule";
 import { PlayerContents } from "./PlayerContents";
 import { HeroParty } from "../../components/battle/Party";
+import { FlagController } from '../../data/controllers/FlagController';
 
 export class State {
   /**
@@ -11,12 +12,13 @@ export class State {
    */
   private static instance: State;
   private game: Phaser.Game;
-  public flags: Map<string, FlagModule>;
+  public flags: Flag[];
+  public flagController: FlagController;
   public itemController: ItemController;
   public dialogController: DialogController;
   public playerContents: PlayerContents;
   private party: HeroParty;
-  private constructor() {}
+  private constructor() { }
 
   static getInstance() {
     if (!State.instance) {
@@ -46,7 +48,7 @@ export class State {
     this.playerContents.consumeItem(itemToConsume);
     return itemToConsume;
   }
-  getItemOnPlayer(id: string|number) {
+  getItemOnPlayer(id: string | number) {
     return this.playerContents.getItemOnPlayer(id);
   }
   getItemsOnPlayer() {
@@ -54,7 +56,6 @@ export class State {
   }
 
   public getCurrentParty() {
-    // This will be retrieved from a save data.
     return this.party;
   }
 
@@ -62,23 +63,20 @@ export class State {
     this.game = game;
     this.itemController = new ItemController(this.game);
     this.dialogController = new DialogController(this.game);
+    this.flagController = new FlagController(this.game);
     this.playerContents = new PlayerContents();
-    // For now, just use Lo to get the ball rolling
 
+    this.flags = this.flagController.getAllFlags();
     this.party = new HeroParty([1, 2, 3], this.game);
-    this.flags = new Map<string, FlagModule>();
-  }
-  
-  public addFlagModule(name: string) {
-    this.flags.set(name, new FlagModule());
   }
 
-  public isFlagged(flagModuleKey, keyOfFlag) {
-    const flagModule = this.flags.get(flagModuleKey);
-    if (flagModule) {
-      return flagModule.isFlagged(keyOfFlag);
-    } else {
-      console.error("Flag Module does not exist");
+  public isFlagged(id: number) {
+    return this.flags[id] && this.flags[id].flagged;
+  }
+  public setFlag(id: number, flagged: boolean) {
+    if (!this.flags[id]) {
+      throw new Error(`Flag with ${id} does not exist`);
     }
+    return this.flags[id].flagged = flagged;
   }
 }

@@ -12,7 +12,6 @@ export class ItemController {
   getItem(id): Item {
     const item = this.itemRepository.getById(id);
     const effect = this.effectsRepository.getById(item.effectId);
-    console.log(effect)
     return new Item(
       item.id,
       item.name,

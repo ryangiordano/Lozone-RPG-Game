@@ -78,7 +78,7 @@
                 {
                  "name":"collide",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -105,7 +105,7 @@
                 {
                  "name":"collide",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -123,7 +123,7 @@
                 {
                  "name":"collide",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -141,7 +141,7 @@
                 {
                  "name":"collide",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {
@@ -276,7 +276,7 @@
                 {
                  "name":"collide",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }]
         }, 
         {

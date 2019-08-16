@@ -184,19 +184,18 @@ export abstract class Explore extends Phaser.Scene {
       if (object.type === "chest") {
         const itemId = object.properties.find(p => p.name === "itemId");
         const id = object.properties.find(p => p.name === "id");
-
         const toAdd = new Chest({
           scene: this,
           x: object.x + 32,
           y: object.y + 32,
           map: this.map,
           properties: {
-            id: id,
+            id: id.value,
             itemId: itemId.value,
             type: "chest"
           }
         });
-        if (sm.isFlagged("chests", id)) {
+        if (sm.isFlagged(id.value)) {
           toAdd.setOpen();
         }
         this.interactive.add(toAdd);
@@ -215,13 +214,12 @@ export abstract class Explore extends Phaser.Scene {
     );
   }
   protected setColliders() {
-    console.log("setting colliders")
     this.physics.add.overlap(
       this.casts,
       this.interactive,
       (cast: Cast, interactive: any) => {
         cast.destroy();
-        console.log(interactive)
+        this.player.stop();
         if (interactive.properties.type === "interactive") {
           this.displayMessage(interactive.properties.message)
         }
@@ -267,7 +265,7 @@ export abstract class Explore extends Phaser.Scene {
   acquiredItemCallback({ itemId, id }) {
     const sm = State.getInstance();
     const item = sm.addItemToContents(itemId);
-    sm.flags.get("chests").setFlag(id, true);
+    sm.setFlag(id, true);
     this.player.controllable.canInput = false;
     this.displayMessage([`Lo got ${item.name}`]);
     setTimeout(() => {

@@ -24,7 +24,6 @@ export class PlayerContents {
   removeItemFromContents(itemToRemove: Item): boolean {
     const toRemoveIdx = this.contents.findIndex(item => item.id === itemToRemove.id);
     const toRemove = this.contents[toRemoveIdx];
-    console.log(itemToRemove, toRemove)
     if (toRemove) {
       if (toRemove.quantity <= 1) {
         this.contents.splice(toRemoveIdx, 1);

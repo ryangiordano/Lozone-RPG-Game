@@ -38,7 +38,7 @@ export class BootScene extends Phaser.Scene {
         // When we get to the point where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.
         const sm = State.getInstance();
         sm.initialize(this.game);
-        sm.addFlagModule("chests");
+        // sm.addFlagModule("chests");
 
         // ===================================
         // Start the scene in Debug Mode

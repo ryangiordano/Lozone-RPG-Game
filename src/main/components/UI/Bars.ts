@@ -49,7 +49,6 @@ export class Bar extends Phaser.GameObjects.Container {
           duration: 300,
           width: fill,
           onCompleteCallback: () => {
-            console.log("Set Bar On Complete Callback")
             resolve();
           }
         });

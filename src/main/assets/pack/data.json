@@ -40,6 +40,11 @@
         "type": "json",
         "key": "classes",
         "url": "./src/main/data/classes.json"
+      },
+      {
+        "type": "json",
+        "key": "flags",
+        "url": "./src/main/data/flags.json"
       }
     ]
   }

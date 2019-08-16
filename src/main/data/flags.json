@@ -1,0 +1,69 @@
+{
+    "1": {
+        "name": "chest 1",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
+    "2": {
+        "name": "chest 2",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
+    "3": {
+        "name": "chest 3",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
+    "4": {
+        "name": "chest 4",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
+    "5": {
+        "name": "chest 5",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
+    "6": {
+        "name": "chest 6",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
+    "9": {
+        "name": "chest 6",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
+    "10": {
+        "name": "chest 6",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
+    "11": {
+        "name": "chest 6",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
+    
+    "7": {
+        "name": "door 1",
+        "description": "Some random door",
+        "type": 1,
+        "flagged": false
+    },
+    "8": {
+        "name": "pick up USB",
+        "description": "Flag for picking up the USB stick",
+        "type": 0,
+        "flagged": false
+    }
+}
