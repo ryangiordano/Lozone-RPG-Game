@@ -83,6 +83,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "key-items",
+        "url": "./src/main/assets/sprites/key-items.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "ryanandlo",
         "url": "./src/main/assets/sprites/ryanandlo.png",
         "frameConfig": {

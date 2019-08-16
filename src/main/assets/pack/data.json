@@ -1,7 +1,6 @@
 {
   "preload": {
-    "files": [
-      {
+    "files": [{
         "type": "json",
         "key": "items",
         "url": "./src/main/data/items.json"

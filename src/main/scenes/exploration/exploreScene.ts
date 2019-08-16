@@ -1,9 +1,8 @@
-import { Chest } from "../../assets/objects/Chest";
+import { Chest, KeyItem } from '../../assets/objects/Entity';
 import { Cast } from "../../assets/objects/Cast";
 import { Player } from "../../assets/objects/Player";
 import { NPC } from "../../assets/objects/NPC";
 import { Interactive } from "../../assets/objects/Interactive";
-import { DialogManager } from "../../components/UI/Dialog";
 import { Directions } from "../../utility/Utility";
 import { Trigger } from "../../assets/objects/Trigger";
 import { State } from "../../utility/state/State";
@@ -57,7 +56,7 @@ export abstract class Explore extends Phaser.Scene {
   protected afterCreated() { }
   protected setEvents() {
     this.input.keyboard.on("keydown-Z", event => {
-      if(this.player.isMoving){
+      if (this.player.isMoving) {
         return false;
       }
       this.scene.setActive(false, this.scene.key);
@@ -200,6 +199,31 @@ export abstract class Explore extends Phaser.Scene {
         }
         this.interactive.add(toAdd);
       }
+
+      if (object.type === "key-item") {
+        const itemId = object.properties.find(p => p.name === "itemId").value;
+        const id = object.properties.find(p => p.name === "id").value;
+        const item = sm.getItem(itemId);
+        if (!sm.isFlagged(id)) {
+          const toAdd = new KeyItem({
+            scene: this,
+            x: object.x + 32,
+            y: object.y + 32,
+            map: this.map,
+            properties: {
+              id: id,
+              itemId: itemId,
+              type: "key-item",
+              spriteKey: item.spriteKey,
+              frame: item.frame
+            }
+          });
+          this.interactive.add(toAdd);
+        }
+
+
+
+      }
     });
 
     this.setupCamera();
@@ -225,6 +249,9 @@ export abstract class Explore extends Phaser.Scene {
         }
         if (interactive.properties.type === "chest") {
           interactive.openChest();
+        }
+        if (interactive.properties.type === "key-item") {
+          interactive.pickup();
         }
       }
     );

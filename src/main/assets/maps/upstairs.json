@@ -365,6 +365,28 @@
                  "width":64,
                  "x":192,
                  "y":192
+                }, 
+                {
+                 "height":64,
+                 "id":31,
+                 "name":"usb",
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"string",
+                         "value":"8"
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":5
+                        }],
+                 "rotation":0,
+                 "type":"key-item",
+                 "visible":true,
+                 "width":64,
+                 "x":0,
+                 "y":320
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -373,7 +395,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":31,
+ "nextobjectid":32,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
@@ -460,7 +482,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -487,7 +509,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -505,7 +527,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -523,7 +545,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -658,7 +680,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {

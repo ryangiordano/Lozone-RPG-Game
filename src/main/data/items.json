@@ -1,29 +1,47 @@
 {
-    "1": {
-      "name": "blueberry",
-      "description": "Delicious blueberry.  Restores 10HP",
-      "effectId": 1,
-      "effectPotency": 1,
-      "spriteKey": "items",
-      "frame": 1,
-      "category": "consumable"
-    },
-    "2": {
-      "name": "tamarind",
-      "description": "A crispy shell hiding sweet fruit.  Restores 30HP",
-      "effectId": 1,
-      "effectPotency": 1.2,
-      "spriteKey": "items",
-      "frame": 3,
-      "category": "consumable"
-    },
-    "3": {
-      "name": "mango",
-      "description": "A rainbow-colored mango.  Restores 100HP",
-      "effectId": 1,
-      "effectPotency": 1.5,
-      "spriteKey": "items",
-      "frame": 3,
-      "category": "consumable"
-    }
+  "1": {
+    "name": "blueberry",
+    "description": "Delicious blueberry.  Restores 10HP",
+    "effectId": 1,
+    "effectPotency": 1,
+    "spriteKey": "items",
+    "frame": 0,
+    "category": "consumable"
+  },
+  "2": {
+    "name": "tamarind",
+    "description": "A crispy shell hiding sweet fruit.  Restores 30HP",
+    "effectId": 1,
+    "effectPotency": 1.2,
+    "spriteKey": "items",
+    "frame": 1,
+    "category": "consumable"
+  },
+  "3": {
+    "name": "mango",
+    "description": "A rainbow-colored mango.  Restores 100HP",
+    "effectId": 1,
+    "effectPotency": 1.5,
+    "spriteKey": "items",
+    "frame": 2,
+    "category": "consumable"
+  },
+  "4": {
+    "name": "hearing-aids",
+    "description": "Devices that aid in hearing.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "key-items",
+    "frame": 1,
+    "category": "key-item"
+  },
+  "5": {
+    "name": "cat-usb",
+    "description": "A mysterious cat-shape USB.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "key-items",
+    "frame": 0,
+    "category": "key-item"
+  }
 }
