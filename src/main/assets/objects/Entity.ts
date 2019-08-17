@@ -11,7 +11,7 @@ export class Entity extends Phaser.GameObjects.Sprite {
     this.currentScene.add.existing(this);
     this.initSprite();
     this.currentTile = this.getTileBelowFoot();
-    this.currentTile.properties["collide"] = true;
+    this.setCollideOnTileBelowFoot(true);
   }
   private initSprite() {
     this.setOrigin(0.5, 0.5);
@@ -21,6 +21,10 @@ export class Entity extends Phaser.GameObjects.Sprite {
   protected getTileBelowFoot() {
     const tile = this.currentMap.getTileAt(Math.floor(this.x / 64), Math.floor(this.y / 64), true, "foreground");
     return tile;
+  }
+
+  protected setCollideOnTileBelowFoot(toCollide: boolean){
+    this.currentTile.properties["collide"] = toCollide;
   }
 }
 
@@ -66,6 +70,7 @@ export class KeyItem extends Entity {
       itemId: this.properties["itemId"],
       id: this.properties["id"]
     });
+    this.setCollideOnTileBelowFoot(false);
     this.destroy();
   }
 }
