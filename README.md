@@ -13,7 +13,9 @@
 
 ## Dev Diary
 Follow development <a href="https://darumadevdiary.home.blog/" target="_blank">here</a>
-
+<div align="center">
+  <img width=50% src="https://p15.tr3.n0.cdn.getcloudapp.com/items/4gu52GyJ/statehearing.gif?v=6cd9aedf7488e627ae571ae4f38dee08">
+</div>
 
 [Phaser](https://github.com/photonstorm/phaser) is a wonderful, fast and
 free open source HTML5 game framework.
