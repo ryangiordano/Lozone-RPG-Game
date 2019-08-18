@@ -1,5 +1,5 @@
 import { ItemRepository } from "../repositories/ItemRepository";
-import { Item } from "../../components/entities/Item";
+import { Item, ItemCategory } from "../../components/entities/Item";
 import { EffectsRepository } from "../repositories/EffectRepository";
 
 export class ItemController {
@@ -12,6 +12,7 @@ export class ItemController {
   getItem(id): Item {
     const item = this.itemRepository.getById(id);
     const effect = item.effectId && this.effectsRepository.getById(item.effectId);
+    const itemCategory = ItemCategory[item.category]
     return new Item(
       item.id,
       item.name,
@@ -20,7 +21,7 @@ export class ItemController {
       item.effectPotency,
       item.spriteKey,
       item.frame,
-      item.category,
+      itemCategory,
       1
     );
   }

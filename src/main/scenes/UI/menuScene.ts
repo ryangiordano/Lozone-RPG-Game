@@ -1,7 +1,7 @@
 import { UserInterface } from "../../components/UI/UserInterface";
 import { State } from "../../utility/state/State";
 import { UIPanel, PanelContainer } from '../../components/UI/PanelContainer';
-import { Item } from "../../components/entities/Item";
+import { Item, ItemCategory } from "../../components/entities/Item";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 import { TextFactory } from '../../utility/TextFactory';
@@ -230,10 +230,11 @@ class ItemPanelContainer extends UIPanel {
 
   addOptionsViaData() {
     this.items.forEach(item => {
-      // Item Options
-      this.addOption(`${item.name} x${item.quantity}`, () => {
-        this.emit("item-selected", item);
-      });
+      if (item.category == ItemCategory.consumable) {
+        this.addOption(`${item.name} x${item.quantity}`, () => {
+          this.emit("item-selected", item);
+        });
+      }
     });
     this.addOption("Cancel", () => {
       this.emit("panel-close");

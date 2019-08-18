@@ -1,5 +1,12 @@
 import { Effect } from "../battle/CombatDataStructures";
 
+export enum ItemCategory {
+  consumable,
+  keyItem,
+  equipment,
+
+}
+
 export interface ItemData {
   id: number | string,
   name: string,
@@ -21,7 +28,7 @@ export class Item {
     public effectPotency: number,
     public spriteKey: string,
     public frame: number,
-    public category: string,
+    public category: ItemCategory,
     public quantity: number = 1) {
   }
   public incrementQuantity() {
