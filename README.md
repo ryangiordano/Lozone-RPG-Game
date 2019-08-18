@@ -9,6 +9,7 @@
 <div align="center" style="display:flex">
   <img width=30% src="https://p15.tr3.n0.cdn.getcloudapp.com/items/4gu52GyJ/statehearing.gif?v=6cd9aedf7488e627ae571ae4f38dee08">
   <img width=30% src="https://darumadevdiaryhome.files.wordpress.com/2019/07/battle.gif?w=1100">
+  <img width=30% src="  https://darumadevdiaryhome.files.wordpress.com/2019/07/happy-birthday.gif?w=1100">
 </div>
 
 # Lozone RPG
