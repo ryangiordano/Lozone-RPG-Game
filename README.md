@@ -7,7 +7,7 @@
   <img width=50% src="https://p72.f4.n0.cdn.getcloudapp.com/items/wbuJeLPy/IMG_0828.jpg">
 </p>
 <div align="center">
-  <img width=20% src="https://p15.tr3.n0.cdn.getcloudapp.com/items/4gu52GyJ/statehearing.gif?v=6cd9aedf7488e627ae571ae4f38dee08">
+  <img width=30% src="https://p15.tr3.n0.cdn.getcloudapp.com/items/4gu52GyJ/statehearing.gif?v=6cd9aedf7488e627ae571ae4f38dee08">
 </div>
 
 # Lozone RPG
