@@ -8,7 +8,7 @@ export class FlagController {
 
     }
     getAllFlags() {
-        return this.flagRepository.getAll();
+        return this.flagRepository.getAllAsMap();
     }
 
     getFlagById(id: number) {

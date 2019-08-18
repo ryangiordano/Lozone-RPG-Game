@@ -53,7 +53,6 @@
         "type": 0,
         "flagged": false
     },
-    
     "7": {
         "name": "door 1",
         "description": "Some random door",
@@ -62,6 +61,12 @@
     },
     "8": {
         "name": "pick up USB",
+        "description": "Flag for picking up the USB stick",
+        "type": 0,
+        "flagged": false
+    },
+    "12": {
+        "name": "Lo has hearing aids",
         "description": "Flag for picking up the USB stick",
         "type": 0,
         "flagged": false

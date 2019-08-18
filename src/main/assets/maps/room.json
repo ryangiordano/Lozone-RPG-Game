@@ -200,24 +200,9 @@
                  "name":"ryan",
                  "properties":[
                         {
-                         "name":"dialogId",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"Hello my dear wife.  I'm currently working on your anniversary present.  Would you please make me a sandwich?"
-                        }, 
-                        {
                          "name":"npcId",
                          "type":"int",
                          "value":1
-                        }, 
-                        {
-                         "name":"sprite-key",
-                         "type":"string",
-                         "value":"ryan"
                         }],
                  "rotation":0,
                  "type":"npc",
@@ -370,28 +355,6 @@
                 }, 
                 {
                  "height":64,
-                 "id":23,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"dialogId",
-                         "type":"int",
-                         "value":9
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"The table is scuffed, with deep scratches and water stains layered on top."
-                        }],
-                 "rotation":0,
-                 "type":"interactive",
-                 "visible":true,
-                 "width":64,
-                 "x":192,
-                 "y":512
-                }, 
-                {
-                 "height":64,
                  "id":24,
                  "name":"",
                  "properties":[
@@ -500,6 +463,28 @@
                  "width":0,
                  "x":-64,
                  "y":64
+                }, 
+                {
+                 "height":64,
+                 "id":32,
+                 "name":"hearing-aids",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"string",
+                         "value":"12"
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":4
+                        }],
+                 "rotation":0,
+                 "type":"key-item",
+                 "visible":true,
+                 "width":64,
+                 "x":192,
+                 "y":512
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -508,7 +493,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":32,
+ "nextobjectid":33,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.2.3",
@@ -793,7 +778,7 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {

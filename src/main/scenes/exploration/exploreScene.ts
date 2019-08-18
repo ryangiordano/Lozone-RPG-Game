@@ -3,7 +3,7 @@ import { Cast } from "../../assets/objects/Cast";
 import { Player } from "../../assets/objects/Player";
 import { NPC } from "../../assets/objects/NPC";
 import { Interactive } from "../../assets/objects/Interactive";
-import { Directions } from "../../utility/Utility";
+import { Directions, wait } from "../../utility/Utility";
 import { Trigger } from "../../assets/objects/Trigger";
 import { State } from "../../utility/state/State";
 import { KeyboardControl } from "../../components/UI/Keyboard";
@@ -34,6 +34,7 @@ export abstract class Explore extends Phaser.Scene {
       this.warpId = warpId;
     }
     this.afterInit(data);
+    console.log(State.getInstance())
   }
   protected abstract afterInit(data);
   preload(): void {
@@ -41,6 +42,7 @@ export abstract class Explore extends Phaser.Scene {
     this.sound.add("bump");
     this.sound.add("beep");
     this.sound.add("chest");
+    this.sound.add("get-key-item");
   }
   create(): void {
     this.setGroups();
@@ -161,25 +163,30 @@ export abstract class Explore extends Phaser.Scene {
           );
         }
       }
+      //TODO: Query NPC from the DB and populate that way.;
+      // ===================================
+      // Handle placing the NPC
+      // ===================================
       if (object.type === "npc") {
-        const id = object.properties.find(p => p.name === "dialogId").value;
-        const message = sm.dialogController.getDialogById(id);
-        const key = object.properties.find(p => p.name === "sprite-key");
-        this.interactive.add(
-          new NPC(
-            {
-              scene: this,
-              x: object.x + 32,
-              y: object.y + 32,
-              key: key.value,
-              map: this.map,
-              casts: this.casts
-            },
-            message && message.content,
-            Directions.up
-          )
-        );
+        const id = object.properties.find(p => p.name === "npcId").value;
+        const npc = sm.npcController.getNPCById(id)
+        const npcObject = new NPC(
+          {
+            scene: this,
+            x: object.x + 32,
+            y: object.y + 32,
+            key: npc.spriteKey,
+            map: this.map,
+            casts: this.casts
+          },
+          Directions.up,
+          npc.dialog
+        )
+        this.interactive.add(npcObject);
       }
+      // ===================================
+      // Handle placing the chest
+      // ===================================
       if (object.type === "chest") {
         const itemId = object.properties.find(p => p.name === "itemId");
         const id = object.properties.find(p => p.name === "id");
@@ -200,9 +207,12 @@ export abstract class Explore extends Phaser.Scene {
         this.interactive.add(toAdd);
       }
 
+      // ===================================
+      // Handle placing key item
+      // ===================================
       if (object.type === "key-item") {
         const itemId = object.properties.find(p => p.name === "itemId").value;
-        const id = object.properties.find(p => p.name === "id").value;
+        const id = object.properties.find(p => p.name === "flagId").value;
         const item = sm.getItem(itemId);
         if (!sm.isFlagged(id)) {
           const toAdd = new KeyItem({
@@ -220,9 +230,6 @@ export abstract class Explore extends Phaser.Scene {
           });
           this.interactive.add(toAdd);
         }
-
-
-
       }
     });
 
@@ -244,6 +251,10 @@ export abstract class Explore extends Phaser.Scene {
       (cast: Cast, interactive: any) => {
         cast.destroy();
         this.player.stop();
+        if(interactive.properties.type === "npc") {
+          this.displayMessage(interactive.getCurrentDialog())
+
+        }
         if (interactive.properties.type === "interactive") {
           this.displayMessage(interactive.properties.message)
         }
@@ -289,15 +300,18 @@ export abstract class Explore extends Phaser.Scene {
     this.foregroundLayer.setName("foreground");
   }
 
-  acquiredItemCallback({ itemId, id }) {
+  async acquiredItemCallback({ itemId, id, isKeyItem}) {
     const sm = State.getInstance();
     const item = sm.addItemToContents(itemId);
     sm.setFlag(id, true);
     this.player.controllable.canInput = false;
     this.displayMessage([`Lo got ${item.name}`]);
-    setTimeout(() => {
-      this.player.controllable.canInput = true;
-    }, 300);
+    if(isKeyItem){
+      this.sound.play("get-key-item", { volume: 0.1 });
+      await wait(3000)
+    }
+    await wait(300)
+    this.player.controllable.canInput = true;
   }
 
   /**

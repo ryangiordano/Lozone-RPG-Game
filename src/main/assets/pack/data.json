@@ -44,6 +44,11 @@
         "type": "json",
         "key": "flags",
         "url": "./src/main/data/flags.json"
+      },
+      {
+        "type": "json",
+        "key": "npc",
+        "url": "./src/main/data/npc.json"
       }
     ]
   }

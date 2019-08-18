@@ -45,6 +45,21 @@
         "type": "audio",
         "key": "dead",
         "url": "./src/main/assets/sounds/dead.wav"
+      },
+      {
+        "type": "audio",
+        "key": "get-key-item",
+        "url": "./src/main/assets/sounds/get-key-item.wav"
+      },
+      {
+        "type": "audio",
+        "key": "level-up",
+        "url": "./src/main/assets/sounds/level-up.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "battle-win",
+        "url": "./src/main/assets/sounds/battle-win.mp3"
       }
     ]
   }

@@ -68,7 +68,8 @@ export class KeyItem extends Entity {
   public pickup() {
     this.currentScene.events.emit("item-acquired", {
       itemId: this.properties["itemId"],
-      id: this.properties["id"]
+      id: this.properties["id"],
+      isKeyItem: true
     });
     this.setCollideOnTileBelowFoot(false);
     this.destroy();

@@ -4,6 +4,7 @@ import { Flag } from "./FlagModule";
 import { PlayerContents } from "./PlayerContents";
 import { HeroParty } from "../../components/battle/Party";
 import { FlagController } from '../../data/controllers/FlagController';
+import { NPCController } from '../../data/controllers/NPCController';
 
 export class State {
   /**
@@ -12,10 +13,11 @@ export class State {
    */
   private static instance: State;
   private game: Phaser.Game;
-  public flags: Flag[];
+  public flags: Map<string, Flag>;
   public flagController: FlagController;
   public itemController: ItemController;
   public dialogController: DialogController;
+  public npcController: NPCController;
   public playerContents: PlayerContents;
   private party: HeroParty;
   private constructor() { }
@@ -64,6 +66,7 @@ export class State {
     this.itemController = new ItemController(this.game);
     this.dialogController = new DialogController(this.game);
     this.flagController = new FlagController(this.game);
+    this.npcController = new NPCController(this.game);
     this.playerContents = new PlayerContents();
 
     this.flags = this.flagController.getAllFlags();
@@ -71,12 +74,15 @@ export class State {
   }
 
   public isFlagged(id: number) {
-    return this.flags[id] && this.flags[id].flagged;
+    return this.flags.get(`${id}`) && this.flags.get(`${id}`).flagged;
+  }
+  public allAreFlagged(ids: number[]) {
+    return ids.every(id => this.isFlagged(id));
   }
   public setFlag(id: number, flagged: boolean) {
-    if (!this.flags[id]) {
+    if (!this.flags.get(`${id}`)) {
       throw new Error(`Flag with ${id} does not exist`);
     }
-    return this.flags[id].flagged = flagged;
+    return this.flags.get(`${id}`).flagged = flagged;
   }
 }

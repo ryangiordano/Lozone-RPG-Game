@@ -19,4 +19,10 @@ export abstract class Repository<T> {
       return entries;
     }
   }
+  public getAllAsMap(): Map<string, T> {
+    const database = this.getAll();
+    const dataMap: Map<string, T> = new Map();
+    database.forEach(data=>dataMap.set(data['id'], data))
+    return dataMap;
+  }
 }

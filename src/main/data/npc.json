@@ -1,0 +1,26 @@
+{
+    "1": {
+        "name": "Ryan",
+        "spriteKey": "ryan",
+        "description": "This is the npc that lives in `room`.  He's hacking away at the computer.  He's part of a small quest-line to get Lo's hearing aids and USB.",
+        "dialog": [{
+                "id": 25,
+                "flags": [],
+                "default": true
+            },
+            {
+                "id": 26,
+                "flags": [12],
+                "default": false
+            },
+            {
+                "id": 27,
+                "flags": [12, 8],
+                "default": false
+            }
+        ],
+        "x": 0,
+        "y": 0
+
+    }
+}
