@@ -31,6 +31,12 @@ export class MenuScene extends Phaser.Scene {
       this.UI.showPanel(itemPanel).focusPanel(itemPanel);
     }
     );
+
+    mainPanel.on("key-items-selected", () => {
+      keyItemPanel.refreshPanel();
+      this.UI.showPanel(keyItemPanel).focusPanel(keyItemPanel);
+    }
+    );
     mainPanel.on("party-selected", () =>
       this.startPartyMenuScene({ type: PartyMenuTypes.statusCheck, entity: null })
     );
@@ -57,6 +63,11 @@ export class MenuScene extends Phaser.Scene {
       // open the party panel
       this.openPartyPanel(item);
     });
+
+    // ===================================
+    // Key Item Panel
+    // ===================================
+    const keyItemPanel = this.createKeyItemPanel();
     // ===================================
     // Coin panel
     // ===================================
@@ -68,13 +79,16 @@ export class MenuScene extends Phaser.Scene {
     this.setKeyboardEventListeners();
     this.UI.initialize();
   }
+
   private openPartyPanel(item) {
     this.startPartyMenuScene({ type: PartyMenuTypes.itemUse, entity: item })
   }
+
   private closeMenuScene() {
     this.scene.setActive(true, this.callingSceneKey);
     this.scene.stop();
   }
+
   private createMainPanel() {
     const mainPanel = this.UI.createUIPanel({ x: 4, y: 5 }, { x: 0, y: 0 });
     mainPanel
@@ -90,23 +104,70 @@ export class MenuScene extends Phaser.Scene {
       .addOption("Cancel", () => this.closeMenuScene());
     return mainPanel;
   }
+
   private createItemPanel() {
     const itemPanel = new ItemPanelContainer(
-      { x: 6, y: 9 },
+      { x: 6, y: 6 },
       { x: 4, y: 0 },
       "dialog-white",
       this,
-      this.state.getItemsOnPlayer()
+      this.state.getItemsOnPlayer(),
+      ItemCategory.consumable
     );
+    
     this.UI.addPanel(itemPanel);
+
     itemPanel.on("item-selected", item => {
       itemPanel.emit("show-and-focus-confirm-panel", item);
     });
+
+    itemPanel.on("item-focused", item => {
+      itemPanel.updateDisplay(item);
+    });
+
+    const itemDetailPanel = new PanelContainer(
+      { x: 6, y: 3 },
+      { x: 4, y: 6 },
+      "dialog-white",
+      this
+    );
+    itemPanel.addChildPanel('item-detail', itemDetailPanel);
     itemPanel.on("panel-close", () => {
       this.UI.closePanel(itemPanel);
     });
     return itemPanel;
   }
+
+  private createKeyItemPanel() {
+    const keyItemPanel = new ItemPanelContainer(
+      { x: 6, y: 6 },
+      { x: 4, y: 0 },
+      "dialog-white",
+      this,
+      this.state.getItemsOnPlayer(),
+      ItemCategory.keyItem
+    );
+    const itemDetailPanel = new PanelContainer(
+      { x: 6, y: 3 },
+      { x: 4, y: 6 },
+      "dialog-white",
+      this
+    );
+
+    keyItemPanel.on("item-focused", item => {
+      keyItemPanel.updateDisplay(item);
+    });
+
+    keyItemPanel.addChildPanel('item-detail', itemDetailPanel);
+    this.UI.addPanel(keyItemPanel);
+
+    keyItemPanel.on("panel-close", () => {
+      this.UI.closePanel(keyItemPanel);
+    });
+
+    return keyItemPanel;
+  }
+
   private createCoinPanel() {
     const coinPanel = new PanelContainer(
       { x: 4, y: 1 },
@@ -123,6 +184,7 @@ export class MenuScene extends Phaser.Scene {
     coin.anims.play('spin');
 
   }
+
   private createItemConfirmPanel() {
     // Add item use confirmation panel.
     const itemConfirmPanel = new ConfirmItemPanelContainer(
@@ -169,9 +231,11 @@ export class MenuScene extends Phaser.Scene {
       });
     return dungeonPanel;
   }
+
   private setEventListeners() {
     this.events.once("close", () => this.closeMenuScene());
   }
+
   private setKeyboardEventListeners() {
     this.input.keyboard.on("keydown", event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
@@ -179,6 +243,7 @@ export class MenuScene extends Phaser.Scene {
       }
     });
   }
+
   private startPartyMenuScene(config: PartyMenuConfig) {
     const partyMenuScene = this.scene.get("PartyMenuScene");
     const scenePlugin = new Phaser.Scenes.ScenePlugin(partyMenuScene);
@@ -218,7 +283,8 @@ class ItemPanelContainer extends UIPanel {
     pos: Coords,
     spriteKey: string,
     scene: Phaser.Scene,
-    private items: Item[]
+    private items: Item[],
+    private itemCategory: ItemCategory
   ) {
     super(dimensions, pos, spriteKey, scene);
     this.addOptionsViaData();
@@ -230,15 +296,44 @@ class ItemPanelContainer extends UIPanel {
 
   addOptionsViaData() {
     this.items.forEach(item => {
-      if (item.category == ItemCategory.consumable) {
-        this.addOption(`${item.name} x${item.quantity}`, () => {
-          this.emit("item-selected", item);
+      const displayItem = item.category == this.itemCategory;
+      const consumable = this.itemCategory == ItemCategory.consumable;
+      if (displayItem) {
+        const quantity = consumable ? `x${item.quantity}` : '';
+        this.addOption(`${item.name} ${quantity}`, () => {
+          consumable && this.emit("item-selected", item);
+        }, () => {
+          this.emit("item-focused", item);
         });
+
       }
     });
     this.addOption("Cancel", () => {
       this.emit("panel-close");
+    }, () => {
+      console.log("Focused cancel?")
+      this.emit("item-focused", null);
     });
+  }
+
+  public updateDisplay(item) {
+    console.log("Update display", item)
+    const container = this.childPanels.get('item-detail');
+    container.clearPanelContainerByTypes(['Text', 'Sprite']);
+    if (!item) return;
+    const textFactory = new TextFactory(this.scene);
+    const { description, frame, spriteKey } = item;
+    const textDescription = textFactory.createText(description, { x: 30, y: 90 }, '18px', {
+      wordWrap: {
+        width: (this.panel.width / 4.5) * 4,
+        useAdvancedWrap: true
+      }
+    })
+    const sprite = new Phaser.GameObjects.Sprite(this.scene, 50, 50, spriteKey)
+    sprite.setFrame(frame);
+
+    container.add(textDescription);
+    container.add(sprite);
   }
 
   public refreshPanel() {

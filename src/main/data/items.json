@@ -1,7 +1,7 @@
 {
   "1": {
     "name": "blueberry",
-    "description": "Delicious blueberry.  Restores 10HP",
+    "description": "Delicious blueberry.  Restores a small amount of HP.",
     "effectId": 1,
     "effectPotency": 1,
     "spriteKey": "items",
@@ -10,7 +10,7 @@
   },
   "2": {
     "name": "tamarind",
-    "description": "A crispy shell hiding sweet fruit.  Restores 30HP",
+    "description": "A crispy shell hiding sweet fruit.  Restores a moderate amount of HP",
     "effectId": 1,
     "effectPotency": 1.2,
     "spriteKey": "items",
@@ -19,7 +19,7 @@
   },
   "3": {
     "name": "mango",
-    "description": "A rainbow-colored mango.  Restores 100HP",
+    "description": "A rainbow-colored mango.  Restores a large amount of HP.",
     "effectId": 1,
     "effectPotency": 1.5,
     "spriteKey": "items",
@@ -27,21 +27,21 @@
     "category": "consumable"
   },
   "4": {
-    "name": "hearing-aids",
+    "name": "Hearing Aids",
     "description": "Devices that aid in hearing.",
     "effectId": null,
     "effectPotency": null,
     "spriteKey": "key-items",
     "frame": 1,
-    "category": "key-item"
+    "category": "keyItem"
   },
   "5": {
-    "name": "cat-usb",
+    "name": "Cat USB",
     "description": "A mysterious cat-shape USB.",
     "effectId": null,
     "effectPotency": null,
     "spriteKey": "key-items",
     "frame": 0,
-    "category": "key-item"
+    "category": "keyItem"
   }
 }

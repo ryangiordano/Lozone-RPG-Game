@@ -17,7 +17,7 @@ export class NPC extends Moveable {
 
   private getCurrentDialog() {
     const sm = State.getInstance()
-    // flastlists should work by getting the most recent flag in the list
+    // flags should work by getting the most recent flag in the list
     // that resolves to true.
     const dialog = this.dialog.reduce((acc, dialog) => {
       if (sm.allAreFlagged(dialog.flags)) {
