@@ -6,14 +6,17 @@
 <p align="center">
   <img width=50% src="https://p72.f4.n0.cdn.getcloudapp.com/items/wbuJeLPy/IMG_0828.jpg">
 </p>
-
+<div align="center" style="display:flex">
+  <img width=30% src="https://p15.tr3.n0.cdn.getcloudapp.com/items/4gu52GyJ/statehearing.gif?v=6cd9aedf7488e627ae571ae4f38dee08">
+  <img width=30% src="https://darumadevdiaryhome.files.wordpress.com/2019/07/battle.gif?w=1100">
+  <img width=30% src="https://imgur.com/GCqSNIh">
+</div>
 
 # Lozone RPG
 
 
 ## Dev Diary
 Follow development <a href="https://darumadevdiary.home.blog/" target="_blank">here</a>
-
 
 [Phaser](https://github.com/photonstorm/phaser) is a wonderful, fast and
 free open source HTML5 game framework.
