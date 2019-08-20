@@ -35,6 +35,18 @@
         "type": 0,
         "flagged": false
     },
+    "7": {
+        "name": "chest 6",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
+    "8": {
+        "name": "chest 6",
+        "description": "Chest description",
+        "type": 0,
+        "flagged": false
+    },
     "9": {
         "name": "chest 6",
         "description": "Chest description",
@@ -53,19 +65,97 @@
         "type": 0,
         "flagged": false
     },
-    "7": {
+    "13": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "14": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "15": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "16": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "17": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "18": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "19": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "20": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "21": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "22": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "23": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "24": {
+        "name": "chest",
+        "description": "Some random door",
+        "type": 0,
+        "flagged": false
+    },
+    "800": {
         "name": "door 1",
         "description": "Some random door",
         "type": 1,
         "flagged": false
     },
-    "8": {
+    "801": {
+        "name": "door 2",
+        "description": "Some random door",
+        "type": 1,
+        "flagged": false
+    },
+    "500": {
         "name": "pick up USB",
         "description": "Flag for picking up the USB stick",
         "type": 0,
         "flagged": false
     },
-    "12": {
+    "501": {
         "name": "Lo has hearing aids",
         "description": "Flag for picking up the USB stick",
         "type": 0,

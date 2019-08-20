@@ -271,9 +271,19 @@
                          "value":"upstairs"
                         }, 
                         {
+                         "name":"scene",
+                         "type":"string",
+                         "value":"House"
+                        }, 
+                        {
                          "name":"tileset",
                          "type":"string",
                          "value":"room-tiles"
+                        }, 
+                        {
+                         "name":"warpDestId",
+                         "type":"int",
+                         "value":2
                         }, 
                         {
                          "name":"warpId",
@@ -403,7 +413,7 @@
                  "name":"chest",
                  "properties":[
                         {
-                         "name":"id",
+                         "name":"flagId",
                          "type":"int",
                          "value":1
                         }, 
@@ -452,17 +462,6 @@
                  "width":64,
                  "x":256,
                  "y":0
-                }, 
-                {
-                 "height":0,
-                 "id":31,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":-64,
-                 "y":64
                 }, 
                 {
                  "height":64,

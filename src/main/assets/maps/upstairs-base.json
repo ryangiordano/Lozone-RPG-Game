@@ -176,14 +176,24 @@
                          "value":"room"
                         }, 
                         {
+                         "name":"scene",
+                         "type":"string",
+                         "value":"House"
+                        }, 
+                        {
                          "name":"tileset",
                          "type":"string",
                          "value":"room-tiles"
                         }, 
                         {
-                         "name":"warpId",
+                         "name":"warpDestId",
                          "type":"int",
                          "value":1
+                        }, 
+                        {
+                         "name":"warpId",
+                         "type":"int",
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"trigger",
@@ -306,7 +316,7 @@
                  "name":"chest",
                  "properties":[
                         {
-                         "name":"id",
+                         "name":"flagId",
                          "type":"int",
                          "value":2
                         }, 
@@ -328,7 +338,7 @@
                  "name":"chest",
                  "properties":[
                         {
-                         "name":"id",
+                         "name":"flagId",
                          "type":"int",
                          "value":4
                         }, 
@@ -350,7 +360,7 @@
                  "name":"chest",
                  "properties":[
                         {
-                         "name":"id",
+                         "name":"flagId",
                          "type":"int",
                          "value":3
                         }, 
@@ -387,6 +397,43 @@
                  "width":64,
                  "x":0,
                  "y":320
+                }, 
+                {
+                 "height":64,
+                 "id":32,
+                 "name":"to-dungeon",
+                 "properties":[
+                        {
+                         "name":"map",
+                         "type":"string",
+                         "value":"dungeon_1"
+                        }, 
+                        {
+                         "name":"scene",
+                         "type":"string",
+                         "value":"Dungeon"
+                        }, 
+                        {
+                         "name":"tileset",
+                         "type":"string",
+                         "value":"dungeon"
+                        }, 
+                        {
+                         "name":"warpDestId",
+                         "type":"int",
+                         "value":4
+                        }, 
+                        {
+                         "name":"warpId",
+                         "type":"int",
+                         "value":3
+                        }],
+                 "rotation":0,
+                 "type":"trigger",
+                 "visible":true,
+                 "width":64,
+                 "x":256,
+                 "y":128
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -395,7 +442,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":32,
+ "nextobjectid":33,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",

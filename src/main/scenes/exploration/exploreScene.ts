@@ -20,6 +20,7 @@ export abstract class Explore extends Phaser.Scene {
   protected player: Player;
   protected playerIsMoving: boolean = false;
   private warpId: number;
+  private warpDestId: number;
   constructor(key) {
     super({
       key: key || "Explore"
@@ -27,14 +28,16 @@ export abstract class Explore extends Phaser.Scene {
   }
   init(data) {
     // Specify the tileset you want to use based on the data passed to the scene.
-    const { map, tileset, warpId } = data;
+    const { map, tileset, warpId, warpDestId } = data;
     this.map = this.make.tilemap({ key: map });
     this.tileset = this.map.addTilesetImage(tileset, tileset, 64, 64, 0, 0, 1);
     if (warpId) {
       this.warpId = warpId;
     }
+    if (warpDestId) {
+      this.warpDestId = warpDestId;
+    }
     this.afterInit(data);
-    console.log(State.getInstance())
   }
   protected abstract afterInit(data);
   preload(): void {
@@ -89,10 +92,10 @@ export abstract class Explore extends Phaser.Scene {
     // TODO: Make this its own abstraction (spawning)
     // Work through this here.
     let spawn;
-    if (this.warpId) {
+    if (this.warpDestId) {
       spawn = objects.find(o =>
         o.type === "trigger" &&
-        o.properties.find(p => p.name === "warpId").value === this.warpId
+        o.properties.find(p => p.name === "warpId").value === this.warpDestId
       );
     }
     if (!spawn) {
@@ -130,7 +133,7 @@ export abstract class Explore extends Phaser.Scene {
         );
       }
       if (object.type === "trigger") {
-        const { map, warpId, tileset } = object.properties.reduce((acc, i) => {
+        const { map, warpId, tileset, warpDestId, scene } = object.properties.reduce((acc, i) => {
           acc[i.name] = i.value;
           return acc;
         }, {});
@@ -144,8 +147,10 @@ export abstract class Explore extends Phaser.Scene {
               properties: {
                 type: object.type,
                 map,
+                scene,
                 tileset,
-                warpId
+                warpId,
+                warpDestId
               }
             })
           );
@@ -189,7 +194,7 @@ export abstract class Explore extends Phaser.Scene {
       // ===================================
       if (object.type === "chest") {
         const itemId = object.properties.find(p => p.name === "itemId");
-        const id = object.properties.find(p => p.name === "id");
+        const id = object.properties.find(p => p.name === "flagId");
         const toAdd = new Chest({
           scene: this,
           x: object.x + 32,
@@ -251,7 +256,7 @@ export abstract class Explore extends Phaser.Scene {
       (cast: Cast, interactive: any) => {
         cast.destroy();
         this.player.stop();
-        if(interactive.properties.type === "npc") {
+        if (interactive.properties.type === "npc") {
           this.displayMessage(interactive.getCurrentDialog())
 
         }
@@ -267,6 +272,10 @@ export abstract class Explore extends Phaser.Scene {
       }
     );
 
+
+    // ===================================
+    // Handle Warping
+    // ===================================
     this.physics.add.overlap(
       this.casts,
       this.triggers,
@@ -277,10 +286,17 @@ export abstract class Explore extends Phaser.Scene {
             // Because we're starting up the same scene, different map,
             // We have to unsubscribe from events in the current scene.
             this.events.off("item-acquired", this.acquiredItemCallback);
-            this.scene.start("House", {
+            //TODO: Currently this is implemented via inline data in Tiled;
+            // Ideally we would have warp objects retrieved from the database via ID.
+            // We're going to pass in a temp enemy party if it's a dungeon.
+            //  I want this also to be tied to a database of warps.
+            const enemyPartyIds = trigger.properties.scene === "Dungeon" ? [13, 1, 2, 3, 4, 5] : []
+            this.scene.start(trigger.properties.scene, {
               map: trigger.properties.map, // room
               tileset: trigger.properties.tileset, //room tiles
-              warpId: trigger.properties.warpId
+              warpId: trigger.properties.warpId,
+              warpDestId: trigger.properties.warpDestId,
+              enemyPartyIds
             });
           }
         }
@@ -300,13 +316,13 @@ export abstract class Explore extends Phaser.Scene {
     this.foregroundLayer.setName("foreground");
   }
 
-  async acquiredItemCallback({ itemId, id, isKeyItem}) {
+  async acquiredItemCallback({ itemId, id, isKeyItem }) {
     const sm = State.getInstance();
     const item = sm.addItemToContents(itemId);
     sm.setFlag(id, true);
     this.player.controllable.canInput = false;
     this.displayMessage([`Lo got ${item.name}`]);
-    if(isKeyItem){
+    if (isKeyItem) {
       this.sound.play("get-key-item", { volume: 0.1 });
       await wait(3000)
     }

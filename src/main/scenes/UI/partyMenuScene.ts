@@ -210,11 +210,11 @@ class PartyMessagePanel extends PanelContainer {
     super(dimensions, position, 'dialog-white', scene);
     this.showPanel();
     State.getInstance().addItemToContents(3);
-    this.clearPanelContainerByType('text');
+    this.clearPanelContainerByType('Text');
   }
 
   public populateStatsPanel(member: PartyMember) {
-    this.clearPanelContainerByType('text')
+    this.clearPanelContainerByType('Text')
     // Name, level, hp mp xp to next level, 
     // str, sta, dex, int, wis, 
     //class
@@ -252,7 +252,7 @@ class PartyMessagePanel extends PanelContainer {
    * @param message
    */
   public displayMessage(message: string) {
-    this.currentText && this.clearPanelContainerByType('text');
+    this.currentText && this.clearPanelContainerByType('Text');
     this.currentText = this.scene.add.text(
       this.panel.x + 20,
       this.panel.y + 20,
