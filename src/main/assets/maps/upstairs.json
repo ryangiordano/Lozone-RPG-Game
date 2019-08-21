@@ -171,26 +171,6 @@
                  "name":"to-downstairs",
                  "properties":[
                         {
-                         "name":"map",
-                         "type":"string",
-                         "value":"room"
-                        }, 
-                        {
-                         "name":"scene",
-                         "type":"string",
-                         "value":"House"
-                        }, 
-                        {
-                         "name":"tileset",
-                         "type":"string",
-                         "value":"room-tiles"
-                        }, 
-                        {
-                         "name":"warpDestId",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
                          "name":"warpId",
                          "type":"int",
                          "value":2
@@ -403,26 +383,6 @@
                  "id":32,
                  "name":"to-dungeon",
                  "properties":[
-                        {
-                         "name":"map",
-                         "type":"string",
-                         "value":"dungeon_1"
-                        }, 
-                        {
-                         "name":"scene",
-                         "type":"string",
-                         "value":"Dungeon"
-                        }, 
-                        {
-                         "name":"tileset",
-                         "type":"string",
-                         "value":"dungeon"
-                        }, 
-                        {
-                         "name":"warpDestId",
-                         "type":"int",
-                         "value":4
-                        }, 
                         {
                          "name":"warpId",
                          "type":"int",

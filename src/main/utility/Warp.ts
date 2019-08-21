@@ -9,9 +9,13 @@ export class WarpUtility {
         this.warpController = new WarpController(this.scene.game);
     }
 
+    public getWarp(warpId: number) {
+        return this.warpController.getWarpById(warpId);
+    }
+
     public warpTo(warpDestinationId: number) {
-        console.log(warpDestinationId)
-        const { scene, map, tileset, warpId, warpDestId, enemyPartyIds } = this.warpController.getWarpByDestId(warpDestinationId);
+        const { warpId, warpDestId, destinationLocation } = this.warpController.getWarpByDestId(warpDestinationId);
+        const { scene, map, tileset, enemyPartyIds } = destinationLocation;
         this.scene.scene.start(scene, {
             map,
             tileset,

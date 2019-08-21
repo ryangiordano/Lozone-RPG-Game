@@ -266,26 +266,6 @@
                  "name":"to-upstairs",
                  "properties":[
                         {
-                         "name":"map",
-                         "type":"string",
-                         "value":"upstairs"
-                        }, 
-                        {
-                         "name":"scene",
-                         "type":"string",
-                         "value":"House"
-                        }, 
-                        {
-                         "name":"tileset",
-                         "type":"string",
-                         "value":"room-tiles"
-                        }, 
-                        {
-                         "name":"warpDestId",
-                         "type":"int",
-                         "value":2
-                        }, 
-                        {
                          "name":"warpId",
                          "type":"int",
                          "value":1

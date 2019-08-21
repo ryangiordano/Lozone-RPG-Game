@@ -2,81 +2,51 @@
     "1": {
         "description": "Warp from the room to upstairs.",
         "warpDestId": 2,
-        "scene": "House",
-        "tileset": "room-tiles",
-        "map": "upstairs",
-        "enemyPartyIds": null
+        "destinationLocationId": 2
     },
     "2": {
         "description": "Warp from upstairs to the room.",
         "warpDestId": 1,
-        "scene": "House",
-        "tileset": "room-tiles",
-        "map": "room",
-        "enemyPartyIds": null
+        "destinationLocationId": 1
     },
     "3": {
         "description": "Warp from room to dungeon.",
         "warpDestId": 4,
-        "scene": "Dungeon",
-        "tileset": "dungeon",
-        "map": "dungeon_1",
-        "enemyPartyIds": [13, 1, 2, 3, 4, 5]
+        "destinationLocationId": 3
     },
     "4": {
         "description": "Warp from dungeon to upstairs.",
         "warpDestId": 3,
-        "scene": "House",
-        "tileset": "room-tiles",
-        "map": "upstairs",
-        "enemyPartyIds": null
+        "destinationLocationId": 2
     },
     "5": {
         "description": "Warp from dungeon 1 to dungeon boss room 1",
         "warpDestId": 6,
-        "scene": "Dungeon",
-        "tileset": "dungeon",
-        "map": "dungeon_1",
-        "enemyPartyIds": []
+        "destinationLocationId": 6
     },
     "6": {
         "description": "Warp from dungeon boss room 1 to dungeon 1",
         "warpDestId": 5,
-        "scene": "Dungeon",
-        "tileset": "dungeon",
-        "map": "dungeon_1",
-        "enemyPartyIds": [13, 1, 2, 3, 4, 5]
+        "destinationLocationId": 3
     },
     "7": {
         "description": "Warp from dungeon boss room 1 to dungeon floor 2",
         "warpDestId": 8,
-        "scene": "Dungeon",
-        "tileset": "dungeon",
-        "map": "dungeon_1",
-        "enemyPartyIds": [6, 7, 8, 9, 10]
+        "destinationLocationId": 5
     },
     "8": {
         "description": "Warp from dungeon floor 2 to dungeon boss room 1",
         "warpDestId": 7,
-        "scene": "Dungeon",
-        "tileset": "dungeon",
-        "map": "dungeon_1",
-        "enemyPartyIds": []
+        "destinationLocationId": 6
     },
     "9": {
         "description": "Warp from dungeon floor 2 to dungeon boss room 2",
         "warpDestId": 10,
-        "scene": "Dungeon",
-        "tileset": "dungeon",
-        "map": "dungeon_1",
-        "enemyPartyIds": [13, 1, 2, 3, 4, 5]
+        "destinationLocationId": 6
     },
     "10": {
         "description": "Warp from dungeon boss room 2 to dungeon 2",
         "warpDestId": 9,
-        "scene": "Dungeon",
-        "tileset": "dungeon",
-        "map": "dungeon_1",
-        "enemyPartyIds": [6, 7, 8, 9, 10]
+        "destinationLocationId": 5
     }
 }

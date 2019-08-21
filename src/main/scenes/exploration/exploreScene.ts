@@ -29,7 +29,7 @@ export abstract class Explore extends Phaser.Scene {
   }
   init(data) {
     // Specify the tileset you want to use based on the data passed to the scene.
-    const { map, tileset, warpId, warpDestId } = data;
+    const { map, tileset, warpDestId } = data;
     this.map = this.make.tilemap({ key: map });
     this.tileset = this.map.addTilesetImage(tileset, tileset, 64, 64, 0, 0, 1);
     if (warpDestId) {
@@ -132,12 +132,13 @@ export abstract class Explore extends Phaser.Scene {
         );
       }
       if (object.type === "trigger") {
-        const { map, warpId, tileset, warpDestId, scene } = object.properties.reduce((acc, i) => {
+        const { warpId } = object.properties.reduce((acc, i) => {
           acc[i.name] = i.value;
           return acc;
         }, {});
 
-        if (map && warpId && tileset) {
+
+        if (warpId) {
           this.triggers.add(
             new Trigger({
               scene: this,
@@ -145,11 +146,7 @@ export abstract class Explore extends Phaser.Scene {
               y: object.y + 32,
               properties: {
                 type: object.type,
-                map,
-                scene,
-                tileset,
                 warpId,
-                warpDestId
               }
             })
           );
@@ -280,25 +277,19 @@ export abstract class Explore extends Phaser.Scene {
       this.triggers,
       (cast: Cast, trigger: any) => {
         cast.destroy();
-        if (trigger.properties.type === "trigger") {
-          if (trigger.properties.warpId && trigger.properties.map) {
-            // Because we're starting up the same scene, different map,
-            // We have to unsubscribe from events in the current scene.
-            this.events.off("item-acquired", this.acquiredItemCallback);
-            //TODO: Currently this is implemented via inline data in Tiled;
-            // Ideally we would have warp objects retrieved from the database via ID.
-            // We're going to pass in a temp enemy party if it's a dungeon.
-            //  I want this also to be tied to a database of warps.
-            this.warpUtility.warpTo(trigger.properties.warpDestId)
+        console.log(trigger)
+        if (trigger.properties.type === "trigger" && trigger.properties.warpId) {
+          this.events.off("item-acquired", this.acquiredItemCallback);
+          const warp = this.warpUtility.getWarp(trigger.properties.warpId)
+          this.warpUtility.warpTo(warp.warpDestId);
 
-            // this.scene.start(trigger.properties.scene, {
-            //   map: trigger.properties.map, // room
-            //   tileset: trigger.properties.tileset, //room tiles
-            //   warpId: trigger.properties.warpId,
-            //   warpDestId: trigger.properties.warpDestId,
-            //   enemyPartyIds
-            // });
-          }
+          // this.scene.start(trigger.properties.scene, {
+          //   map: trigger.properties.map, // room
+          //   tileset: trigger.properties.tileset, //room tiles
+          //   warpId: trigger.properties.warpId,
+          //   warpDestId: trigger.properties.warpDestId,
+          //   enemyPartyIds
+          // });
         }
       }
     );

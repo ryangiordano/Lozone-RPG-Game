@@ -54,6 +54,11 @@
         "type": "json",
         "key": "warps",
         "url": "./src/main/data/warps.json"
+      },
+      {
+        "type": "json",
+        "key": "locations",
+        "url": "./src/main/data/locations.json"
       }
     ]
   }

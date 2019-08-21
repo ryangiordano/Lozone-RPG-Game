@@ -404,26 +404,6 @@
                  "name":"down",
                  "properties":[
                         {
-                         "name":"map",
-                         "type":"string",
-                         "value":"dungeon_1"
-                        }, 
-                        {
-                         "name":"scene",
-                         "type":"string",
-                         "value":"Dungeon"
-                        }, 
-                        {
-                         "name":"tileset",
-                         "type":"string",
-                         "value":"dungeon"
-                        }, 
-                        {
-                         "name":"warpDestId",
-                         "type":"int",
-                         "value":6
-                        }, 
-                        {
                          "name":"warpId",
                          "type":"int",
                          "value":5
@@ -452,26 +432,6 @@
                  "name":"down",
                  "properties":[
                         {
-                         "name":"map",
-                         "type":"string",
-                         "value":"dungeon_2"
-                        }, 
-                        {
-                         "name":"scene",
-                         "type":"string",
-                         "value":"Dungeon"
-                        }, 
-                        {
-                         "name":"tileset",
-                         "type":"string",
-                         "value":"dungeon-tiles"
-                        }, 
-                        {
-                         "name":"warpDestId",
-                         "type":"int",
-                         "value":8
-                        }, 
-                        {
                          "name":"warpId",
                          "type":"int",
                          "value":7
@@ -488,26 +448,6 @@
                  "id":32,
                  "name":"up",
                  "properties":[
-                        {
-                         "name":"map",
-                         "type":"string",
-                         "value":"dungeon_1"
-                        }, 
-                        {
-                         "name":"scene",
-                         "type":"string",
-                         "value":"Dungeon"
-                        }, 
-                        {
-                         "name":"tileset",
-                         "type":"string",
-                         "value":"dungeon-tiles"
-                        }, 
-                        {
-                         "name":"warpDestId",
-                         "type":"int",
-                         "value":5
-                        }, 
                         {
                          "name":"warpId",
                          "type":"int",
@@ -897,28 +837,8 @@
                 {
                  "height":64,
                  "id":50,
-                 "name":"down",
+                 "name":"up",
                  "properties":[
-                        {
-                         "name":"map",
-                         "type":"string",
-                         "value":"dungeon_1"
-                        }, 
-                        {
-                         "name":"scene",
-                         "type":"string",
-                         "value":"Dungeon"
-                        }, 
-                        {
-                         "name":"tileset",
-                         "type":"string",
-                         "value":"dungeon-tiles"
-                        }, 
-                        {
-                         "name":"warpDestId",
-                         "type":"int",
-                         "value":7
-                        }, 
                         {
                          "name":"warpId",
                          "type":"int",
@@ -930,6 +850,57 @@
                  "width":64,
                  "x":192,
                  "y":3136
+                }, 
+                {
+                 "height":64,
+                 "id":52,
+                 "name":"down",
+                 "properties":[
+                        {
+                         "name":"warpId",
+                         "type":"int",
+                         "value":10
+                        }],
+                 "rotation":0,
+                 "type":"trigger",
+                 "visible":true,
+                 "width":64,
+                 "x":1280,
+                 "y":3264
+                }, 
+                {
+                 "height":64,
+                 "id":53,
+                 "name":"down",
+                 "properties":[
+                        {
+                         "name":"warpId",
+                         "type":"int",
+                         "value":9
+                        }],
+                 "rotation":0,
+                 "type":"trigger",
+                 "visible":true,
+                 "width":64,
+                 "x":2112,
+                 "y":4288
+                }, 
+                {
+                 "height":64,
+                 "id":54,
+                 "name":"down",
+                 "properties":[
+                        {
+                         "name":"warpId",
+                         "type":"int",
+                         "value":11
+                        }],
+                 "rotation":0,
+                 "type":"trigger",
+                 "visible":true,
+                 "width":64,
+                 "x":1280,
+                 "y":2752
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -938,7 +909,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":51,
+ "nextobjectid":55,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",

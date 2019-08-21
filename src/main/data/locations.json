@@ -1,0 +1,38 @@
+{
+
+    "1": {
+        "name": "House",
+        "scene": "House",
+        "tileset": "room-tiles",
+        "map": "room",
+        "enemyPartyIds": null
+    },
+    "2": {
+        "name": "House",
+        "scene": "House",
+        "tileset": "room-tiles",
+        "map": "upstairs",
+        "enemyPartyIds": null
+    },
+    "3": {
+        "name": "Dungeon_1_1",
+        "scene": "Dungeon",
+        "tileset": "dungeon",
+        "map": "dungeon_1",
+        "enemyPartyIds": [13, 1, 2, 3, 4, 5]
+    },
+    "5": {
+        "name": "Dungeon_1_2",
+        "scene": "Dungeon",
+        "tileset": "dungeon",
+        "map": "dungeon_1",
+        "enemyPartyIds": [6, 7, 8, 9, 10]
+    },
+    "6": {
+        "name": "Dungeon_boss_chambers",
+        "scene": "Dungeon",
+        "tileset": "dungeon",
+        "map": "dungeon_1",
+        "enemyPartyIds": []
+    }
+}
