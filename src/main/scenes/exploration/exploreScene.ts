@@ -7,6 +7,7 @@ import { Directions, wait } from "../../utility/Utility";
 import { Trigger } from "../../assets/objects/Trigger";
 import { State } from "../../utility/state/State";
 import { KeyboardControl } from "../../components/UI/Keyboard";
+import { WarpUtility } from '../../utility/Warp';
 
 export abstract class Explore extends Phaser.Scene {
   private map: Phaser.Tilemaps.Tilemap;
@@ -19,8 +20,8 @@ export abstract class Explore extends Phaser.Scene {
   protected keyboardControl: KeyboardControl;
   protected player: Player;
   protected playerIsMoving: boolean = false;
-  private warpId: number;
   private warpDestId: number;
+  private warpUtility: WarpUtility;
   constructor(key) {
     super({
       key: key || "Explore"
@@ -31,12 +32,10 @@ export abstract class Explore extends Phaser.Scene {
     const { map, tileset, warpId, warpDestId } = data;
     this.map = this.make.tilemap({ key: map });
     this.tileset = this.map.addTilesetImage(tileset, tileset, 64, 64, 0, 0, 1);
-    if (warpId) {
-      this.warpId = warpId;
-    }
     if (warpDestId) {
       this.warpDestId = warpDestId;
     }
+    this.warpUtility = new WarpUtility(this);
     this.afterInit(data);
   }
   protected abstract afterInit(data);
@@ -290,14 +289,15 @@ export abstract class Explore extends Phaser.Scene {
             // Ideally we would have warp objects retrieved from the database via ID.
             // We're going to pass in a temp enemy party if it's a dungeon.
             //  I want this also to be tied to a database of warps.
-            const enemyPartyIds = trigger.properties.scene === "Dungeon" ? [13, 1, 2, 3, 4, 5] : []
-            this.scene.start(trigger.properties.scene, {
-              map: trigger.properties.map, // room
-              tileset: trigger.properties.tileset, //room tiles
-              warpId: trigger.properties.warpId,
-              warpDestId: trigger.properties.warpDestId,
-              enemyPartyIds
-            });
+            this.warpUtility.warpTo(trigger.properties.warpDestId)
+
+            // this.scene.start(trigger.properties.scene, {
+            //   map: trigger.properties.map, // room
+            //   tileset: trigger.properties.tileset, //room tiles
+            //   warpId: trigger.properties.warpId,
+            //   warpDestId: trigger.properties.warpDestId,
+            //   enemyPartyIds
+            // });
           }
         }
       }

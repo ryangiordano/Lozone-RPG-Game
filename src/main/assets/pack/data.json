@@ -49,6 +49,11 @@
         "type": "json",
         "key": "npc",
         "url": "./src/main/data/npc.json"
+      },
+      {
+        "type": "json",
+        "key": "warps",
+        "url": "./src/main/data/warps.json"
       }
     ]
   }

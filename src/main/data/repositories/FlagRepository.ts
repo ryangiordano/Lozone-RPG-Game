@@ -1,5 +1,4 @@
 import { Repository } from "./Repository";
-import { Effect } from "../../components/battle/CombatDataStructures";
 import { Flag } from "../../utility/state/FlagModule";
 
 export class FlagRepository extends Repository<Flag> {

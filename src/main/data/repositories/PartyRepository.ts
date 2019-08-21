@@ -1,5 +1,4 @@
 import { Repository } from "./Repository";
-import { PartyMember } from '../../components/battle/PartyMember';
 
 export class PartyRepository extends Repository<PartyMemberData> {
   constructor(game: Phaser.Game) {
