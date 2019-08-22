@@ -44,7 +44,7 @@ export abstract class Explore extends Phaser.Scene {
     this.sound.add("bump");
     this.sound.add("beep");
     this.sound.add("chest");
-    this.sound.add("unlock");
+    this.sound.add("lock-open");
     this.sound.add("get-item");
     this.sound.add("get-key-item");
   }
@@ -204,7 +204,7 @@ export abstract class Explore extends Phaser.Scene {
             itemId: itemId.value,
             type: "chest",
           }
-        });
+        }, locked && 6);
         if (locked && locked.value) {
           toAdd.lock();
         }
@@ -266,11 +266,7 @@ export abstract class Explore extends Phaser.Scene {
           this.displayMessage(interactive.properties.message)
         }
         if (interactive.properties.type === "chest") {
-          if (interactive.locked) {
-            this.displayMessage(["The chest is locked."])
-          } else {
-            interactive.openChest();
-          }
+          this.handleOpenChest(interactive)
         }
         if (interactive.properties.type === "key-item") {
           interactive.pickup();
@@ -297,6 +293,24 @@ export abstract class Explore extends Phaser.Scene {
       }
     );
   }
+
+  protected async handleOpenChest(interactive) {
+    const sm = State.getInstance();
+    if (interactive.locked) {
+      const keyItem = sm.getItemOnPlayer(interactive.unlockItemId);
+      if (keyItem) {
+        interactive.unlock();
+        await wait(300);
+        this.displayMessage([`You unlock the chest with a ${keyItem.name}`]);
+        sm.consumeItem(interactive.unlockItemId)
+      } else {
+        this.displayMessage(["The chest is locked."])
+      }
+    } else {
+      interactive.openChest();
+    }
+  }
+
   protected setMapLayers() {
     this.backgroundLayer = this.map.createStaticLayer(
       "background",

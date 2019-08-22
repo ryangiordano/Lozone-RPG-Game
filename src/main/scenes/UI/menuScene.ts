@@ -299,7 +299,7 @@ class ItemPanelContainer extends UIPanel {
       const displayItem = item.category == this.itemCategory;
       const consumable = this.itemCategory == ItemCategory.consumable;
       if (displayItem) {
-        const quantity = consumable ? `x${item.quantity}` : '';
+        const quantity = item.quantity > 1 ? `x${item.quantity}` : '';
         this.addOption(`${item.name} ${quantity}`, () => {
           consumable && this.emit("item-selected", item);
         }, () => {

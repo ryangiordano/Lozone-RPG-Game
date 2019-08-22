@@ -1,3 +1,4 @@
+import { Item } from '../../components/entities/Item';
 export class Entity extends Phaser.GameObjects.Sprite {
   protected currentMap: Phaser.Tilemaps.Tilemap;
   protected currentScene: Phaser.Scene;
@@ -28,6 +29,8 @@ export class Entity extends Phaser.GameObjects.Sprite {
   }
 }
 
+//TODO: Split chests and locked chests out into separate entities
+// So we don't have to play games with the frames;
 export class Chest extends Entity {
 
   /**
@@ -36,7 +39,7 @@ export class Chest extends Entity {
   public properties: { type: string; id: number | string; message: string };
   public open: Boolean;
   public locked: Boolean;
-  constructor({ scene, x, y, map, properties }) {
+  constructor({ scene, x, y, map, properties }, public unlockItemId: number) {
     super({ scene, x, y, key: "chest", map });
     this.properties = properties;
   }
@@ -52,14 +55,15 @@ export class Chest extends Entity {
   }
   public setOpen() {
     this.open = true;
-    this.setFrame(1, false);
+    this.unlockItemId ? this.setFrame(5, false) : this.setFrame(1, false);
   }
   public lock() {
     this.locked = true;
     this.setFrame(4, false)
   }
   public unlock() {
-    this.setFrame
+    this.currentScene.sound.play("lock-open", { volume: 0.1 });
+    this.locked = false;
   }
 }
 

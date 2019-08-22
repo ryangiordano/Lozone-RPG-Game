@@ -43,5 +43,23 @@
     "spriteKey": "key-items",
     "frame": 0,
     "category": "keyItem"
+  },
+  "6": {
+    "name": "Gold Key",
+    "description": "A shiny gold key.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "items",
+    "frame": 4,
+    "category": "keyItem"
+  },
+  "7": {
+    "name": "Silver Key",
+    "description": "A small silver key.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "items",
+    "frame": 3,
+    "category": "keyItem"
   }
 }
