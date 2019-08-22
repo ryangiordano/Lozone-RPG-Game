@@ -23,17 +23,19 @@ export class Entity extends Phaser.GameObjects.Sprite {
     return tile;
   }
 
-  protected setCollideOnTileBelowFoot(toCollide: boolean){
+  protected setCollideOnTileBelowFoot(toCollide: boolean) {
     this.currentTile.properties["collide"] = toCollide;
   }
 }
 
 export class Chest extends Entity {
+
   /**
    * Represents a chest on the overall, able to be opened.
    */
   public properties: { type: string; id: number | string; message: string };
   public open: Boolean;
+  public locked: Boolean;
   constructor({ scene, x, y, map, properties }) {
     super({ scene, x, y, key: "chest", map });
     this.properties = properties;
@@ -51,6 +53,13 @@ export class Chest extends Entity {
   public setOpen() {
     this.open = true;
     this.setFrame(1, false);
+  }
+  public lock() {
+    this.locked = true;
+    this.setFrame(4, false)
+  }
+  public unlock() {
+    this.setFrame
   }
 }
 

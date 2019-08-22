@@ -451,7 +451,7 @@
                         {
                          "name":"flagId",
                          "type":"string",
-                         "value":"12"
+                         "value":"501"
                         }, 
                         {
                          "name":"itemId",
@@ -464,6 +464,33 @@
                  "width":64,
                  "x":192,
                  "y":512
+                }, 
+                {
+                 "height":64,
+                 "id":33,
+                 "name":"chest",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"locked",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":64,
+                 "x":448,
+                 "y":448
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -472,7 +499,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":33,
+ "nextobjectid":34,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.2.3",

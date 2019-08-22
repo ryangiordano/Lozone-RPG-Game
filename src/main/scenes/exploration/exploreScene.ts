@@ -44,6 +44,8 @@ export abstract class Explore extends Phaser.Scene {
     this.sound.add("bump");
     this.sound.add("beep");
     this.sound.add("chest");
+    this.sound.add("unlock");
+    this.sound.add("get-item");
     this.sound.add("get-key-item");
   }
   create(): void {
@@ -191,6 +193,7 @@ export abstract class Explore extends Phaser.Scene {
       if (object.type === "chest") {
         const itemId = object.properties.find(p => p.name === "itemId");
         const id = object.properties.find(p => p.name === "flagId");
+        const locked = object.properties.find(p => p.name === "locked");
         const toAdd = new Chest({
           scene: this,
           x: object.x + 32,
@@ -199,9 +202,12 @@ export abstract class Explore extends Phaser.Scene {
           properties: {
             id: id.value,
             itemId: itemId.value,
-            type: "chest"
+            type: "chest",
           }
         });
+        if (locked && locked.value) {
+          toAdd.lock();
+        }
         if (sm.isFlagged(id.value)) {
           toAdd.setOpen();
         }
@@ -260,7 +266,11 @@ export abstract class Explore extends Phaser.Scene {
           this.displayMessage(interactive.properties.message)
         }
         if (interactive.properties.type === "chest") {
-          interactive.openChest();
+          if (interactive.locked) {
+            this.displayMessage(["The chest is locked."])
+          } else {
+            interactive.openChest();
+          }
         }
         if (interactive.properties.type === "key-item") {
           interactive.pickup();
@@ -277,19 +287,12 @@ export abstract class Explore extends Phaser.Scene {
       this.triggers,
       (cast: Cast, trigger: any) => {
         cast.destroy();
-        console.log(trigger)
-        if (trigger.properties.type === "trigger" && trigger.properties.warpId) {
+        if (
+          trigger.properties.type === "trigger" &&
+          trigger.properties.warpId) {
           this.events.off("item-acquired", this.acquiredItemCallback);
           const warp = this.warpUtility.getWarp(trigger.properties.warpId)
           this.warpUtility.warpTo(warp.warpDestId);
-
-          // this.scene.start(trigger.properties.scene, {
-          //   map: trigger.properties.map, // room
-          //   tileset: trigger.properties.tileset, //room tiles
-          //   warpId: trigger.properties.warpId,
-          //   warpDestId: trigger.properties.warpDestId,
-          //   enemyPartyIds
-          // });
         }
       }
     );
@@ -314,8 +317,8 @@ export abstract class Explore extends Phaser.Scene {
     this.player.controllable.canInput = false;
     this.displayMessage([`Lo got ${item.name}`]);
     if (isKeyItem) {
-      this.sound.play("get-key-item", { volume: 0.1 });
-      await wait(3000)
+      this.sound.play("get-item", { volume: 0.1 });
+      await wait(1000)
     }
     await wait(300)
     this.player.controllable.canInput = true;

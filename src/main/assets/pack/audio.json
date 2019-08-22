@@ -50,6 +50,10 @@
         "type": "audio",
         "key": "get-key-item",
         "url": "./src/main/assets/sounds/get-key-item.wav"
+      },      {
+        "type": "audio",
+        "key": "get-item",
+        "url": "./src/main/assets/sounds/get-item.wav"
       },
       {
         "type": "audio",
@@ -60,6 +64,21 @@
         "type": "audio",
         "key": "battle-win",
         "url": "./src/main/assets/sounds/battle-win.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "lock-open",
+        "url": "./src/main/assets/sounds/lock-open.wav"
+      },
+      {
+        "type": "audio",
+        "key": "menu-select",
+        "url": "./src/main/assets/sounds/menu-select.wav"
+      },
+      {
+        "type": "audio",
+        "key": "menu-tick",
+        "url": "./src/main/assets/sounds/menu-tick.wav"
       }
     ]
   }

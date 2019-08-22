@@ -137,6 +137,12 @@
         "type": 0,
         "flagged": false
     },
+    "25": {
+        "name": "chest",
+        "description": "Locked chest in room",
+        "type": 0,
+        "flagged": false
+    },
     "800": {
         "name": "door 1",
         "description": "Some random door",

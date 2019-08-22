@@ -364,7 +364,7 @@
                         {
                          "name":"flagId",
                          "type":"string",
-                         "value":"8"
+                         "value":"500"
                         }, 
                         {
                          "name":"itemId",
