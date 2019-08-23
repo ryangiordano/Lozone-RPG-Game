@@ -84,9 +84,12 @@
     "lootTable": [{
       "rate": 0.2,
       "itemId": 1
+    },{
+      "rate": 1,
+      "itemId": 6
     }],
-    "goldValue": 3,
-    "experiencePoints": 7
+    "goldValue": 44,
+    "experiencePoints": 70
   },
   "5": {
     "name": "eggception",
@@ -194,8 +197,8 @@
     "physicalResist": 100,
     "magicalResist": 1,
     "lootTable": [{
-        "rate": 0.2,
-        "itemId": 1
+        "rate": 1,
+        "itemId": 6
       },
       {
         "rate": 0.2,

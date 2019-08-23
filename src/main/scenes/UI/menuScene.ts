@@ -21,6 +21,7 @@ export class MenuScene extends Phaser.Scene {
       "dialog-white",
       new KeyboardControl(this)
     );
+    this.state.addItemToContents(6)
 
     // ===================================
     // Main Panel

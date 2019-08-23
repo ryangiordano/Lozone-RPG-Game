@@ -33,6 +33,6 @@
         "scene": "Dungeon",
         "tileset": "dungeon",
         "map": "dungeon_1",
-        "enemyPartyIds": []
+        "enemyPartyIds": null
     }
 }

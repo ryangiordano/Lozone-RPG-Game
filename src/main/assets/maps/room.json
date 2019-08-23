@@ -473,7 +473,7 @@
                         {
                          "name":"flagId",
                          "type":"int",
-                         "value":1
+                         "value":25
                         }, 
                         {
                          "name":"itemId",

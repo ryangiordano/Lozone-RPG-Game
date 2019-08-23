@@ -300,9 +300,10 @@ export abstract class Explore extends Phaser.Scene {
       const keyItem = sm.getItemOnPlayer(interactive.unlockItemId);
       if (keyItem) {
         interactive.unlock();
+        await this.displayMessage([`You unlock the chest with a ${keyItem.name}`]);
+        sm.consumeItem(interactive.unlockItemId);
         await wait(300);
-        this.displayMessage([`You unlock the chest with a ${keyItem.name}`]);
-        sm.consumeItem(interactive.unlockItemId)
+        interactive.openChest();
       } else {
         this.displayMessage(["The chest is locked."])
       }
@@ -329,7 +330,7 @@ export abstract class Explore extends Phaser.Scene {
     const item = sm.addItemToContents(itemId);
     sm.setFlag(id, true);
     this.player.controllable.canInput = false;
-    this.displayMessage([`Lo got ${item.name}`]);
+    await this.displayMessage([`Lo got ${item.name}`]);
     if (isKeyItem) {
       this.sound.play("get-item", { volume: 0.1 });
       await wait(1000)
