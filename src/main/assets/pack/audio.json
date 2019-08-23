@@ -58,12 +58,17 @@
       {
         "type": "audio",
         "key": "level-up",
-        "url": "./src/main/assets/sounds/level-up.mp3"
+        "url": "./src/main/assets/music/level-up.mp3"
       },
       {
         "type": "audio",
-        "key": "battle-win",
-        "url": "./src/main/assets/sounds/battle-win.mp3"
+        "key": "battle",
+        "url": "./src/main/assets/music/battle.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "victory",
+        "url": "./src/main/assets/music/victory.mp3"
       },
       {
         "type": "audio",

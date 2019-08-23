@@ -40,6 +40,7 @@ export abstract class Explore extends Phaser.Scene {
   }
   protected abstract afterInit(data);
   preload(): void {
+    console.log("Preloading")
     // TODO: Gather these into a map
     this.sound.add("bump");
     this.sound.add("beep");

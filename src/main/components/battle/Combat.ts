@@ -50,7 +50,6 @@ export class Combat {
     this.scene.events.on("run-battle", async () => {
       await this.displayMessage(["Escaped Successfully"]);
       this.scene.events.emit("end-battle");
-      this.scene.events.off("run-battle");
     });
   }
 
@@ -184,6 +183,8 @@ export class Combat {
       return false;
     }
     if (this.enemies.length <= 0) {
+      this.scene.sound.stopAll();
+      this.scene.sound.play('victory', { volume: .4 })
       await this.displayMessage(["You've won!"]);
       await this.distributeLoot();
       return this.scene.events.emit("end-battle");
@@ -258,6 +259,7 @@ export class Combat {
       if (partyMember.currentHp > 0) {
         const hasLeveledUp = partyMember.gainExperience(experience)
         if (hasLeveledUp) {
+          this.scene.sound.play('level-up', { volume: 0.1 })
           messages.push(`${partyMember.name} has reached level ${partyMember.level}`)
         }
       }

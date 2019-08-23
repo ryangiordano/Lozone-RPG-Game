@@ -38,20 +38,12 @@ export class BootScene extends Phaser.Scene {
         // When we get to the point where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.
         const sm = State.getInstance();
         sm.initialize(this.game);
-        // sm.addFlagModule("chests");
 
         // ===================================
         // Start the scene in Debug Mode
         // ===================================
         this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
         const tempParty = [13, 1, 2, 3, 4, 5];
-        // const tempParty = [14,15,16];
-        // this.scene.start("Dungeon", {
-        //   map: "dungeon_1",
-        //   tileset: "dungeon",
-        //   warpId: 1,
-        //   enemyPartyIds: tempParty
-        // });
       },
       this
     );
