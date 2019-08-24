@@ -77,6 +77,11 @@
       },
       {
         "type": "audio",
+        "key": "boss-battle",
+        "url": "./src/main/assets/sounds/boss-battle.mp3"
+      },
+      {
+        "type": "audio",
         "key": "menu-select",
         "url": "./src/main/assets/sounds/menu-select.wav"
       },
