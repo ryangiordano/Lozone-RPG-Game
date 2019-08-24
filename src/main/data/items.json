@@ -61,5 +61,50 @@
     "spriteKey": "items",
     "frame": 3,
     "category": "keyItem"
+  },
+  "8": {
+    "name": "Big Ruby",
+    "description": "A hefty, scintillating ruby.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "loot",
+    "frame": 8,
+    "category": "loot"
+  },
+  "9": {
+    "name": "Small Ruby",
+    "description": "A small, glistening ruby shard.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "loot",
+    "frame":9,
+    "category": "loot"
+  },
+  "10": {
+    "name": "Small Pearl",
+    "description": "A tiny pearl, no larger than a grape.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "loot",
+    "frame":10,
+    "category": "loot"
+  },
+  "11": {
+    "name": "Large Pearl",
+    "description": "A palm-sized pearl.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "loot",
+    "frame":11,
+    "category": "loot"
+  },
+  "12": {
+    "name": "Diamond Ring",
+    "description": "An engagement ring from a failed marriage.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "loot",
+    "frame":11,
+    "category": "loot"
   }
 }
