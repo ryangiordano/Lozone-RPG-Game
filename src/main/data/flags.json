@@ -143,18 +143,6 @@
         "type": 0,
         "flagged": false
     },
-    "800": {
-        "name": "door 1",
-        "description": "Some random door",
-        "type": 1,
-        "flagged": false
-    },
-    "801": {
-        "name": "door 2",
-        "description": "Some random door",
-        "type": 1,
-        "flagged": false
-    },
     "500": {
         "name": "pick up USB",
         "description": "Flag for picking up the USB stick",
@@ -165,6 +153,18 @@
         "name": "Lo has hearing aids",
         "description": "Flag for picking up the USB stick",
         "type": 0,
+        "flagged": false
+    },
+    "800": {
+        "name": "door 1",
+        "description": "Some random door",
+        "type": 1,
+        "flagged": false
+    },
+    "801": {
+        "name": "door 2",
+        "description": "Some random door",
+        "type": 1,
         "flagged": false
     }
 }

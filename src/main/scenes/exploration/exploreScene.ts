@@ -1,4 +1,4 @@
-import { Chest, KeyItem } from '../../assets/objects/Entity';
+import { Chest, KeyItem, LockedDoor } from '../../assets/objects/Entity';
 import { Cast } from "../../assets/objects/Cast";
 import { Player } from "../../assets/objects/Player";
 import { NPC } from "../../assets/objects/NPC";
@@ -216,6 +216,25 @@ export abstract class Explore extends Phaser.Scene {
       }
 
       // ===================================
+      // Handle placing locked door.
+      // ===================================
+      if (object.type === "door") {
+        const id = object.properties.find(p => p.name === "flagId").value;
+        if (!sm.isFlagged(id)) {
+          const toAdd = new LockedDoor({
+            scene: this,
+            x: object.x + 32,
+            y: object.y + 32,
+            map: this.map,
+            properties: {
+              id: id,
+              type: "door",
+            }
+          }, 7);
+          this.interactive.add(toAdd);
+        }
+      }
+      // ===================================
       // Handle placing key item
       // ===================================
       if (object.type === "key-item") {
@@ -267,10 +286,13 @@ export abstract class Explore extends Phaser.Scene {
           this.displayMessage(interactive.properties.message)
         }
         if (interactive.properties.type === "chest") {
-          this.handleOpenChest(interactive)
+          this.handleOpenChest(interactive);
         }
         if (interactive.properties.type === "key-item") {
           interactive.pickup();
+        }
+        if (interactive.properties.type === 'door') {
+          this.handleOpenDoor(interactive);
         }
       }
     );
@@ -311,6 +333,18 @@ export abstract class Explore extends Phaser.Scene {
     } else {
       interactive.openChest();
     }
+  }
+
+  protected async handleOpenDoor(interactive) {
+    const sm = State.getInstance();
+    const keyItem = sm.getItemOnPlayer(interactive.unlockItemId);
+    if (keyItem) {
+      sm.setFlag(interactive.properties.id, true);
+      interactive.unlock();
+      await this.displayMessage(['The door clicks open!'])
+      return;
+    }
+    await this.displayMessage([`It's locked tight.`])
   }
 
   protected setMapLayers() {

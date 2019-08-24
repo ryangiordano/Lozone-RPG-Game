@@ -88,3 +88,19 @@ export class KeyItem extends Entity {
     this.destroy();
   }
 }
+
+export class LockedDoor extends Entity {
+    /**
+   *  Represents locked doors on the map.
+   */
+  public properties: { type: string; id: number | string; };
+  constructor({ scene, x, y, map, properties }, public unlockItemId: number) {
+    super({ scene, x, y, key: 'door', map });
+    this.properties = properties;
+  }
+  public unlock() {
+    this.currentScene.sound.play("lock-open", { volume: 0.1 });
+    this.setCollideOnTileBelowFoot(false);    
+    this.destroy();
+  }
+}

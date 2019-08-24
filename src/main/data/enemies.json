@@ -87,6 +87,10 @@
     },{
       "rate": 1,
       "itemId": 6
+    },
+    {
+      "rate": 1,
+      "itemId": 7
     }],
     "goldValue": 44,
     "experiencePoints": 70
