@@ -78,7 +78,7 @@
       {
         "type": "audio",
         "key": "boss-battle",
-        "url": "./src/main/assets/sounds/boss-battle.mp3"
+        "url": "./src/main/assets/music/boss-battle.mp3"
       },
       {
         "type": "audio",

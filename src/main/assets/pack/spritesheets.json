@@ -287,6 +287,24 @@
           "frameWidth": 64,
           "frameHeight": 64
         }
+      },
+      {
+        "type": "spritesheet",
+        "key": "laundromancer",
+        "url": "./src/main/assets/sprites/monsters/boss/laundromancer.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "laundromancer-sprite",
+        "url": "./src/main/assets/sprites/monsters/boss/laundromancer-sprite.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
       }
     ]
   }

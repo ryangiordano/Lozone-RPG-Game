@@ -7,6 +7,11 @@
       },
       {
         "type": "json",
+        "key": "bossMonsterSpriteAnimation",
+        "url": "./src/main/assets/animations/boss-monster-sprite-animation.json"
+      },
+      {
+        "type": "json",
         "key": "ryanAndLoAnimation",
         "url": "./src/main/assets/animations/ryanandlo.json"
       },

@@ -21,6 +21,19 @@
         ],
         "x": 0,
         "y": 0
+    },
+    "2": {
+        "name": "Laundromancer",
+        "spriteKey": "laundromancer-sprite",
+        "description": "This is the first boss of the first dungeon.  Defeating him yields a silver key, which you can use to open doors.",
+        "dialog": [{
+                "id": 28,
+                "flags": [],
+                "default": true
+            }
+        ],
+        "x": 0,
+        "y": 0
 
     }
 }

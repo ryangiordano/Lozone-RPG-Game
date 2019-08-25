@@ -1,7 +1,7 @@
 import { Chest, KeyItem, LockedDoor } from '../../assets/objects/Entity';
 import { Cast } from "../../assets/objects/Cast";
 import { Player } from "../../assets/objects/Player";
-import { NPC } from "../../assets/objects/NPC";
+import { NPC, BossMonster } from '../../assets/objects/NPC';
 import { Interactive } from "../../assets/objects/Interactive";
 import { Directions, wait } from "../../utility/Utility";
 import { Trigger } from "../../assets/objects/Trigger";
@@ -167,7 +167,6 @@ export abstract class Explore extends Phaser.Scene {
           );
         }
       }
-      //TODO: Query NPC from the DB and populate that way.;
       // ===================================
       // Handle placing the NPC
       // ===================================
@@ -188,6 +187,29 @@ export abstract class Explore extends Phaser.Scene {
         )
         this.interactive.add(npcObject);
       }
+
+      // ===================================
+      // Handle placing the Bossmonster
+      // ===================================
+      if (object.type === "boss-monster") {
+        const id = object.properties.find(p => p.name === "npcId").value;
+        const npc = sm.npcController.getNPCById(id)
+        console.log(npc.spriteKey)
+        const npcObject = new BossMonster(
+          {
+            scene: this,
+            x: object.x + 32,
+            y: object.y + 32,
+            key: npc.spriteKey,
+            map: this.map,
+            casts: this.casts
+          },
+          Directions.up,
+          npc.dialog
+        )
+        this.interactive.add(npcObject);
+      }
+
       // ===================================
       // Handle placing the chest
       // ===================================

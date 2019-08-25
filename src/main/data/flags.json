@@ -155,6 +155,12 @@
         "type": 0,
         "flagged": false
     },
+    "502": {
+        "name": "Laundromancer defeated.",
+        "description": "The player has defeated the first boss of the dungeon.",
+        "type": 0,
+        "flagged": false
+    },
     "800": {
         "name": "door 1",
         "description": "Some random door",

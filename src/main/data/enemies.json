@@ -244,5 +244,27 @@
     ],
     "goldValue": 5,
     "experiencePoints": 1500
+  },
+  "11": {
+    "name": "Laundromancer",
+    "spriteKey": "laundromancer",
+    "maxHp": 500,
+    "maxMp": 200,
+    "level": 1,
+    "intellect": 15,
+    "dexterity": 5,
+    "wisdom": 15,
+    "stamina": 20,
+    "strength": 20,
+    "physicalResist": 29,
+    "magicalResist": 20,
+    "lootTable": [
+      {
+        "rate": 1,
+        "itemId": 7
+      }
+    ],
+    "goldValue": 500,
+    "experiencePoints": 400
   }
 }

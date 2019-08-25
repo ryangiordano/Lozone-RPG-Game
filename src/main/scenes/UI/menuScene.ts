@@ -5,6 +5,8 @@ import { Item, ItemCategory } from "../../components/entities/Item";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 import { TextFactory } from '../../utility/TextFactory';
+import { WarpUtility } from "../../utility/Warp";
+
 
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
@@ -41,7 +43,7 @@ export class MenuScene extends Phaser.Scene {
     mainPanel.on("party-selected", () =>
       this.startPartyMenuScene({ type: PartyMenuTypes.statusCheck, entity: null })
     );
-    mainPanel.on("dungeons-selected", () =>
+    mainPanel.on("debug-selected", () =>
       this.UI.showPanel(dungeonPanel).focusPanel(dungeonPanel)
     );
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
@@ -102,6 +104,9 @@ export class MenuScene extends Phaser.Scene {
       .addOption("Status", () => {
         mainPanel.emit("party-selected", PartyMenuTypes.statusCheck);
       })
+      .addOption("Dubug", () => {
+        mainPanel.emit("debug-selected");
+      })
       .addOption("Cancel", () => this.closeMenuScene());
     return mainPanel;
   }
@@ -115,7 +120,7 @@ export class MenuScene extends Phaser.Scene {
       this.state.getItemsOnPlayer(),
       ItemCategory.consumable
     );
-    
+
     this.UI.addPanel(itemPanel);
 
     itemPanel.on("item-selected", item => {
@@ -219,13 +224,9 @@ export class MenuScene extends Phaser.Scene {
   private createDungeonPanel() {
     const dungeonPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
       .addOption("Dungeon One", () => {
-        this.scene.stop("House");
-        this.scene.start("Dungeon", {
-          map: "dungeon_1",
-          tileset: "dungeon",
-          warpId: 1,
-          enemyPartyIds: [8, 6, 4, 3, 13]
-        });
+        this.scene.stop('House');
+        const wp = new WarpUtility(this);
+        wp.warpTo(6);
       })
       .addOption("Cancel", () => {
         this.UI.closePanel(dungeonPanel);

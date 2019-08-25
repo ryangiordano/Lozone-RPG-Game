@@ -3,12 +3,13 @@ import { Moveable } from '../../components/entities/Movement';
 import { NPCDialog } from '../../data/repositories/NPCRepository';
 import { State } from '../../utility/state/State';
 
+
 export class NPC extends Moveable {
   properties: any = {};
   constructor(
     { scene, x, y, key, map, casts },
     facing?: Directions,
-    private dialog?: NPCDialog[],
+    protected dialog?: NPCDialog[],
   ) {
     super({ scene, x, y, key, map, casts });
     this.properties.type = 'npc';
@@ -29,4 +30,22 @@ export class NPC extends Moveable {
     return dialog.message;
   }
   //TODO: Get the NPC to hold all the messages, check which flags are in play, and react accordingly.;
+}
+
+export class BossMonster extends NPC {
+  /**
+   *  Represents boss monsters on the world map.
+   */
+  constructor({ scene, x, y, key, map, casts },
+    facing?: Directions,
+    protected dialog?: NPCDialog[]) {
+    super({ scene, x, y, key, map, casts });
+    this.properties.type = 'npc';
+    this.face(facing);
+    this.idle()
+  }
+
+  idle() {
+    this.anims.play(`${this.spriteKey}-idle`)
+  }
 }

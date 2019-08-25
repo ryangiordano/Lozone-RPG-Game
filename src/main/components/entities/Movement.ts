@@ -12,9 +12,11 @@ export class Moveable extends Entity {
   protected velocityY = 0;
   protected movementSpeed = 8;
   protected target = { x: 0, y: 0 };
+  protected spriteKey: string;
   protected facing: Directions = Directions.down;
   constructor({ scene, x, y, key, map, casts }) {
     super({ scene, x, y, key, map });
+    this.spriteKey = key;
     this.casts = casts;
   }
   public face(direction: Directions) {

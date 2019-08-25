@@ -10,10 +10,8 @@ export class CombatScene extends Phaser.Scene {
   private combat: Combat;
   private music: Phaser.Sound.BaseSound;
   private levelUp: Phaser.Sound.BaseSound;
-  private randomID: number;
   constructor() {
     super('Battle');
-    console.log("Constructed", this.randomID = getRandomFloor(500))
   }
   
   preload(): void {
@@ -23,7 +21,7 @@ export class CombatScene extends Phaser.Scene {
     this.sound.add("hit");
     this.sound.add("heal");
     this.sound.add("heal");
-    this.sound.add("level-up")
+    this.sound.add("level-up");
     this.sound.add('battle');
     this.sound.add('victory');
     this.levelUp = this.sound.add('level-up');

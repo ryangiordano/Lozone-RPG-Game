@@ -1,0 +1,11 @@
+{
+    "anims": [{
+        "key": "idle",
+        "frames": {
+            "typeOfGeneration": 1,
+            "frames": [0, 1, 2]
+        },
+        "repeat": -1,
+        "frameRate": 5
+    }]
+}
