@@ -45,6 +45,10 @@ export class BossMonster extends NPC {
     this.idle()
   }
 
+  triggerBattle(battleId){
+
+  }
+
   idle() {
     this.anims.play(`${this.spriteKey}-idle`)
   }

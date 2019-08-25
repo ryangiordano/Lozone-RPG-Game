@@ -221,8 +221,8 @@
         "key": "gold-drop",
         "url": "./src/main/assets/sprites/monsters/gold-drop.png",
         "frameConfig": {
-          "frameWidth": 64,
-          "frameHeight": 64
+          "frameWidth": 128,
+          "frameHeight": 128
         }
       },
       {
@@ -293,8 +293,8 @@
         "key": "laundromancer",
         "url": "./src/main/assets/sprites/monsters/boss/laundromancer.png",
         "frameConfig": {
-          "frameWidth": 64,
-          "frameHeight": 64
+          "frameWidth": 256,
+          "frameHeight": 256
         }
       },
       {

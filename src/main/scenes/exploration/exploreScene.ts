@@ -167,6 +167,7 @@ export abstract class Explore extends Phaser.Scene {
           );
         }
       }
+
       // ===================================
       // Handle placing the NPC
       // ===================================
@@ -194,7 +195,6 @@ export abstract class Explore extends Phaser.Scene {
       if (object.type === "boss-monster") {
         const id = object.properties.find(p => p.name === "npcId").value;
         const npc = sm.npcController.getNPCById(id)
-        console.log(npc.spriteKey)
         const npcObject = new BossMonster(
           {
             scene: this,
@@ -297,12 +297,13 @@ export abstract class Explore extends Phaser.Scene {
     this.physics.add.overlap(
       this.casts,
       this.interactive,
-      (cast: Cast, interactive: any) => {
+      async (cast: Cast, interactive: any) => {
         cast.destroy();
         this.player.stop();
         if (interactive.properties.type === "npc") {
-          this.displayMessage(interactive.getCurrentDialog())
-
+          await this.displayMessage(interactive.getCurrentDialog())
+          interactive.triggerBattle()
+          this.startEncounter(700);
         }
         if (interactive.properties.type === "interactive") {
           this.displayMessage(interactive.properties.message)
@@ -414,5 +415,11 @@ export abstract class Explore extends Phaser.Scene {
         resolve();
       });
     });
+  }
+
+  protected startEncounter(enemyPartyId: number) {
+    this.input.keyboard.resetKeys();
+    this.scene.manager.sleep(this.scene.key);
+    this.scene.run('Battle', { key: this.scene.key, enemyPartyId })
   }
 }
