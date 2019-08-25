@@ -19,14 +19,14 @@
         "scene": "Dungeon",
         "tileset": "dungeon",
         "map": "dungeon_1",
-        "enemyPartyIds": [13, 1, 2, 3, 4, 5]
+        "enemyPartyIds": [13, 1, 2, 3, 4, 5, 6 ]
     },
     "5": {
         "name": "Dungeon_1_2",
         "scene": "Dungeon",
         "tileset": "dungeon",
         "map": "dungeon_1",
-        "enemyPartyIds": [6, 7, 8, 9, 10]
+        "enemyPartyIds": [3, 7, 8, 9, 10]
     },
     "6": {
         "name": "Dungeon_boss_chambers",

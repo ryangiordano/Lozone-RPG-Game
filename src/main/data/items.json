@@ -77,7 +77,7 @@
     "spriteKey": "loot",
     "frame": 8,
     "category": "loot",
-    "value": 125
+    "value": 150
 
   },
   "9": {
@@ -119,5 +119,75 @@
     "frame": 11,
     "category": "loot",
     "value": 200
+  },
+  "13": {
+    "name": "Orb of Neiku",
+    "description": "You feel the spirit of neglecting doing laundry flowing within.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "items",
+    "frame": 7,
+    "category": "keyItem",
+    "value": null
+  },
+  "14": {
+    "name": "Orb of Xiwan",
+    "description": "You feel something inside that seems to say `I'll do it later`.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "items",
+    "frame": 5,
+    "category": "keyItem",
+    "value": null
+  },
+  "15": {
+    "name": "Orb of Huashao",
+    "description": "Glows with a dull rouge sheen. This is so not your color.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "items",
+    "frame": 13,
+    "category": "keyItem",
+    "value": null
+  },
+  "16": {
+    "name": "Large Emerald",
+    "description": "A brilliant and hefty green emerald.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "loot",
+    "frame": 15,
+    "category": "loot",
+    "value": 300
+  },
+  "17": {
+    "name": "Emerald Shard",
+    "description": "A small shiny piece of a what would have been a giant emerald.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "loot",
+    "frame": 16,
+    "category": "loot",
+    "value": 150
+  },
+  "18": {
+    "name": "Blue Diamond",
+    "description": "A perfectly cut diamond with a dark glinting core.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "loot",
+    "frame": 17,
+    "category": "loot",
+    "value": 1000
+  },
+  "19": {
+    "name": "Small Diamond",
+    "description": "A glistening shard of diamond no larger than your thumbnail.",
+    "effectId": null,
+    "effectPotency": null,
+    "spriteKey": "loot",
+    "frame": 18,
+    "category": "loot",
+    "value": 500
   }
 }

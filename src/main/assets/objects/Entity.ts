@@ -1,4 +1,15 @@
 import { Item } from '../../components/entities/Item';
+
+export enum EntityTypes {
+  npc,
+  trigger,
+  interactive,
+  bossMonster,
+  keyItem,
+  chest,
+  door
+}
+
 export class Entity extends Phaser.GameObjects.Sprite {
   protected currentMap: Phaser.Tilemaps.Tilemap;
   protected currentScene: Phaser.Scene;
@@ -36,6 +47,7 @@ export class Chest extends Entity {
   /**
    * Represents a chest on the overall, able to be opened.
    */
+  public entityType: EntityTypes = EntityTypes.chest;
   public properties: { type: string; id: number | string; message: string };
   public open: Boolean;
   public locked: Boolean;
@@ -71,12 +83,14 @@ export class KeyItem extends Entity {
   /**
    *  Represents unique key items able to be picked up on the overworld.
    */
+  public entityType: EntityTypes;
   public properties: { type: string; id: number | string; message: string };
   constructor({ scene, x, y, map, properties }) {
     const { spriteKey, frame } = properties;
     super({ scene, x, y, key: spriteKey, map });
     this.properties = properties;
     this.setFrame(frame);
+    this.entityType = EntityTypes.keyItem;
   }
   public pickup() {
     this.currentScene.events.emit("item-acquired", {
@@ -93,10 +107,12 @@ export class LockedDoor extends Entity {
   /**
  *  Represents locked doors on the map.
  */
+  public entityType: EntityTypes = EntityTypes.door;
   public properties: { type: string; id: number | string; };
   constructor({ scene, x, y, map, properties }, public unlockItemId: number) {
     super({ scene, x, y, key: 'door', map });
     this.properties = properties;
+
   }
   public unlock() {
     this.currentScene.sound.play("lock-open", { volume: 0.1 });

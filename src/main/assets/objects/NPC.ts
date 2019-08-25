@@ -2,9 +2,11 @@ import { Directions } from '../../utility/Utility';
 import { Moveable } from '../../components/entities/Movement';
 import { NPCDialog } from '../../data/repositories/NPCRepository';
 import { State } from '../../utility/state/State';
+import { EntityTypes } from './Entity';
 
 
 export class NPC extends Moveable {
+  public entityType: EntityTypes = EntityTypes.npc;
   properties: any = {};
   constructor(
     { scene, x, y, key, map, casts },
@@ -36,6 +38,8 @@ export class BossMonster extends NPC {
   /**
    *  Represents boss monsters on the world map.
    */
+  public entityType: EntityTypes = EntityTypes.bossMonster;
+
   constructor({ scene, x, y, key, map, casts },
     facing?: Directions,
     protected dialog?: NPCDialog[]) {
@@ -45,7 +49,7 @@ export class BossMonster extends NPC {
     this.idle()
   }
 
-  triggerBattle(battleId){
+  triggerBattle(battleId) {
 
   }
 

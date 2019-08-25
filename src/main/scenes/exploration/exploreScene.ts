@@ -1,4 +1,4 @@
-import { Chest, KeyItem, LockedDoor } from '../../assets/objects/Entity';
+import { Chest, KeyItem, LockedDoor, EntityTypes } from '../../assets/objects/Entity';
 import { Cast } from "../../assets/objects/Cast";
 import { Player } from "../../assets/objects/Player";
 import { NPC, BossMonster } from '../../assets/objects/NPC';
@@ -300,21 +300,21 @@ export abstract class Explore extends Phaser.Scene {
       async (cast: Cast, interactive: any) => {
         cast.destroy();
         this.player.stop();
-        if (interactive.properties.type === "npc") {
+        if (interactive.entityType === EntityTypes.bossMonster) {
           await this.displayMessage(interactive.getCurrentDialog())
           interactive.triggerBattle()
           this.startEncounter(700);
         }
-        if (interactive.properties.type === "interactive") {
+        if (interactive.entityType === EntityTypes.interactive) {
           this.displayMessage(interactive.properties.message)
         }
-        if (interactive.properties.type === "chest") {
+        if (interactive.entityType === EntityTypes.chest) {
           this.handleOpenChest(interactive);
         }
-        if (interactive.properties.type === "key-item") {
+        if (interactive.entityType === EntityTypes.keyItem) {
           interactive.pickup();
         }
-        if (interactive.properties.type === 'door') {
+        if (interactive.entityType === EntityTypes.door) {
           this.handleOpenDoor(interactive);
         }
       }

@@ -82,18 +82,19 @@
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
-      "rate": 0.2,
-      "itemId": 1
-    },{
-      "rate": 1,
-      "itemId": 6
-    },
-    {
-      "rate": 1,
-      "itemId": 7
-    }],
+        "rate": 0.2,
+        "itemId": 1
+      }, {
+        "rate": 1,
+        "itemId": 6
+      },
+      {
+        "rate": 1,
+        "itemId": 7
+      }
+    ],
     "goldValue": 44,
-    "experiencePoints": 70
+    "experiencePoints": 40
   },
   "5": {
     "name": "eggception",
@@ -132,8 +133,11 @@
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
-      "rate": 0.2,
-      "itemId": 1
+      "rate": 0.05,
+      "itemId": 10
+    }, {
+      "rate": 0.01,
+      "itemId": 9
     }],
     "goldValue": 1,
     "experiencePoints": 5
@@ -176,15 +180,15 @@
         "itemId": 1
       },
       {
-        "rate": 0.2,
-        "itemId": 2
+        "rate": 0.05,
+        "itemId": 10
       },
       {
-        "rate": 0.2,
-        "itemId": 3
+        "rate": 0.05,
+        "itemId": 9
       }
     ],
-    "goldValue": 50,
+    "goldValue": 25,
     "experiencePoints": 15
   },
   "9": {
@@ -205,12 +209,24 @@
         "itemId": 6
       },
       {
-        "rate": 0.2,
-        "itemId": 2
+        "rate": 0.1,
+        "itemId": 8
       },
       {
-        "rate": 0.2,
-        "itemId": 3
+        "rate": 0.1,
+        "itemId": 11
+      },
+      {
+        "rate": 0.05,
+        "itemId": 10
+      },
+      {
+        "rate": 0.05,
+        "itemId": 9
+      },
+      {
+        "rate": 0.01,
+        "itemId": 12
       }
     ],
     "goldValue": 500,
@@ -232,14 +248,6 @@
     "lootTable": [{
         "rate": 0.2,
         "itemId": 1
-      },
-      {
-        "rate": 0.2,
-        "itemId": 2
-      },
-      {
-        "rate": 0.2,
-        "itemId": 3
       }
     ],
     "goldValue": 5,
@@ -258,12 +266,14 @@
     "strength": 20,
     "physicalResist": 29,
     "magicalResist": 20,
-    "lootTable": [
-      {
-        "rate": 1,
-        "itemId": 7
-      }
-    ],
+    "lootTable": [{
+      "rate": 1,
+      "itemId": 7
+    },
+    {
+      "rate": 1,
+      "itemId": 16
+    }],
     "goldValue": 500,
     "experiencePoints": 400
   }
