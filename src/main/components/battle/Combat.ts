@@ -12,7 +12,12 @@ import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./CombatInterface";
 import { State } from "../../utility/state/State";
+import { Enemy } from "./Enemy";
 
+export interface BattleState {
+  flagsToFlip: number[],
+  victorious: boolean,
+}
 export class Combat {
   private partyContainer: CombatContainer;
   private lootCrate: LootCrate;
@@ -20,13 +25,14 @@ export class Combat {
   private combatUI: CombatInterface;
   private combatEvents: CombatEvent[] = [];
   private partyMembers: PartyMember[] = [];
-  private enemies: Combatant[] = [];
+  private enemies: Enemy[] = [];
   private currentPartyFocusIndex: number = 0;
   private state = State.getInstance();
+  private victoryFlags: number[] = [];
   constructor(
     private scene: Phaser.Scene,
     party: PartyMember[],
-    enemies: Combatant[]
+    enemies: Enemy[]
   ) {
     party.forEach(member => {
       member.setSprite(scene, Directions.right);
@@ -42,6 +48,9 @@ export class Combat {
     enemies.forEach(enemy => {
       enemy.setSprite(scene, Directions.left);
       this.enemies.push(enemy);
+      if(enemy.flagsWhenDefeated){
+        this.victoryFlags = [...this.victoryFlags, ...enemy.flagsWhenDefeated]
+      }
     });
 
     this.addAndPopulateContainers();
@@ -49,7 +58,10 @@ export class Combat {
 
     this.scene.events.on("run-battle", async () => {
       await this.displayMessage(["Escaped Successfully"]);
-      this.scene.events.emit("end-battle");
+      this.scene.events.emit("end-battle", {
+        victorious: false,
+        flagsToFlip: null
+      });
     });
   }
 
@@ -183,11 +195,7 @@ export class Combat {
       return false;
     }
     if (this.enemies.length <= 0) {
-      this.scene.sound.stopAll();
-      this.scene.sound.play('victory', { volume: .4 })
-      await this.displayMessage(["You've won!"]);
-      await this.distributeLoot();
-      return this.scene.events.emit("end-battle");
+      return this.handleBattleEnd();
     }
     // make this async...
 
@@ -203,6 +211,17 @@ export class Combat {
     const target = result.target;
     this.resolveTargetDeaths(target);
     this.startLoop();
+  }
+
+  private async handleBattleEnd(){
+    this.scene.sound.stopAll();
+    this.scene.sound.play('victory', { volume: .4 })
+    await this.displayMessage(["You've won!"]);
+    await this.distributeLoot();
+    return this.scene.events.emit("end-battle", {
+      victorious: true,
+      flagsToFlip: this.victoryFlags
+    });
   }
 
   private updateCombatGrids(): Promise<any> {

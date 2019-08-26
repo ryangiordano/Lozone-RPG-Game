@@ -106,5 +106,13 @@
       "Behold my true form!",
       "Face me, devil cat!"
     ]
+  },
+  "29": {
+    "content": [
+      "Whoa, amazing, you defeated the Laundromancer.",
+      "What kinds of strange life lessons did he teach you?",
+      "Things like picking up your dirty clothes?  No?",
+      "Okay."
+    ]
   }
 }

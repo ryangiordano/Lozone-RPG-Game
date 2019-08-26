@@ -161,6 +161,12 @@
         "type": 0,
         "flagged": false
     },
+    "503": {
+        "name": "Orb of Neiku collected.",
+        "description": "The player has collected the Orb of Neiku.",
+        "type": 0,
+        "flagged": false
+    },
     "800": {
         "name": "door 1",
         "description": "Some random door",

@@ -36,7 +36,7 @@ export class Entity extends Phaser.GameObjects.Sprite {
   }
 
   protected setCollideOnTileBelowFoot(toCollide: boolean) {
-    this.currentTile.properties["collide"] = toCollide;
+    this.getTileBelowFoot().properties["collide"] = toCollide;
   }
 }
 

@@ -275,6 +275,7 @@
       "itemId": 16
     }],
     "goldValue": 500,
-    "experiencePoints": 400
+    "experiencePoints": 400,
+    "flagsWhenDefeated": [502]
   }
 }

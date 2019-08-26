@@ -53,8 +53,6 @@ export class Combatant {
     if (direction === Directions.left) {
       this.faceLeft();
     }
-    console.log(this.name)
-    console.log(this.sprite)
   }
   faceRight() {
     this.sprite.setFrame(6);

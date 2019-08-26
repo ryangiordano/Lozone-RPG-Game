@@ -40,7 +40,6 @@ export abstract class Explore extends Phaser.Scene {
   }
   protected abstract afterInit(data);
   preload(): void {
-    console.log("Preloading")
     // TODO: Gather these into a map
     this.sound.add("bump");
     this.sound.add("beep");
@@ -91,8 +90,6 @@ export abstract class Explore extends Phaser.Scene {
     // ===================================
     // Spawn the player
     // ===================================
-    // TODO: Make this its own abstraction (spawning)
-    // Work through this here.
     let spawn;
     if (this.warpDestId) {
       spawn = objects.find(o =>
@@ -177,14 +174,13 @@ export abstract class Explore extends Phaser.Scene {
         const npcObject = new NPC(
           {
             scene: this,
-            x: object.x + 32,
-            y: object.y + 32,
             key: npc.spriteKey,
             map: this.map,
-            casts: this.casts
+            casts: this.casts,
           },
           Directions.up,
-          npc.dialog
+          npc.dialog,
+          npc.placement
         )
         this.interactive.add(npcObject);
       }
@@ -194,18 +190,17 @@ export abstract class Explore extends Phaser.Scene {
       // ===================================
       if (object.type === "boss-monster") {
         const id = object.properties.find(p => p.name === "npcId").value;
-        const npc = sm.npcController.getNPCById(id)
+        const npc = sm.npcController.getNPCById(id);
         const npcObject = new BossMonster(
           {
             scene: this,
-            x: object.x + 32,
-            y: object.y + 32,
             key: npc.spriteKey,
             map: this.map,
             casts: this.casts
           },
           Directions.up,
-          npc.dialog
+          npc.dialog,
+          npc.placement
         )
         this.interactive.add(npcObject);
       }
@@ -215,7 +210,7 @@ export abstract class Explore extends Phaser.Scene {
       // ===================================
       if (object.type === "chest") {
         const itemId = object.properties.find(p => p.name === "itemId");
-        const id = object.properties.find(p => p.name === "flagId");
+        const flagId = object.properties.find(p => p.name === "flagId");
         const locked = object.properties.find(p => p.name === "locked");
         const toAdd = new Chest({
           scene: this,
@@ -223,7 +218,7 @@ export abstract class Explore extends Phaser.Scene {
           y: object.y + 32,
           map: this.map,
           properties: {
-            id: id.value,
+            id: flagId.value,
             itemId: itemId.value,
             type: "chest",
           }
@@ -231,7 +226,7 @@ export abstract class Explore extends Phaser.Scene {
         if (locked && locked.value) {
           toAdd.lock();
         }
-        if (sm.isFlagged(id.value)) {
+        if (sm.isFlagged(flagId.value)) {
           toAdd.setOpen();
         }
         this.interactive.add(toAdd);
@@ -300,20 +295,29 @@ export abstract class Explore extends Phaser.Scene {
       async (cast: Cast, interactive: any) => {
         cast.destroy();
         this.player.stop();
+
         if (interactive.entityType === EntityTypes.bossMonster) {
           await this.displayMessage(interactive.getCurrentDialog())
           interactive.triggerBattle()
           this.startEncounter(700);
         }
+
         if (interactive.entityType === EntityTypes.interactive) {
           this.displayMessage(interactive.properties.message)
         }
+
+        if (interactive.entityType === EntityTypes.npc) {
+          this.displayMessage(interactive.getCurrentDialog())
+        }
+
         if (interactive.entityType === EntityTypes.chest) {
           this.handleOpenChest(interactive);
         }
+
         if (interactive.entityType === EntityTypes.keyItem) {
           interactive.pickup();
         }
+
         if (interactive.entityType === EntityTypes.door) {
           this.handleOpenDoor(interactive);
         }
@@ -397,10 +401,6 @@ export abstract class Explore extends Phaser.Scene {
     this.player.controllable.canInput = true;
   }
 
-  /**
-   * 
-   * @param message
-   */
   displayMessage(message: string[]): Promise<any> {
     return new Promise(resolve => {
       this.scene.setActive(false, this.scene.key);

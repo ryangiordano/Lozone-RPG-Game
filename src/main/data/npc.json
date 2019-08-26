@@ -3,37 +3,57 @@
         "name": "Ryan",
         "spriteKey": "ryan",
         "description": "This is the npc that lives in `room`.  He's hacking away at the computer.  He's part of a small quest-line to get Lo's hearing aids and USB.",
-        "dialog": [{
-                "id": 25,
-                "flags": [],
-                "default": true
-            },
+        "dialog": [
             {
-                "id": 26,
-                "flags": [12],
+            "id": 29,
+                "flags": [503],
                 "default": false
             },
             {
                 "id": 27,
-                "flags": [12, 8],
+                "flags": [500, 501],
                 "default": false
+            },
+            {
+                "id": 26,
+                "flags": [501],
+                "default": false
+            },
+            {
+                "id": 25,
+                "flags": [],
+                "default": true
             }
         ],
-        "x": 0,
-        "y": 0
+        "placement": [{
+            "x": 192,
+            "y": 128,
+            "default": true,
+            "flags": []
+        }]
     },
     "2": {
         "name": "Laundromancer",
         "spriteKey": "laundromancer-sprite",
         "description": "This is the first boss of the first dungeon.  Defeating him yields a silver key, which you can use to open doors.",
         "dialog": [{
-                "id": 28,
-                "flags": [],
-                "default": true
+            "id": 28,
+            "flags": [],
+            "default": true
+        }],
+        "placement": [{
+                "x": 2368,
+                "y": 896,
+                "default": true,
+                "flags": []
+            },
+            {
+                "x": null,
+                "y": null,
+                "default": false,
+                "flags": [502]
             }
-        ],
-        "x": 0,
-        "y": 0
+        ]
 
     }
 }

@@ -1,6 +1,6 @@
 import { Directions } from '../../utility/Utility';
 import { Moveable } from '../../components/entities/Movement';
-import { NPCDialog } from '../../data/repositories/NPCRepository';
+import { NPCDialog, NPCPlacement } from '../../data/repositories/NPCRepository';
 import { State } from '../../utility/state/State';
 import { EntityTypes } from './Entity';
 
@@ -9,29 +9,49 @@ export class NPC extends Moveable {
   public entityType: EntityTypes = EntityTypes.npc;
   properties: any = {};
   constructor(
-    { scene, x, y, key, map, casts },
+    { scene, key, map, casts },
     facing?: Directions,
     protected dialog?: NPCDialog[],
+    protected placement?: NPCPlacement[]
   ) {
-    super({ scene, x, y, key, map, casts });
-    this.properties.type = 'npc';
+    super({ scene, x: 0, y: 0, key, map, casts });
+
+    this.setCurrentPlacement();
     this.face(facing);
   }
 
-  private getCurrentDialog() {
+  public getCurrentDialog() {
     const sm = State.getInstance()
     // flags should work by getting the most recent flag in the list
     // that resolves to true.
-    const dialog = this.dialog.reduce((acc, dialog) => {
-      if (sm.allAreFlagged(dialog.flags)) {
-        acc = dialog;
+    const dialog = this.dialog.find(dialog => sm.allAreFlagged(dialog.flags));
+    return dialog.message;
+  }
+
+  public getCurrentPlacement() {
+    const sm = State.getInstance()
+    // flags should work by getting the most recent flag in the list
+    // that resolves to true.
+    const placement = this.placement.reduce((acc, placement) => {
+      if (sm.allAreFlagged(placement.flags)) {
+        acc = placement;
       }
       return acc;
 
     });
-    return dialog.message;
+    return placement;
   }
-  //TODO: Get the NPC to hold all the messages, check which flags are in play, and react accordingly.;
+
+
+  private setCurrentPlacement() {
+    this.setCollideOnTileBelowFoot(false);
+    const loc = this.getCurrentPlacement();
+    this.x = loc.x + 32;
+    this.y = loc.y + 32;
+    this.setCollideOnTileBelowFoot(true);
+
+  }
+
 }
 
 export class BossMonster extends NPC {
@@ -40,11 +60,11 @@ export class BossMonster extends NPC {
    */
   public entityType: EntityTypes = EntityTypes.bossMonster;
 
-  constructor({ scene, x, y, key, map, casts },
+  constructor({ scene, key, map, casts },
     facing?: Directions,
-    protected dialog?: NPCDialog[]) {
-    super({ scene, x, y, key, map, casts });
-    this.properties.type = 'npc';
+    protected dialog?: NPCDialog[],
+    protected placement?: NPCPlacement[]) {
+    super({ scene, key, map, casts }, facing, dialog, placement);
     this.face(facing);
     this.idle()
   }

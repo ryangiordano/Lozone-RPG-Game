@@ -28,11 +28,8 @@ export class WarpController {
         };
     }
     public getWarpByDestId(warpDestId: number): Warp {
-        console.log(warpDestId)
         const warp = this.warpRepository.getByWarpDestination(warpDestId);
-        console.log(warp)
         const location = this.locationRepository.getById(warp.destinationLocationId);
-        console.log(warp, location)
         return {
             ...warp,
             warpId: warp.id,

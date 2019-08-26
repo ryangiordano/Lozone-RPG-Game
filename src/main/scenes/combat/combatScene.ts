@@ -1,5 +1,5 @@
 import { State } from "../../utility/state/State";
-import { Combat } from "../../components/battle/Combat";
+import { Combat, BattleState } from "../../components/battle/Combat";
 import { EnemyController } from "../../data/controllers/EnemyController";
 import { EnemyParty } from "../../components/battle/Party";
 import { getRandomFloor } from '../../utility/Utility';
@@ -34,10 +34,14 @@ export class CombatScene extends Phaser.Scene {
     const enemyParty = new EnemyParty(data.enemyPartyId, this.game);
 
     this.combat = new Combat(this, party.getParty(), enemyParty.getParty());
-    this.events.once('end-battle', (battleResults) => {
+    this.events.once('end-battle', (battleState: BattleState) => {
+      if(battleState.victorious && battleState.flagsToFlip.length){
+        const sm = State.getInstance();
+        battleState.flagsToFlip.forEach(flag=>sm.setFlag(flag, true))
+      }
       this.endBattle();
     });
-    this.events.once('game-over', (battleResults) => {
+    this.events.once('game-over', (battleState: BattleState) => {
       alert('You have died.')
       //TODO: change scene to game over scene.
     });

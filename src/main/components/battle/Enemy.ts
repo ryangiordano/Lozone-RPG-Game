@@ -23,7 +23,8 @@ export class Enemy extends Combatant {
     goldValue,
     physicalResist,
     magicalResist,
-    spells?
+    public flagsWhenDefeated?: number[],
+    spells?,
   ) {
     super(
       id,
@@ -42,7 +43,6 @@ export class Enemy extends Combatant {
       spells
     );
     this.initializeStatus();
-
     this.lootTable = lootTable;
     this.experiencePoints = experiencePoints;
     this.goldValue = goldValue;

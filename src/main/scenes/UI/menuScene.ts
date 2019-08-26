@@ -44,7 +44,7 @@ export class MenuScene extends Phaser.Scene {
       this.startPartyMenuScene({ type: PartyMenuTypes.statusCheck, entity: null })
     );
     mainPanel.on("debug-selected", () =>
-      this.UI.showPanel(dungeonPanel).focusPanel(dungeonPanel)
+      this.UI.showPanel(debugPanel).focusPanel(debugPanel)
     );
     this.UI.showPanel(mainPanel).focusPanel(mainPanel);
 
@@ -76,7 +76,7 @@ export class MenuScene extends Phaser.Scene {
     // ===================================
     this.createCoinPanel();
 
-    const dungeonPanel = this.createDungeonPanel();
+    const debugPanel = this.createDebugPanel();
 
     this.setEventListeners();
     this.setKeyboardEventListeners();
@@ -104,7 +104,7 @@ export class MenuScene extends Phaser.Scene {
       .addOption("Status", () => {
         mainPanel.emit("party-selected", PartyMenuTypes.statusCheck);
       })
-      .addOption("Dubug", () => {
+      .addOption("Debug", () => {
         mainPanel.emit("debug-selected");
       })
       .addOption("Cancel", () => this.closeMenuScene());
@@ -221,12 +221,17 @@ export class MenuScene extends Phaser.Scene {
     return itemConfirmPanel;
   }
 
-  private createDungeonPanel() {
+  private createDebugPanel() {
     const dungeonPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
       .addOption("Dungeon One", () => {
-        this.scene.stop('House');
+        this.scene.stop(this.callingSceneKey);
         const wp = new WarpUtility(this);
         wp.warpTo(6);
+      })
+      .addOption("House", () => {
+        this.scene.stop(this.callingSceneKey);
+        const wp = new WarpUtility(this);
+        wp.warpTo(1);
       })
       .addOption("Cancel", () => {
         this.UI.closePanel(dungeonPanel);
@@ -313,13 +318,11 @@ class ItemPanelContainer extends UIPanel {
     this.addOption("Cancel", () => {
       this.emit("panel-close");
     }, () => {
-      console.log("Focused cancel?")
       this.emit("item-focused", null);
     });
   }
 
   public updateDisplay(item) {
-    console.log("Update display", item)
     const container = this.childPanels.get('item-detail');
     container.clearPanelContainerByTypes(['Text', 'Sprite']);
     if (!item) return;

@@ -5,8 +5,7 @@ export interface NPCData {
     spriteKey: string,
     description: string,
     dialog: NPCDialog[],
-    x: number,
-    y: number
+    placement: NPCPlacement[]
 }
 
 export interface NPCDialog {
@@ -14,6 +13,13 @@ export interface NPCDialog {
     flags: number[],
     default: boolean,
     message?: string[]
+}
+
+export interface NPCPlacement {
+    x: number,
+    y: number,
+    default: boolean,
+    flags: number[]
 }
 export class NPCRepository extends Repository<NPCData>{
     constructor(game) {

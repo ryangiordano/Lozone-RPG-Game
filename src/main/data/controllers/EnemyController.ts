@@ -30,6 +30,7 @@ export class EnemyController {
       goldValue,
       physicalResist,
       magicalResist,
+      flagsWhenDefeated
     } = enemyFromDb;
     const enemy = new Enemy(
       id,
@@ -48,6 +49,7 @@ export class EnemyController {
       goldValue,
       physicalResist,
       magicalResist,
+      flagsWhenDefeated
     );
     return enemy;
   }
