@@ -5,7 +5,7 @@ import { Item, ItemCategory } from "../../components/entities/Item";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 import { TextFactory } from '../../utility/TextFactory';
-import { WarpUtility } from "../../utility/Warp";
+import { WarpUtility } from "../../utility/exploration/Warp";
 
 
 export class MenuScene extends Phaser.Scene {

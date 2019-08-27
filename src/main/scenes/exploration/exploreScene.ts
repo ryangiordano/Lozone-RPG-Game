@@ -7,10 +7,11 @@ import { Directions, wait } from "../../utility/Utility";
 import { Trigger } from "../../assets/objects/Trigger";
 import { State } from "../../utility/state/State";
 import { KeyboardControl } from "../../components/UI/Keyboard";
-import { WarpUtility } from '../../utility/Warp';
+import { WarpUtility } from '../../utility/exploration/Warp';
+import { ObjectLoader } from '../../utility/exploration/ObjectLoader';
 
 export abstract class Explore extends Phaser.Scene {
-  private map: Phaser.Tilemaps.Tilemap;
+  public map: Phaser.Tilemaps.Tilemap;
   private tileset: Phaser.Tilemaps.Tileset;
   private backgroundLayer: Phaser.Tilemaps.StaticTilemapLayer;
   private foregroundLayer: Phaser.Tilemaps.StaticTilemapLayer;
@@ -20,12 +21,15 @@ export abstract class Explore extends Phaser.Scene {
   protected keyboardControl: KeyboardControl;
   protected player: Player;
   protected playerIsMoving: boolean = false;
-  private warpDestId: number;
+  public warpDestId: number;
   private warpUtility: WarpUtility;
+  private objectLoader: ObjectLoader;
   constructor(key) {
     super({
       key: key || "Explore"
     });
+    this.objectLoader = new ObjectLoader(this.casts, this);
+
   }
   init(data) {
     // Specify the tileset you want to use based on the data passed to the scene.
@@ -51,7 +55,9 @@ export abstract class Explore extends Phaser.Scene {
   create(): void {
     this.setGroups();
     this.setMapLayers();
+    this.setPlayer();
     this.loadObjectsFromTilemap();
+    this.setupCamera();
     this.setColliders();
     this.setEvents();
 
@@ -84,9 +90,13 @@ export abstract class Explore extends Phaser.Scene {
     });
   }
   protected loadObjectsFromTilemap() {
-    const objects = this.map.getObjectLayer("objects").objects as any[];
-    const sm = State.getInstance();
+    const dataToLoad = this.objectLoader.getDataToLoad();
+    dataToLoad.interactives.forEach(d => this.interactive.add(d))
+    dataToLoad.triggers.forEach(t => this.triggers.add(t));
+  }
 
+  private setPlayer() {
+    const objects = this.map.getObjectLayer("objects").objects as any[];
     // ===================================
     // Spawn the player
     // ===================================
@@ -109,175 +119,6 @@ export abstract class Explore extends Phaser.Scene {
       map: this.map,
       casts: this.casts
     });
-
-    // ===================================
-    // Lay Objects down
-    // ===================================
-
-    objects.forEach(object => {
-      if (object.type === "interactive") {
-        const id = object.properties.find(p => p.name === "dialogId").value;
-        const message = sm.dialogController.getDialogById(id);
-        this.interactive.add(
-          new Interactive({
-            scene: this,
-            x: object.x + 32,
-            y: object.y + 32,
-            properties: {
-              type: object.type,
-              id: object.id,
-              message: message && message.content
-            }
-          })
-        );
-      }
-      if (object.type === "trigger") {
-        const { warpId } = object.properties.reduce((acc, i) => {
-          acc[i.name] = i.value;
-          return acc;
-        }, {});
-
-
-        if (warpId) {
-          this.triggers.add(
-            new Trigger({
-              scene: this,
-              x: object.x + 32,
-              y: object.y + 32,
-              properties: {
-                type: object.type,
-                warpId,
-              }
-            })
-          );
-        } else {
-          this.triggers.add(
-            new Trigger({
-              scene: this,
-              x: object.x + 32,
-              y: object.y + 32,
-              properties: {
-                type: object.type,
-                id: object.id
-              }
-            })
-          );
-        }
-      }
-
-      // ===================================
-      // Handle placing the NPC
-      // ===================================
-      if (object.type === "npc") {
-        const id = object.properties.find(p => p.name === "npcId").value;
-        const npc = sm.npcController.getNPCById(id)
-        const npcObject = new NPC(
-          {
-            scene: this,
-            key: npc.spriteKey,
-            map: this.map,
-            casts: this.casts,
-          },
-          Directions.up,
-          npc.dialog,
-          npc.placement
-        )
-        this.interactive.add(npcObject);
-      }
-
-      // ===================================
-      // Handle placing the Bossmonster
-      // ===================================
-      if (object.type === "boss-monster") {
-        const id = object.properties.find(p => p.name === "npcId").value;
-        const npc = sm.npcController.getNPCById(id);
-        const npcObject = new BossMonster(
-          {
-            scene: this,
-            key: npc.spriteKey,
-            map: this.map,
-            casts: this.casts
-          },
-          Directions.up,
-          npc.dialog,
-          npc.placement
-        )
-        this.interactive.add(npcObject);
-      }
-
-      // ===================================
-      // Handle placing the chest
-      // ===================================
-      if (object.type === "chest") {
-        const itemId = object.properties.find(p => p.name === "itemId");
-        const flagId = object.properties.find(p => p.name === "flagId");
-        const locked = object.properties.find(p => p.name === "locked");
-        const toAdd = new Chest({
-          scene: this,
-          x: object.x + 32,
-          y: object.y + 32,
-          map: this.map,
-          properties: {
-            id: flagId.value,
-            itemId: itemId.value,
-            type: "chest",
-          }
-        }, locked && 6);
-        if (locked && locked.value) {
-          toAdd.lock();
-        }
-        if (sm.isFlagged(flagId.value)) {
-          toAdd.setOpen();
-        }
-        this.interactive.add(toAdd);
-      }
-
-      // ===================================
-      // Handle placing locked door.
-      // ===================================
-      if (object.type === "door") {
-        const id = object.properties.find(p => p.name === "flagId").value;
-        if (!sm.isFlagged(id)) {
-          const toAdd = new LockedDoor({
-            scene: this,
-            x: object.x + 32,
-            y: object.y + 32,
-            map: this.map,
-            properties: {
-              id: id,
-              type: "door",
-            }
-          }, 7);
-          this.interactive.add(toAdd);
-        }
-      }
-      // ===================================
-      // Handle placing key item
-      // ===================================
-      if (object.type === "key-item") {
-        const itemId = object.properties.find(p => p.name === "itemId").value;
-        const id = object.properties.find(p => p.name === "flagId").value;
-        const item = sm.getItem(itemId);
-        if (!sm.isFlagged(id)) {
-          const toAdd = new KeyItem({
-            scene: this,
-            x: object.x + 32,
-            y: object.y + 32,
-            map: this.map,
-            properties: {
-              id: id,
-              itemId: itemId,
-              type: "key-item",
-              spriteKey: item.spriteKey,
-              frame: item.frame
-            }
-          });
-          this.interactive.add(toAdd);
-        }
-      }
-    });
-
-    this.setupCamera();
   }
   private setupCamera() {
     this.cameras.main.startFollow(this.player);
@@ -288,6 +129,8 @@ export abstract class Explore extends Phaser.Scene {
       this.map.heightInPixels
     );
   }
+
+  // Handle collision with casts on all types of entities.
   protected setColliders() {
     this.physics.add.overlap(
       this.casts,
