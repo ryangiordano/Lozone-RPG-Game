@@ -145,7 +145,7 @@ export class PartyMember extends Combatant {
       this.currentExperience = 0;
       this.gainExperience(overFlow);
     }
-    this.currentExperience = total;
+    this.currentExperience = leveledUp ? overFlow : total;
     return leveledUp;
   }
 }
