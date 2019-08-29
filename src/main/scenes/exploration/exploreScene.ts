@@ -8,7 +8,7 @@ import { Trigger } from "../../assets/objects/Trigger";
 import { State } from "../../utility/state/State";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { WarpUtility } from '../../utility/exploration/Warp';
-import { ObjectLoader } from '../../utility/exploration/ObjectLoader';
+import { MapObjectFactory } from '../../utility/exploration/ObjectLoader';
 
 export abstract class Explore extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap;
@@ -23,12 +23,12 @@ export abstract class Explore extends Phaser.Scene {
   protected playerIsMoving: boolean = false;
   public warpDestId: number;
   private warpUtility: WarpUtility;
-  private objectLoader: ObjectLoader;
+  private mapObjectFactory: MapObjectFactory;
   constructor(key) {
     super({
       key: key || "Explore"
     });
-    this.objectLoader = new ObjectLoader(this.casts, this);
+    this.mapObjectFactory = new MapObjectFactory(this.casts, this);
 
   }
   init(data) {
@@ -90,7 +90,7 @@ export abstract class Explore extends Phaser.Scene {
     });
   }
   protected loadObjectsFromTilemap() {
-    const dataToLoad = this.objectLoader.getDataToLoad();
+    const dataToLoad = this.mapObjectFactory.getDataToLoad();
     dataToLoad.interactives.forEach(d => this.interactive.add(d))
     dataToLoad.triggers.forEach(t => this.triggers.add(t));
   }
@@ -177,7 +177,7 @@ export abstract class Explore extends Phaser.Scene {
       (cast: Cast, trigger: any) => {
         cast.destroy();
         if (
-          trigger.properties.type === "trigger" &&
+          trigger.properties.type === EntityTypes.trigger &&
           trigger.properties.warpId) {
           this.events.off("item-acquired", this.acquiredItemCallback);
           const warp = this.warpUtility.getWarp(trigger.properties.warpId)

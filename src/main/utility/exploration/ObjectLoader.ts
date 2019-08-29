@@ -5,15 +5,20 @@ import { Interactive } from '../../assets/objects/Interactive';
 import { Trigger } from '../../assets/objects/Trigger';
 import { NPC, BossMonster } from '../../assets/objects/NPC';
 import { Directions } from '../Utility';
-import { Chest, LockedDoor, KeyItem } from '../../assets/objects/Entity';
+import { Chest, LockedDoor, KeyItem, EntityTypes } from '../../assets/objects/Entity';
 import { Cast } from '../../assets/objects/Cast';
+
+
+interface MapObject {
+
+}
 
 interface ExploreData {
     interactives: Phaser.GameObjects.Sprite[]
     triggers: Phaser.GameObjects.Sprite[]
 }
 
-export class ObjectLoader {
+export class MapObjectFactory {
     /**
      * Handles loading objects on the Explore scenes.
      */
@@ -21,163 +26,6 @@ export class ObjectLoader {
     constructor(private casts: Phaser.GameObjects.Group, private scene: Explore) {
         //TODO: Use events to refactor having to pass casts down from scene to every npc;
         this.stateManager = State.getInstance();
-    }
-
-    private hasProperty(name, properties): boolean {
-        const property = properties.find(p => p.name === name);
-        return !!property;
-    }
-
-    private getObjectPropertyByName(name, properties) {
-        if (!this.hasProperty(name, properties)) {
-            return false;
-        }
-        const property = properties.find(p => p.name === name);
-        return property.value;
-    }
-
-    private createInteractive(object) {
-        const id = this.getObjectPropertyByName('dialogId', object.properties)
-        const message = this.stateManager.dialogController.getDialogById(id);
-        return new Interactive({
-            scene: this.scene,
-            x: object.x + 32,
-            y: object.y + 32,
-            properties: {
-                type: object.type,
-                id: object.id,
-                message: message && message.content
-            }
-        });
-    }
-
-    //TODO: Improve this...
-    private createTrigger(object) {
-        let trigger;
-        if (this.hasProperty('warpId', object.properties)) {
-            const warpId = this.getObjectPropertyByName('warpId', object.properties)
-            trigger = new Trigger({
-                scene: this.scene,
-                x: object.x + 32,
-                y: object.y + 32,
-                properties: {
-                    type: object.type,
-                    warpId,
-                }
-            });
-        } else {
-            trigger = new Trigger({
-                scene: this.scene,
-                x: object.x + 32,
-                y: object.y + 32,
-                properties: {
-                    type: object.type,
-                    id: object.id
-                }
-            });
-        }
-        return trigger;
-    }
-
-    private createNpc(object) {
-        const id = object.properties.find(p => p.name === "npcId").value;
-        const npc = this.stateManager.npcController.getNPCById(id)
-        const npcObject = new NPC(
-            {
-                scene: this.scene,
-                key: npc.spriteKey,
-                map: this.scene.map,
-                casts: this.casts,
-            },
-            Directions.up,
-            npc.dialog,
-            npc.placement
-        )
-        return npcObject;
-    }
-
-    private createBossMonster(object) {
-        const id = object.properties.find(p => p.name === "npcId").value;
-        const npc = this.stateManager.npcController.getNPCById(id);
-        const npcObject = new BossMonster(
-            {
-                scene: this.scene,
-                key: npc.spriteKey,
-                map: this.scene.map,
-                casts: this.casts
-            },
-            Directions.up,
-            npc.dialog,
-            npc.placement
-        )
-        return npcObject;
-    }
-
-    private createChest(object) {
-        const itemId = this.getObjectPropertyByName('itemId', object.properties);
-        const flagId = this.getObjectPropertyByName('flagId', object.properties);
-        const locked = this.getObjectPropertyByName('locked', object.properties);
-
-        const chest = new Chest({
-            scene: this.scene,
-            x: object.x + 32,
-            y: object.y + 32,
-            map: this.scene.map,
-            properties: {
-                id: flagId.value,
-                itemId: itemId.value,
-                type: "chest",
-            }
-        }, locked && 6);
-        if (locked && locked.value) {
-            chest.lock();
-        }
-        if (this.stateManager.isFlagged(flagId.value)) {
-            chest.setOpen();
-        }
-        return chest;
-    }
-
-    private createDoor(object) {
-        const flagId = this.getObjectPropertyByName("flagId", object.properties);
-        if (!this.stateManager.isFlagged(flagId)) {
-            const door = new LockedDoor({
-                scene: this.scene,
-                x: object.x + 32,
-                y: object.y + 32,
-                map: this.scene.map,
-                properties: {
-                    id: flagId,
-                    type: "door",
-                }
-            }, 7);
-            return door;
-        }
-        return false;
-    }
-
-    private createKeyItem(object) {
-        const itemId = this.getObjectPropertyByName('itemId', object.properties);
-        const flagId = this.getObjectPropertyByName("flagId", object.properties);
-        const item = this.getObjectPropertyByName('itemId', object.properties);
-
-        if (!this.stateManager.isFlagged(flagId)) {
-            const keyItem = new KeyItem({
-                scene: this.scene,
-                x: object.x + 32,
-                y: object.y + 32,
-                map: this.scene.map,
-                properties: {
-                    id: flagId,
-                    itemId: itemId,
-                    type: "key-item",
-                    spriteKey: item.spriteKey,
-                    frame: item.frame
-                }
-            });
-            return keyItem;
-        }
-        return false;
     }
 
     public getDataToLoad(): ExploreData {
@@ -221,6 +69,9 @@ export class ObjectLoader {
             // ===================================
             if (object.type === "chest") {
                 const chest = this.createChest(object);
+                if(chest.unlockItemId) {
+                    chest.lock();
+                }
                 exploreData.interactives.push(chest);
             }
 
@@ -241,4 +92,152 @@ export class ObjectLoader {
         });
         return exploreData;
     }
+
+    private hasProperty(name, properties): boolean {
+        const property = properties.find(p => p.name === name);
+        return !!property;
+    }
+
+    private getObjectPropertyByName(name, properties) {
+        if (!this.hasProperty(name, properties)) {
+            return false;
+        }
+        const property = properties.find(p => p.name === name);
+        return property.value;
+    }
+
+    private createInteractive(object) {
+        const id = this.getObjectPropertyByName('dialogId', object.properties)
+        const message = this.stateManager.dialogController.getDialogById(id);
+        return new Interactive({
+            scene: this.scene,
+            x: object.x + 32,
+            y: object.y + 32,
+            properties: {
+                type: object.type,
+                id: object.id,
+                message: message && message.content
+            }
+        });
+    }
+
+    //TODO: Revisit whether we need two differe kinds of triggers
+    private createTrigger(object) {
+        const triggerConfig = {
+            scene: this.scene,
+            x: object.x + 32,
+            y: object.y + 32,
+            properties: {
+                type: EntityTypes.trigger
+            }
+        };
+        if (this.hasProperty('warpId', object.properties)) {
+            const warpId = this.getObjectPropertyByName('warpId', object.properties)
+            triggerConfig.properties['warpId'] = warpId;
+        } else {
+            triggerConfig.properties['id'] = object.id;
+        }
+        return new Trigger(triggerConfig);
+    }
+
+    private createNpc(object) {
+        const id = object.properties.find(p => p.name === "npcId").value;
+        const npc = this.stateManager.npcController.getNPCById(id)
+        const npcObject = new NPC(
+            {
+                scene: this.scene,
+                key: npc.spriteKey,
+                map: this.scene.map,
+                casts: this.casts,
+            },
+            Directions.up,
+            npc.dialog,
+            npc.placement
+        )
+        return npcObject;
+    }
+
+    private createBossMonster(object) {
+        const id = object.properties.find(p => p.name === "npcId").value;
+        const npc = this.stateManager.npcController.getNPCById(id);
+        const npcObject = new BossMonster(
+            {
+                scene: this.scene,
+                key: npc.spriteKey,
+                map: this.scene.map,
+                casts: this.casts
+            },
+            Directions.up,
+            npc.dialog,
+            npc.placement
+        )
+        return npcObject;
+    }
+
+        private createChest(object) {
+        const itemId = this.getObjectPropertyByName('itemId', object.properties);
+        const flagId = this.getObjectPropertyByName('flagId', object.properties);
+        const locked = this.getObjectPropertyByName('locked', object.properties);
+        const chest = new Chest({
+            scene: this.scene,
+            x: object.x + 32,
+            y: object.y + 32,
+            map: this.scene.map,
+            properties: {
+                id: flagId,
+                itemId: itemId,
+                type: EntityTypes.chest,
+            }
+        }, locked && 6);
+        if (locked && locked) {
+            chest.lock();
+        }
+        if (this.stateManager.isFlagged(flagId)) {
+            chest.setOpen();
+        }
+        return chest;
+    }
+
+    private createDoor(object) {
+        const flagId = this.getObjectPropertyByName("flagId", object.properties);
+        if (!this.stateManager.isFlagged(flagId)) {
+            const door = new LockedDoor({
+                scene: this.scene,
+                x: object.x + 32,
+                y: object.y + 32,
+                map: this.scene.map,
+                properties: {
+                    id: flagId,
+                    type: EntityTypes.door,
+                }
+            }, 7);
+            return door;
+        }
+        return false;
+    }
+
+    private createKeyItem(object) {
+        const itemId = this.getObjectPropertyByName('itemId', object.properties);
+        const flagId = this.getObjectPropertyByName("flagId", object.properties);
+        const item = this.stateManager.getItem(itemId);
+        if (!this.stateManager.isFlagged(flagId)) {
+            const keyItem = new KeyItem({
+                scene: this.scene,
+                x: object.x + 32,
+                y: object.y + 32,
+                map: this.scene.map,
+                properties: {
+                    id: flagId,
+                    itemId: itemId,
+                    type: EntityTypes.keyItem,
+                    spriteKey: item.spriteKey,
+                    frame: item.frame
+                }
+            });
+            return keyItem;
+        }
+        return false;
+    }
+
+
 }
