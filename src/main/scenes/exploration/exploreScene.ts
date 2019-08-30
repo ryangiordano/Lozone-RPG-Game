@@ -29,7 +29,6 @@ export abstract class Explore extends Phaser.Scene {
       key: key || "Explore"
     });
     this.mapObjectFactory = new MapObjectFactory(this.casts, this);
-
   }
   init(data) {
     // Specify the tileset you want to use based on the data passed to the scene.
