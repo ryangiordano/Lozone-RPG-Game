@@ -68,6 +68,7 @@ export class Chest extends Entity {
   public setOpen() {
     this.open = true;
     this.unlockItemId ? this.setFrame(5, false) : this.setFrame(1, false);
+    console.log(this.frame)
   }
   public lock() {
     this.locked = true;

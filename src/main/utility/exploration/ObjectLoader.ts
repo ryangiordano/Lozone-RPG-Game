@@ -69,9 +69,6 @@ export class MapObjectFactory {
             // ===================================
             if (object.type === "chest") {
                 const chest = this.createChest(object);
-                if(chest.unlockItemId) {
-                    chest.lock();
-                }
                 exploreData.interactives.push(chest);
             }
 
@@ -141,7 +138,7 @@ export class MapObjectFactory {
     }
 
     private createNpc(object) {
-        const id = object.properties.find(p => p.name === "npcId").value;
+        const id = this.getObjectPropertyByName('npcId', object.properties)
         const npc = this.stateManager.npcController.getNPCById(id)
         const npcObject = new NPC(
             {
@@ -158,7 +155,8 @@ export class MapObjectFactory {
     }
 
     private createBossMonster(object) {
-        const id = object.properties.find(p => p.name === "npcId").value;
+        const id = this.getObjectPropertyByName('npcId', object.properties);
+        const triggerBattleId = this.getObjectPropertyByName('triggerBattle', object.properties);
         const npc = this.stateManager.npcController.getNPCById(id);
         const npcObject = new BossMonster(
             {
@@ -167,6 +165,7 @@ export class MapObjectFactory {
                 map: this.scene.map,
                 casts: this.casts
             },
+            triggerBattleId,
             Directions.up,
             npc.dialog,
             npc.placement
@@ -174,7 +173,7 @@ export class MapObjectFactory {
         return npcObject;
     }
 
-        private createChest(object) {
+    private createChest(object) {
         const itemId = this.getObjectPropertyByName('itemId', object.properties);
         const flagId = this.getObjectPropertyByName('flagId', object.properties);
         const locked = this.getObjectPropertyByName('locked', object.properties);
@@ -189,12 +188,12 @@ export class MapObjectFactory {
                 type: EntityTypes.chest,
             }
         }, locked && 6);
-        if (locked && locked) {
-            chest.lock();
-        }
         if (this.stateManager.isFlagged(flagId)) {
             chest.setOpen();
+        } else if (locked) {
+            chest.lock();
         }
+
         return chest;
     }
 
@@ -220,24 +219,27 @@ export class MapObjectFactory {
         const itemId = this.getObjectPropertyByName('itemId', object.properties);
         const flagId = this.getObjectPropertyByName("flagId", object.properties);
         const item = this.stateManager.getItem(itemId);
-        if (!this.stateManager.isFlagged(flagId)) {
-            const keyItem = new KeyItem({
-                scene: this.scene,
-                x: object.x + 32,
-                y: object.y + 32,
-                map: this.scene.map,
-                properties: {
-                    id: flagId,
-                    itemId: itemId,
-                    type: EntityTypes.keyItem,
-                    spriteKey: item.spriteKey,
-                    frame: item.frame
-                }
-            });
-            return keyItem;
+
+        const alreadyCollected = this.stateManager.isFlagged(flagId);
+        const hasPlacementFlag = this.hasProperty("placementFlag", object.properties)
+        const placementFlagId = this.getObjectPropertyByName("placementFlag", object.properties);
+        const notYetFlagggedToPlace = !this.stateManager.isFlagged(placementFlagId)
+        if ((hasPlacementFlag && notYetFlagggedToPlace) || alreadyCollected) {
+            return false;
         }
-        return false;
+        const keyItem = new KeyItem({
+            scene: this.scene,
+            x: object.x + 32,
+            y: object.y + 32,
+            map: this.scene.map,
+            properties: {
+                id: flagId,
+                itemId: itemId,
+                type: EntityTypes.keyItem,
+                spriteKey: item.spriteKey,
+                frame: item.frame
+            }
+        });
+        return keyItem;
     }
-
-
 }

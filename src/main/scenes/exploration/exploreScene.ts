@@ -94,6 +94,10 @@ export abstract class Explore extends Phaser.Scene {
     dataToLoad.triggers.forEach(t => this.triggers.add(t));
   }
 
+  refreshInteractivesByFlag(flagId) {
+    //TODO: Implement this function...;
+  }
+
   private setPlayer() {
     const objects = this.map.getObjectLayer("objects").objects as any[];
     // ===================================
@@ -237,7 +241,7 @@ export abstract class Explore extends Phaser.Scene {
     await this.displayMessage([`Lo got ${item.name}`]);
     if (isKeyItem) {
       this.sound.play("get-item", { volume: 0.1 });
-      await wait(1000)
+      await wait(300)
     }
     await wait(300)
     this.player.controllable.canInput = true;

@@ -950,9 +950,41 @@
                          "name":"npcId",
                          "type":"int",
                          "value":2
+                        }, 
+                        {
+                         "name":"triggerBattle",
+                         "type":"int",
+                         "value":700
                         }],
                  "rotation":0,
                  "type":"boss-monster",
+                 "visible":true,
+                 "width":64,
+                 "x":2368,
+                 "y":896
+                }, 
+                {
+                 "height":64,
+                 "id":60,
+                 "name":"orb of neiku",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"string",
+                         "value":"503"
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":13
+                        }, 
+                        {
+                         "name":"placementFlag",
+                         "type":"int",
+                         "value":502
+                        }],
+                 "rotation":0,
+                 "type":"key-item",
                  "visible":true,
                  "width":64,
                  "x":2368,
@@ -965,7 +997,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":60,
+ "nextobjectid":61,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",

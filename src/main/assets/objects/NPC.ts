@@ -61,6 +61,7 @@ export class BossMonster extends NPC {
   public entityType: EntityTypes = EntityTypes.bossMonster;
 
   constructor({ scene, key, map, casts },
+    public encounterId: number,
     facing?: Directions,
     protected dialog?: NPCDialog[],
     protected placement?: NPCPlacement[]) {
