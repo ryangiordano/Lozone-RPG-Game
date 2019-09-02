@@ -170,7 +170,6 @@ export class MapObjectFactory {
             {
                 scene: this.scene,
                 key: npc.spriteKey,
-                map: this.scene.map,
                 casts: this.casts
             },
             triggerBattleId,

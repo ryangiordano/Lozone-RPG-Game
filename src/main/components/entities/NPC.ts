@@ -59,8 +59,7 @@ export class BossMonster extends NPC {
    *  Represents boss monsters on the world map.
    */
   public entityType: EntityTypes = EntityTypes.bossMonster;
-
-  constructor({ scene, key, map, casts },
+  constructor({ scene, key, casts },
     public encounterId: number,
     facing?: Directions,
     protected dialog?: NPCDialog[],
@@ -68,10 +67,6 @@ export class BossMonster extends NPC {
     super({ scene, key, casts }, facing, dialog, placement);
     this.face(facing);
     this.idle()
-  }
-
-  triggerBattle(battleId) {
-
   }
 
   idle() {

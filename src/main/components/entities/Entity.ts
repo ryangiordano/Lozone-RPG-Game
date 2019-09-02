@@ -63,7 +63,9 @@ export class Trigger extends Entity {
     this.visible = false;
   }
 }
-
+/**
+ * Carries data for warping to different maps.
+ */
 export class WarpTrigger extends Entity {
   public warpId: number;
   constructor({ scene, x, y, warpId }) {
@@ -75,6 +77,9 @@ export class WarpTrigger extends Entity {
   }
 }
 
+/**
+ * A fallback object for maps where the warp endpoint is not explicitly set.
+ */
 export class Spawn extends Entity {
   constructor({ scene, x, y }) {
     super({ scene, x, y, key: null });

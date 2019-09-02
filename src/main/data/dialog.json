@@ -114,5 +114,22 @@
       "Things like picking up your dirty clothes?  No?",
       "Okay."
     ]
+  },
+  "30": {
+    "content": [
+      "There is a pile of dishes in the sink.  You've set them there...",
+      "...'to soak'...",
+      "Yet three weeks later there they remain!",
+      "I think they're soaked through...",
+      "Just as I shall do to you! Prepare yourself for my true form!"
+    ]
+  },
+  "31": {
+    "content": [
+      "Neat, you beat the wanmonster.",
+      "Did you learn anything from him.",
+      "Like.  Anything at all.  Nothing important or.",
+      "Alright fine."
+    ]
   }
 }

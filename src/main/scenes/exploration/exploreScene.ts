@@ -134,10 +134,8 @@ export abstract class Explore extends Phaser.Scene {
 
         if (interactive.entityType === EntityTypes.bossMonster) {
           await this.displayMessage(interactive.getCurrentDialog())
-          interactive.triggerBattle()
-          console.log(interactive)
           //TODO: Fix this static battle trigger...;
-          this.startEncounter(700);
+          this.startEncounter(interactive.encounterId);
         }
 
         if (interactive.entityType === EntityTypes.interactive) {

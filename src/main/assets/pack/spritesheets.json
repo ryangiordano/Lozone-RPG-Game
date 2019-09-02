@@ -305,6 +305,24 @@
           "frameWidth": 64,
           "frameHeight": 64
         }
+      },
+      {
+        "type": "spritesheet",
+        "key": "wanmonster",
+        "url": "./src/main/assets/sprites/monsters/boss/wanmonster.png",
+        "frameConfig": {
+          "frameWidth": 256,
+          "frameHeight": 256
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "wanmonster-sprite",
+        "url": "./src/main/assets/sprites/monsters/boss/wanmonster-sprite.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
       }
     ]
   }

@@ -3,9 +3,13 @@
         "name": "Ryan",
         "spriteKey": "ryan",
         "description": "This is the npc that lives in `room`.  He's hacking away at the computer.  He's part of a small quest-line to get Lo's hearing aids and USB.",
-        "dialog": [
+        "dialog": [{
+                "id": 31,
+                "flags": [505],
+                "default": false
+            },
             {
-            "id": 29,
+                "id": 29,
                 "flags": [503],
                 "default": false
             },
@@ -52,6 +56,30 @@
                 "y": null,
                 "default": false,
                 "flags": [502]
+            }
+        ]
+
+    },
+    "3": {
+        "name": "Wanmonster",
+        "spriteKey": "wanmonster-sprite",
+        "description": "This is the first boss of the first dungeon.  Defeating him yields a silver key, which you can use to open doors.",
+        "dialog": [{
+            "id": 30,
+            "flags": [],
+            "default": true
+        }],
+        "placement": [{
+                "x": 1280,
+                "y": 3008,
+                "default": true,
+                "flags": []
+            },
+            {
+                "x": null,
+                "y": null,
+                "default": false,
+                "flags": [504]
             }
         ]
 

@@ -228,6 +228,11 @@ export class MenuScene extends Phaser.Scene {
         const wp = new WarpUtility(this);
         wp.warpTo(6);
       })
+      .addOption("Dungeon Two", () => {
+        this.scene.stop(this.callingSceneKey);
+        const wp = new WarpUtility(this);
+        wp.warpTo(10);
+      })
       .addOption("House", () => {
         this.scene.stop(this.callingSceneKey);
         const wp = new WarpUtility(this);

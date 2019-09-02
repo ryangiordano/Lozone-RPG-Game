@@ -989,6 +989,60 @@
                  "width":64,
                  "x":2368,
                  "y":896
+                }, 
+                {
+                 "height":64,
+                 "id":61,
+                 "name":"wanmonster",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":504
+                        }, 
+                        {
+                         "name":"npcId",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"triggerBattle",
+                         "type":"int",
+                         "value":701
+                        }],
+                 "rotation":0,
+                 "type":"boss-monster",
+                 "visible":true,
+                 "width":64,
+                 "x":1280,
+                 "y":3008
+                }, 
+                {
+                 "height":64,
+                 "id":62,
+                 "name":"orb of xiwan",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"string",
+                         "value":"505"
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":14
+                        }, 
+                        {
+                         "name":"placementFlag",
+                         "type":"int",
+                         "value":504
+                        }],
+                 "rotation":0,
+                 "type":"key-item",
+                 "visible":true,
+                 "width":64,
+                 "x":1280,
+                 "y":3008
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -997,7 +1051,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":61,
+ "nextobjectid":63,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
