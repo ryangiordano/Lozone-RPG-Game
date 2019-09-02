@@ -1,6 +1,6 @@
 import { Directions, createThrottle } from "../../utility/Utility";
-import { Cast } from "../../assets/objects/Cast";
-import { Entity } from "../../assets/objects/Entity";
+import { Cast } from "./Cast";
+import { Entity } from "./Entity";
 
 /**
  * The base class that NPCs who can move on a tiled map should inherit from.
@@ -14,8 +14,8 @@ export class Moveable extends Entity {
   protected target = { x: 0, y: 0 };
   protected spriteKey: string;
   protected facing: Directions = Directions.down;
-  constructor({ scene, x, y, key, map, casts }) {
-    super({ scene, x, y, key, map });
+  constructor({ scene, x, y, key, casts }) {
+    super({ scene, x, y, key });
     this.spriteKey = key;
     this.casts = casts;
   }

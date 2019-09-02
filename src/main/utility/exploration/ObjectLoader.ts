@@ -1,12 +1,9 @@
 import { Explore } from '../../scenes/exploration/exploreScene';
 import { State } from '../state/State';
-import { Player } from '../../assets/objects/Player';
-import { Interactive } from '../../assets/objects/Interactive';
-import { Trigger } from '../../assets/objects/Trigger';
-import { NPC, BossMonster } from '../../assets/objects/NPC';
+import { Interactive } from '../../components/entities/Interactive';
+import { NPC, BossMonster } from '../../components/entities/NPC';
 import { Directions } from '../Utility';
-import { Chest, LockedDoor, KeyItem, EntityTypes } from '../../assets/objects/Entity';
-import { Cast } from '../../assets/objects/Cast';
+import { Chest, LockedDoor, KeyItem, EntityTypes, Trigger, WarpTrigger, Spawn } from '../../components/entities/Entity';
 
 
 interface MapObject {
@@ -15,7 +12,8 @@ interface MapObject {
 
 interface ExploreData {
     interactives: Phaser.GameObjects.Sprite[]
-    triggers: Phaser.GameObjects.Sprite[]
+    triggers: Phaser.GameObjects.Sprite[],
+    inactive: Phaser.GameObjects.Sprite[]
 }
 
 export class MapObjectFactory {
@@ -31,7 +29,8 @@ export class MapObjectFactory {
     public getDataToLoad(): ExploreData {
         const exploreData: ExploreData = {
             interactives: [],
-            triggers: []
+            triggers: [],
+            inactive: []
         }
         const objects = this.scene.map.getObjectLayer("objects").objects as any[];
         // ===================================
@@ -43,9 +42,14 @@ export class MapObjectFactory {
                 const interactive = this.createInteractive(object);
                 exploreData.interactives.push(interactive);
             }
-            if (object.type === "trigger") {
-                const trigger = this.createTrigger(object);
-                exploreData.triggers.push(trigger);
+            if (object.type === "spawn") {
+                const spawn = this.createSpawn(object);
+                exploreData.triggers.push(spawn);
+            }
+
+            if (object.type === "warp") {
+                const warp = this.createWarpTrigger(object);
+                exploreData.triggers.push(warp)
             }
 
             // ===================================
@@ -118,23 +122,28 @@ export class MapObjectFactory {
         });
     }
 
-    //TODO: Revisit whether we need two differe kinds of triggers
-    private createTrigger(object) {
+    private createWarpTrigger(object) {
+        const warpId = this.getObjectPropertyByName('warpId', object.properties)
         const triggerConfig = {
             scene: this.scene,
             x: object.x + 32,
             y: object.y + 32,
-            properties: {
-                type: EntityTypes.trigger
-            }
+            warpId
         };
-        if (this.hasProperty('warpId', object.properties)) {
-            const warpId = this.getObjectPropertyByName('warpId', object.properties)
-            triggerConfig.properties['warpId'] = warpId;
-        } else {
-            triggerConfig.properties['id'] = object.id;
-        }
-        return new Trigger(triggerConfig);
+        return new WarpTrigger(triggerConfig);
+    }
+
+    private createSpawn(object){
+        const spawnConfig = {
+            scene: this.scene,
+            x: object.x + 32,
+            y: object.y + 32,
+        };
+        return new Spawn(spawnConfig);
+    }
+
+    private createTrigger(object) {
+        throw new Error("Not Yet Implemented");
     }
 
     private createNpc(object) {
@@ -144,7 +153,6 @@ export class MapObjectFactory {
             {
                 scene: this.scene,
                 key: npc.spriteKey,
-                map: this.scene.map,
                 casts: this.casts,
             },
             Directions.up,
@@ -181,7 +189,6 @@ export class MapObjectFactory {
             scene: this.scene,
             x: object.x + 32,
             y: object.y + 32,
-            map: this.scene.map,
             properties: {
                 id: flagId,
                 itemId: itemId,
@@ -225,13 +232,13 @@ export class MapObjectFactory {
         const placementFlagId = this.getObjectPropertyByName("placementFlag", object.properties);
         const notYetFlagggedToPlace = !this.stateManager.isFlagged(placementFlagId)
         if ((hasPlacementFlag && notYetFlagggedToPlace) || alreadyCollected) {
+            //TODO: Create the entity but label it as unplaced;
             return false;
         }
         const keyItem = new KeyItem({
             scene: this.scene,
             x: object.x + 32,
             y: object.y + 32,
-            map: this.scene.map,
             properties: {
                 id: flagId,
                 itemId: itemId,

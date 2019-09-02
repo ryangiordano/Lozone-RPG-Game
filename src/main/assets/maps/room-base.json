@@ -40,11 +40,6 @@
                          "name":"dialogId",
                          "type":"int",
                          "value":22
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"The sun burns too brightly.  Or it's rainy.  Or it's too cold.  Either way, this cat's staying inside, thank you very much."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -78,11 +73,6 @@
                          "name":"interactive",
                          "type":"bool",
                          "value":true
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"Ryan's old Nintendo 64.  It has a gold cartridge in it with a gold controller."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -105,11 +95,6 @@
                          "name":"interactive",
                          "type":"bool",
                          "value":true
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"A large screen TV.  It doesn't seem like it gets much use... "
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -132,11 +117,6 @@
                          "name":"interactive",
                          "type":"bool",
                          "value":true
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"My dresser, jam-packed with clothes I'll never wear."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -159,11 +139,6 @@
                          "name":"interactive",
                          "type":"bool",
                          "value":true
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"Filled with the husks of food long gone bad.  Blame it on Ryan."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -181,11 +156,6 @@
                          "name":"dialogId",
                          "type":"int",
                          "value":13
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"Ryan's computer.  A relic of a bygone era."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -225,11 +195,6 @@
                          "name":"interactive",
                          "type":"bool",
                          "value":true
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"I get free food at my job, so I leave all the cooking up to Ryan.  I'm not even sure I know how to spell the word 'stove'."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -266,12 +231,17 @@
                  "name":"to-upstairs",
                  "properties":[
                         {
+                         "name":"warpDestId",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
                          "name":"warpId",
                          "type":"int",
                          "value":1
                         }],
                  "rotation":0,
-                 "type":"trigger",
+                 "type":"warp",
                  "visible":true,
                  "width":64,
                  "x":512,
@@ -286,11 +256,6 @@
                          "name":"dialogId",
                          "type":"int",
                          "value":7
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"This plant is not in a good way..."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -308,11 +273,6 @@
                          "name":"dialogId",
                          "type":"int",
                          "value":8
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"I need to water this little guy.  I'll do it tomorrow"
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -330,11 +290,6 @@
                          "name":"dialogId",
                          "type":"int",
                          "value":9
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"The table is scuffed, with deep scratches and water stains layered on top."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -352,11 +307,6 @@
                          "name":"dialogId",
                          "type":"int",
                          "value":9
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"The table is scuffed, with deep scratches and water stains layered on top."
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -374,11 +324,6 @@
                          "name":"dialogId",
                          "type":"int",
                          "value":9
-                        }, 
-                        {
-                         "name":"message",
-                         "type":"string",
-                         "value":"The table is scuffed, with deep scratches and water stains layered on top."
                         }],
                  "rotation":0,
                  "type":"interactive",

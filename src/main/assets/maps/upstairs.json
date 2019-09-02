@@ -171,12 +171,17 @@
                  "name":"to-downstairs",
                  "properties":[
                         {
+                         "name":"warpDestId",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
                          "name":"warpId",
                          "type":"int",
                          "value":2
                         }],
                  "rotation":0,
-                 "type":"trigger",
+                 "type":"warp",
                  "visible":true,
                  "width":64,
                  "x":448,
@@ -384,12 +389,17 @@
                  "name":"to-dungeon",
                  "properties":[
                         {
+                         "name":"warpDestId",
+                         "type":"int",
+                         "value":4
+                        }, 
+                        {
                          "name":"warpId",
                          "type":"int",
                          "value":3
                         }],
                  "rotation":0,
-                 "type":"trigger",
+                 "type":"warp",
                  "visible":true,
                  "width":64,
                  "x":256,

@@ -1,10 +1,7 @@
-import { Chest, KeyItem, LockedDoor, EntityTypes } from '../../assets/objects/Entity';
-import { Cast } from "../../assets/objects/Cast";
-import { Player } from "../../assets/objects/Player";
-import { NPC, BossMonster } from '../../assets/objects/NPC';
-import { Interactive } from "../../assets/objects/Interactive";
-import { Directions, wait } from "../../utility/Utility";
-import { Trigger } from "../../assets/objects/Trigger";
+import { EntityTypes, WarpTrigger, Spawn } from '../../components/entities/Entity';
+import { Cast } from "../../components/entities/Cast";
+import { Player } from "../../components/entities/Player";
+import { wait } from "../../utility/Utility";
 import { State } from "../../utility/state/State";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { WarpUtility } from '../../utility/exploration/Warp';
@@ -54,17 +51,19 @@ export abstract class Explore extends Phaser.Scene {
   create(): void {
     this.setGroups();
     this.setMapLayers();
-    this.setPlayer();
     this.loadObjectsFromTilemap();
-    this.setupCamera();
     this.setColliders();
+    this.setPlayer();
+    this.setupCamera();
     this.setEvents();
 
     this["updates"].addMultiple([this.player]);
 
     this.afterCreated();
   }
+
   protected afterCreated() { }
+
   protected setEvents() {
     this.input.keyboard.on("keydown-Z", event => {
       if (this.player.isMoving) {
@@ -77,6 +76,7 @@ export abstract class Explore extends Phaser.Scene {
 
     this.events.on("item-acquired", this.acquiredItemCallback, this);
   }
+
   protected setGroups() {
     this.interactive = this.add.group({
       runChildUpdate: true
@@ -88,6 +88,7 @@ export abstract class Explore extends Phaser.Scene {
       runChildUpdate: true
     });
   }
+
   protected loadObjectsFromTilemap() {
     const dataToLoad = this.mapObjectFactory.getDataToLoad();
     dataToLoad.interactives.forEach(d => this.interactive.add(d))
@@ -99,27 +100,17 @@ export abstract class Explore extends Phaser.Scene {
   }
 
   private setPlayer() {
-    const objects = this.map.getObjectLayer("objects").objects as any[];
-    // ===================================
-    // Spawn the player
-    // ===================================
-    let spawn;
-    if (this.warpDestId) {
-      spawn = objects.find(o =>
-        o.type === "trigger" &&
-        o.properties.find(p => p.name === "warpId").value === this.warpDestId
-      );
-    }
-    if (!spawn) {
-      spawn = objects.find(o => o.type === "spawn");
-    }
+    const dropPoint =
+      <WarpTrigger>this.triggers.children.entries
+        .find(t => t['warpId'] === this.warpDestId) ||
+      <Spawn>this.triggers.children.entries
+        .find(t => t['entityType'] === EntityTypes.spawn);
 
     this.player = new Player({
       scene: this,
-      x: spawn.x + 32,
-      y: spawn.y + 32,
+      x: dropPoint.x,
+      y: dropPoint.y,
       key: "lo",
-      map: this.map,
       casts: this.casts
     });
   }
@@ -133,7 +124,6 @@ export abstract class Explore extends Phaser.Scene {
     );
   }
 
-  // Handle collision with casts on all types of entities.
   protected setColliders() {
     this.physics.add.overlap(
       this.casts,
@@ -145,6 +135,8 @@ export abstract class Explore extends Phaser.Scene {
         if (interactive.entityType === EntityTypes.bossMonster) {
           await this.displayMessage(interactive.getCurrentDialog())
           interactive.triggerBattle()
+          console.log(interactive)
+          //TODO: Fix this static battle trigger...;
           this.startEncounter(700);
         }
 
@@ -179,11 +171,9 @@ export abstract class Explore extends Phaser.Scene {
       this.triggers,
       (cast: Cast, trigger: any) => {
         cast.destroy();
-        if (
-          trigger.properties.type === EntityTypes.trigger &&
-          trigger.properties.warpId) {
+        if (trigger.entityType === EntityTypes.warp) {
           this.events.off("item-acquired", this.acquiredItemCallback);
-          const warp = this.warpUtility.getWarp(trigger.properties.warpId)
+          const warp = this.warpUtility.getWarp(trigger.warpId)
           this.warpUtility.warpTo(warp.warpDestId);
         }
       }

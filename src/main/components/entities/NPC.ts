@@ -1,5 +1,5 @@
 import { Directions } from '../../utility/Utility';
-import { Moveable } from '../../components/entities/Movement';
+import { Moveable } from './Movement';
 import { NPCDialog, NPCPlacement } from '../../data/repositories/NPCRepository';
 import { State } from '../../utility/state/State';
 import { EntityTypes } from './Entity';
@@ -9,12 +9,12 @@ export class NPC extends Moveable {
   public entityType: EntityTypes = EntityTypes.npc;
   properties: any = {};
   constructor(
-    { scene, key, map, casts },
+    { scene, key, casts },
     facing?: Directions,
     protected dialog?: NPCDialog[],
     protected placement?: NPCPlacement[]
   ) {
-    super({ scene, x: 0, y: 0, key, map, casts });
+    super({ scene, x: 0, y: 0, key, casts });
 
     this.setCurrentPlacement();
     this.face(facing);
@@ -65,7 +65,7 @@ export class BossMonster extends NPC {
     facing?: Directions,
     protected dialog?: NPCDialog[],
     protected placement?: NPCPlacement[]) {
-    super({ scene, key, map, casts }, facing, dialog, placement);
+    super({ scene, key, casts }, facing, dialog, placement);
     this.face(facing);
     this.idle()
   }

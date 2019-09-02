@@ -2,12 +2,12 @@ import { createThrottle, Directions } from "../../utility/Utility";
 import {
   Moveable,
   Controllable
-} from "../../components/entities/Movement";
+} from "./Movement";
 
 export class Player extends Moveable {
   public controllable: Controllable;
-  constructor({ scene, x, y, key, map, casts }) {
-    super({ scene, x, y, key, map, casts });
+  constructor({ scene, x, y, key, casts }) {
+    super({ scene, x, y, key, casts });
     this.controllable = new Controllable(scene, this);
     this.on("hit-wall", this.playBump);
   }

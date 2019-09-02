@@ -1,8 +1,9 @@
-import { Item } from '../../components/entities/Item';
 
 export enum EntityTypes {
   npc,
   trigger,
+  warp,
+  spawn,
   interactive,
   bossMonster,
   keyItem,
@@ -10,16 +11,24 @@ export enum EntityTypes {
   door
 }
 
+
+/**
+ * A basic building block for an item on a map.
+ * Entities by default take up space and set the ground under them to collide.
+ * They can be interacted with in different ways (doors and locked chests can be unlocked
+ * and key items can be picked up.)
+ */
 export class Entity extends Phaser.GameObjects.Sprite {
   protected currentMap: Phaser.Tilemaps.Tilemap;
   protected currentScene: Phaser.Scene;
   protected currentTile: Phaser.Tilemaps.Tile;
+  public entityType: EntityTypes;
   // TODO: Refactor how we store casts locally, this sucks.
   protected casts: Phaser.GameObjects.Group;
-  constructor({ scene, x, y, key, map }) {
+  constructor({ scene, x, y, key }) {
     super(scene, x, y, key);
     this.currentScene = scene;
-    this.currentMap = map;
+    this.currentMap = scene.map;
     this.currentScene.add.existing(this);
     this.initSprite();
     this.currentTile = this.getTileBelowFoot();
@@ -36,24 +45,59 @@ export class Entity extends Phaser.GameObjects.Sprite {
   }
 
   protected setCollideOnTileBelowFoot(toCollide: boolean) {
-    this.getTileBelowFoot().properties["collide"] = toCollide;
+    const tile = this.getTileBelowFoot();
+    tile.properties["collide"] = toCollide;
   }
 }
 
+/**
+ * Performs an action or flips a flag when the character steps on it.
+ * 
+ */
+export class Trigger extends Entity {
+  //TODO: Implement this in game.  Currently there isn't anything in game using a trigger...;
+  constructor({ scene, x, y }) {
+    super({ scene, x, y, key: null });
+    this.displayWidth = 16;
+    this.displayHeight = 16;
+    this.visible = false;
+  }
+}
+
+export class WarpTrigger extends Entity {
+  public warpId: number;
+  constructor({ scene, x, y, warpId }) {
+    super({ scene, x, y, key: null });
+    this.warpId = warpId;
+    this.visible = false;
+    this.entityType = EntityTypes.warp;
+    this.setCollideOnTileBelowFoot(false);
+  }
+}
+
+export class Spawn extends Entity {
+  constructor({ scene, x, y }) {
+    super({ scene, x, y, key: null });
+    this.entityType = EntityTypes.spawn;
+    this.visible = false;
+    this.setCollideOnTileBelowFoot(false);
+  }
+}
+
+
 //TODO: Split chests and locked chests out into separate entities
 // So we don't have to play games with the frames;
+/**
+ * Represents a chest on the overall, able to be opened.
+ */
 export class Chest extends Entity {
-
-  /**
-   * Represents a chest on the overall, able to be opened.
-   */
-  public entityType: EntityTypes = EntityTypes.chest;
   public properties: { type: string; id: number | string; message: string };
   public open: Boolean;
   public locked: Boolean;
-  constructor({ scene, x, y, map, properties }, public unlockItemId: number) {
-    super({ scene, x, y, key: "chest", map });
+  constructor({ scene, x, y, properties }, public unlockItemId: number) {
+    super({ scene, x, y, key: "chest" });
     this.properties = properties;
+    this.entityType = EntityTypes.chest;
   }
   public openChest() {
     if (!this.open) {
@@ -80,15 +124,14 @@ export class Chest extends Entity {
   }
 }
 
+/**
+ *  Represents unique key items able to be picked up on the overworld.
+ */
 export class KeyItem extends Entity {
-  /**
-   *  Represents unique key items able to be picked up on the overworld.
-   */
-  public entityType: EntityTypes;
   public properties: { type: string; id: number | string; message: string };
-  constructor({ scene, x, y, map, properties }) {
+  constructor({ scene, x, y, properties }) {
     const { spriteKey, frame } = properties;
-    super({ scene, x, y, key: spriteKey, map });
+    super({ scene, x, y, key: spriteKey });
     this.properties = properties;
     this.setFrame(frame);
     this.entityType = EntityTypes.keyItem;
@@ -104,15 +147,15 @@ export class KeyItem extends Entity {
   }
 }
 
-export class LockedDoor extends Entity {
-  /**
+/**
  *  Represents locked doors on the map.
  */
-  public entityType: EntityTypes = EntityTypes.door;
+export class LockedDoor extends Entity {
   public properties: { type: string; id: number | string; };
   constructor({ scene, x, y, map, properties }, public unlockItemId: number) {
-    super({ scene, x, y, key: 'door', map });
+    super({ scene, x, y, key: 'door' });
     this.properties = properties;
+    this.entityType = EntityTypes.door;
 
   }
   public unlock() {
