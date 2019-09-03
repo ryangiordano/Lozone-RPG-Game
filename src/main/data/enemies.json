@@ -302,5 +302,30 @@
     "goldValue": 500,
     "experiencePoints": 600,
     "flagsWhenDefeated": [504]
+  },
+  "13": {
+    "name": "Cosmoknight",
+    "spriteKey": "cosmoknight",
+    "maxHp": 700,
+    "maxMp": 200,
+    "level": 1,
+    "intellect": 20,
+    "dexterity": 5,
+    "wisdom": 15,
+    "stamina": 20,
+    "strength": 20,
+    "physicalResist": 20,
+    "magicalResist": 29,
+    "lootTable": [{
+      "rate": 1,
+      "itemId": 7
+    },
+    {
+      "rate": 1,
+      "itemId": 16
+    }],
+    "goldValue": 500,
+    "experiencePoints": 600,
+    "flagsWhenDefeated": [504]
   }
 }

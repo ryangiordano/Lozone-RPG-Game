@@ -179,15 +179,33 @@
         "type": 0,
         "flagged": false
     },
+    "506": {
+        "name": "Cosmoknight defeated.",
+        "description": "The player has defeated the third boss of the dungeon.",
+        "type": 0,
+        "flagged": false
+    },
+    "507": {
+        "name": "Orb of Huashao collected.",
+        "description": "The player has collected the Orb of Huashao.",
+        "type": 0,
+        "flagged": false
+    },
     "800": {
         "name": "door 1",
-        "description": "Some random door",
+        "description": "Door on floor one, behind the first boss.",
         "type": 1,
         "flagged": false
     },
     "801": {
         "name": "door 2",
-        "description": "Some random door",
+        "description": "Door on floor two, behind the second.",
+        "type": 1,
+        "flagged": false
+    },
+    "802": {
+        "name": "door 3",
+        "description": "Door on floor two, behind the second.",
         "type": 1,
         "flagged": false
     }

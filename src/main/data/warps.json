@@ -48,5 +48,35 @@
         "description": "Warp from dungeon boss room 2 to dungeon 2",
         "warpDestId": 9,
         "destinationLocationId": 5
+    },
+    "11": {
+        "description": "Warp from the dungeon boss 2 to dungeon boss room 3",
+        "warpDestId": 12,
+        "destinationLocationId": 6
+    },
+    "12": {
+        "description": "Warp from the dungeon boss room 3 to boss room 2",
+        "warpDestId": 11,
+        "destinationLocationId": 5
+    },
+    "13": {
+        "description": "Warp from the dungeon boss room 3 to the treasure room ",
+        "warpDestId": 14,
+        "destinationLocationId": 6
+    },
+    "14": {
+        "description": "warp from the treasure room back up to boss room 3 ",
+        "warpDestId": 13,
+        "destinationLocationId": 6
+    },
+    "15": {
+        "description": "Warp from the sphere room to the last room.",
+        "warpDestId": 16,
+        "destinationLocationId": 6
+    },
+    "16": {
+        "description": "From last room to sphere room.",
+        "warpDestId": 15,
+        "destinationLocationId": 6
     }
 }
