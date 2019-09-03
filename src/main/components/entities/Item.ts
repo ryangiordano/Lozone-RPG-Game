@@ -4,7 +4,6 @@ export enum ItemCategory {
   consumable,
   keyItem,
   equipment,
-
 }
 
 export interface ItemData {
@@ -15,7 +14,8 @@ export interface ItemData {
   effectPotency: number,
   spriteKey: string,
   frame: number,
-  category: string
+  category: string,
+  collectSound: string
 }
 
 export class Item {
@@ -29,7 +29,8 @@ export class Item {
     public spriteKey: string,
     public frame: number,
     public category: ItemCategory,
-    public quantity: number = 1) {
+    public quantity: number = 1,
+    public collectSound: string) {
   }
   public incrementQuantity() {
     if (this.quantity >= this.limit) {

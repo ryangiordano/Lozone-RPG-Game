@@ -7,7 +7,8 @@
     "spriteKey": "items",
     "frame": 0,
     "category": "consumable",
-    "value": 10
+    "value": 10,
+    "collectSound": "item-collect"
   },
   "2": {
     "name": "tamarind",
@@ -17,7 +18,8 @@
     "spriteKey": "items",
     "frame": 1,
     "category": "consumable",
-    "value": 20
+    "value": 20,
+    "collectSound": "item-collect"
   },
   "3": {
     "name": "mango",
@@ -27,7 +29,8 @@
     "spriteKey": "items",
     "frame": 2,
     "category": "consumable",
-    "value": 30
+    "value": 30,
+    "collectSound": "item-collect"
   },
   "4": {
     "name": "Hearing Aids",
@@ -37,7 +40,8 @@
     "spriteKey": "key-items",
     "frame": 1,
     "category": "keyItem",
-    "value": null
+    "value": null,
+    "collectSound": "key-item-collect"
   },
   "5": {
     "name": "Cat USB",
@@ -47,7 +51,8 @@
     "spriteKey": "key-items",
     "frame": 0,
     "category": "keyItem",
-    "value": null
+    "value": null,
+    "collectSound": "key-item-collect"
   },
   "6": {
     "name": "Gold Key",
@@ -57,7 +62,8 @@
     "spriteKey": "items",
     "frame": 4,
     "category": "keyItem",
-    "value": null
+    "value": null,
+    "collectSound": "key-item-collect"
   },
   "7": {
     "name": "Silver Key",
@@ -67,7 +73,8 @@
     "spriteKey": "items",
     "frame": 3,
     "category": "keyItem",
-    "value": null
+    "value": null,
+    "collectSound": "key-item-collect"
   },
   "8": {
     "name": "Big Ruby",
@@ -78,7 +85,8 @@
     "frame": 8,
     "category": "loot",
     "value": 150
-
+,
+"collectSound": "item-collect"
   },
   "9": {
     "name": "Small Ruby",
@@ -88,7 +96,8 @@
     "spriteKey": "loot",
     "frame": 9,
     "category": "loot",
-    "value": 75
+    "value": 75,
+    "collectSound": "item-collect"
   },
   "10": {
     "name": "Small Pearl",
@@ -98,7 +107,8 @@
     "spriteKey": "loot",
     "frame": 10,
     "category": "loot",
-    "value": 50
+    "value": 50,
+    "collectSound": "item-collect"
   },
   "11": {
     "name": "Large Pearl",
@@ -108,7 +118,8 @@
     "spriteKey": "loot",
     "frame": 11,
     "category": "loot",
-    "value": 100
+    "value": 100,
+    "collectSound": "item-collect"
   },
   "12": {
     "name": "Diamond Ring",
@@ -118,7 +129,8 @@
     "spriteKey": "loot",
     "frame": 11,
     "category": "loot",
-    "value": 200
+    "value": 200,
+    "collectSound": "item-collect"
   },
   "13": {
     "name": "Orb of Neiku",
@@ -128,7 +140,8 @@
     "spriteKey": "items",
     "frame": 7,
     "category": "keyItem",
-    "value": null
+    "value": null,
+    "collectSound": "great-key-item-collect"
   },
   "14": {
     "name": "Orb of Xiwan",
@@ -138,7 +151,8 @@
     "spriteKey": "items",
     "frame": 5,
     "category": "keyItem",
-    "value": null
+    "value": null,
+    "collectSound": "great-key-item-collect"
   },
   "15": {
     "name": "Orb of Huashao",
@@ -148,7 +162,8 @@
     "spriteKey": "items",
     "frame": 6,
     "category": "keyItem",
-    "value": null
+    "value": null,
+    "collectSound": "great-key-item-collect"
   },
   "16": {
     "name": "Large Emerald",
@@ -158,7 +173,8 @@
     "spriteKey": "loot",
     "frame": 15,
     "category": "loot",
-    "value": 300
+    "value": 300,
+    "collectSound": "item-collect"
   },
   "17": {
     "name": "Emerald Shard",
@@ -168,7 +184,8 @@
     "spriteKey": "loot",
     "frame": 16,
     "category": "loot",
-    "value": 150
+    "value": 150,
+    "collectSound": "item-collect"
   },
   "18": {
     "name": "Blue Diamond",
@@ -178,7 +195,8 @@
     "spriteKey": "loot",
     "frame": 17,
     "category": "loot",
-    "value": 1000
+    "value": 1000,
+    "collectSound": "item-collect"
   },
   "19": {
     "name": "Small Diamond",
@@ -188,6 +206,7 @@
     "spriteKey": "loot",
     "frame": 18,
     "category": "loot",
-    "value": 500
+    "value": 500,
+    "collectSound": "item-collect"
   }
 }

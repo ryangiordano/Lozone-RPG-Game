@@ -62,7 +62,7 @@ export class Bar extends Phaser.GameObjects.Container {
      * Standard HP bar
      */
     constructor(scene: Phaser.Scene, position: Coords, currentValue: number, maxValue: number) {
-      super(scene, position, currentValue, maxValue, 0xEC7171);
+      super(scene, position, currentValue, maxValue, 0xff777a);
   
     }
   }
@@ -72,7 +72,7 @@ export class Bar extends Phaser.GameObjects.Container {
      * Standard HP bar
      */
     constructor(scene: Phaser.Scene, position: Coords, currentValue: number, maxValue: number) {
-      super(scene, position, currentValue, maxValue, 0x8DDAD8);
+      super(scene, position, currentValue, maxValue, 0x778eff);
   
     }
   }
@@ -82,7 +82,7 @@ export class Bar extends Phaser.GameObjects.Container {
      * Standard HP bar
      */
     constructor(scene: Phaser.Scene, position: Coords, currentValue: number, maxValue: number) {
-      super(scene, position, currentValue, maxValue, 0xD6D252);
+      super(scene, position, currentValue, maxValue, 0xe6ef3b);
   
     }
   }

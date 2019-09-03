@@ -81,6 +81,8 @@ export class MenuScene extends Phaser.Scene {
     this.setEventListeners();
     this.setKeyboardEventListeners();
     this.UI.initialize();
+    this.UI.events.on('menu-traverse',()=>this.sound.play("menu-tick", { volume: 0.1 }));
+    this.UI.events.on('menu-select', ()=>this.sound.play("menu-select", { volume: 0.1 }));
   }
 
   private openPartyPanel(item) {
@@ -251,6 +253,8 @@ export class MenuScene extends Phaser.Scene {
   private setKeyboardEventListeners() {
     this.input.keyboard.on("keydown", event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
+        this.UI.events.off('menu-select')
+        this.UI.events.off('menu-traverse')
         this.closeMenuScene();
       }
     });

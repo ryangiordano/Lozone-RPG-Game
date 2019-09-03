@@ -45,8 +45,9 @@ export abstract class Explore extends Phaser.Scene {
     this.sound.add("beep");
     this.sound.add("chest");
     this.sound.add("lock-open");
-    this.sound.add("get-item");
-    this.sound.add("get-key-item");
+    this.sound.add("item-collect");
+    this.sound.add("key-item-collect");
+    this.sound.add("great-key-item-collect");
   }
   create(): void {
     this.setGroups();
@@ -226,11 +227,8 @@ export abstract class Explore extends Phaser.Scene {
     const item = sm.addItemToContents(itemId);
     sm.setFlag(id, true);
     this.player.controllable.canInput = false;
+    this.sound.play(item.collectSound, { volume: 0.1 });
     await this.displayMessage([`Lo got ${item.name}`]);
-    if (isKeyItem) {
-      this.sound.play("get-item", { volume: 0.1 });
-      await wait(300)
-    }
     await wait(300)
     this.player.controllable.canInput = true;
   }

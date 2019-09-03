@@ -1,7 +1,6 @@
 {
   "preload": {
-    "files": [
-      {
+    "files": [{
         "type": "audio",
         "key": "bump",
         "url": "./src/main/assets/sounds/bump.mp3"
@@ -48,12 +47,18 @@
       },
       {
         "type": "audio",
-        "key": "get-key-item",
-        "url": "./src/main/assets/sounds/get-key-item.wav"
-      },      {
+        "key": "key-item-collect",
+        "url": "./src/main/assets/sounds/key-item-collect.wav"
+      },
+      {
         "type": "audio",
-        "key": "get-item",
-        "url": "./src/main/assets/sounds/get-item.wav"
+        "key": "item-collect",
+        "url": "./src/main/assets/sounds/item-collect.wav"
+      },
+      {
+        "type": "audio",
+        "key": "great-key-item-collect",
+        "url": "./src/main/assets/sounds/great-key-item-collect.wav"
       },
       {
         "type": "audio",
@@ -83,7 +88,7 @@
       {
         "type": "audio",
         "key": "menu-select",
-        "url": "./src/main/assets/sounds/menu-select.wav"
+        "url": "./src/main/assets/sounds/menu-select.mp3"
       },
       {
         "type": "audio",

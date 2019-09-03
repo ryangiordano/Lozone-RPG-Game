@@ -137,6 +137,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.menuSceneKeyboardControl.on(["up", "left"], "user-interface", () => {
       this.focusedPanel.focusPreviousOption();
       this.setCaret();
+      this.events.emit('menu-traverse');
     });
     this.menuSceneKeyboardControl.on(
       ["down", "right"],
@@ -144,6 +145,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
       () => {
         this.focusedPanel.focusNextOption();
         this.setCaret();
+        this.events.emit('menu-traverse');
       }
     );
     this.menuSceneKeyboardControl.on("esc", "user-interface", () => {
@@ -152,6 +154,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.menuSceneKeyboardControl.on("space", "user-interface", () => {
       this.focusedPanel.selectFocusedOption();
       this.setCaret();
+      this.events.emit('menu-select');
     });
   }
   public removeKeyboardListeners() {

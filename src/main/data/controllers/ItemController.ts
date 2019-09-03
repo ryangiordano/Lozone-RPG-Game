@@ -22,7 +22,8 @@ export class ItemController {
       item.spriteKey,
       item.frame,
       itemCategory,
-      1
+      1,
+      item.collectSound
     );
   }
 }
