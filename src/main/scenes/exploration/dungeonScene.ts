@@ -5,8 +5,8 @@ import { KeyboardControl } from "../../components/UI/Keyboard";
 export class DungeonScene extends Explore {
   private enemyPartyIds: number[] = [];
   private hasRandomEncounter = () => {
-    const randomNumber = createRandom(10);
-    return randomNumber() === 10
+    const randomNumber = createRandom(20);
+    return randomNumber() === 100
   };
   constructor() {
     super('Dungeon');

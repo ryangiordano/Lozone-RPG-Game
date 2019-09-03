@@ -323,6 +323,24 @@
           "frameWidth": 64,
           "frameHeight": 64
         }
+      },
+      {
+        "type": "spritesheet",
+        "key": "cosmoknight",
+        "url": "./src/main/assets/sprites/monsters/boss/cosmoknight.png",
+        "frameConfig": {
+          "frameWidth": 256,
+          "frameHeight": 256
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "cosmoknight-sprite",
+        "url": "./src/main/assets/sprites/monsters/boss/cosmoknight-sprite.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
       }
     ]
   }

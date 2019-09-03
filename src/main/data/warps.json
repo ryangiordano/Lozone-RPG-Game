@@ -78,5 +78,20 @@
         "description": "From last room to sphere room.",
         "warpDestId": 15,
         "destinationLocationId": 6
+    },
+    "17": {
+        "description": "From the treasure room to upstairs.",
+        "warpDestId": 3,
+        "destinationLocationId": 2
+    },
+    "18": {
+        "description": "From the first floor to the sphere room.",
+        "warpDestId": 19,
+        "destinationLocationId": 6
+    },
+    "19": {
+        "description": "From the sphere room to the first floor.",
+        "warpDestId": 18,
+        "destinationLocationId": 3
     }
 }

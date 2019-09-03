@@ -306,13 +306,13 @@
   "13": {
     "name": "Cosmoknight",
     "spriteKey": "cosmoknight",
-    "maxHp": 700,
+    "maxHp": 1000,
     "maxMp": 200,
     "level": 1,
     "intellect": 20,
     "dexterity": 5,
     "wisdom": 15,
-    "stamina": 20,
+    "stamina": 30,
     "strength": 20,
     "physicalResist": 20,
     "magicalResist": 29,
@@ -324,8 +324,8 @@
       "rate": 1,
       "itemId": 16
     }],
-    "goldValue": 500,
-    "experiencePoints": 600,
-    "flagsWhenDefeated": [504]
+    "goldValue": 800,
+    "experiencePoints": 800,
+    "flagsWhenDefeated": [506]
   }
 }

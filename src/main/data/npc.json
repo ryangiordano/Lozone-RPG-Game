@@ -3,7 +3,13 @@
         "name": "Ryan",
         "spriteKey": "ryan",
         "description": "This is the npc that lives in `room`.  He's hacking away at the computer.  He's part of a small quest-line to get Lo's hearing aids and USB.",
-        "dialog": [{
+        "dialog": [
+            {
+                "id": 34,
+                "flags": [507],
+                "default": false
+            },
+            {
                 "id": 31,
                 "flags": [505],
                 "default": false
@@ -80,6 +86,29 @@
                 "y": null,
                 "default": false,
                 "flags": [504]
+            }
+        ]
+    },
+    "4": {
+        "name": "Cosmoknight",
+        "spriteKey": "cosmoknight-sprite",
+        "description": "This is the third boss of the dungeon.  Defeating him yields a silver key, which you can use to open doors.",
+        "dialog": [{
+            "id": 33,
+            "flags": [],
+            "default": true
+        }],
+        "placement": [{
+                "x": 3456,
+                "y": 3328,
+                "default": true,
+                "flags": []
+            },
+            {
+                "x": null,
+                "y": null,
+                "default": false,
+                "flags": [506]
             }
         ]
 
