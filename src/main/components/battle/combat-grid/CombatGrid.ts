@@ -1,18 +1,19 @@
 import { CombatCel } from "./CombatCel";
-import { getRandomFloor } from "../../../utility/Utility";
 import { Combatant } from "../Combatant";
-export class CombatGrid {
+import { Grid } from "../../../utility/Grid";
+
+/**
+ * size:  The size of the grid as a set of coordinates
+ * celSize: the cel size in pixels
+ */
+export class CombatGrid extends Grid {
   public grid: CombatCel[][] = [];
-  constructor(private size: Coords, private celSize: number) {
+  constructor(protected size: Coords, private celSize: number) {
+    super(size)
     this.createGrid();
   }
-  public getWidth() {
-    return this.grid.length;
-  }
-  public getHeight() {
-    return this.grid[0].length;
-  }
-  private createGrid() {
+  
+  protected createGrid() {
     for (let row = 0; row < this.size.y; row++) {
       this.grid.push([]);
       for (let col = 0; col < this.size.x; col++) {
@@ -22,29 +23,14 @@ export class CombatGrid {
       }
     }
   }
-  public swap(from: Coords, to: Coords) {
-    const temp = this.grid[from.y][from.x].get();
-    this.grid[from.y][from.x].set(this.grid[to.y][to.x].get());
-    this.grid[to.y][to.x].set(temp);
-  }
+
   public placeAt(position: Coords, combatant: Combatant) {
     const cel = this.grid[position.y][position.x];
     cel.set(combatant);
   }
-  private flattenGrid() {
-    return this.grid.reduce((acc, row) => {
-      return [...acc, ...row];
-    }, []);
-  }
-  placeAtRandomOpenPosition(combatant: Combatant) {
+
+  public placeAtRandomOpenPosition(combatant: Combatant) {
     const randomEmpty = this.findRandomEmptyCel();
     randomEmpty.set(combatant);
-  }
-  private findRandomEmptyCel() {
-    const flattenedEmptyGrid: CombatCel[] = this.flattenGrid().filter(
-      cel => !cel.get()
-    );
-
-    return flattenedEmptyGrid[getRandomFloor(flattenedEmptyGrid.length)];
   }
 }

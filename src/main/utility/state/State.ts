@@ -5,6 +5,7 @@ import { PlayerContents } from "./PlayerContents";
 import { HeroParty } from "../../components/battle/Party";
 import { FlagController } from '../../data/controllers/FlagController';
 import { NPCController } from '../../data/controllers/NPCController';
+import { PartyController } from "../../data/controllers/PartyController";
 
 export class State {
   /**
@@ -19,7 +20,9 @@ export class State {
   public dialogController: DialogController;
   public npcController: NPCController;
   public playerContents: PlayerContents;
+  private partyController: PartyController;
   private party: HeroParty;
+
   private constructor() { }
 
   static getInstance() {
@@ -58,6 +61,7 @@ export class State {
   }
 
   public getCurrentParty() {
+    
     return this.party;
   }
 
@@ -66,11 +70,26 @@ export class State {
     this.itemController = new ItemController(this.game);
     this.dialogController = new DialogController(this.game);
     this.flagController = new FlagController(this.game);
+    this.partyController = new PartyController(this.game);
     this.npcController = new NPCController(this.game);
     this.playerContents = new PlayerContents();
 
     this.flags = this.flagController.getAllFlags();
-    this.party = new HeroParty([1, 2, 3], this.game);
+    const combatEntities = [
+      {
+        entity: this.partyController.getPartyMemberById(1),
+        position: {x:0,y:0}
+      },
+      {
+        entity: this.partyController.getPartyMemberById(2),
+        position: {x:0,y:1}
+      },
+      {
+        entity: this.partyController.getPartyMemberById(3),
+        position: {x:0,y:2}
+      }
+    ]
+    this.party = new HeroParty(combatEntities, this.game);
   }
 
   public isFlagged(id: number) {

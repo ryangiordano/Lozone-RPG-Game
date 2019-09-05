@@ -3,54 +3,73 @@ import { PartyController } from "../../data/controllers/PartyController";
 import { PartyMember } from "./PartyMember";
 import { Enemy } from "./Enemy";
 import { EnemyController } from "../../data/controllers/EnemyController";
+import { IEntityParty, CombatEntity } from "./CombatDataStructures";
+import { Grid } from "../../utility/Grid";
 
-export abstract class Party<T> {
-  protected members: T[] = [];
-  abstract addMemberById(id: number);
-  abstract getParty(): T[];
+export class PlacementManager {
+  private placementGrid: Grid;
+  constructor(size: Coords) {
+    this.placementGrid = new Grid(size);
+  }
+  swap(from: Coords, to: Coords) {
+    this.placementGrid.swap(from, to);
+  }
+
+  placeAt(coords: Coords, entityId: number) {
+    if (this.emptyAt(coords)) {
+      this.placementGrid.placeAt(coords, entityId);
+    }
+  }
+  emptyAt(coords: Coords): boolean {
+    return this.placementGrid.emptyAt(coords);
+  }
+
+}
+
+export type Placement = {
+  id: number,
+  position: Coords
 }
 
 export class HeroParty {
   private partyController: PartyController;
-  private members: PartyMember[] = [];
-  constructor(memberIds: number[], game: Phaser.Game) {
+  private members: CombatEntity[] = [];
+  //TODO: Maybe store the grid size as a global...
+  private placementManager = new PlacementManager({ x: 3, y: 3 });
+  constructor(combatEntities: CombatEntity[], game: Phaser.Game) {
     this.partyController = new PartyController(game);
-    memberIds.forEach((id) => this.addMemberById(id));
-    this.members.forEach(member => member.setParty(this));
+    combatEntities.forEach((entity) => this.addMember(entity));
+    this.members.forEach(member => member.entity.setParty(this));
   }
-  addMemberById(id: number) {
-    const toAdd = this.partyController.getPartyMemberById(id);
-    if (toAdd && !this.members.find(member => member.id === id)) {
-      this.members.push(toAdd);
+  addMember(entity:CombatEntity) {
+
+    if (entity && !this.members.find(member => member.entity.id === entity.entity.id)) {
+      this.members.push(entity);
       return true;
     }
     return false;
   }
-  getParty(): PartyMember[] {
+  getParty(): CombatEntity[] {
     return this.members;
   }
 
 }
 
-export class EnemyParty extends Party<Enemy>{
+export class EnemyParty {
   private enemyController: EnemyController;
-
+  private members: CombatEntity[] = [];
   constructor(enemyPartyId: number, game: Phaser.Game) {
-    super();
     this.enemyController = new EnemyController(game);
-    const enemyPartyIds = this.enemyController.getEnemyPartyById(enemyPartyId);
-    enemyPartyIds.forEach((id) => this.addMemberById(id));
-    this.members.forEach(member => member.setParty(this));
+    const enemyParty = this.enemyController.getEnemyPartyById(enemyPartyId);
+    enemyParty.entities.forEach((enemy) => this.addEnemy(enemy));
+    this.members.forEach(member => member.entity.setParty(this));
   }
-  addMemberById(id: number) {
-    const toAdd = this.enemyController.getEnemyById(id);
-    if (toAdd) {
-      this.members.push(toAdd);
-      return true;
-    }
-    return false;
+  addEnemy(enemy: CombatEntity) {
+    this.members.push(enemy);
+    return true;
   }
-  getParty(): Enemy[] {
+
+  getParty(): CombatEntity[] {
     return this.members;
   }
 }

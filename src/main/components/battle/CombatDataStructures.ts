@@ -1,4 +1,5 @@
 import { Combatant } from "./Combatant";
+import { Enemy } from './Enemy';
 
 /*
  * duration is the number in turns left for its lifetime.
@@ -9,6 +10,8 @@ export interface IBuff {
   duration: number;
   name: string;
 }
+
+
 export enum CombatantType {
   partyMember,
   enemy,
@@ -60,8 +63,14 @@ export interface Effect {
   //TODO: implement a db for this
 }
 
-export interface EnemyParty {
-  enemies: number[];
+
+export interface CombatEntity {
+  entity: Combatant,
+  position: Coords
+}
+
+export interface IEntityParty {
+  entities: CombatEntity[];
 }
 
 export interface CombatResult {

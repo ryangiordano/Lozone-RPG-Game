@@ -1,7 +1,7 @@
 import { UserInterface } from "../UI/UserInterface";
 import { TextFactory } from "../../utility/TextFactory";
 import { CombatEvent } from "./CombatEvent";
-import { Orientation, CombatActionTypes } from "./CombatDataStructures";
+import { Orientation, CombatActionTypes, CombatEntity } from './CombatDataStructures';
 import { PartyMember } from "./PartyMember";
 import { Combatant } from "./Combatant";
 import { UIPanel, PanelContainer } from "../UI/PanelContainer";
@@ -17,8 +17,8 @@ export class CombatInterface extends UserInterface {
   constructor(
     scene: Phaser.Scene,
     spriteKey: string,
-    private party: PartyMember[],
-    private enemies: Combatant[]
+    private party: CombatEntity[],
+    private enemies: CombatEntity[]
   ) {
     super(scene, spriteKey, new KeyboardControl(scene));
     this.textFactory = new TextFactory(scene);
@@ -66,10 +66,10 @@ export class CombatInterface extends UserInterface {
     this.enemyTargetPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
 
     this.enemies.forEach(enemyCombatant => {
-      this.enemyTargetPanel.addOption(enemyCombatant.name, () => {
+      this.enemyTargetPanel.addOption(enemyCombatant.entity.name, () => {
         const event = new CombatEvent(
           this.currentPartyMember,
-          enemyCombatant,
+          enemyCombatant.entity,
           CombatActionTypes.attack,
           Orientation.left,
           this.scene

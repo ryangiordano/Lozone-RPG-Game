@@ -13,6 +13,7 @@ import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./CombatInterface";
 import { State } from "../../utility/state/State";
 import { Enemy } from "./Enemy";
+import { CombatEntity } from './CombatDataStructures';
 
 export interface BattleState {
   flagsToFlip: number[],
@@ -24,18 +25,18 @@ export class Combat {
   private enemyContainer: CombatContainer;
   private combatUI: CombatInterface;
   private combatEvents: CombatEvent[] = [];
-  private partyMembers: PartyMember[] = [];
-  private enemies: Enemy[] = [];
+  private partyMembers: CombatEntity[] = [];
+  private enemies: CombatEntity[] = [];
   private currentPartyFocusIndex: number = 0;
   private state = State.getInstance();
   private victoryFlags: number[] = [];
   constructor(
     private scene: Phaser.Scene,
-    party: PartyMember[],
-    enemies: Enemy[]
+    party: CombatEntity[],
+    enemies: CombatEntity[]
   ) {
     party.forEach(member => {
-      member.setSprite(scene, Directions.right);
+      member.entity.setSprite(scene, Directions.right);
       this.partyMembers.push(member);
     });
 
@@ -46,10 +47,11 @@ export class Combat {
     };
 
     enemies.forEach(enemy => {
-      enemy.setSprite(scene, Directions.left);
+      enemy.entity.setSprite(scene, Directions.left);
       this.enemies.push(enemy);
-      if(enemy.flagsWhenDefeated){
-        this.victoryFlags = [...this.victoryFlags, ...enemy.flagsWhenDefeated]
+      const enemyEntity = <Enemy>enemy.entity;
+      if(enemyEntity.flagsWhenDefeated){
+        this.victoryFlags = [...this.victoryFlags, ...enemyEntity.flagsWhenDefeated]
       }
     });
 
@@ -89,7 +91,7 @@ export class Combat {
       : this.currentPartyFocusIndex + 1;
 
     while (previous ? tempIndex > 0 : tempIndex < count) {
-      if (this.partyMemberHasImobileStatus(this.partyMembers[tempIndex])) {
+      if (this.partyMemberHasImobileStatus(this.partyMembers[tempIndex].entity)) {
         previous ? tempIndex-- : tempIndex++;
       } else {
         this.currentPartyFocusIndex = tempIndex;
@@ -100,7 +102,7 @@ export class Combat {
     }
   }
 
-  private partyMemberHasImobileStatus(partyMember: PartyMember) {
+  private partyMemberHasImobileStatus(partyMember: Combatant) {
     return (
       partyMember.status.has(Status.fainted) ||
       partyMember.status.has(Status.confused) ||
@@ -112,7 +114,7 @@ export class Combat {
     this.combatUI.destroyContainer();
   }
 
-  private constructInputUI(partyMember: PartyMember) {
+  private constructInputUI(partyMember: Combatant) {
     this.combatUI = new CombatInterface(
       this.scene,
       "dialog-white",
@@ -149,8 +151,8 @@ export class Combat {
 
       this.addEvent(
         new CombatEvent(
-          enemy,
-          randomPartyMember,
+          enemy.entity,
+          randomPartyMember.entity,
           CombatActionTypes.attack,
           Orientation.right,
           this.scene
@@ -161,7 +163,7 @@ export class Combat {
 
   private getRandomAttackablePartyMember() {
     const targetablePartyMembers = this.partyMembers.filter(
-      partyMember => !partyMember.status.has(Status.fainted)
+      partyMember => !partyMember.entity.status.has(Status.fainted)
     );
     return targetablePartyMembers[
       getRandomFloor(targetablePartyMembers.length)
@@ -175,8 +177,7 @@ export class Combat {
   }
 
   private displayInputControlsForCurrentPartyMember() {
-    this.constructInputUI(this.getCurrentPartyMember());
-    // Set Listeners after we've created the input ui.  This is
+    this.constructInputUI(this.getCurrentPartyMember().entity);
     this.combatUI.initialize();
   }
 
@@ -186,7 +187,7 @@ export class Combat {
   }
 
   /**
-   * The target actions are resolved here.
+   * Resolve target actioons.
    */
   private async startLoop() {
     if (!this.combatEvents.length && this.enemies.length) {
@@ -238,7 +239,7 @@ export class Combat {
   private async resolveTargetDeaths(target) {
     if (target && target.currentHp === 0) {
       if (target.type === CombatantType.enemy) {
-        const index = this.enemies.findIndex(enemy => enemy.uid === target.uid);
+        const index = this.enemies.findIndex(enemy => enemy.entity.uid === target.uid);
         // Store xp and coins and stuff...
         this.lootEnemy(target);
         target.getSprite().destroy();
@@ -249,7 +250,7 @@ export class Combat {
         target.addStatusCondition(Status.fainted);
         if (
           this.partyMembers.every(partyMember =>
-            partyMember.status.has(Status.fainted)
+            partyMember.entity.status.has(Status.fainted)
           )
         ) {
           await this.displayMessage(["Your party has been defeated..."]);
@@ -275,11 +276,12 @@ export class Combat {
   private async distributeExperience(experience) {
     const messages = [];
     this.partyMembers.forEach(partyMember => {
-      if (partyMember.currentHp > 0) {
-        const hasLeveledUp = partyMember.gainExperience(experience)
+      const partyEntity = <PartyMember> partyMember.entity;
+      if (partyEntity.currentHp > 0) {
+        const hasLeveledUp = partyEntity.gainExperience(experience)
         if (hasLeveledUp) {
           this.scene.sound.play('level-up', { volume: 0.1 })
-          messages.push(`${partyMember.name} has reached level ${partyMember.level}`)
+          messages.push(`${partyEntity.name} has reached level ${partyEntity.level}`)
         }
       }
     });

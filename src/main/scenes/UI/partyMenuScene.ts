@@ -1,13 +1,12 @@
 import { PanelContainer } from '../../components/UI/PanelContainer';
 import { PartyMember } from "../../components/battle/PartyMember";
 import { State } from "../../utility/state/State";
-import { HeroParty, Party } from "../../components/battle/Party";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
-import { Combatant } from "../../components/battle/Combatant";
 import { TextFactory } from '../../utility/TextFactory';
 import { createHealingEffect } from '../../components/entities/effects/effect-animations';
 import { Bar, HpBar, MpBar, XpBar } from '../../components/UI/Bars';
+import { CombatEntity } from '../../components/battle/CombatDataStructures';
 
 export class PartyMenuScene extends Phaser.Scene {
   private partyMenuContainer: PartyMenuContainer;
@@ -50,7 +49,7 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
   constructor(
     scene: Phaser.Scene,
     private coordinates: Coords,
-    private partyMembers: PartyMember[],
+    private partyMembers: CombatEntity[],
     private keyboardControl: KeyboardControl,
     private partyMenuType: PartyMenuTypes,
     private entity: any
@@ -73,7 +72,7 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
         { x: col + 4, y: row * panelSize },
         "dialog-white",
         scene,
-        partyMember
+        <PartyMember>partyMember.entity
       );
       this.partyMemberPanels[row]
         ? this.partyMemberPanels[row].push(partyMemberPanel)

@@ -1,18 +1,25 @@
 import { Combatant } from "../Combatant";
 import { MpBar, HpBar } from "../../UI/Bars";
+import { Cel } from "../../../utility/Grid";
 
-export class CombatCel {
+export class CombatCel implements Cel {
   private combatantBars: CombatantBars;
-  constructor(private pixelCoordinates: Coords, private combatantInCel?: Combatant) {
+  constructor(private pixelCoordinates: Coords, private combatantInCel?: Combatant) { }
 
-  }
-  
   getX() {
     return this.pixelCoordinates.x;
   }
 
   getY() {
     return this.pixelCoordinates.y;
+  }
+
+  setX(x) {
+    this.pixelCoordinates.x = x;
+  }
+  
+  setY(y) {
+    this.pixelCoordinates.y = y;
   }
 
   get(): Combatant {
@@ -38,14 +45,14 @@ export class CombatCel {
   }
 
   updateBars() {
-    return new Promise(async resolve=>{
-      if(this.combatantBars){
+    return new Promise(async resolve => {
+      if (this.combatantBars) {
         await this.combatantBars.update();
       }
       resolve();
     })
 
-    
+
   }
   isEmpty() {
     return !this.combatantInCel;

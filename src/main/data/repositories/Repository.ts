@@ -1,5 +1,5 @@
 export abstract class Repository<T> {
-  constructor(private dbContext) {
+  constructor(protected dbContext) {
 
   }
 

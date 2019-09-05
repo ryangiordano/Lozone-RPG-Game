@@ -1,8 +1,15 @@
 import { EnemyRepository } from "../repositories/EnemyRepository";
 import { EnemyPartyRepository } from "../repositories/EnemyPartyRepository";
 import { Enemy } from "../../components/battle/Enemy";
-import { EnemyParty } from "../../components/battle/Party";
+import { IEntityParty } from "../../components/battle/CombatDataStructures";
 
+export interface EnemyPartyData {
+  enemyIds
+}
+
+export interface CombatEntityData {
+  entityId: number,
+}
 export class EnemyController {
   private enemyRepository: EnemyRepository;
   private enemyPartyRepository: EnemyPartyRepository;
@@ -12,7 +19,6 @@ export class EnemyController {
   }
   public getEnemyById(enemyId: number) {
     const enemyFromDb = this.enemyRepository.getById(enemyId);
-    // TODO: create a mapping between the database entitity and the entity you'd like to be transformed into.
     const {
       id,
       name,
@@ -53,8 +59,15 @@ export class EnemyController {
     );
     return enemy;
   }
-  public getEnemyPartyById(enemyPartyId: number): number[] {
+  public getEnemyPartyById(enemyPartyId: number): IEntityParty {
     const enemyPartyFromDb = this.enemyPartyRepository.getById(enemyPartyId);
-    return enemyPartyFromDb.enemies;
+    return {
+      entities: enemyPartyFromDb.enemies.map(enemyData => (
+        {
+          entity: this.getEnemyById(enemyData.entityId),
+          position: enemyData.position
+        }
+      ))
+    }
   }
 }

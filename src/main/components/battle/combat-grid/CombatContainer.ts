@@ -1,32 +1,41 @@
 import { CombatGrid } from "./CombatGrid";
 import { getRandomFloor } from "../../../utility/Utility";
 import { Combatant } from "../Combatant";
+import { CombatEntity } from "../CombatDataStructures";
 
 export class CombatContainer extends Phaser.GameObjects.Container {
   private combatGrid: CombatGrid = new CombatGrid({ x: 3, y: 3 }, 64);
   private battleTarget: Phaser.GameObjects.Image;
-  constructor(position: Coords, scene, private combatants: Combatant[] = []) {
+  constructor(position: Coords, scene, private combatants: CombatEntity[] = []) {
     super(scene, position.x * 64, position.y * 64);
     this.battleTarget = new Phaser.GameObjects.Image(this.scene, 0, 0, 'battle-target');
   }
+
+  public populateContainerAt(position: Coords, combatant: Combatant) {
+    if (!this.combatGrid.emptyAt(position)) {
+      throw new Error(`Already placed at [${position.x}, ${position.y}]`);
+    }
+    this.combatGrid.placeAt(position, combatant);
+  }
+
   public populateContainer() {
     // TODO:For now let's populate four characters in four corners of the grid. Later let's store the position somewhere on the combatant themselves.
     const positions = [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 2 }, { x: 2, y: 2 }];
     this.combatants.forEach(combatant => {
-      const sprite = combatant.getSprite();
+      const sprite = combatant.entity.getSprite();
       this.add(sprite);
       const currentPosition = positions.pop();
-      this.combatGrid.placeAt(currentPosition, combatant);
+      this.combatGrid.placeAt(combatant.position, combatant.entity);
       sprite.setOrigin(.5, .5);
       sprite.setAlpha(1);
     });
   }
   public populateContainerRandomly() {
     this.combatants.forEach(combatant => {
-      const sprite = combatant.getSprite();
+      const sprite = combatant.entity.getSprite();
       this.add(sprite);
       const y = getRandomFloor(this.combatGrid.getHeight());
-      this.combatGrid.placeAtRandomOpenPosition(combatant);
+      this.combatGrid.placeAtRandomOpenPosition(combatant.entity);
       y > 1 ? this.bringToTop(sprite) : this.sendToBack(sprite);
       sprite.setOrigin(.5, .5);
       sprite.setAlpha(1);

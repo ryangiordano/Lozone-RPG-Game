@@ -1,131 +1,460 @@
 {
   "1": {
-    "enemies": [
-      1,
-      1,
-      1, 9
+    "entities": [{
+        "entityId": 1,
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 1,
+        "position": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 1,
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "entityId": 9,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      }
     ]
   },
   "2": {
-    "enemies": [
-      2,
-      2,
-      2,
-      2
+    "entities": [{
+        "entityId": 2,
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 2,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 2,
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "entityId": 2,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      }
     ]
   },
   "3": {
-    "enemies": [
-      3,
-      2,
-      2,
-      1
+    "entities": [{
+        "entityId": 3,
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 2,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 2,
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "entityId": 1,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      }
     ]
   },
   "4": {
-    "enemies": [
-      4,
-      4,
-      4
+    "entities": [{
+        "entityId": 4,
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 4,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 4,
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      }
     ]
   },
   "5": {
-    "enemies": [
-      4
-    ]
+    "entities": [{
+      "entityId": 4,
+      "position": {
+        "x": 1,
+        "y": 1
+      }
+    }]
   },
   "6": {
-    "enemies": [
-      4,
-      4
+    "entities": [{
+        "entityId": 4,
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 4,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      }
     ]
   },
   "7": {
-    "enemies": [
-      3,
-      5,
-      3
+    "entities": [{
+        "entityId": 3,
+        "position": {
+          "x": 1,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 5,
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 3,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      }
     ]
   },
   "8": {
-    "enemies": [
-      2,
-      5,
-      2
+    "entities": [{
+        "entityId": 2,
+        "position": {
+          "x": 1,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 5,
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 2,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      }
     ]
   },
   "9": {
-    "enemies": [
-      1,
-      3,
-      3,
-      1,
-      5
+    "entities": [{
+        "entityId": 1,
+        "position": {
+          "x": 1,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 3,
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 3,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 1,
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "entityId": 5,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      }
     ]
   },
   "10": {
-    "enemies": [
-      6,
-      6,
-      6,
-      4,
-      6,
-      6
+    "entities": [{
+        "entityId": 6,
+        "position": {
+          "x": 1,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 6,
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 6,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 4,
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "entityId": 6,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 6,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      }
     ]
   },
   "11": {
-    "enemies": [
-      6,
-      6,
-      6,
-      6,
-      6,
-      6,
-      6
+    "entities": [{
+        "entityId": 6,
+        "position": {
+          "x": 1,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 6,
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "entityId": 6,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 6,
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "entityId": 6,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 6,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 6,
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      }
     ]
   },
   "12": {
-    "enemies": [
-      7,
-      7
+    "entities": [{
+        "entityId": 7,
+        "position": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 7,
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      }
     ]
   },
   "13": {
-    "enemies": [
-      8,
-      8,
-      8,
-      8
+    "entities": [{
+        "entityId": 8,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 8,
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "entityId": 8,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 8,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 8,
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      }
     ]
   },
   "14": {
-    "enemies": [
-      9, 9, 9
+    "entities": [{
+        "entityId": 9,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 9,
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 9,
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      }
     ]
   },
   "15": {
-    "enemies": [
-      10
-    ]
+    "entities": [{
+      "entityId": 10,
+      "position": {
+        "x": 1,
+        "y": 1
+      }
+    }]
   },
   "16": {
-    "enemies": [
-      10, 10
+    "entities": [{
+        "entityId": 10,
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "entityId": 10,
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      }
     ]
   },
   "700": {
-    "enemies": [
-      11
-    ]
+    "entities": [{
+      "entityId": 11,
+      "position": {
+        "x": 1,
+        "y": 1
+      }
+    }]
   },
   "701": {
-    "enemies": [
-      12
-    ]
+    "entities": [{
+      "entityId": 12,
+      "position": {
+        "x": 1,
+        "y": 1
+      }
+    }]
   },
   "702": {
-    "enemies": [
-      13
-    ]
+    "entities": [{
+      "entityId": 13,
+      "position": {
+        "x": 1,
+        "y": 1
+      }
+    }]
   }
 }
