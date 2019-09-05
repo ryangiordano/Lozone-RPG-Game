@@ -370,7 +370,7 @@ export class Combat {
     this.scene.add.existing(this.enemyContainer);
 
     this.partyContainer.populateContainer();
-    this.enemyContainer.populateContainerRandomly();
+    this.enemyContainer.populateContainer();
   }
 
   public handleMessagesClose() {
