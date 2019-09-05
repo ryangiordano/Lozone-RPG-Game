@@ -3,7 +3,7 @@ import { Cast } from "../../components/entities/Cast";
 import { Player } from "../../components/entities/Player";
 import { wait } from "../../utility/Utility";
 import { State } from "../../utility/state/State";
-import { KeyboardControl } from "../../components/UI/Keyboard";
+import { KeyboardControl } from '../../components/UI/Keyboard';
 import { WarpUtility } from '../../utility/exploration/Warp';
 import { MapObjectFactory } from '../../utility/exploration/ObjectLoader';
 
@@ -18,7 +18,7 @@ export abstract class Explore extends Phaser.Scene {
   protected keyboardControl: KeyboardControl;
   protected player: Player;
   protected playerIsMoving: boolean = false;
-  public warpDestId: number;
+  public warpDestId: number = null;
   private warpUtility: WarpUtility;
   private mapObjectFactory: MapObjectFactory;
   constructor(key) {
@@ -85,9 +85,9 @@ export abstract class Explore extends Phaser.Scene {
     this.casts = this.add.group({
       runChildUpdate: true
     });
-    this.triggers = this.add.group({
-      runChildUpdate: true
-    });
+    // this.triggers = this.add.group({
+    //   runChildUpdate: true
+    // });
   }
 
   protected loadObjectsFromTilemap() {
@@ -102,9 +102,9 @@ export abstract class Explore extends Phaser.Scene {
 
   private setPlayer() {
     const dropPoint =
-      <WarpTrigger>this.triggers.children.entries
+      <WarpTrigger>this.interactive.children.entries
         .find(t => t['warpId'] === this.warpDestId) ||
-      <Spawn>this.triggers.children.entries
+      <Spawn>this.interactive.children.entries
         .find(t => t['entityType'] === EntityTypes.spawn);
 
     this.player = new Player({
@@ -140,7 +140,7 @@ export abstract class Explore extends Phaser.Scene {
         }
 
         if (interactive.entityType === EntityTypes.interactive) {
-          this.displayMessage(interactive.properties.message)
+          await this.displayMessage(interactive.properties.message)
         }
 
         if (interactive.entityType === EntityTypes.npc) {
@@ -158,22 +158,8 @@ export abstract class Explore extends Phaser.Scene {
         if (interactive.entityType === EntityTypes.door) {
           this.handleOpenDoor(interactive);
         }
-      }
-    );
-
-
-    // ===================================
-    // Handle Warping
-    // ===================================
-    this.physics.add.overlap(
-      this.casts,
-      this.triggers,
-      (cast: Cast, trigger: any) => {
-        cast.destroy();
-        if (trigger.entityType === EntityTypes.warp) {
-          this.events.off("item-acquired", this.acquiredItemCallback);
-          const warp = this.warpUtility.getWarp(trigger.warpId)
-          this.warpUtility.warpTo(warp.warpDestId);
+        if (interactive.entityType === EntityTypes.warp) {
+          this.handleWarp(interactive);
         }
       }
     );
@@ -209,6 +195,12 @@ export abstract class Explore extends Phaser.Scene {
     await this.displayMessage([`It's locked tight.`])
   }
 
+  protected handleWarp(interactive) {
+    this.events.off("item-acquired", this.acquiredItemCallback);
+    const warp = this.warpUtility.getWarp(interactive.warpId)
+    this.warpUtility.warpTo(warp.warpDestId);
+  }
+
   protected setMapLayers() {
     this.backgroundLayer = this.map.createStaticLayer(
       "background",
@@ -235,6 +227,7 @@ export abstract class Explore extends Phaser.Scene {
 
   displayMessage(message: string[]): Promise<any> {
     return new Promise(resolve => {
+      this.player.controllable.canInput = false;
       this.scene.setActive(false, this.scene.key);
       this.game.scene.start("DialogScene", {
         callingSceneKey: this.scene.key,
@@ -244,6 +237,7 @@ export abstract class Explore extends Phaser.Scene {
       this.scene.setActive(true, "DialogScene").bringToTop("DialogScene");
       const dialog = this.game.scene.getScene("DialogScene");
       dialog.events.on("close-dialog", () => {
+        this.player.controllable.canInput = true;
         resolve();
       });
     });

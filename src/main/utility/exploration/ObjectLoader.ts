@@ -44,12 +44,12 @@ export class MapObjectFactory {
             }
             if (object.type === "spawn") {
                 const spawn = this.createSpawn(object);
-                exploreData.triggers.push(spawn);
+                exploreData.interactives.push(spawn);
             }
 
             if (object.type === "warp") {
                 const warp = this.createWarpTrigger(object);
-                exploreData.triggers.push(warp)
+                exploreData.interactives.push(warp)
             }
 
             // ===================================
