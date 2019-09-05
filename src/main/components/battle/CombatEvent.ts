@@ -102,7 +102,6 @@ export class CombatEvent {
   ): Phaser.GameObjects.Text {
     const sprite = combatant.getSprite();
     const container = combatant.getSprite().parentContainer;
-
     const valueText = this.textFactory.createText(
       value,
       { x: sprite.x, y: sprite.y },
@@ -166,10 +165,10 @@ export class CombatEvent {
     if (target && target.currentHp <= 0) {
       const nextTargetable = target
         .getParty()
-        .members.find(potentialTarget => potentialTarget.currentHp > 0);
+        .members.find(potentialTarget => potentialTarget.entity.currentHp > 0);
       if (nextTargetable) {
-        this.target = nextTargetable;
-        target = nextTargetable;
+        this.target = nextTargetable.entity;
+        target = nextTargetable.entity;
       }
     }
     return target;

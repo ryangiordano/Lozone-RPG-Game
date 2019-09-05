@@ -3,10 +3,6 @@ import { EnemyPartyRepository } from "../repositories/EnemyPartyRepository";
 import { Enemy } from "../../components/battle/Enemy";
 import { IEntityParty } from "../../components/battle/CombatDataStructures";
 
-export interface EnemyPartyData {
-  enemyIds
-}
-
 export interface CombatEntityData {
   entityId: number,
 }
@@ -62,7 +58,7 @@ export class EnemyController {
   public getEnemyPartyById(enemyPartyId: number): IEntityParty {
     const enemyPartyFromDb = this.enemyPartyRepository.getById(enemyPartyId);
     return {
-      entities: enemyPartyFromDb.enemies.map(enemyData => (
+      entities: enemyPartyFromDb.entities.map(enemyData => (
         {
           entity: this.getEnemyById(enemyData.entityId),
           position: enemyData.position

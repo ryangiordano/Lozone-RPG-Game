@@ -6,7 +6,7 @@ export interface CombatEntityData {
 }
 
 export interface EnemyPartyData {
-  enemies: CombatEntityData[];
+  entities: CombatEntityData[];
 }
 
 export class EnemyPartyRepository extends Repository<EnemyPartyData> {
