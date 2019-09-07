@@ -37,7 +37,11 @@ export class CombatScene extends Phaser.Scene {
     this.events.once('end-battle', (battleState: BattleState) => {
       if(battleState.victorious && battleState.flagsToFlip.length){
         const sm = State.getInstance();
-        battleState.flagsToFlip.forEach(flag=>sm.setFlag(flag, true))
+        battleState.flagsToFlip.forEach(flag=>{
+          sm.setFlag(flag, true)
+          console.log(flag)
+        })
+        console.log("FLAGS FLIPPED")
       }
       this.endBattle();
     });

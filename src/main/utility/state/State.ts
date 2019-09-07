@@ -96,6 +96,7 @@ export class State {
     return this.flags.get(`${id}`) && this.flags.get(`${id}`).flagged;
   }
   public allAreFlagged(ids: number[]) {
+    console.log(ids)
     return ids.every(id => this.isFlagged(id));
   }
   public setFlag(id: number, flagged: boolean) {

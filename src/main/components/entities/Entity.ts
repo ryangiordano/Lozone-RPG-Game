@@ -191,6 +191,9 @@ export class KeyItem extends Entity {
     this.setFrame(frame);
     this.entityType = EntityTypes.keyItem;
   }
+  /**
+   * Collects the item, removing it from the map and adding it to the player's inventory.
+   */
   public pickup() {
     this.currentScene.events.emit("item-acquired", {
       itemId: this.properties["itemId"],
@@ -201,16 +204,20 @@ export class KeyItem extends Entity {
     this.destroy();
   }
 
+  /**
+   * Sets the item to 'placed', meaning it is visible, it's able to be interacted with,
+   * and it sets the tile below it to 'occupied'.
+   * @param placed Whether to polace the item on the map.
+   */
   public setPlaced(placed: boolean) {
     this.setActive(placed)
     this.setVisible(placed)
     this.setCollideOnTileBelowFoot(placed)
   }
 
-  public checkFlag() {
+  public isFlagged(): boolean {
     const sm = State.getInstance();
-    sm.allAreFlagged([this.properties['flagId']]);
-
+    return sm.allAreFlagged([this.properties['placementFlag']]);
   }
 }
 

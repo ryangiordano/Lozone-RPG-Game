@@ -232,6 +232,7 @@ export class MapObjectFactory {
             properties: {
                 flagId: flagId,
                 itemId: itemId,
+                placementFlag: placementFlagId,
                 type: EntityTypes.keyItem,
                 spriteKey: item.spriteKey,
                 frame: item.frame

@@ -24,7 +24,7 @@ export class MenuScene extends Phaser.Scene {
       new KeyboardControl(this)
     );
     this.state.addItemToContents(6)
-
+    this.sound.play("menu-open", { volume: 0.1 })
     // ===================================
     // Main Panel
     // ===================================
@@ -81,8 +81,8 @@ export class MenuScene extends Phaser.Scene {
     this.setEventListeners();
     this.setKeyboardEventListeners();
     this.UI.initialize();
-    this.UI.events.on('menu-traverse',()=>this.sound.play("menu-tick", { volume: 0.1 }));
-    this.UI.events.on('menu-select', ()=>this.sound.play("menu-select", { volume: 0.1 }));
+    this.UI.events.on('menu-traverse', () => this.sound.play("menu-tick", { volume: 0.1 }));
+    this.UI.events.on('menu-select', () => this.sound.play("menu-select", { volume: 0.1 }));
   }
 
   private openPartyPanel(item) {
@@ -90,6 +90,7 @@ export class MenuScene extends Phaser.Scene {
   }
 
   private closeMenuScene() {
+    this.sound.play("menu-close", { volume: 0.1 })
     this.scene.setActive(true, this.callingSceneKey);
     this.scene.stop();
   }
@@ -247,7 +248,9 @@ export class MenuScene extends Phaser.Scene {
   }
 
   private setEventListeners() {
-    this.events.once("close", () => this.closeMenuScene());
+    this.events.once("close", () => {
+      this.closeMenuScene()
+    });
   }
 
   private setKeyboardEventListeners() {

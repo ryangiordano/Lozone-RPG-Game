@@ -1,4 +1,4 @@
-import { EntityTypes, WarpTrigger, Spawn, Entity } from '../../components/entities/Entity';
+import { EntityTypes, WarpTrigger, Spawn, Entity, KeyItem } from '../../components/entities/Entity';
 import { Cast } from "../../components/entities/Cast";
 import { Player } from "../../components/entities/Player";
 import { wait } from "../../utility/Utility";
@@ -53,7 +53,7 @@ export abstract class Explore extends Phaser.Scene {
     this.sound.add("great-key-item-collect");
 
     this.events.on('battle-finish', () => {
-      this.refreshInteractivesByFlag(1);
+      this.refreshInteractivesByFlag();
     });
     this.events.on('cast-delivered', (data) => {
       const { cast, castingEntity } = data;
@@ -104,11 +104,14 @@ export abstract class Explore extends Phaser.Scene {
 
   }
 
-  refreshInteractivesByFlag(flagId) {
+  refreshInteractivesByFlag() {
     this.interactive.children.entries.forEach(child => {
       const entity = <Entity>child;
       if (entity.entityType === EntityTypes.keyItem) {
-        //TODO: Implement this;
+        const keyItem = <KeyItem>entity;
+        console.log(keyItem.isFlagged())
+        console.log("Placing item now")
+        keyItem.setPlaced(keyItem.isFlagged());
       }
     });
 
@@ -156,6 +159,7 @@ export abstract class Explore extends Phaser.Scene {
         if (interactive.entityType === EntityTypes.bossMonster) {
           await this.displayMessage(interactive.getCurrentDialog())
           this.startEncounter(interactive.encounterId);
+          interactive.destroy();
         }
 
         if (interactive.entityType === EntityTypes.interactive) {

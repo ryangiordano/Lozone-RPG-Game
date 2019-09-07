@@ -94,6 +94,21 @@
         "type": "audio",
         "key": "menu-tick",
         "url": "./src/main/assets/sounds/menu-tick.wav"
+      },
+      {
+        "type": "audio",
+        "key": "menu-open",
+        "url": "./src/main/assets/sounds/menu-open.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "menu-close",
+        "url": "./src/main/assets/sounds/menu-close.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "menu-no",
+        "url": "./src/main/assets/sounds/menu-no.mp3"
       }
     ]
   }
