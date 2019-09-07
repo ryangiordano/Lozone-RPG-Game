@@ -1,3 +1,6 @@
+import { State } from "../../utility/state/State";
+import { createThrottle } from "../../utility/Utility";
+import { Cast, CastType } from "./Cast";
 
 export enum EntityTypes {
   npc,
@@ -12,6 +15,7 @@ export enum EntityTypes {
 }
 
 
+
 /**
  * A basic building block for an item on a map.
  * Entities by default take up space and set the ground under them to collide.
@@ -23,8 +27,6 @@ export class Entity extends Phaser.GameObjects.Sprite {
   protected currentScene: Phaser.Scene;
   protected currentTile: Phaser.Tilemaps.Tile;
   public entityType: EntityTypes;
-  // TODO: Refactor how we store casts locally, this sucks.
-  protected casts: Phaser.GameObjects.Group;
   constructor({ scene, x, y, key }) {
     super(scene, x, y, key);
     this.currentScene = scene;
@@ -39,15 +41,37 @@ export class Entity extends Phaser.GameObjects.Sprite {
     this.setFlipX(false);
     this.currentScene.physics.world.enable(this);
   }
+
+  protected setEventListeners(){
+    // this.scene.events.on('')
+  }
   protected getTileBelowFoot() {
     const tile = this.currentMap.getTileAt(Math.floor(this.x / 64), Math.floor(this.y / 64), true, "foreground");
+
+    // this.currentMap.findObject()
     return tile;
   }
 
   protected setCollideOnTileBelowFoot(toCollide: boolean) {
     const tile = this.getTileBelowFoot();
+
     tile.properties["collide"] = toCollide;
   }
+
+  public queryUnderfoot = createThrottle(100, () => {
+    this.emitCast({ x: this.x, y: this.y }, CastType.pressure);
+  });
+
+  protected emitCast(coords: Coords, castType: CastType) {
+    this.scene.events.emit('cast-delivered', {
+      cast: new Cast(
+        this.currentScene,
+        coords,
+        castType
+      )
+    });
+  }
+  
 }
 
 /**
@@ -143,11 +167,23 @@ export class KeyItem extends Entity {
   public pickup() {
     this.currentScene.events.emit("item-acquired", {
       itemId: this.properties["itemId"],
-      id: this.properties["id"],
+      flagId: this.properties["flagId"],
       isKeyItem: true
     });
     this.setCollideOnTileBelowFoot(false);
     this.destroy();
+  }
+
+  public setPlaced(placed: boolean) {
+    this.setActive(placed)
+    this.setVisible(placed)
+    this.setCollideOnTileBelowFoot(placed)
+  }
+
+  public checkFlag() {
+    const sm = State.getInstance();
+    sm.allAreFlagged([this.properties['flagId']]);
+
   }
 }
 

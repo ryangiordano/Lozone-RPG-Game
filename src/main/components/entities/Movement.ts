@@ -1,5 +1,5 @@
 import { Directions, createThrottle } from "../../utility/Utility";
-import { Cast } from "./Cast";
+import { CastType } from "./Cast";
 import { Entity } from "./Entity";
 
 /**
@@ -14,10 +14,9 @@ export class Moveable extends Entity {
   protected target = { x: 0, y: 0 };
   protected spriteKey: string;
   protected facing: Directions = Directions.down;
-  constructor({ scene, x, y, key, casts }) {
+  constructor({ scene, x, y, key }) {
     super({ scene, x, y, key });
     this.spriteKey = key;
-    this.casts = casts;
   }
   public face(direction: Directions) {
     this.facing = direction;
@@ -81,7 +80,7 @@ export class Moveable extends Entity {
       true,
       "foreground"
     );
-    
+
     if (this.tileIsOpen(backgroundTile, foregroundTile)) {
       this.isMoving = true;
       const movementSpeed =
@@ -117,23 +116,7 @@ export class Moveable extends Entity {
 
   public queryObject = createThrottle(300, () => {
     const coords = this.getTileInFront();
-    this.casts.add(
-      new Cast({
-        scene: this.currentScene,
-        x: coords.x,
-        y: coords.y
-      })
-    );
-  });
-
-  public queryUnderfoot = createThrottle(100, () => {
-    this.casts.add(
-      new Cast({
-        scene: this.currentScene,
-        x: this.x,
-        y: this.y,
-      })
-    );
+    this.emitCast(coords, CastType.reach);
   });
 
   private getTileInFront(): { x: number; y: number } {

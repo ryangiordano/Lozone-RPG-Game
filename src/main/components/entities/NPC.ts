@@ -9,12 +9,12 @@ export class NPC extends Moveable {
   public entityType: EntityTypes = EntityTypes.npc;
   properties: any = {};
   constructor(
-    { scene, key, casts },
+    { scene, key },
     facing?: Directions,
     protected dialog?: NPCDialog[],
     protected placement?: NPCPlacement[]
   ) {
-    super({ scene, x: 0, y: 0, key, casts });
+    super({ scene, x: 0, y: 0, key });
 
     this.setCurrentPlacement();
     this.face(facing);
@@ -59,12 +59,12 @@ export class BossMonster extends NPC {
    *  Represents boss monsters on the world map.
    */
   public entityType: EntityTypes = EntityTypes.bossMonster;
-  constructor({ scene, key, casts },
+  constructor({ scene, key },
     public encounterId: number,
     facing?: Directions,
     protected dialog?: NPCDialog[],
     protected placement?: NPCPlacement[]) {
-    super({ scene, key, casts }, facing, dialog, placement);
+    super({ scene, key }, facing, dialog, placement);
     this.face(facing);
     this.idle()
   }

@@ -1,4 +1,4 @@
-import { EntityTypes, WarpTrigger, Spawn } from '../../components/entities/Entity';
+import { EntityTypes, WarpTrigger, Spawn, Entity } from '../../components/entities/Entity';
 import { Cast } from "../../components/entities/Cast";
 import { Player } from "../../components/entities/Player";
 import { wait } from "../../utility/Utility";
@@ -7,6 +7,10 @@ import { KeyboardControl } from '../../components/UI/Keyboard';
 import { WarpUtility } from '../../utility/exploration/Warp';
 import { MapObjectFactory } from '../../utility/exploration/ObjectLoader';
 
+class EntityGroup extends Phaser.GameObjects.Group {
+
+}
+
 export abstract class Explore extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap;
   private tileset: Phaser.Tilemaps.Tileset;
@@ -14,7 +18,6 @@ export abstract class Explore extends Phaser.Scene {
   private foregroundLayer: Phaser.Tilemaps.StaticTilemapLayer;
   private interactive: Phaser.GameObjects.Group;
   private casts: Phaser.GameObjects.Group;
-  private triggers: Phaser.GameObjects.Group;
   protected keyboardControl: KeyboardControl;
   protected player: Player;
   protected playerIsMoving: boolean = false;
@@ -48,6 +51,14 @@ export abstract class Explore extends Phaser.Scene {
     this.sound.add("item-collect");
     this.sound.add("key-item-collect");
     this.sound.add("great-key-item-collect");
+
+    this.events.on('battle-finish', () => {
+      this.refreshInteractivesByFlag(1);
+    });
+    this.events.on('cast-delivered', (data) => {
+      const { cast, castingEntity } = data;
+      this.casts.add(cast);
+    })
   }
   create(): void {
     this.setGroups();
@@ -85,19 +96,22 @@ export abstract class Explore extends Phaser.Scene {
     this.casts = this.add.group({
       runChildUpdate: true
     });
-    // this.triggers = this.add.group({
-    //   runChildUpdate: true
-    // });
   }
 
   protected loadObjectsFromTilemap() {
     const dataToLoad = this.mapObjectFactory.getDataToLoad();
     dataToLoad.interactives.forEach(d => this.interactive.add(d))
-    dataToLoad.triggers.forEach(t => this.triggers.add(t));
+
   }
 
   refreshInteractivesByFlag(flagId) {
-    //TODO: Implement this function...;
+    this.interactive.children.entries.forEach(child => {
+      const entity = <Entity>child;
+      if (entity.entityType === EntityTypes.keyItem) {
+
+      }
+    });
+
   }
 
   private setPlayer() {
@@ -135,7 +149,6 @@ export abstract class Explore extends Phaser.Scene {
 
         if (interactive.entityType === EntityTypes.bossMonster) {
           await this.displayMessage(interactive.getCurrentDialog())
-          //TODO: Fix this static battle trigger...;
           this.startEncounter(interactive.encounterId);
         }
 
@@ -152,7 +165,7 @@ export abstract class Explore extends Phaser.Scene {
         }
 
         if (interactive.entityType === EntityTypes.keyItem) {
-          interactive.pickup();
+          interactive.active && interactive.pickup();
         }
 
         if (interactive.entityType === EntityTypes.door) {
@@ -214,10 +227,10 @@ export abstract class Explore extends Phaser.Scene {
     this.foregroundLayer.setName("foreground");
   }
 
-  async acquiredItemCallback({ itemId, id, isKeyItem }) {
+  async acquiredItemCallback({ itemId, flagId }) {
     const sm = State.getInstance();
     const item = sm.addItemToContents(itemId);
-    sm.setFlag(id, true);
+    sm.setFlag(flagId, true);
     this.player.controllable.canInput = false;
     this.sound.play(item.collectSound, { volume: 0.1 });
     await this.displayMessage([`Lo got ${item.name}`]);

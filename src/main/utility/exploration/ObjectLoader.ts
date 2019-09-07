@@ -12,8 +12,6 @@ interface MapObject {
 
 interface ExploreData {
     interactives: Phaser.GameObjects.Sprite[]
-    triggers: Phaser.GameObjects.Sprite[],
-    inactive: Phaser.GameObjects.Sprite[]
 }
 
 export class MapObjectFactory {
@@ -29,8 +27,6 @@ export class MapObjectFactory {
     public getDataToLoad(): ExploreData {
         const exploreData: ExploreData = {
             interactives: [],
-            triggers: [],
-            inactive: []
         }
         const objects = this.scene.map.getObjectLayer("objects").objects as any[];
         // ===================================
@@ -88,7 +84,7 @@ export class MapObjectFactory {
             // ===================================
             if (object.type === "key-item") {
                 const keyItem = this.createKeyItem(object);
-                keyItem && exploreData.interactives.push(keyItem);
+                exploreData.interactives.push(keyItem)
             }
         });
         return exploreData;
@@ -133,7 +129,7 @@ export class MapObjectFactory {
         return new WarpTrigger(triggerConfig);
     }
 
-    private createSpawn(object){
+    private createSpawn(object) {
         const spawnConfig = {
             scene: this.scene,
             x: object.x + 32,
@@ -153,7 +149,6 @@ export class MapObjectFactory {
             {
                 scene: this.scene,
                 key: npc.spriteKey,
-                casts: this.casts,
             },
             Directions.up,
             npc.dialog,
@@ -170,7 +165,6 @@ export class MapObjectFactory {
             {
                 scene: this.scene,
                 key: npc.spriteKey,
-                casts: this.casts
             },
             triggerBattleId,
             Directions.up,
@@ -230,22 +224,20 @@ export class MapObjectFactory {
         const hasPlacementFlag = this.hasProperty("placementFlag", object.properties)
         const placementFlagId = this.getObjectPropertyByName("placementFlag", object.properties);
         const notYetFlagggedToPlace = !this.stateManager.isFlagged(placementFlagId)
-        if ((hasPlacementFlag && notYetFlagggedToPlace) || alreadyCollected) {
-            //TODO: Create the entity but label it as unplaced;
-            return false;
-        }
+        const unPlaced = (hasPlacementFlag && notYetFlagggedToPlace) || alreadyCollected;
         const keyItem = new KeyItem({
             scene: this.scene,
             x: object.x + 32,
             y: object.y + 32,
             properties: {
-                id: flagId,
+                flagId: flagId,
                 itemId: itemId,
                 type: EntityTypes.keyItem,
                 spriteKey: item.spriteKey,
                 frame: item.frame
-            }
+            },
         });
+        keyItem.setPlaced(!unPlaced);
         return keyItem;
     }
 }

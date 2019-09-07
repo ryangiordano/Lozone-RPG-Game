@@ -60,6 +60,8 @@ export class CombatScene extends Phaser.Scene {
     this.sound.stopAll();
     this.scene.manager.wake(this.previousSceneKey);
     this.scene.bringToTop(this.previousSceneKey);
+    const scene = this.scene.manager.getScene(this.previousSceneKey);
+    scene.events.emit('battle-finish');
   }
 
 }

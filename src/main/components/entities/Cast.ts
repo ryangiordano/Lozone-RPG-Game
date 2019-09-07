@@ -1,7 +1,13 @@
+export enum CastType {
+  pressure,
+  reach
+}
 export class Cast extends Phaser.GameObjects.Sprite {
   private currentScene: Phaser.Scene;
-  constructor({ scene, x, y }) {
-    super(scene, x, y, null);
+  public castType: CastType;
+  constructor(scene: Phaser.Scene, coords: Coords, castType?: CastType) {
+    super(scene, coords.x, coords.y, null);
+    this.castType = castType || CastType.reach;
     this.currentScene = scene;
     this.currentScene.add.existing(this);
     this.initSprite();
@@ -11,9 +17,9 @@ export class Cast extends Phaser.GameObjects.Sprite {
   }
   private initSprite() {
     this.setOrigin(0.5, 0.5);
-    setTimeout(()=>{
+    setTimeout(() => {
       this.destroy();
-    },200)
+    }, 200)
     this.currentScene.physics.world.enable(this);
   }
 }

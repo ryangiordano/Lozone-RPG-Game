@@ -7,7 +7,7 @@ import {
 export class Player extends Moveable {
   public controllable: Controllable;
   constructor({ scene, x, y, key, casts }) {
-    super({ scene, x, y, key, casts });
+    super({ scene, x, y, key });
     this.controllable = new Controllable(scene, this);
     this.on("hit-wall", this.playBump);
   }
