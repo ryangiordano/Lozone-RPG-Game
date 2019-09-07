@@ -28,7 +28,7 @@ export abstract class Explore extends Phaser.Scene {
     super({
       key: key || "Explore"
     });
-    this.mapObjectFactory = new MapObjectFactory(this.casts, this);
+    this.mapObjectFactory = new MapObjectFactory(this);
   }
   init(data) {
     // Specify the tileset you want to use based on the data passed to the scene.
@@ -108,7 +108,7 @@ export abstract class Explore extends Phaser.Scene {
     this.interactive.children.entries.forEach(child => {
       const entity = <Entity>child;
       if (entity.entityType === EntityTypes.keyItem) {
-
+        //TODO: Implement this;
       }
     });
 
@@ -126,9 +126,9 @@ export abstract class Explore extends Phaser.Scene {
       x: dropPoint.x,
       y: dropPoint.y,
       key: "lo",
-      casts: this.casts
     });
   }
+
   private setupCamera() {
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(
@@ -144,7 +144,13 @@ export abstract class Explore extends Phaser.Scene {
       this.casts,
       this.interactive,
       async (cast: Cast, interactive: any) => {
+        // Ensures we're not touching ourselves.  Gross.
+        if(cast.caster === interactive) return false;
+        cast.emit('resolve', { castedOn: interactive, caster: cast.caster})
         cast.destroy();
+        // Ensures that only the player can trigger entities when querying.
+        if (cast.caster.entityType !== EntityTypes.player) return false;
+        // TODO: Do a check to make sure the cast's castType === the entity's triggeringCastType
         this.player.stop();
 
         if (interactive.entityType === EntityTypes.bossMonster) {

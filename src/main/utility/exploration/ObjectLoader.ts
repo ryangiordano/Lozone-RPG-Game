@@ -19,7 +19,7 @@ export class MapObjectFactory {
      * Handles loading objects on the Explore scenes.
      */
     private stateManager: State;
-    constructor(private casts: Phaser.GameObjects.Group, private scene: Explore) {
+    constructor(private scene: Explore) {
         //TODO: Use events to refactor having to pass casts down from scene to every npc;
         this.stateManager = State.getInstance();
     }

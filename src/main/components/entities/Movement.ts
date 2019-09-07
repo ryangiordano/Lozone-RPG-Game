@@ -108,8 +108,12 @@ export class Moveable extends Entity {
   }
 
   private tileIsOpen(backgroundTile, foregroundTile) {
-    const backgroundTileIsOpen = backgroundTile && !backgroundTile.properties["collide"];
-    const foregroundTileIsOpen = foregroundTile && !foregroundTile.properties["collide"];
+    const backgroundTileIsOpen = backgroundTile &&
+      !backgroundTile.properties["collide"] &&
+      !backgroundTile.properties["wall"];
+    const foregroundTileIsOpen = foregroundTile &&
+      !foregroundTile.properties["collide"] &&
+      !foregroundTile.properties["wall"];
     return backgroundTileIsOpen && foregroundTileIsOpen
 
   }

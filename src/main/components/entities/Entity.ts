@@ -1,6 +1,6 @@
 import { State } from "../../utility/state/State";
 import { createThrottle } from "../../utility/Utility";
-import { Cast, CastType } from "./Cast";
+import { Cast, CastType, CastData } from "./Cast";
 
 export enum EntityTypes {
   npc,
@@ -11,7 +11,8 @@ export enum EntityTypes {
   bossMonster,
   keyItem,
   chest,
-  door
+  door,
+  player
 }
 
 
@@ -42,36 +43,62 @@ export class Entity extends Phaser.GameObjects.Sprite {
     this.currentScene.physics.world.enable(this);
   }
 
-  protected setEventListeners(){
-    // this.scene.events.on('')
-  }
   protected getTileBelowFoot() {
     const tile = this.currentMap.getTileAt(Math.floor(this.x / 64), Math.floor(this.y / 64), true, "foreground");
-
-    // this.currentMap.findObject()
     return tile;
   }
 
-  protected setCollideOnTileBelowFoot(toCollide: boolean) {
+  /**
+   * Sets collision on or off below foot.  Contains a check to see whether the Entity
+   * shares a space with another Entity, preventing the
+   * tile from being set to unoccupied if there is.
+   * @param toCollide boolean to decide whether the tile below needs to be effectively 'occupied'
+   */
+  protected async setCollideOnTileBelowFoot(toCollide: boolean) {
     const tile = this.getTileBelowFoot();
+    const castData: CastData = await this.emitCast({ x: this.x, y: this.y });
+    const isOccupiedByAnotherEntity = castData.castedOn && castData.castedOn.active;
+    if (isOccupiedByAnotherEntity) return;
 
     tile.properties["collide"] = toCollide;
   }
 
-  public queryUnderfoot = createThrottle(100, () => {
-    this.emitCast({ x: this.x, y: this.y }, CastType.pressure);
+  /**
+   * Emits a throttled Cast that is meant to trigger Entities belowfoot.
+   */
+  public queryUnderfoot = createThrottle(100, async () => {
+    const castResult = await this.emitCast({ x: this.x, y: this.y }, CastType.pressure);
+    return castResult;
   });
 
-  protected emitCast(coords: Coords, castType: CastType) {
-    this.scene.events.emit('cast-delivered', {
-      cast: new Cast(
+  /**
+   * Places an invisible Cast on the map.  The Cast has physics and will 
+   * interact with Entities on the map, gathering and sending back data 
+   * on the Entity it collides with before destroying itself.
+   * @param coords The coordinates that the cast is emitted on.
+   * @param castType The type of cast we're emitting.  Important for
+   *  things that respond to pressure(Casting Entity is on top of it) or
+   *  by reach (Casting Entity is adjacent)
+   */
+  protected async emitCast(coords: Coords, castType?: CastType): Promise<CastData> {
+    return new Promise(resolve => {
+      const cast = new Cast(
         this.currentScene,
         coords,
-        castType
-      )
+        this,
+        castType,
+      );
+      this.scene.events.emit('cast-delivered', {
+        cast
+      });
+      cast.on('resolve', (castData: CastData) => {
+        resolve(castData);
+      });
     });
+
+
   }
-  
+
 }
 
 /**
@@ -134,7 +161,7 @@ export class Chest extends Entity {
       this.currentScene.sound.play("chest", { volume: 0.1 });
       this.currentScene.events.emit("item-acquired", {
         itemId: this.properties["itemId"],
-        id: this.properties["id"]
+        flagId: this.properties["id"]
       });
     }
   }
