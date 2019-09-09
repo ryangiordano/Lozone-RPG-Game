@@ -46,7 +46,6 @@ export class BootScene extends Phaser.Scene {
         this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
         const tempParty = [13, 1, 2, 3, 4, 5];
       },
-      this
     );
     // Load the packages
     this.load.pack(

@@ -82,6 +82,11 @@
       },
       {
         "type": "audio",
+        "key": "unlock",
+        "url": "./src/main/assets/sounds/unlock.wav"
+      },
+      {
+        "type": "audio",
         "key": "boss-battle",
         "url": "./src/main/assets/music/boss-battle.mp3"
       },

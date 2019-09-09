@@ -10,7 +10,7 @@ import { CombatContainer } from "./combat-grid/CombatContainer";
 import { getRandomFloor, Directions, wait } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
-import { CombatInterface } from "./CombatInterface";
+import { CombatInterface } from "./combat-ui/CombatInterface";
 import { State } from "../../utility/state/State";
 import { Enemy } from "./Enemy";
 import { CombatEntity } from './CombatDataStructures';
@@ -187,7 +187,7 @@ export class Combat {
   }
 
   /**
-   * Resolve target actioons.
+   * Resolve target actions.
    */
   private async startLoop() {
     if (!this.combatEvents.length && this.enemies.length) {
@@ -203,7 +203,6 @@ export class Combat {
     const combatEvent = this.combatEvents.pop();
     let result = await combatEvent.executeAction();
     this.updateCombatGrids();
-    // await this.displayMessage(result.message);
     // TODO: Hook this up so we don't have to use a wait here.  
     // The goal is to get all of the cels in all of the grids to tell us when every single
     // one is done updating, and only when the last cel is done do we continue.
@@ -329,7 +328,7 @@ export class Combat {
   }
   //TODO: Make this message composable;
   /**
-   * Function that results after the message scene is done doing its thing.
+   * Function that resolves after the message scene is done doing its thing.
    * @param message
    */
   displayMessage(message: string[]): Promise<any> {

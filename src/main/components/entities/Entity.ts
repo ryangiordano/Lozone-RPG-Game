@@ -174,7 +174,7 @@ export class Chest extends Entity {
     this.setFrame(4, false)
   }
   public unlock() {
-    this.currentScene.sound.play("lock-open", { volume: 0.1 });
+    this.currentScene.sound.play("unlock", { volume: 0.1 });
     this.locked = false;
   }
 }

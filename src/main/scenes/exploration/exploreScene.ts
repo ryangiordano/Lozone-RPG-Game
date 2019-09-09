@@ -48,6 +48,7 @@ export abstract class Explore extends Phaser.Scene {
     this.sound.add("beep");
     this.sound.add("chest");
     this.sound.add("lock-open");
+    this.sound.add("unlock");
     this.sound.add("item-collect");
     this.sound.add("key-item-collect");
     this.sound.add("great-key-item-collect");
@@ -109,8 +110,6 @@ export abstract class Explore extends Phaser.Scene {
       const entity = <Entity>child;
       if (entity.entityType === EntityTypes.keyItem) {
         const keyItem = <KeyItem>entity;
-        console.log(keyItem.isFlagged())
-        console.log("Placing item now")
         keyItem.setPlaced(keyItem.isFlagged());
       }
     });

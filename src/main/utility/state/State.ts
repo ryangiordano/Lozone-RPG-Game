@@ -6,6 +6,7 @@ import { HeroParty } from "../../components/battle/Party";
 import { FlagController } from '../../data/controllers/FlagController';
 import { NPCController } from '../../data/controllers/NPCController';
 import { PartyController } from "../../data/controllers/PartyController";
+import { ItemCategory } from "../../components/entities/Item";
 
 export class State {
   /**
@@ -59,6 +60,9 @@ export class State {
   getItemsOnPlayer() {
     return this.playerContents.getItemsOnPlayer();
   }
+  getConsumeablesOnPlayer(){
+    return this.playerContents.getItemsOnPlayer().filter(item=>item.category === ItemCategory.consumable)
+  }
 
   public getCurrentParty() {
     
@@ -96,7 +100,6 @@ export class State {
     return this.flags.get(`${id}`) && this.flags.get(`${id}`).flagged;
   }
   public allAreFlagged(ids: number[]) {
-    console.log(ids)
     return ids.every(id => this.isFlagged(id));
   }
   public setFlag(id: number, flagged: boolean) {

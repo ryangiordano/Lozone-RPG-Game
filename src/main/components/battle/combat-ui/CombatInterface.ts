@@ -1,15 +1,17 @@
-import { UserInterface } from "../UI/UserInterface";
-import { TextFactory } from "../../utility/TextFactory";
-import { CombatEvent } from "./CombatEvent";
-import { Orientation, CombatActionTypes, CombatEntity } from './CombatDataStructures';
-import { PartyMember } from "./PartyMember";
-import { Combatant } from "./Combatant";
-import { UIPanel, PanelContainer } from "../UI/PanelContainer";
-import { KeyboardControl } from "../UI/Keyboard";
+import { UserInterface } from "../../UI/UserInterface";
+import { TextFactory } from "../../../utility/TextFactory";
+import { CombatEvent } from "../CombatEvent";
+import { Orientation, CombatActionTypes, CombatEntity } from '../CombatDataStructures';
+import { PartyMember } from "../PartyMember";
+import { Combatant } from "../Combatant";
+import { UIPanel, PanelContainer } from "../../UI/PanelContainer";
+import { KeyboardControl } from "../../UI/Keyboard";
+import { State } from "../../../utility/state/State";
 
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory;
   private enemyTargetPanel: UIPanel;
+  private itemPanel: UIPanel;
   private statusPanel: PanelContainer;
   private mainPanel: UIPanel;
   private currentPartyMember: Combatant;
@@ -33,6 +35,7 @@ export class CombatInterface extends UserInterface {
     this.showPanel(this.mainPanel).focusPanel(this.mainPanel);
 
     this.createEnemyTargetPanel();
+    this.createItemPanel();
   }
 
   private createMainPanel() {
@@ -50,7 +53,7 @@ export class CombatInterface extends UserInterface {
         );
         this.events.emit("option-selected", event);
       })
-      .addOption("Item", () => { })
+      .addOption("Item", () => this.showPanel(this.itemPanel).focusPanel(this.itemPanel))
       .addOption("Run", () => {
         this.scene.events.emit("run-battle");
       });
@@ -77,6 +80,18 @@ export class CombatInterface extends UserInterface {
         this.events.emit("option-selected", event);
       });
     });
+  }
+
+  private createItemPanel(){
+    this.itemPanel = this.createUIPanel({x:7,y:3}, {x:3,y:6});
+    const sm = State.getInstance();
+    const consumeables = sm.getConsumeablesOnPlayer();
+    consumeables.forEach(item=>{
+      this.itemPanel.addOption(item.name, ()=>{
+        //TODO: Add item use action;
+      })
+    })
+
   }
 
   private createStatusPanel() {

@@ -6,11 +6,15 @@
 body {
   font-size: 10px;
   color: black;
-  background-color: #ffffff
+  background-color: #383838;
 }
 
 body div.container {
-  text-align: center
+  text-align: center;
+  height: 100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 body div.container h1 {
