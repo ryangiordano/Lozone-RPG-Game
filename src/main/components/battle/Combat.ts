@@ -198,11 +198,14 @@ export class Combat {
     if (this.enemies.length <= 0) {
       return this.handleBattleEnd();
     }
-    // make this async...
 
     const combatEvent = this.combatEvents.pop();
     let result = await combatEvent.executeAction();
     this.updateCombatGrids();
+
+    if(combatEvent.type === CombatActionTypes.useItem){
+      await this.displayMessage(result.message)
+    }
     // TODO: Hook this up so we don't have to use a wait here.  
     // The goal is to get all of the cels in all of the grids to tell us when every single
     // one is done updating, and only when the last cel is done do we continue.

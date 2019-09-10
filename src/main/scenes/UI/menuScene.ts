@@ -23,6 +23,7 @@ export class MenuScene extends Phaser.Scene {
       "dialog-white",
       new KeyboardControl(this)
     );
+    [1,1,1,1,2,2,2,3,3,3,3,3,6].forEach(id=>this.state.addItemToContents(id))
     this.state.addItemToContents(6)
     this.sound.play("menu-open", { volume: 0.1 })
     // ===================================

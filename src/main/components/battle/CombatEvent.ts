@@ -10,20 +10,27 @@ import {
   characterAttack,
   characterDamage
 } from "../../utility/tweens/character";
-import { hitEffect } from "../entities/effects/effect-animations";
+import { hitEffect, createHealingEffect } from '../entities/effects/effect-animations';
+import { Item } from '../entities/Item';
+import { State } from "../../utility/state/State";
 
+
+//TODO: Refactor this to take care of less stuff.  It does too much;
 /**
  * Is an object meant to be stored in an array of CombatEvents and then interated
  * over during the course of a turn.
  */
 export class CombatEvent {
-  private textFactory: TextFactory;
+  //TODO: Abstract this out to be different classes inheriting from CombatEvent;
+  public type: CombatActionTypes = null;
+
+  protected textFactory: TextFactory;
   constructor(
     public executor: Combatant,
     public target: Combatant,
     public action: CombatActionTypes,
-    private orientation: Orientation,
-    private scene: Phaser.Scene
+    protected orientation: Orientation,
+    protected scene: Phaser.Scene
   ) {
     this.textFactory = new TextFactory(scene);
   }
@@ -47,7 +54,7 @@ export class CombatEvent {
     });
   }
 
-  private async handleDefend(executor: Combatant): Promise<any> {
+  protected async handleDefend(executor: Combatant): Promise<any> {
     return new Promise(async resolve => {
       executor.defendSelf();
       const results: CombatResult = {
@@ -64,7 +71,7 @@ export class CombatEvent {
     });
   }
 
-  private async handleAttack(
+  protected async handleAttack(
     executor: Combatant,
     target: Combatant
   ): Promise<any> {
@@ -89,16 +96,18 @@ export class CombatEvent {
     });
   }
 
-  private returnFailedAction(
+
+  protected returnFailedAction(
     executor: Combatant,
     target: Combatant
   ): CombatResult {
     return executor.failedAction(target);
   }
 
-  private createCombatText(
+  protected createCombatText(
     value: string,
-    combatant: Combatant
+    combatant: Combatant,
+    color: string = "#ffffff"
   ): Phaser.GameObjects.Text {
     const sprite = combatant.getSprite();
     const container = combatant.getSprite().parentContainer;
@@ -106,7 +115,7 @@ export class CombatEvent {
       value,
       { x: sprite.x, y: sprite.y },
       "60px",
-      { fill: "#ffffff" }
+      { fill: color }
     );
 
     this.scene.add.existing(valueText);
@@ -125,6 +134,11 @@ export class CombatEvent {
     });
   }
 
+  /**
+   * Plays the animation for attacking
+   * @param partyMember 
+   * @param distance 
+   */
   public playMemberAttack(partyMember, distance): Promise<any> {
     return new Promise(resolve => {
       const tween = characterAttack(
@@ -160,7 +174,7 @@ export class CombatEvent {
     });
   }
 
-  private confirmTarget(): Combatant {
+  protected confirmTarget(): Combatant {
     let target = this.target;
     if (target && target.currentHp <= 0) {
       const nextTargetable = target
@@ -174,7 +188,68 @@ export class CombatEvent {
     return target;
   }
 
-  private executorIsValid(): boolean {
+  protected executorIsValid(): boolean {
     return this.executor.currentHp > 0;
   }
+}
+
+
+export class UseItemEvent extends CombatEvent {
+  /**
+   * Handles the case when a player chooses to use an item during battle.
+   */
+  public type: CombatActionTypes = CombatActionTypes.useItem;
+  constructor(
+    executor: Combatant,
+    target: Combatant,
+    action: CombatActionTypes,
+    orientation: Orientation,
+    scene: Phaser.Scene,
+    private item: Item,
+  ) {
+    super(executor, target, action, orientation, scene)
+  }
+
+  /**
+   * Handles the case when an item is used.
+   * @param executor 
+   * @param target 
+   */
+  protected async handleUseItem(executor: Combatant, target: Combatant): Promise<any> {
+    return new Promise(async resolve => {
+      const results: CombatResult = target.applyItem(this.item)
+      const targetSprite = target.getSprite();
+      await createHealingEffect(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer)
+
+      const text = this.createCombatText(
+        results.resultingValue.toString(),
+        this.target,
+        "#92e8a2"
+      );
+      await this.playCombatText(text);
+      const message = [
+        `${executor.name} uses the ${this.item.name} on ${target.name}.  ${target.name} is healed for ${results.resultingValue} HP`,
+        `${target.name} has ${target.currentHp} HP out of ${target.getMaxHp()} left.`
+      ];
+      results.message = message;
+      State.getInstance().consumeItem(this.item.id);
+      return resolve(results);
+    });
+  }
+  public async executeAction(): Promise<CombatResult> {
+    return new Promise(async resolve => {
+      const executor = this.executor;
+      const target = this.confirmTarget();
+      let results;
+      // This is where we implement our Actions.ts actions.
+      if (this.action === CombatActionTypes.useItem) {
+        if (!target || !this.executorIsValid()) {
+          return resolve(this.returnFailedAction(executor, target));
+        }
+        results = await this.handleUseItem(executor, target);
+      }
+      return resolve(results);
+    });
+  }
+  
 }

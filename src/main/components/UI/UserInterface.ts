@@ -89,6 +89,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     return this.panelContainers.find(d => d.focused);
   }
   public focusPanel(toFocus: UIPanel) {
+    toFocus.showPanel();
     this.focusedPanel = toFocus;
 
     this.panelContainers.forEach(panel => {

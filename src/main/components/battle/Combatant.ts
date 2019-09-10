@@ -10,6 +10,7 @@ import {
 import { getUID, Directions } from "../../utility/Utility";
 import { Defend } from "./Actions";
 import { Buff } from "./Buff";
+import { Item } from "../entities/Item";
 
 export class Combatant {
   private buffs: Map<number, Buff>;
@@ -116,6 +117,19 @@ export class Combatant {
       targetDown: target.currentHp === 0
     };
   }
+
+  applyItem(item: Item): CombatResult {
+    const potency = item.effectPotency * item.effect.basePotency;
+    const healedFor = this.healFor(potency);
+    return {
+      actionType: CombatActionTypes.attack,
+      executor: null,
+      target: this,
+      resultingValue: healedFor,
+      targetDown: this.currentHp === 0
+    };
+  }
+
   failedAction(target: Combatant): CombatResult {
     return {
       actionType: CombatActionTypes.failure,

@@ -59,6 +59,7 @@ export interface Behavior {
 }
 export interface Effect {
   id: number;
+  basePotency: number
   // For use with items and spells.
   //TODO: implement a db for this
 }

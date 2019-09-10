@@ -1,6 +1,6 @@
 import { UserInterface } from "../../UI/UserInterface";
 import { TextFactory } from "../../../utility/TextFactory";
-import { CombatEvent } from "../CombatEvent";
+import { CombatEvent, UseItemEvent } from '../CombatEvent';
 import { Orientation, CombatActionTypes, CombatEntity } from '../CombatDataStructures';
 import { PartyMember } from "../PartyMember";
 import { Combatant } from "../Combatant";
@@ -11,6 +11,7 @@ import { State } from "../../../utility/state/State";
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory;
   private enemyTargetPanel: UIPanel;
+  private partyTargetPanel: UIPanel;
   private itemPanel: UIPanel;
   private statusPanel: PanelContainer;
   private mainPanel: UIPanel;
@@ -35,6 +36,7 @@ export class CombatInterface extends UserInterface {
     this.showPanel(this.mainPanel).focusPanel(this.mainPanel);
 
     this.createEnemyTargetPanel();
+    this.createPartyTargetPanel();
     this.createItemPanel();
   }
 
@@ -82,17 +84,44 @@ export class CombatInterface extends UserInterface {
     });
   }
 
-  private createItemPanel(){
-    this.itemPanel = this.createUIPanel({x:7,y:3}, {x:3,y:6});
+  private createItemPanel() {
+    this.itemPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
     const sm = State.getInstance();
     const consumeables = sm.getConsumeablesOnPlayer();
-    consumeables.forEach(item=>{
-      this.itemPanel.addOption(item.name, ()=>{
-        //TODO: Add item use action;
+    consumeables.forEach(item => {
+      // Create list of items to use in battle.
+      this.itemPanel.addOption(`${item.name} x${item.quantity}`, () => {
+        // On item use, show party member panel
+        this.itemPanel.closePanel();
+        this.showPanel(this.partyTargetPanel).focusPanel(this.partyTargetPanel);
+        this.partyTargetPanel.on('party-member-chosen', (partyMember) => {
+          this.partyTargetPanel.off("party-member-chosen");
+          const event = new UseItemEvent(
+            this.currentPartyMember,
+            partyMember.entity,
+            CombatActionTypes.useItem,
+            Orientation.left,
+            this.scene,
+            item,
+          );
+          this.events.emit('option-selected', event);
+        })
       })
     })
 
   }
+
+  private createPartyTargetPanel() {
+    this.partyTargetPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
+
+    this.party.forEach(partyMember => {
+      this.partyTargetPanel.addOption(partyMember.entity.name, () => {
+        this.partyTargetPanel.emit("party-member-chosen", partyMember);
+      });
+    });
+  }
+
+
 
   private createStatusPanel() {
     this.statusPanel = this.createPresentationPanel(

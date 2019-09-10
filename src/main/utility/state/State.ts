@@ -86,7 +86,7 @@ export class State {
       },
       {
         entity: this.partyController.getPartyMemberById(2),
-        position: {x:0,y:1}
+        position: {x:1,y:1}
       },
       {
         entity: this.partyController.getPartyMemberById(3),
