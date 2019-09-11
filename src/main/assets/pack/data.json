@@ -59,6 +59,11 @@
         "type": "json",
         "key": "locations",
         "url": "./src/main/data/locations.json"
+      },
+      {
+        "type": "json",
+        "key": "spells",
+        "url": "./src/main/data/spells.json"
       }
     ]
   }

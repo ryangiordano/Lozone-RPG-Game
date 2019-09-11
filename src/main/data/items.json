@@ -2,7 +2,7 @@
   "1": {
     "name": "blueberry",
     "description": "Delicious blueberry.  Restores a small amount of HP.",
-    "effectId": 1,
+    "spellId": 1,
     "effectPotency": 1,
     "spriteKey": "items",
     "frame": 0,
@@ -13,7 +13,7 @@
   "2": {
     "name": "tamarind",
     "description": "A crispy shell hiding sweet fruit.  Restores a moderate amount of HP",
-    "effectId": 1,
+    "spellId": 2,
     "effectPotency": 1.2,
     "spriteKey": "items",
     "frame": 1,
@@ -24,7 +24,7 @@
   "3": {
     "name": "mango",
     "description": "A rainbow-colored mango.  Restores a large amount of HP.",
-    "effectId": 1,
+    "spellId": 3,
     "effectPotency": 1.5,
     "spriteKey": "items",
     "frame": 2,
@@ -35,7 +35,7 @@
   "4": {
     "name": "Hearing Aids",
     "description": "Devices that aid in hearing.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "key-items",
     "frame": 1,
@@ -46,7 +46,7 @@
   "5": {
     "name": "Cat USB",
     "description": "A mysterious cat-shape USB.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "key-items",
     "frame": 0,
@@ -57,7 +57,7 @@
   "6": {
     "name": "Gold Key",
     "description": "A shiny gold key.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "items",
     "frame": 4,
@@ -68,7 +68,7 @@
   "7": {
     "name": "Silver Key",
     "description": "A small silver key.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "items",
     "frame": 3,
@@ -79,7 +79,7 @@
   "8": {
     "name": "Big Ruby",
     "description": "A hefty, scintillating ruby.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "loot",
     "frame": 8,
@@ -91,7 +91,7 @@
   "9": {
     "name": "Small Ruby",
     "description": "A small, glistening ruby shard.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "loot",
     "frame": 9,
@@ -102,7 +102,7 @@
   "10": {
     "name": "Small Pearl",
     "description": "A tiny pearl, no larger than a grape.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "loot",
     "frame": 10,
@@ -113,7 +113,7 @@
   "11": {
     "name": "Large Pearl",
     "description": "A palm-sized pearl.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "loot",
     "frame": 11,
@@ -124,7 +124,7 @@
   "12": {
     "name": "Diamond Ring",
     "description": "An engagement ring from a failed marriage.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "loot",
     "frame": 11,
@@ -135,7 +135,7 @@
   "13": {
     "name": "Orb of Neiku",
     "description": "You feel the spirit of neglecting doing laundry flowing within.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "items",
     "frame": 7,
@@ -146,7 +146,7 @@
   "14": {
     "name": "Orb of Xiwan",
     "description": "You feel something inside that seems to say `I'll do it later`.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "items",
     "frame": 5,
@@ -157,7 +157,7 @@
   "15": {
     "name": "Orb of Huashao",
     "description": "Glows with a dull rouge sheen. This is so not your color.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "items",
     "frame": 6,
@@ -168,7 +168,7 @@
   "16": {
     "name": "Large Emerald",
     "description": "A brilliant and hefty green emerald.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "loot",
     "frame": 15,
@@ -179,7 +179,7 @@
   "17": {
     "name": "Emerald Shard",
     "description": "A small shiny piece of a what would have been a giant emerald.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "loot",
     "frame": 16,
@@ -190,7 +190,7 @@
   "18": {
     "name": "Blue Diamond",
     "description": "A perfectly cut diamond with a dark glinting core.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "loot",
     "frame": 17,
@@ -201,7 +201,7 @@
   "19": {
     "name": "Small Diamond",
     "description": "A glistening shard of diamond no larger than your thumbnail.",
-    "effectId": null,
+    "spellId": null,
     "effectPotency": null,
     "spriteKey": "loot",
     "frame": 18,

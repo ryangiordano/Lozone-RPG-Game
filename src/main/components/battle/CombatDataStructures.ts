@@ -1,5 +1,6 @@
 import { Combatant } from "./Combatant";
 import { Enemy } from './Enemy';
+import { SpellType, TargetType } from "../../data/repositories/SpellRepository";
 
 /*
  * duration is the number in turns left for its lifetime.
@@ -46,12 +47,19 @@ export interface Modifier {
   particle: number;
   frame: number;
 }
+
 export interface Spell {
-  id: number;
-  name: string;
-  effectId: number;
-  potency: number;
+  id: number,
+  name: string,
+  animationEffect: Effect
+  description: string,
+  basePotency: number,
+  type: SpellType,
+  manaCost: number,
+  targetType: TargetType,
+  status: any[] //TODO: Implement later;
 }
+
 export interface Behavior {
   id: number;
   //For use with enemy AI
@@ -59,7 +67,8 @@ export interface Behavior {
 }
 export interface Effect {
   id: number;
-  basePotency: number
+  name:string,
+  animationEffect: Function
   // For use with items and spells.
   //TODO: implement a db for this
 }

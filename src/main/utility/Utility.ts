@@ -8,6 +8,13 @@ export const createThrottle = (limit, func) => {
   }
 };
 
+
+export const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 export const createRandom = (upTo) => () => getRandomCeil(upTo);
 
 export const getRandomFloor = (upTo) => Math.floor(Math.random() * upTo);

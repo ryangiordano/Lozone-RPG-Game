@@ -1,12 +1,7 @@
-import { TweenFactory } from "../../../utility/tweens/TweenBuilder";
+import { getRandomInt } from "../Utility";
 
-const getRandomInt = (min, max) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
-}
 
-export const createHealingEffect = async (x, y, scene, container?: Phaser.GameObjects.Container) => {
+export const lesserHeal = async (x, y, scene, container?: Phaser.GameObjects.Container) => {
     scene.sound.play("heal", { volume: .1 });
     const heal = scene.add.sprite(x, y, 'heal');
 
@@ -32,23 +27,6 @@ export const createHealingEffect = async (x, y, scene, container?: Phaser.GameOb
 
                 }, i * 200)
             }
-            resolve();
-        });
-    })
-
-}
-
-export const hitEffect = (x, y, scene: Phaser.Scene, container?: Phaser.GameObjects.Container): Promise<any> => {
-    return new Promise(resolve => {
-        scene.sound.play("hit", { volume: .1 });
-        const hit: Phaser.GameObjects.Sprite = scene.add.sprite(x, y, 'hit');
-        container && container.add(hit);
-        container && container.bringToTop(hit)
-        hit.setTint(0xffffff)
-        hit.anims.play('hit1');
-
-        hit.on('animationcomplete', () => {
-            hit.destroy();
             resolve();
         });
     })

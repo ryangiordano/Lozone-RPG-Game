@@ -1,4 +1,4 @@
-import { Effect } from "../battle/CombatDataStructures";
+import { Effect, Spell } from "../battle/CombatDataStructures";
 
 export enum ItemCategory {
   consumable,
@@ -10,7 +10,7 @@ export interface ItemData {
   id: number | string,
   name: string,
   description: string,
-  effectId: Effect,
+  spellId: number,
   effectPotency: number,
   spriteKey: string,
   frame: number,
@@ -24,7 +24,7 @@ export class Item {
     public id: number | string,
     public name: string,
     public description: string,
-    public effect: Effect,
+    public effect: Spell,
     public effectPotency: number,
     public spriteKey: string,
     public frame: number,

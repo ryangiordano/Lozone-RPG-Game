@@ -50,7 +50,7 @@ export class Combat {
       enemy.entity.setSprite(scene, Directions.left);
       this.enemies.push(enemy);
       const enemyEntity = <Enemy>enemy.entity;
-      if(enemyEntity.flagsWhenDefeated){
+      if (enemyEntity.flagsWhenDefeated) {
         this.victoryFlags = [...this.victoryFlags, ...enemyEntity.flagsWhenDefeated]
       }
     });
@@ -203,7 +203,7 @@ export class Combat {
     let result = await combatEvent.executeAction();
     this.updateCombatGrids();
 
-    if(combatEvent.type === CombatActionTypes.useItem){
+    if (combatEvent.type === CombatActionTypes.useItem) {
       await this.displayMessage(result.message)
     }
     // TODO: Hook this up so we don't have to use a wait here.  
@@ -216,7 +216,7 @@ export class Combat {
     this.startLoop();
   }
 
-  private async handleBattleEnd(){
+  private async handleBattleEnd() {
     this.scene.sound.stopAll();
     this.scene.sound.play('victory', { volume: .4 })
     await this.displayMessage(["You've won!"]);
@@ -272,13 +272,13 @@ export class Combat {
         this.lootCrate.itemIds.push(itemObject.itemId)
       }
     });
-    this.lootCrate.experiencePoints += target.experiencePoints;
+    this.lootCrate.experiencePoints += Math.ceil((target.experiencePoints * ((target.level / 2) + 1)));
   }
 
   private async distributeExperience(experience) {
     const messages = [];
     this.partyMembers.forEach(partyMember => {
-      const partyEntity = <PartyMember> partyMember.entity;
+      const partyEntity = <PartyMember>partyMember.entity;
       if (partyEntity.currentHp > 0) {
         const hasLeveledUp = partyEntity.gainExperience(experience)
         if (hasLeveledUp) {

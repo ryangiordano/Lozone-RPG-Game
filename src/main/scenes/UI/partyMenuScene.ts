@@ -4,9 +4,9 @@ import { State } from "../../utility/state/State";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 import { TextFactory } from '../../utility/TextFactory';
-import { createHealingEffect } from '../../components/entities/effects/effect-animations';
 import { Bar, HpBar, MpBar, XpBar } from '../../components/UI/Bars';
 import { CombatEntity } from '../../components/battle/CombatDataStructures';
+import { Item } from '../../components/entities/Item';
 
 export class PartyMenuScene extends Phaser.Scene {
   private partyMenuContainer: PartyMenuContainer;
@@ -183,7 +183,7 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
         this.partyMessagePanel.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${healedFor} HP.`);
         panel.setHp(partyMember.currentHp);
 
-        this.playHealAnimation(panel);
+        this.playHealAnimation(panel, this.entity);
 
       } else {
         this.partyMessagePanel.displayMessage(`${partyMember.name} already has full HP!`);
@@ -195,8 +195,8 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
     }
   }
 
-  private playHealAnimation(panel) {
-    createHealingEffect(95, 55, this.scene, panel)
+  private playHealAnimation(panel, item: Item) {
+    item.effect.animationEffect.animationEffect(95, 55, this.scene, panel)
   }
 }
 

@@ -10,9 +10,10 @@ import {
   characterAttack,
   characterDamage
 } from "../../utility/tweens/character";
-import { hitEffect, createHealingEffect } from '../entities/effects/effect-animations';
 import { Item } from '../entities/Item';
 import { State } from "../../utility/state/State";
+import { SpellController } from "../../data/controllers/SpellController";
+import { EffectsRepository } from '../../data/repositories/EffectRepository';
 
 
 //TODO: Refactor this to take care of less stuff.  It does too much;
@@ -23,7 +24,7 @@ import { State } from "../../utility/state/State";
 export class CombatEvent {
   //TODO: Abstract this out to be different classes inheriting from CombatEvent;
   public type: CombatActionTypes = null;
-
+  private effectsRepository: EffectsRepository;
   protected textFactory: TextFactory;
   constructor(
     public executor: Combatant,
@@ -33,6 +34,7 @@ export class CombatEvent {
     protected scene: Phaser.Scene
   ) {
     this.textFactory = new TextFactory(scene);
+    this.effectsRepository = new EffectsRepository(this.scene.game);
   }
 
   public async executeAction(): Promise<CombatResult> {
@@ -160,7 +162,8 @@ export class CombatEvent {
         resolve();
       });
       tween.play();
-      hitEffect(combatant.x, combatant.y, this.scene, combatant.parentContainer);
+      const hitEffect = this.effectsRepository.getById(3);
+      hitEffect.animationEffect(combatant.x, combatant.y, this.scene, combatant.parentContainer);
 
     });
   }
@@ -219,7 +222,8 @@ export class UseItemEvent extends CombatEvent {
     return new Promise(async resolve => {
       const results: CombatResult = target.applyItem(this.item)
       const targetSprite = target.getSprite();
-      await createHealingEffect(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer)
+      //TODO: Clean this up because it sucks.
+      await this.item.effect.animationEffect.animationEffect(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer)
 
       const text = this.createCombatText(
         results.resultingValue.toString(),
