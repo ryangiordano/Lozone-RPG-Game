@@ -42,12 +42,17 @@ export class PartyController {
     return combatant;
   }
 
-  private mapCombatClassDataToCombatClass(combatClassData): CombatClass{
+  private mapCombatClassDataToCombatClass(combatClassData): CombatClass {
     const {
       spells,
       ...combatClass
     } = combatClassData
-    combatClass.spells = spells.map(spellObject=>this.spellController.getSpellById(spellObject.spell));
+
+    combatClass.spells = spells.map(spellObject => ({
+      ...spellObject,
+      spell: this.spellController.getSpellById(spellObject.spell)
+    }));
+
     return combatClass;
   }
 }

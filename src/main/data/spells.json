@@ -8,7 +8,7 @@
     "type": 1,
     "manaCost": 5,
     "targetType": {
-      "target": 1,
+      "targeting": 1,
       "targetArea": 1
     },
     "status": []
@@ -22,7 +22,7 @@
     "type": 1,
     "manaCost": 20,
     "targetType": {
-      "target": 1,
+      "targeting": 1,
       "targetArea": 1
     },
     "status": []
@@ -36,7 +36,7 @@
     "type": 1,
     "manaCost": 50,
     "targetType": {
-      "target": 1,
+      "targeting": 1,
       "targetArea": 1
     },
     "status": []
@@ -50,7 +50,7 @@
     "type": 2,
     "manaCost": 5,
     "targetType": {
-      "target": 1,
+      "targeting": 2,
       "targetArea": 1
     },
     "status": []
@@ -64,7 +64,7 @@
     "type": 2,
     "manaCost": 5,
     "targetType": {
-      "target": 1,
+      "targeting": 2,
       "targetArea": 1
     },
     "status": []

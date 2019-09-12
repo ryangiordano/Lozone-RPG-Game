@@ -117,7 +117,20 @@ export class Combatant {
       targetDown: target.currentHp === 0
     };
   }
+  public castOffensiveSpell(spell: Spell, target: Combatant): CombatResult {
+    //TODO: Differentiate between offensive and assistive magic here?
+    console.log(spell);
+    const potency = this.getMagicPower() + spell.basePotency; 
+    const damageDone = target.receiveMagicalDamage(potency);
 
+    return {
+      actionType: CombatActionTypes.castSpell,
+      executor: this,
+      target: target,
+      resultingValue: damageDone,
+      targetDown: target.currentHp === 0
+    }
+  }
   applyItem(item: Item): CombatResult {
     const potency = item.effectPotency * item.effect.basePotency;
     const healedFor = this.healFor(potency);
@@ -145,6 +158,13 @@ export class Combatant {
     this.damageFor(actualDamage);
     return actualDamage;
   }
+
+  receiveMagicalDamage(potency: number) {
+    const magicResistPotency = this.getMagicResist();
+    const actualDamage = Math.max(1, potency-magicResistPotency);
+    this.damageFor(actualDamage);
+    return actualDamage;
+  }
   public getAttackPower() {
     return this.strength * this.level;
   }
@@ -153,6 +173,10 @@ export class Combatant {
   }
   public getDefensePower() {
     return this.stamina * this.level;
+  }
+
+  public getMagicResist() {
+    return (this.magicalResist * this.level) + (this.wisdom * this.level);
   }
 
   public getSpeed() {
@@ -190,6 +214,8 @@ export class Combatant {
     if (this.currentHp === 0) {
     }
   }
+
+
   public addStatusCondition(status: Status) {
     this.status.add(status);
   }

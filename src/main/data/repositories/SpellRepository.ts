@@ -17,7 +17,7 @@ export enum Targeting {
 }
 
 export type TargetType = {
-    target: Targeting,
+    targeting: Targeting,
     targetArea: TargetArea
 }
 

@@ -13,7 +13,7 @@ export class CombatScene extends Phaser.Scene {
   constructor() {
     super('Battle');
   }
-  
+
   preload(): void {
   }
 
@@ -24,6 +24,7 @@ export class CombatScene extends Phaser.Scene {
     this.sound.add("level-up");
     this.sound.add('battle');
     this.sound.add('victory');
+    console.log(data)
     this.levelUp = this.sound.add('level-up');
     this.enemyController = new EnemyController(this.game);
     this.previousSceneKey = data.key;
@@ -35,13 +36,9 @@ export class CombatScene extends Phaser.Scene {
 
     this.combat = new Combat(this, party.getParty(), enemyParty.getParty());
     this.events.once('end-battle', (battleState: BattleState) => {
-      if(battleState.victorious && battleState.flagsToFlip.length){
+      if (battleState.victorious && battleState.flagsToFlip.length) {
         const sm = State.getInstance();
-        battleState.flagsToFlip.forEach(flag=>{
-          sm.setFlag(flag, true)
-          console.log(flag)
-        })
-        console.log("FLAGS FLIPPED")
+        battleState.flagsToFlip.forEach(flag => sm.setFlag(flag, true))
       }
       this.endBattle();
     });
@@ -49,7 +46,11 @@ export class CombatScene extends Phaser.Scene {
       alert('You have died.')
       //TODO: change scene to game over scene.
     });
-    this.sound.play('battle', {volume: 0.1})
+    if(data.bossBattle){
+
+    }
+    const music = data.bossBattle ? 'boss-battle' : 'battle'; 
+    this.sound.play(music, { volume: 0.1, loop: true })
   }
 
   private endBattle() {

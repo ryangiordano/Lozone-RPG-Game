@@ -91,7 +91,8 @@ export class Combat {
       : this.currentPartyFocusIndex + 1;
 
     while (previous ? tempIndex > 0 : tempIndex < count) {
-      if (this.partyMemberHasImobileStatus(this.partyMembers[tempIndex].entity)) {
+      const partyMember = <PartyMember>this.partyMembers[tempIndex].entity
+      if (this.partyMemberHasImobileStatus(partyMember)) {
         previous ? tempIndex-- : tempIndex++;
       } else {
         this.currentPartyFocusIndex = tempIndex;
@@ -102,7 +103,7 @@ export class Combat {
     }
   }
 
-  private partyMemberHasImobileStatus(partyMember: Combatant) {
+  private partyMemberHasImobileStatus(partyMember: PartyMember) {
     return (
       partyMember.status.has(Status.fainted) ||
       partyMember.status.has(Status.confused) ||
@@ -114,7 +115,7 @@ export class Combat {
     this.combatUI.destroyContainer();
   }
 
-  private constructInputUI(partyMember: Combatant) {
+  private constructInputUI(partyMember: PartyMember) {
     this.combatUI = new CombatInterface(
       this.scene,
       "dialog-white",
@@ -177,7 +178,7 @@ export class Combat {
   }
 
   private displayInputControlsForCurrentPartyMember() {
-    this.constructInputUI(this.getCurrentPartyMember().entity);
+    this.constructInputUI(<PartyMember>this.getCurrentPartyMember().entity);
     this.combatUI.initialize();
   }
 

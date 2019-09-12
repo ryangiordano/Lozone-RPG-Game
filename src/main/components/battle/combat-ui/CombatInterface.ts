@@ -1,6 +1,6 @@
 import { UserInterface } from "../../UI/UserInterface";
 import { TextFactory } from "../../../utility/TextFactory";
-import { CombatEvent, UseItemEvent } from '../CombatEvent';
+import { CombatEvent, UseItemEvent, SpellCastEvent } from '../CombatEvent';
 import { Orientation, CombatActionTypes, CombatEntity } from '../CombatDataStructures';
 import { PartyMember } from "../PartyMember";
 import { Combatant } from "../Combatant";
@@ -14,8 +14,9 @@ export class CombatInterface extends UserInterface {
   private partyTargetPanel: UIPanel;
   private itemPanel: UIPanel;
   private statusPanel: PanelContainer;
+  private spellPanel: UIPanel;
   private mainPanel: UIPanel;
-  private currentPartyMember: Combatant;
+  private currentPartyMember: PartyMember;
 
   constructor(
     scene: Phaser.Scene,
@@ -25,12 +26,12 @@ export class CombatInterface extends UserInterface {
   ) {
     super(scene, spriteKey, new KeyboardControl(scene));
     this.textFactory = new TextFactory(scene);
-    //TODO: Refactor the combat interface logic here.
   }
-  public create(partyMember: Combatant) {
+  public create(partyMember: PartyMember) {
     this.currentPartyMember = partyMember;
     this.createMainPanel();
     this.createStatusPanel();
+    this.createSpellPanel();
 
     this.mainPanel.addChildPanel("status", this.statusPanel);
     this.showPanel(this.mainPanel).focusPanel(this.mainPanel);
@@ -56,13 +57,20 @@ export class CombatInterface extends UserInterface {
         this.events.emit("option-selected", event);
       })
       .addOption("Item", () => this.showPanel(this.itemPanel).focusPanel(this.itemPanel))
-      .addOption("Run", () => {
-        this.scene.events.emit("run-battle");
-      });
+
+    if (this.currentPartyMember.combatClass.spells.length) {
+      this.mainPanel.addOption("Spells", () => this.showPanel(this.spellPanel).focusPanel(this.spellPanel))
+    }
+
+    //TODO: Scrollable panels;
+    this.mainPanel.addOption("Run", () => {
+      this.scene.events.emit("run-battle");
+    });
 
     this.setEventOnPanel(this.mainPanel, "keydown", event => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
         //TODO: Handle iterating backward through the combat input loop.
+        this.events.emit("move-backward")
       }
     });
   }
@@ -151,5 +159,35 @@ export class CombatInterface extends UserInterface {
     });
 
     return this.statusPanel;
+  }
+
+  private createSpellPanel() {
+    this.spellPanel = this.createUIPanel(
+      { x: 7, y: 3 },
+      { x: 3, y: 6 }
+    );
+    const combatant = this.currentPartyMember;
+    combatant.combatClass.spells.forEach(classSpell =>
+      classSpell.requiredLevel >= combatant.level &&
+      this.spellPanel.addOption(classSpell.spell.name, () => {
+        console.log(classSpell)
+
+        // On item use, show party member panel
+        this.spellPanel.closePanel();
+        this.showPanel(this.partyTargetPanel).focusPanel(this.partyTargetPanel);
+        this.partyTargetPanel.on('party-member-chosen', (partyMember) => {
+          this.partyTargetPanel.off("party-member-chosen");
+          const event = new SpellCastEvent(
+            this.currentPartyMember,
+            partyMember.entity,
+            CombatActionTypes.castSpell,
+            Orientation.left,
+            this.scene,
+            classSpell.spell,
+          );
+          this.events.emit('option-selected', event);
+        })
+      }));
+    return this.spellPanel;
   }
 }

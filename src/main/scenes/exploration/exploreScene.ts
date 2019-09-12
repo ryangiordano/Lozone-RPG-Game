@@ -41,12 +41,11 @@ export abstract class Explore extends Phaser.Scene {
     }
     this.warpUtility = new WarpUtility(this);
     this.afterInit(data);
-    setTimeout(()=>{
-      const er = new EffectsRepository(this.game);
-      const effect = er.getById(2)
-      effect.play(100,100,this)
-      console.log(effect);
-    },1500)
+    // setTimeout(()=>{
+    //   const er = new EffectsRepository(this.game);
+    //   const effect = er.getById(2)
+    //   effect.play(100,100,this)
+    // },1500)
   }
   protected abstract afterInit(data);
   preload(): void {
@@ -154,8 +153,8 @@ export abstract class Explore extends Phaser.Scene {
       this.interactive,
       async (cast: Cast, interactive: any) => {
         // Ensures we're not touching ourselves.  Gross.
-        if(cast.caster === interactive) return false;
-        cast.emit('resolve', { castedOn: interactive, caster: cast.caster})
+        if (cast.caster === interactive) return false;
+        cast.emit('resolve', { castedOn: interactive, caster: cast.caster })
         cast.destroy();
         // Ensures that only the player can trigger entities when querying.
         if (cast.caster.entityType !== EntityTypes.player) return false;
@@ -164,7 +163,7 @@ export abstract class Explore extends Phaser.Scene {
 
         if (interactive.entityType === EntityTypes.bossMonster) {
           await this.displayMessage(interactive.getCurrentDialog())
-          this.startEncounter(interactive.encounterId);
+          this.startEncounter(interactive.encounterId, true);
           interactive.destroy();
         }
 
@@ -272,9 +271,9 @@ export abstract class Explore extends Phaser.Scene {
     });
   }
 
-  protected startEncounter(enemyPartyId: number) {
+  protected startEncounter(enemyPartyId: number, bossBattle: boolean = false) {
     this.input.keyboard.resetKeys();
     this.scene.manager.sleep(this.scene.key);
-    this.scene.run('Battle', { key: this.scene.key, enemyPartyId })
+    this.scene.run('Battle', { key: this.scene.key, enemyPartyId, bossBattle: bossBattle })
   }
 }

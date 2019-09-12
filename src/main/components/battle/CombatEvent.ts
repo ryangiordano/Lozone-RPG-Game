@@ -14,6 +14,7 @@ import { Item } from '../entities/Item';
 import { State } from "../../utility/state/State";
 import { SpellController } from "../../data/controllers/SpellController";
 import { EffectsRepository } from '../../data/repositories/EffectRepository';
+import { Spell } from './CombatDataStructures';
 
 
 //TODO: Refactor this to take care of less stuff.  It does too much;
@@ -197,6 +198,64 @@ export class CombatEvent {
 }
 
 
+export class SpellCastEvent extends CombatEvent {
+  /**
+   * Handles the case when a player chooses to use a spell.
+   */
+  public type: CombatActionTypes = CombatActionTypes.castSpell;
+  constructor(
+    executor: Combatant,
+    target: Combatant,
+    action: CombatActionTypes,
+    orientation: Orientation,
+    scene: Phaser.Scene,
+    private spell: Spell,
+  ) {
+    super(executor, target, action, orientation, scene)
+  }
+  /**
+   * Handles the case when a spell is cast.
+   * @param executor 
+   * @param target 
+   */
+  protected async handleSpellCast(executor: Combatant, target: Combatant): Promise<any> {
+    return new Promise(async resolve => {
+      //TODO: Handle offensive or assistive magic here;
+      const results: CombatResult = executor.castOffensiveSpell(this.spell, target);
+      const targetSprite = target.getSprite();
+      //TODO: Clean this up because it sucks.
+      await this.spell.animationEffect.play(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer)
+
+      const text = this.createCombatText(
+        results.resultingValue.toString(),
+        this.target,
+        "#92e8a2"
+      );
+      await this.playCombatText(text);
+      const message = [
+        `${executor.name} uses the ${this.spell.name} on ${target.name}.  ${target.name} is healed for ${results.resultingValue} HP`,
+        `${target.name} has ${target.currentHp} HP out of ${target.getMaxHp()} left.`
+      ];
+      results.message = message;
+      State.getInstance().consumeItem(this.spell.id);
+      return resolve(results);
+    });
+  }
+
+  public async executeAction(): Promise<CombatResult> {
+    return new Promise(async resolve => {
+      const executor = this.executor;
+      const target = this.confirmTarget();
+      let results;
+      if (!target || !this.executorIsValid()) {
+        return resolve(this.returnFailedAction(executor, target));
+      }
+      results = await this.handleSpellCast(executor, target);
+      return resolve(results);
+    });
+  }
+}
+
 export class UseItemEvent extends CombatEvent {
   /**
    * Handles the case when a player chooses to use an item during battle.
@@ -240,6 +299,7 @@ export class UseItemEvent extends CombatEvent {
       return resolve(results);
     });
   }
+
   public async executeAction(): Promise<CombatResult> {
     return new Promise(async resolve => {
       const executor = this.executor;
@@ -255,5 +315,5 @@ export class UseItemEvent extends CombatEvent {
       return resolve(results);
     });
   }
-  
+
 }
