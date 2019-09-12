@@ -1,5 +1,5 @@
 import { Combatant } from "./Combatant";
-import { CombatantType } from "./CombatDataStructures";
+import { CombatantType, Spell } from "./CombatDataStructures";
 
 
 export class PartyMember extends Combatant {
@@ -150,6 +150,12 @@ export class PartyMember extends Combatant {
   }
 }
 
+export interface ClassSpell {
+  requiredLevel: number,
+  classModifier: number,
+  spell: Spell
+}
+
 export interface CombatClass {
   name: string,
   id: number,
@@ -161,5 +167,6 @@ export interface CombatClass {
   stamina: number
   strength: number
   physicalResist: number
-  magicalResist: number
+  magicalResist: number,
+  spells: ClassSpell[]
 }

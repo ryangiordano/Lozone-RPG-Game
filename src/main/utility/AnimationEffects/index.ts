@@ -6,16 +6,16 @@ export const effectDatabase = {
     "1": {
         id: 1,
         name: "Lesser Heal",
-        animationEffect: lesserHeal
+        play: lesserHeal
     },
     "2": {
         id: 2,
         name: "Flame",
-        animationEffect: flame
+        play: flame
     },
     "3": {
         id: 3,
         name: "Hit",
-        animationEffect: hitEffect
+        play: hitEffect
     }
 }

@@ -196,7 +196,7 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
   }
 
   private playHealAnimation(panel, item: Item) {
-    item.effect.animationEffect.animationEffect(95, 55, this.scene, panel)
+    item.effect.animationEffect.play(95, 55, this.scene, panel)
   }
 }
 

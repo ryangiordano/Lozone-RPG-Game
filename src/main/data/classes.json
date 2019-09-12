@@ -9,7 +9,8 @@
         "stamina": 1.9,
         "strength": 1.7,
         "physicalResist": 1.7,
-        "magicalResist": 1.1
+        "magicalResist": 1.1,
+        "spells": []
     },
     "2": {
         "name": "Cat Thief",
@@ -21,7 +22,8 @@
         "stamina": 1.5,
         "strength": 1.6,
         "physicalResist": 1.2,
-        "magicalResist": 1.2
+        "magicalResist": 1.2,
+        "spells": []
     },
     "3": {
         "name": "Bunmage",
@@ -33,6 +35,18 @@
         "stamina": 1.3,
         "strength": 1.2,
         "physicalResist": 1.1,
-        "magicalResist": 1.7
+        "magicalResist": 1.7,
+        "spells":[
+            {
+                "requiredLevel":1,
+                "classModifier":1,
+                "spell": 10
+            },
+            {
+                "requiredLevel":1,
+                "classModifier":1,
+                "spell": 1
+            }
+        ]
     }
 }

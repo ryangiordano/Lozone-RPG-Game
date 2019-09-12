@@ -1,53 +1,53 @@
 import { CombatClassRepositgory } from './../repositories/ClassRepository';
 import { PartyRepository } from "../repositories/PartyRepository";
-import { PartyMember } from "../../components/battle/PartyMember";
+import { PartyMember, CombatClass } from "../../components/battle/PartyMember";
+import { SpellController } from './SpellController';
 
 export class PartyController {
   private partyRepository: PartyRepository;
   private combatClassRepository: CombatClassRepositgory;
+  private spellController: SpellController;
   constructor(game: Phaser.Game) {
     this.partyRepository = new PartyRepository(game);
     this.combatClassRepository = new CombatClassRepositgory(game);
+    this.spellController = new SpellController(game);
   }
   getPartyMemberById(partyMemberId: number) {
     const partyMember = this.partyRepository.getById(partyMemberId);
-    const combatClass = this.combatClassRepository.getById(partyMember.classId);
-    // TODO: create a mapping between the database entitity and the entity you'd like to be transformed into.
+    const combatClassData = this.combatClassRepository.getById(partyMember.classId);
+
     const {
-      id,
-      name,
-      spriteKey,
-      maxHp: hp,
-      maxMp: mp,
-      level,
-      intellect,
-      dexterity,
-      strength,
-      wisdom,
-      stamina,
-      physicalResist,
-      magicalResist,
-      currentExperience,
-      toNextLevel,
+      ...pm
     } = partyMember;
+
+
     const combatant = new PartyMember(
-      id,
-      name,
-      spriteKey,
-      hp,
-      mp,
-      level,
-      intellect,
-      dexterity,
-      strength,
-      wisdom,
-      stamina,
-      physicalResist,
-      magicalResist,
-      combatClass,
-      currentExperience,
-      toNextLevel,
+      pm.id,
+      pm.name,
+      pm.spriteKey,
+      pm.maxHp,
+      pm.maxMp,
+      pm.level,
+      pm.intellect,
+      pm.dexterity,
+      pm.strength,
+      pm.wisdom,
+      pm.stamina,
+      pm.physicalResist,
+      pm.magicalResist,
+      this.mapCombatClassDataToCombatClass(combatClassData),
+      pm.currentExperience,
+      pm.toNextLevel,
     );
     return combatant;
+  }
+
+  private mapCombatClassDataToCombatClass(combatClassData): CombatClass{
+    const {
+      spells,
+      ...combatClass
+    } = combatClassData
+    combatClass.spells = spells.map(spellObject=>this.spellController.getSpellById(spellObject.spell));
+    return combatClass;
   }
 }

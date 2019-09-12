@@ -163,7 +163,7 @@ export class CombatEvent {
       });
       tween.play();
       const hitEffect = this.effectsRepository.getById(3);
-      hitEffect.animationEffect(combatant.x, combatant.y, this.scene, combatant.parentContainer);
+      hitEffect.play(combatant.x, combatant.y, this.scene, combatant.parentContainer);
 
     });
   }
@@ -223,7 +223,7 @@ export class UseItemEvent extends CombatEvent {
       const results: CombatResult = target.applyItem(this.item)
       const targetSprite = target.getSprite();
       //TODO: Clean this up because it sucks.
-      await this.item.effect.animationEffect.animationEffect(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer)
+      await this.item.effect.animationEffect.play(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer)
 
       const text = this.createCombatText(
         results.resultingValue.toString(),

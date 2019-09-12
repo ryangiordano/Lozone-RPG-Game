@@ -44,7 +44,7 @@ export abstract class Explore extends Phaser.Scene {
     setTimeout(()=>{
       const er = new EffectsRepository(this.game);
       const effect = er.getById(2)
-      effect.animationEffect(100,100,this)
+      effect.play(100,100,this)
       console.log(effect);
     },1500)
   }

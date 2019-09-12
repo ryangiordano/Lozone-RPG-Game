@@ -1,4 +1,5 @@
 import { Repository } from "./Repository";
+import { Spell } from "../../components/battle/CombatDataStructures";
 
 export class PartyRepository extends Repository<PartyMemberData> {
   constructor(game: Phaser.Game) {
