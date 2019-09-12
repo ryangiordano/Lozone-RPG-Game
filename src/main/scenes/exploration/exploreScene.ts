@@ -6,6 +6,7 @@ import { State } from "../../utility/state/State";
 import { KeyboardControl } from '../../components/UI/Keyboard';
 import { WarpUtility } from '../../utility/exploration/Warp';
 import { MapObjectFactory } from '../../utility/exploration/ObjectLoader';
+import { EffectsRepository } from '../../data/repositories/EffectRepository';
 
 class EntityGroup extends Phaser.GameObjects.Group {
 
@@ -40,6 +41,12 @@ export abstract class Explore extends Phaser.Scene {
     }
     this.warpUtility = new WarpUtility(this);
     this.afterInit(data);
+    setTimeout(()=>{
+      const er = new EffectsRepository(this.game);
+      const effect = er.getById(2)
+      effect.animationEffect(100,100,this)
+      console.log(effect);
+    },1500)
   }
   protected abstract afterInit(data);
   preload(): void {

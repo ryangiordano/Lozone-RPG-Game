@@ -32,11 +32,6 @@
       },
       {
         "type": "json",
-        "key": "effects",
-        "url": "./src/main/data/effects.json"
-      },
-      {
-        "type": "json",
         "key": "classes",
         "url": "./src/main/data/classes.json"
       },

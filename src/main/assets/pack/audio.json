@@ -114,6 +114,16 @@
         "type": "audio",
         "key": "menu-no",
         "url": "./src/main/assets/sounds/menu-no.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "small-flame",
+        "url": "./src/main/assets/sounds/small-flame.wav"
+      },
+      {
+        "type": "audio",
+        "key": "large-flame",
+        "url": "./src/main/assets/sounds/large-flame.wav"
       }
     ]
   }

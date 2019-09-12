@@ -38,6 +38,16 @@
             },
             "repeat": 0,
             "frameRate": 20
+        },
+        {
+            "key": "flame",
+            "frames": {
+                "typeOfGeneration": 1,
+                "frames": [0, 1, 2, 3, 4, 5, 6],
+                "key": "flame"
+            },
+            "repeat": 0,
+            "frameRate": 24
         }
     ]
 }

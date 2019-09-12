@@ -350,6 +350,15 @@
           "frameWidth": 64,
           "frameHeight": 64
         }
+      },
+      {
+        "type": "spritesheet",
+        "key": "flame",
+        "url": "./src/main/assets/sprites/flame.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
       }
     ]
   }
