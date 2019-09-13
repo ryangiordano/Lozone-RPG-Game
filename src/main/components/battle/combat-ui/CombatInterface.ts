@@ -7,6 +7,7 @@ import { Combatant } from "../Combatant";
 import { UIPanel, PanelContainer } from "../../UI/PanelContainer";
 import { KeyboardControl } from "../../UI/Keyboard";
 import { State } from "../../../utility/state/State";
+import { SpellType } from "../../../data/repositories/SpellRepository";
 
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory;
@@ -45,6 +46,17 @@ export class CombatInterface extends UserInterface {
     this.mainPanel = this.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption("Attack", () => {
         this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
+        this.enemyTargetPanel.on('enemy-chosen',(enemy)=>{
+          this.enemyTargetPanel.off('enemy-chosen');
+          const event = new CombatEvent(
+            this.currentPartyMember,
+            enemy.entity,
+            CombatActionTypes.attack,
+            Orientation.left,
+            this.scene
+          );
+          this.events.emit("option-selected", event);
+        })
       })
       .addOption("Defend", () => {
         const event = new CombatEvent(
@@ -80,14 +92,7 @@ export class CombatInterface extends UserInterface {
 
     this.enemies.forEach(enemyCombatant => {
       this.enemyTargetPanel.addOption(enemyCombatant.entity.name, () => {
-        const event = new CombatEvent(
-          this.currentPartyMember,
-          enemyCombatant.entity,
-          CombatActionTypes.attack,
-          Orientation.left,
-          this.scene
-        );
-        this.events.emit("option-selected", event);
+        this.enemyTargetPanel.emit("enemy-chosen", enemyCombatant);
       });
     });
   }
@@ -168,25 +173,42 @@ export class CombatInterface extends UserInterface {
     );
     const combatant = this.currentPartyMember;
     combatant.combatClass.spells.forEach(classSpell =>
-      classSpell.requiredLevel >= combatant.level &&
+      classSpell.requiredLevel <= combatant.level &&
       this.spellPanel.addOption(classSpell.spell.name, () => {
-        console.log(classSpell)
 
         // On item use, show party member panel
         this.spellPanel.closePanel();
-        this.showPanel(this.partyTargetPanel).focusPanel(this.partyTargetPanel);
-        this.partyTargetPanel.on('party-member-chosen', (partyMember) => {
-          this.partyTargetPanel.off("party-member-chosen");
-          const event = new SpellCastEvent(
-            this.currentPartyMember,
-            partyMember.entity,
-            CombatActionTypes.castSpell,
-            Orientation.left,
-            this.scene,
-            classSpell.spell,
-          );
-          this.events.emit('option-selected', event);
-        })
+        if (classSpell.spell.type === SpellType.attack) {
+          this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
+          this.enemyTargetPanel.on('enemy-chosen', (enemy) => {
+            this.enemyTargetPanel.off("enemy-chosen");
+            const event = new SpellCastEvent(
+              this.currentPartyMember,
+              enemy.entity,
+              CombatActionTypes.castSpell,
+              Orientation.left,
+              this.scene,
+              classSpell.spell,
+            );
+            this.events.emit('option-selected', event);
+          })
+        }
+        if(classSpell.spell.type === SpellType.restoration){
+          this.showPanel(this.partyTargetPanel).focusPanel(this.partyTargetPanel);
+          this.partyTargetPanel.on('party-member-chosen', (partyMember) => {
+            this.partyTargetPanel.off("party-member-chosen");
+            const event = new SpellCastEvent(
+              this.currentPartyMember,
+              partyMember.entity,
+              CombatActionTypes.castSpell,
+              Orientation.left,
+              this.scene,
+              classSpell.spell,
+            );
+            this.events.emit('option-selected', event);
+          })
+        }
+
       }));
     return this.spellPanel;
   }

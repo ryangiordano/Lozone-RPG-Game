@@ -15,6 +15,7 @@ import { State } from "../../utility/state/State";
 import { SpellController } from "../../data/controllers/SpellController";
 import { EffectsRepository } from '../../data/repositories/EffectRepository';
 import { Spell } from './CombatDataStructures';
+import { SpellType } from "../../data/repositories/SpellRepository";
 
 
 //TODO: Refactor this to take care of less stuff.  It does too much;
@@ -221,7 +222,7 @@ export class SpellCastEvent extends CombatEvent {
   protected async handleSpellCast(executor: Combatant, target: Combatant): Promise<any> {
     return new Promise(async resolve => {
       //TODO: Handle offensive or assistive magic here;
-      const results: CombatResult = executor.castOffensiveSpell(this.spell, target);
+      const results: CombatResult = executor.castSpell(this.spell, target);
       const targetSprite = target.getSprite();
       //TODO: Clean this up because it sucks.
       await this.spell.animationEffect.play(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer)
@@ -229,7 +230,7 @@ export class SpellCastEvent extends CombatEvent {
       const text = this.createCombatText(
         results.resultingValue.toString(),
         this.target,
-        "#92e8a2"
+        this.spell.type === SpellType.restoration ? "#92e8a2" : "#ffffff"
       );
       await this.playCombatText(text);
       const message = [

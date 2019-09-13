@@ -14,15 +14,8 @@ export class SpellController {
         const spellFromDB = this.spellRepository.getById(id);
         const effect = this.effectsRepository.getById(spellFromDB.animationEffect)
         const spellToReturn = {
-            id: spellFromDB.id,
-            name: spellFromDB.name,
+            ...spellFromDB,
             animationEffect: effect,
-            description: spellFromDB.description,
-            basePotency: spellFromDB.basePotency,
-            manaCost: spellFromDB.manaCost,
-            type: spellFromDB.type,
-            targetType: spellFromDB.targetType,
-            status: spellFromDB.status
         }
         return spellToReturn;
     }

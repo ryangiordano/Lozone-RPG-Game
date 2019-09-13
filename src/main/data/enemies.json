@@ -26,7 +26,7 @@
       }
     ],
     "goldValue": 10,
-    "experiencePoints": 10
+    "experiencePoints": 30
   },
   "2": {
     "name": "bugbat",
@@ -46,7 +46,7 @@
       "itemId": 1
     }],
     "goldValue": 2,
-    "experiencePoints": 5
+    "experiencePoints": 10
   },
   "3": {
     "name": "orc",
@@ -66,7 +66,7 @@
       "itemId": 3
     }],
     "goldValue": 20,
-    "experiencePoints": 15
+    "experiencePoints": 50
   },
   "4": {
     "name": "slime",
@@ -78,7 +78,7 @@
     "dexterity": 10,
     "wisdom": 2,
     "stamina": 3,
-    "strength": 4,
+    "strength": 7,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
@@ -117,7 +117,7 @@
       "itemId": 1
     }],
     "goldValue": 15,
-    "experiencePoints": 15
+    "experiencePoints": 70
   },
   "6": {
     "name": "baby slime",
@@ -140,7 +140,7 @@
       "itemId": 9
     }],
     "goldValue": 1,
-    "experiencePoints": 5
+    "experiencePoints": 10
   },
   "7": {
     "name": "poop machine",
@@ -172,7 +172,7 @@
     "dexterity": 8,
     "wisdom": 2,
     "stamina": 8,
-    "strength": 8,
+    "strength": 6,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
@@ -189,7 +189,7 @@
       }
     ],
     "goldValue": 25,
-    "experiencePoints": 15
+    "experiencePoints": 20
   },
   "9": {
     "name": "gold-drop",
@@ -262,10 +262,10 @@
     "intellect": 15,
     "dexterity": 5,
     "wisdom": 15,
-    "stamina": 20,
+    "stamina": 15,
     "strength": 20,
-    "physicalResist": 29,
-    "magicalResist": 20,
+    "physicalResist": 5,
+    "magicalResist": 2,
     "lootTable": [{
       "rate": 1,
       "itemId": 7
@@ -287,10 +287,10 @@
     "intellect": 20,
     "dexterity": 5,
     "wisdom": 15,
-    "stamina": 20,
+    "stamina": 15,
     "strength": 20,
-    "physicalResist": 20,
-    "magicalResist": 29,
+    "physicalResist": 2,
+    "magicalResist": 5,
     "lootTable": [{
       "rate": 1,
       "itemId": 7
@@ -312,10 +312,10 @@
     "intellect": 20,
     "dexterity": 5,
     "wisdom": 15,
-    "stamina": 30,
+    "stamina": 20,
     "strength": 20,
-    "physicalResist": 20,
-    "magicalResist": 29,
+    "physicalResist": 5,
+    "magicalResist": 5,
     "lootTable": [{
       "rate": 1,
       "itemId": 7

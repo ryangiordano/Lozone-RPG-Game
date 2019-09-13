@@ -11,6 +11,7 @@ import { getUID, Directions } from "../../utility/Utility";
 import { Defend } from "./Actions";
 import { Buff } from "./Buff";
 import { Item } from "../entities/Item";
+import { SpellType } from "../../data/repositories/SpellRepository";
 
 export class Combatant {
   private buffs: Map<number, Buff>;
@@ -117,20 +118,29 @@ export class Combatant {
       targetDown: target.currentHp === 0
     };
   }
-  public castOffensiveSpell(spell: Spell, target: Combatant): CombatResult {
-    //TODO: Differentiate between offensive and assistive magic here?
-    console.log(spell);
-    const potency = this.getMagicPower() + spell.basePotency; 
-    const damageDone = target.receiveMagicalDamage(potency);
 
+  public castSpell(spell: Spell, target: Combatant): CombatResult {
+    const potency = this.getMagicPower() + spell.basePotency;
+    let resultingValue;
+    switch (spell.type) {
+      case SpellType.attack:
+        resultingValue = target.receiveMagicalDamage(potency);
+        break;
+      case SpellType.restoration:
+        resultingValue = target.healFor(potency);
+        break;
+      default:
+        console.error(`SpellType not supported: ${spell.type}`)
+    }
     return {
       actionType: CombatActionTypes.castSpell,
       executor: this,
       target: target,
-      resultingValue: damageDone,
+      resultingValue: resultingValue,
       targetDown: target.currentHp === 0
     }
   }
+
   applyItem(item: Item): CombatResult {
     const potency = item.effectPotency * item.effect.basePotency;
     const healedFor = this.healFor(potency);
@@ -161,7 +171,7 @@ export class Combatant {
 
   receiveMagicalDamage(potency: number) {
     const magicResistPotency = this.getMagicResist();
-    const actualDamage = Math.max(1, potency-magicResistPotency);
+    const actualDamage = Math.max(1, potency - magicResistPotency);
     this.damageFor(actualDamage);
     return actualDamage;
   }

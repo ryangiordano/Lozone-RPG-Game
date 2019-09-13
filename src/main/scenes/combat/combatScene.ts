@@ -24,7 +24,6 @@ export class CombatScene extends Phaser.Scene {
     this.sound.add("level-up");
     this.sound.add('battle');
     this.sound.add('victory');
-    console.log(data)
     this.levelUp = this.sound.add('level-up');
     this.enemyController = new EnemyController(this.game);
     this.previousSceneKey = data.key;
