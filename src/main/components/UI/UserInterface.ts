@@ -102,13 +102,16 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.focusedPanel.focusOption(0);
     this.setCaret();
   }
+
   showPanel(panel: UIPanel) {
     this.panelTravelHistory.push(panel);
     panel.showPanel();
     return this;
   }
+
   closePanel(panel: UIPanel) {
     this.panelTravelHistory.pop();
+    console.log(panel)
     panel.closePanel();
     if (this.panelTravelHistory.length) {
       this.focusPanel(
@@ -119,6 +122,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     }
     return this;
   }
+
   setEventOnPanel(
     panel: PanelContainer,
     eventName: string,
@@ -130,9 +134,11 @@ export class UserInterface extends Phaser.GameObjects.Container {
       }
     });
   }
+
   public muteKeyboardEvents(muted: boolean) {
     this.keyboardMuted = muted;
   }
+
   private setKeyboardListeners() {
     this.menuSceneKeyboardControl.setupKeyboardControl();
     this.menuSceneKeyboardControl.on(["up", "left"], "user-interface", () => {
@@ -158,6 +164,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
       this.events.emit('menu-select');
     });
   }
+
   public removeKeyboardListeners() {
     this.menuSceneKeyboardControl.off("up", "user-interface");
     this.menuSceneKeyboardControl.off("left", "user-interface");
@@ -166,6 +173,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.menuSceneKeyboardControl.off("esc", "user-interface");
     this.menuSceneKeyboardControl.off("space", "user-interface");
   }
+  
   private traverseBackward() {
     if (this.panelTravelHistory[this.panelTravelHistory.length - 1].escapable) {
       const lastPanel = this.panelTravelHistory.pop();

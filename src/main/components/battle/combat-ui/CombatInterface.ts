@@ -46,7 +46,7 @@ export class CombatInterface extends UserInterface {
     this.mainPanel = this.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption("Attack", () => {
         this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
-        this.enemyTargetPanel.on('enemy-chosen',(enemy)=>{
+        this.enemyTargetPanel.on('enemy-chosen', (enemy) => {
           this.enemyTargetPanel.off('enemy-chosen');
           const event = new CombatEvent(
             this.currentPartyMember,
@@ -175,41 +175,36 @@ export class CombatInterface extends UserInterface {
     combatant.combatClass.spells.forEach(classSpell =>
       classSpell.requiredLevel <= combatant.level &&
       this.spellPanel.addOption(classSpell.spell.name, () => {
-
-        // On item use, show party member panel
         this.spellPanel.closePanel();
+
+        // Show 
         if (classSpell.spell.type === SpellType.attack) {
           this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
           this.enemyTargetPanel.on('enemy-chosen', (enemy) => {
             this.enemyTargetPanel.off("enemy-chosen");
-            const event = new SpellCastEvent(
-              this.currentPartyMember,
-              enemy.entity,
-              CombatActionTypes.castSpell,
-              Orientation.left,
-              this.scene,
-              classSpell.spell,
-            );
-            this.events.emit('option-selected', event);
-          })
+            this.events.emit('option-selected', this.createEvent(enemy, classSpell));
+          });
         }
-        if(classSpell.spell.type === SpellType.restoration){
+
+        if (classSpell.spell.type === SpellType.restoration) {
           this.showPanel(this.partyTargetPanel).focusPanel(this.partyTargetPanel);
           this.partyTargetPanel.on('party-member-chosen', (partyMember) => {
             this.partyTargetPanel.off("party-member-chosen");
-            const event = new SpellCastEvent(
-              this.currentPartyMember,
-              partyMember.entity,
-              CombatActionTypes.castSpell,
-              Orientation.left,
-              this.scene,
-              classSpell.spell,
-            );
-            this.events.emit('option-selected', event);
+            this.events.emit('option-selected', this.createEvent(partyMember, classSpell));
           })
         }
 
       }));
     return this.spellPanel;
+  }
+  createEvent(target, classSpell) {
+    const event = new SpellCastEvent(
+      this.currentPartyMember,
+      target.entity,
+      CombatActionTypes.castSpell,
+      Orientation.left,
+      this.scene,
+      classSpell.spell,
+    );
   }
 }

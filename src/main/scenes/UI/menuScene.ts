@@ -6,12 +6,19 @@ import { KeyboardControl } from "../../components/UI/Keyboard";
 import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 import { TextFactory } from '../../utility/TextFactory';
 import { WarpUtility } from "../../utility/exploration/Warp";
+import { wait } from "../../utility/Utility";
 
 
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
   private callingSceneKey: string;
   private state: State = State.getInstance();
+  private mainPanel: UIPanel;
+  private itemPanel: ItemPanelContainer;
+  private debugPanel: UIPanel;
+  private keyItemPanel: ItemPanelContainer;
+  private coinPanel: PanelContainer;
+  private itemConfirmPanel: ConfirmItemPanelContainer;
   constructor() {
     super({ key: "MenuScene" });
   }
@@ -23,98 +30,67 @@ export class MenuScene extends Phaser.Scene {
       "dialog-white",
       new KeyboardControl(this)
     );
-    [1,1,1,1,2,2,2,3,3,3,3,3,6].forEach(id=>this.state.addItemToContents(id))
-    this.state.addItemToContents(6)
+    this.state.addItemToContents(1)
     this.sound.play("menu-open", { volume: 0.1 })
-    // ===================================
-    // Main Panel
-    // ===================================
-    const mainPanel = this.createMainPanel();
+
+    this.mainPanel = this.createAndSetUpMainPanel();
+
+    this.itemPanel = this.createItemPanel();
+    this.itemConfirmPanel = this.createItemConfirmPanel();
+    this.setUpItemPanels();
+
+    this.keyItemPanel = this.createKeyItemPanel();
+
+    this.debugPanel = this.createDebugPanel();
+
+    this.createCoinPanel();
+
+    this.setEventListeners();
+
+    this.UI.showPanel(this.mainPanel).focusPanel(this.mainPanel);
+  }
+
+
+  // ===================================
+  // Main Panel
+  // ===================================
+  private createAndSetUpMainPanel() {
+    const mainPanel = new MainPanel(
+      { x: 4, y: 5 }, { x: 0, y: 0 },
+      "dialog-white",
+      this
+    );
+    mainPanel.setUp();
+    this.UI.addPanel(mainPanel);
     mainPanel.on("items-selected", () => {
-      itemPanel.refreshPanel();
-      this.UI.showPanel(itemPanel).focusPanel(itemPanel);
+      this.itemPanel.refreshPanel();
+      this.UI.showPanel(this.itemPanel).focusPanel(this.itemPanel);
     }
     );
 
     mainPanel.on("key-items-selected", () => {
-      keyItemPanel.refreshPanel();
-      this.UI.showPanel(keyItemPanel).focusPanel(keyItemPanel);
+      this.keyItemPanel.refreshPanel();
+      this.UI.showPanel(this.keyItemPanel).focusPanel(this.keyItemPanel);
     }
     );
+
     mainPanel.on("party-selected", () =>
       this.startPartyMenuScene({ type: PartyMenuTypes.statusCheck, entity: null })
     );
+
     mainPanel.on("debug-selected", () =>
-      this.UI.showPanel(debugPanel).focusPanel(debugPanel)
+      this.UI.showPanel(this.debugPanel).focusPanel(this.debugPanel)
     );
-    this.UI.showPanel(mainPanel).focusPanel(mainPanel);
 
-    // ===================================
-    // Item Panel
-    // ===================================
-    const itemPanel = this.createItemPanel();
-    const itemConfirmPanel = this.createItemConfirmPanel();
-    itemPanel.on("show-and-focus-confirm-panel", item => {
-      this.UI.showPanel(itemConfirmPanel);
-      this.UI.focusPanel(itemConfirmPanel);
-      itemConfirmPanel.setPanelData(item);
-    });
+    mainPanel.on('cancel-selected', () => this.closeMenuScene())
 
-    itemConfirmPanel.on("refresh-items", () => itemPanel.refreshPanel());
-    itemConfirmPanel.on("use-item", (item) => {
-      this.UI.closePanel(itemPanel)
-      // Reset the cursor
-      // open the party panel
-      this.openPartyPanel(item);
-    });
-
-    // ===================================
-    // Key Item Panel
-    // ===================================
-    const keyItemPanel = this.createKeyItemPanel();
-    // ===================================
-    // Coin panel
-    // ===================================
-    this.createCoinPanel();
-
-    const debugPanel = this.createDebugPanel();
-
-    this.setEventListeners();
-    this.setKeyboardEventListeners();
-    this.UI.initialize();
-    this.UI.events.on('menu-traverse', () => this.sound.play("menu-tick", { volume: 0.1 }));
-    this.UI.events.on('menu-select', () => this.sound.play("menu-select", { volume: 0.1 }));
-  }
-
-  private openPartyPanel(item) {
-    this.startPartyMenuScene({ type: PartyMenuTypes.itemUse, entity: item })
-  }
-
-  private closeMenuScene() {
-    this.sound.play("menu-close", { volume: 0.1 })
-    this.scene.setActive(true, this.callingSceneKey);
-    this.scene.stop();
-  }
-
-  private createMainPanel() {
-    const mainPanel = this.UI.createUIPanel({ x: 4, y: 5 }, { x: 0, y: 0 });
-    mainPanel
-      .addOption("Items", () => {
-        mainPanel.emit("items-selected", PartyMenuTypes.itemUse);
-      })
-      .addOption("Key Items", () => {
-        mainPanel.emit("key-items-selected");
-      })
-      .addOption("Status", () => {
-        mainPanel.emit("party-selected", PartyMenuTypes.statusCheck);
-      })
-      .addOption("Debug", () => {
-        mainPanel.emit("debug-selected");
-      })
-      .addOption("Cancel", () => this.closeMenuScene());
     return mainPanel;
   }
 
+
+  // ===================================
+  // Item Panels
+  // ===================================
   private createItemPanel() {
     const itemPanel = new ItemPanelContainer(
       { x: 6, y: 6 },
@@ -148,6 +124,7 @@ export class MenuScene extends Phaser.Scene {
     return itemPanel;
   }
 
+
   private createKeyItemPanel() {
     const keyItemPanel = new ItemPanelContainer(
       { x: 6, y: 6 },
@@ -178,22 +155,28 @@ export class MenuScene extends Phaser.Scene {
     return keyItemPanel;
   }
 
-  private createCoinPanel() {
-    const coinPanel = new PanelContainer(
-      { x: 4, y: 1 },
-      { x: 0, y: 8 },
-      'dialog-white',
-      this);
-    coinPanel.showPanel();
-    const coin = this.add.sprite(25, 32, 'coin');
-    coinPanel.add(coin);
-    this.anims.create({ key: 'spin', frames: this.anims.generateFrameNumbers('coin', { frames: [0, 1, 2, 1] }), frameRate: 10, repeat: -1, })
-    const th = new TextFactory(this);
-    const coinAmount = th.createText(State.getInstance().playerContents.getCoins().toString(), { x: 50, y: 10 });
-    coinPanel.add(coinAmount)
-    coin.anims.play('spin');
+
+  private setUpItemPanels() {
+    this.itemPanel.on("show-and-focus-confirm-panel", item => {
+      this.UI.showPanel(this.itemConfirmPanel);
+
+      this.UI.focusPanel(this.itemConfirmPanel);
+
+      this.itemConfirmPanel.setPanelData(item);
+    });
+
+    this.itemConfirmPanel.on("refresh-items", () => this.itemPanel.refreshPanel());
+
+    this.itemConfirmPanel.on("use-item", (item) => {
+      this.UI.closePanel(this.itemConfirmPanel)
+      this.UI.closePanel(this.itemPanel)
+      // Reset the cursor
+      // open the party panel
+      this.openPartyPanel(item);
+    });
 
   }
+
 
   private createItemConfirmPanel() {
     // Add item use confirmation panel.
@@ -210,7 +193,6 @@ export class MenuScene extends Phaser.Scene {
       .addOption("Use", () => {
         const item = itemConfirmPanel.getPanelData();
         itemConfirmPanel.emit("use-item", item);
-        this.UI.closePanel(itemConfirmPanel);
       })
       .addOption("Drop", () => {
         const item = itemConfirmPanel.getPanelData();
@@ -225,6 +207,29 @@ export class MenuScene extends Phaser.Scene {
     return itemConfirmPanel;
   }
 
+  // ===================================
+  // Coin Panel
+  // ===================================
+  private createCoinPanel() {
+    this.coinPanel = new PanelContainer(
+      { x: 4, y: 1 },
+      { x: 0, y: 8 },
+      'dialog-white',
+      this);
+    this.coinPanel.showPanel();
+    const coin = this.add.sprite(25, 32, 'coin');
+    this.coinPanel.add(coin);
+    this.anims.create({ key: 'spin', frames: this.anims.generateFrameNumbers('coin', { frames: [0, 1, 2, 1] }), frameRate: 10, repeat: -1, })
+    const th = new TextFactory(this);
+    const coinAmount = th.createText(State.getInstance().playerContents.getCoins().toString(), { x: 50, y: 10 });
+    this.coinPanel.add(coinAmount)
+    coin.anims.play('spin');
+
+  }
+
+  // ===================================
+  // Debug Panel
+  // ===================================
   private createDebugPanel() {
     const dungeonPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
       .addOption("Dungeon One", () => {
@@ -249,9 +254,25 @@ export class MenuScene extends Phaser.Scene {
   }
 
   private setEventListeners() {
+
+    this.UI.initialize();
+    this.UI.events.on('menu-traverse', () => this.sound.play("menu-tick", { volume: 0.1 }));
+    this.UI.events.on('menu-select', () => this.sound.play("menu-select", { volume: 0.1 }));
+    this.setKeyboardEventListeners();
+
     this.events.once("close", () => {
       this.closeMenuScene()
     });
+  }
+
+  private openPartyPanel(item) {
+    this.startPartyMenuScene({ type: PartyMenuTypes.itemUse, entity: item })
+  }
+
+  private closeMenuScene() {
+    this.sound.play("menu-close", { volume: 0.1 })
+    this.scene.setActive(true, this.callingSceneKey);
+    this.scene.stop();
   }
 
   private setKeyboardEventListeners() {
@@ -275,6 +296,36 @@ export class MenuScene extends Phaser.Scene {
     });
   }
 }
+
+class MainPanel extends UIPanel {
+  constructor(
+    dimensions: Coords,
+    pos: Coords,
+    spriteKey: string,
+    scene: Phaser.Scene,
+    id?: string
+  ) {
+    super(dimensions, pos, spriteKey, scene, true, id);
+  }
+
+  setUp() {
+    this
+      .addOption("Items", () => {
+        this.emit("items-selected", PartyMenuTypes.itemUse);
+      })
+      .addOption("Key Items", () => {
+        this.emit("key-items-selected");
+      })
+      .addOption("Status", () => {
+        this.emit("party-selected", PartyMenuTypes.statusCheck);
+      })
+      .addOption("Debug", () => {
+        this.emit("debug-selected");
+      })
+      .addOption("Cancel", () => this.emit('cancel-selected'));
+  }
+}
+
 
 class ConfirmItemPanelContainer extends UIPanel {
   private itemData: Item;
