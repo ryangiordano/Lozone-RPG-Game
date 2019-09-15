@@ -359,6 +359,15 @@
           "frameWidth": 64,
           "frameHeight": 64
         }
+      },
+      {
+        "type": "spritesheet",
+        "key": "cursor",
+        "url": "./src/main/assets/sprites/cursor.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
       }
     ]
   }

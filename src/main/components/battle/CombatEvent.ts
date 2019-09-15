@@ -213,6 +213,7 @@ export class SpellCastEvent extends CombatEvent {
     private spell: Spell,
   ) {
     super(executor, target, action, orientation, scene)
+    console.log(executor, target, action, orientation, scene)
   }
   /**
    * Handles the case when a spell is cast.

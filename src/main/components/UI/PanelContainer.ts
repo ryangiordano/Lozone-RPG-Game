@@ -1,6 +1,7 @@
 import { getUID } from "../../utility/Utility";
+import { Traversible } from "./UserInterface";
 
-export class PanelContainer extends Phaser.GameObjects.Container {
+export class PanelContainer extends Phaser.GameObjects.Container implements Traversible {
   public panel: Phaser.GameObjects.RenderTexture;
   public focused: boolean = false;
   public options: DialogListItem[] = [];
@@ -19,7 +20,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     this.name = id.toString();
     scene.add.existing(this);
     this.childPanels = new Map<string, PanelContainer>();
-    this.closePanel();
+    this.close();
 
   }
 
@@ -28,12 +29,12 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     this.add(this.panel)
   }
 
-  public showPanel() {
+  public show() {
     this.visible = true;
     this.showChildren();
   }
 
-  public closePanel() {
+  public close() {
     this.visible = false;
     this.hideChildren();
   }
@@ -42,7 +43,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     return this.panel;
   }
 
-  public focusPanel() {
+  public focus() {
     if (this.visible) {
       this.focused = true;
       this.alpha = 1;
@@ -53,14 +54,14 @@ export class PanelContainer extends Phaser.GameObjects.Container {
   }
 
   public showChildren() {
-    this.childPanels.forEach(panel => panel.showPanel())
+    this.childPanels.forEach(panel => panel.show())
   }
 
   public hideChildren() {
-    this.childPanels.forEach(panel => panel.closePanel())
+    this.childPanels.forEach(panel => panel.close())
   }
 
-  public blurPanel() {
+  public blur() {
     this.focused = false;
     this.alpha = 0.9;
     this.hideChildren();

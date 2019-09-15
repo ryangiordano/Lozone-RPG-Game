@@ -1,11 +1,21 @@
 import { UIPanel, PanelContainer } from "./PanelContainer";
 import { KeyboardControl } from "./Keyboard";
+import { createRandom } from '../../utility/Utility';
+
+export interface Traversible {
+  close: Function,
+  show: Function,
+  focus: Function
+  blur: Function,
+  focused: boolean
+  id: string,
+}
 
 export class UserInterface extends Phaser.GameObjects.Container {
   private panelContainers: PanelContainer[] = [];
   private caret: Phaser.GameObjects.Text;
   private focusedPanel: UIPanel;
-  private panelTravelHistory: UIPanel[] = [];
+  private travelHistory: UIPanel[] = [];
   private keyboardMuted: boolean = false;
   public events = new Phaser.Events.EventEmitter();
 
@@ -89,14 +99,14 @@ export class UserInterface extends Phaser.GameObjects.Container {
     return this.panelContainers.find(d => d.focused);
   }
   public focusPanel(toFocus: UIPanel) {
-    toFocus.showPanel();
+    toFocus.show();
     this.focusedPanel = toFocus;
 
     this.panelContainers.forEach(panel => {
       if (panel.id === toFocus.id) {
-        panel.focusPanel();
+        panel.focus();
       } else {
-        panel.blurPanel();
+        panel.blur();
       }
     });
     this.focusedPanel.focusOption(0);
@@ -104,18 +114,17 @@ export class UserInterface extends Phaser.GameObjects.Container {
   }
 
   showPanel(panel: UIPanel) {
-    this.panelTravelHistory.push(panel);
-    panel.showPanel();
+    this.travelHistory.push(panel);
+    panel.show();
     return this;
   }
 
   closePanel(panel: UIPanel) {
-    this.panelTravelHistory.pop();
-    console.log(panel)
-    panel.closePanel();
-    if (this.panelTravelHistory.length) {
+    this.travelHistory.pop();
+    panel.close();
+    if (this.travelHistory.length) {
       this.focusPanel(
-        this.panelTravelHistory[this.panelTravelHistory.length - 1]
+        this.travelHistory[this.travelHistory.length - 1]
       );
     } else {
       this.scene.events.emit("close");
@@ -173,18 +182,43 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.menuSceneKeyboardControl.off("esc", "user-interface");
     this.menuSceneKeyboardControl.off("space", "user-interface");
   }
-  
+
   private traverseBackward() {
-    if (this.panelTravelHistory[this.panelTravelHistory.length - 1].escapable) {
-      const lastPanel = this.panelTravelHistory.pop();
-      lastPanel.closePanel();
-      if (this.panelTravelHistory.length) {
+    if (this.travelHistory[this.travelHistory.length - 1].escapable) {
+      const lastPanel = this.travelHistory.pop();
+      lastPanel.close();
+      if (this.travelHistory.length) {
         this.focusPanel(
-          this.panelTravelHistory[this.panelTravelHistory.length - 1]
+          this.travelHistory[this.travelHistory.length - 1]
         );
       } else {
         this.closeUI();
       }
     }
+  }
+}
+
+
+export class TraversibleObject extends Phaser.GameObjects.GameObject implements Traversible {
+  /**
+   *
+   */
+  public id: string = `Traversible-${createRandom(1000)}`;
+  public focused: boolean = false;
+  constructor(scene, private traversibles: any) {
+    super(scene, 'TraversibleObject');
+    console.log(traversibles)
+  }
+  public close() {
+    console.log("To Implement")
+  }
+  public show() {
+    console.log("To Implement")
+  }
+  public blur() {
+    console.log("To Implement")
+  }
+  public focus(){
+    console.log("To Implement")
   }
 }

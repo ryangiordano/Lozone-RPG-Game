@@ -207,7 +207,7 @@ class PartyMessagePanel extends PanelContainer {
    */
   constructor(public scene, dimensions: Coords, position: Coords) {
     super(dimensions, position, 'dialog-white', scene);
-    this.showPanel();
+    this.show();
     State.getInstance().addItemToContents(3);
     this.clearPanelContainerByType('Text');
   }
@@ -288,7 +288,7 @@ class PartyMemberPanel extends PanelContainer {
   ) {
     super(dimensions, position, spriteKey, scene);
     this.textFactory = new TextFactory(scene);
-    this.showPanel();
+    this.show();
     this.addSprite();
     this.addName();
     this.createHpBar();
@@ -346,13 +346,13 @@ class PartyMemberPanel extends PanelContainer {
     this.xpBar.setCurrentValue(newValue);
   }
 
-  public blurPanel() {
-    super.blurPanel();
+  public blur() {
+    super.blur();
     this.sprite.anims.stop();
   }
 
-  public focusPanel() {
-    super.focusPanel();
+  public focus() {
+    super.focus();
     this.sprite.anims.setRepeat(-1)
     this.sprite.anims.play(`${this.sprite.texture.key}-walkDown`, false);
   }
