@@ -1,5 +1,5 @@
 import { getUID } from "../../utility/Utility";
-import { Traversible } from "./UserInterface";
+import { Traversible, Selectable, OptionFocusable } from "./UserInterface";
 
 export class PanelContainer extends Phaser.GameObjects.Container implements Traversible {
   public panel: Phaser.GameObjects.RenderTexture;
@@ -89,7 +89,7 @@ export class PanelContainer extends Phaser.GameObjects.Container implements Trav
   }
 }
 
-export class UIPanel extends PanelContainer {
+export class UIPanel extends PanelContainer implements OptionFocusable {
   constructor(dimensions: Coords,
     pos: Coords,
     spriteKey: string,
@@ -114,7 +114,7 @@ export class UIPanel extends PanelContainer {
     return this;
   }
 
-  public removeListItem(name: string) {
+  public removeOption(name: string) {
     this.options.filter(listItem => listItem.name !== name);
   }
 
@@ -162,7 +162,7 @@ export class UIPanel extends PanelContainer {
 }
 
 
-class DialogListItem extends Phaser.GameObjects.Text {
+class DialogListItem extends Phaser.GameObjects.Text implements Selectable {
   public disabled: boolean;
   public focused: boolean = false;
   //TODO: Refactor this into a separate class for dialog confirm panels and confirm panel Options
@@ -173,20 +173,20 @@ class DialogListItem extends Phaser.GameObjects.Text {
     public text: string,
     styles,
     public selectCallback: Function,
-    private focusCallback?: Function,
-    private dialogData?: any) {
+    public focusCallback?: Function,
+    public selectableData?: any) {
     super(scene, x, y, text, styles);
   }
 
   public select() {
     if (!this.disabled) {
-      this.selectCallback(this.dialogData);
+      this.selectCallback(this.selectableData);
     }
   }
 
   public focus() {
     if (!this.disabled && this.focusCallback) {
-      this.focusCallback(this.dialogData);
+      this.focusCallback(this.selectableData);
     }
   }
 

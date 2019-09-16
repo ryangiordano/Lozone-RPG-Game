@@ -11,6 +11,25 @@ export interface Traversible {
   id: string,
 }
 
+export interface OptionFocusable {
+  addOption: Function,
+  removeOption: Function,
+  focusOption: Function,
+  focusNextOption: Function,
+
+}
+
+export interface Selectable {
+  name: string,
+  focused: boolean,
+  disabled: boolean,
+  selectableData?: any,
+  selectCallback: Function,
+  focusCallback?: Function,
+  select: Function,
+  focus: Function
+}
+
 export class UserInterface extends Phaser.GameObjects.Container {
   private panelContainers: PanelContainer[] = [];
   private caret: Phaser.GameObjects.Text;
@@ -198,27 +217,62 @@ export class UserInterface extends Phaser.GameObjects.Container {
   }
 }
 
-
-export class TraversibleObject extends Phaser.GameObjects.GameObject implements Traversible {
-  /**
-   *
-   */
+// 
+export class TraversibleObject extends Phaser.GameObjects.GameObject implements Traversible, OptionFocusable {
   public id: string = `Traversible-${createRandom(1000)}`;
   public focused: boolean = false;
-  constructor(scene, private traversibles: any) {
+  constructor(scene, private listItems: any) {
     super(scene, 'TraversibleObject');
-    console.log(traversibles)
+    console.log(this.listItems)
   }
+
   public close() {
     console.log("To Implement")
   }
+
   public show() {
     console.log("To Implement")
   }
+
   public blur() {
     console.log("To Implement")
   }
-  public focus(){
+
+  public focus() {
     console.log("To Implement")
   }
+
+  public addOption() {
+
+  };
+  public removeOption() {
+
+  };
+  public focusOption() {
+
+  };
+  public focusNextOption() {
+
+  };
+}
+
+export class TraversibleListItem implements Selectable {
+  public focused: boolean = false;
+  public disabled: boolean;
+
+  constructor(public name: string, public selectCallback, public focusCallback, public selectableData?: any) {
+
+  }
+  public select() {
+    if (!this.disabled) {
+      this.selectCallback(this.selectableData);
+    }
+  }
+
+  public focus() {
+    if (!this.disabled && this.focusCallback) {
+      this.focusCallback(this.selectableData);
+    }
+  }
+
 }
