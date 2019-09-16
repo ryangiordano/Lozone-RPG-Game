@@ -11,16 +11,18 @@ export interface Traversible {
   id: string,
 }
 
-export interface OptionFocusable {
+export interface HasOptions {
   addOption: Function,
   removeOption: Function,
   focusOption: Function,
   focusNextOption: Function,
-
+  getFocusIndex: Function,
+  focusPreviousOption: Function,
+  getFocusedOption: Function,
+  selectFocusedOption: Function
 }
 
 export interface Selectable {
-  name: string,
   focused: boolean,
   disabled: boolean,
   selectableData?: any,
@@ -108,7 +110,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     return panel;
   }
 
-  public addPanel(panel: UIPanel) {
+  public addPanel(panel: any) {
     this.add(panel);
     this.panelContainers.push(panel);
     return panel;
@@ -117,7 +119,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
   public findFocusedPanel() {
     return this.panelContainers.find(d => d.focused);
   }
-  public focusPanel(toFocus: UIPanel) {
+  public focusPanel(toFocus: any) {
     toFocus.show();
     this.focusedPanel = toFocus;
 
@@ -132,13 +134,13 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.setCaret();
   }
 
-  showPanel(panel: UIPanel) {
+  showPanel(panel: any) {
     this.travelHistory.push(panel);
     panel.show();
     return this;
   }
 
-  closePanel(panel: UIPanel) {
+  closePanel(panel: any) {
     this.travelHistory.pop();
     panel.close();
     if (this.travelHistory.length) {
@@ -217,50 +219,92 @@ export class UserInterface extends Phaser.GameObjects.Container {
   }
 }
 
-// 
-export class TraversibleObject extends Phaser.GameObjects.GameObject implements Traversible, OptionFocusable {
+//TODO: Find a way to compose this class...All of these methods exist on other classes.  Don't want to make a really deep heirarchy.
+export class TraversibleObject extends Phaser.GameObjects.GameObject implements Traversible, HasOptions {
   public id: string = `Traversible-${createRandom(1000)}`;
   public focused: boolean = false;
-  constructor(scene, private listItems: any) {
+  private options: any[] = []
+  private cursor: Phaser.GameObjects.Sprite;
+  constructor(scene) {
     super(scene, 'TraversibleObject');
-    console.log(this.listItems)
-  }
-
-  public close() {
-    console.log("To Implement")
   }
 
   public show() {
-    console.log("To Implement")
+    this.setActive(true);
   }
 
-  public blur() {
-    console.log("To Implement")
-  }
+  public close() {
+    this.setActive(false);
 
+  }
   public focus() {
-    console.log("To Implement")
+    if (this.active) {
+      this.focused = true;
+    }
+  }
+  public blur() {
+    this.focused = false;
   }
 
-  public addOption() {
-
+  public addOption(optionData: any, selectCallback: Function, focusCallback?: Function): TraversibleObject {
+    const toAdd = new TraversibleListItem(selectCallback, focusCallback, optionData)
+    this.options.push(toAdd);
+    return this;
   };
-  public removeOption() {
 
-  };
-  public focusOption() {
+  public focusOption(index: number) {
+    this.options.forEach((option, i) => {
+      if (i === index) {
+        option.focused = true;
+        console.log(option)
+        option.focus();
+      } else {
+        option.focused = false;
+      }
+    });
 
-  };
+  }
+
   public focusNextOption() {
+    const index = this.getFocusIndex();
+    const toFocus = index >= this.options.length - 1 ? 0 : index + 1;
+    this.focusOption(toFocus);
+  }
 
-  };
+  public getFocusIndex() {
+    const current = this.options.find(opt => opt.focused);
+    return this.options.findIndex(opt => opt === current);
+  }
+
+  public focusPreviousOption() {
+    const index = this.getFocusIndex();
+    const toFocus = index <= 0 ? this.options.length - 1 : index - 1;
+    this.focusOption(toFocus);
+  }
+
+  public getFocusedOption() {
+    const option = this.options.find(opt => opt.focused);
+    if (option) {
+      return option;
+    }
+  }
+
+  public selectFocusedOption() {
+    const toSelect = this.getFocusedOption();
+    if (toSelect && !toSelect.disabled) {
+      toSelect.select();
+    }
+  }
+  public removeOption(name: string) {
+    //TODO: Implement if needed?
+  }
 }
 
 export class TraversibleListItem implements Selectable {
   public focused: boolean = false;
   public disabled: boolean;
 
-  constructor(public name: string, public selectCallback, public focusCallback, public selectableData?: any) {
+  constructor(public selectCallback, public focusCallback, public selectableData?: any) {
 
   }
   public select() {

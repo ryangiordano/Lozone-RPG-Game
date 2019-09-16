@@ -47,16 +47,20 @@ export class CombatInterface extends UserInterface {
     this.createDetailPanel();
     this.createItemPanel();
 
-    this.partyTraversible = new TraversibleObject(this.scene, this.party)
-    this.enemyTraversible = new TraversibleObject(this.scene, this.enemies)
+    this.createEnemyTraversible();
+    this.createPartyTraversible();
   }
 
   private createMainPanel() {
     this.mainPanel = this.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption("Attack", () => {
         // this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
-        this.enemyTargetPanel.on('enemy-chosen', (enemy) => {
-          this.enemyTargetPanel.off('enemy-chosen');
+
+        this.showPanel(this.enemyTraversible).focusPanel(this.enemyTraversible);
+
+
+        this.enemyTraversible.on('enemy-chosen', (enemy) => {
+          this.enemyTraversible.off('enemy-chosen');
           const event = new CombatEvent(
             this.currentPartyMember,
             enemy.entity,
@@ -100,7 +104,7 @@ export class CombatInterface extends UserInterface {
     this.detailPanel = this.createPresentationPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
   }
 
-  private showDetailPanel(selectedEntity: CombatEntity){
+  private showDetailPanel(selectedEntity: CombatEntity) {
     this.detailPanel.clearPanelContainerByType('Text');
     this.detailPanel.show();
     const name = this.textFactory.createText(selectedEntity.entity.name, { x: 10, y: 10 });
@@ -115,6 +119,21 @@ export class CombatInterface extends UserInterface {
         this.enemyTargetPanel.emit("enemy-chosen", enemyCombatant);
       });
     });
+  }
+
+  private createEnemyTraversible() {
+    this.enemyTraversible = new TraversibleObject(this.scene);
+
+    this.enemies.forEach(enemyCombatant=>{
+      //TODO: Populate panel data on enemy...
+      this.enemyTraversible.addOption(enemyCombatant, ()=>{
+        this.enemyTraversible.emit("enemy-chosen", enemyCombatant);
+      })
+    })
+  }
+  private createPartyTraversible() {
+    this.partyTraversible = new TraversibleObject(this.scene)
+
   }
 
   private createItemPanel() {

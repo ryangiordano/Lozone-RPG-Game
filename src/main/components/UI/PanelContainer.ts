@@ -1,10 +1,10 @@
 import { getUID } from "../../utility/Utility";
-import { Traversible, Selectable, OptionFocusable } from "./UserInterface";
+import { Traversible, Selectable, HasOptions, } from "./UserInterface";
 
 export class PanelContainer extends Phaser.GameObjects.Container implements Traversible {
   public panel: Phaser.GameObjects.RenderTexture;
   public focused: boolean = false;
-  public options: DialogListItem[] = [];
+  public options: any[] = [];
   public padding: number = 6;
   public childPanels: Map<string, PanelContainer>;
 
@@ -89,7 +89,7 @@ export class PanelContainer extends Phaser.GameObjects.Container implements Trav
   }
 }
 
-export class UIPanel extends PanelContainer implements OptionFocusable {
+export class UIPanel extends PanelContainer implements HasOptions {
   constructor(dimensions: Coords,
     pos: Coords,
     spriteKey: string,
