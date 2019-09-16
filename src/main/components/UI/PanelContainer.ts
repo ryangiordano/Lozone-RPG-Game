@@ -1,9 +1,10 @@
 import { getUID } from "../../utility/Utility";
+import { Traversible, Selectable, HasOptions, } from "./UserInterface";
 
-export class PanelContainer extends Phaser.GameObjects.Container {
+export class PanelContainer extends Phaser.GameObjects.Container implements Traversible {
   public panel: Phaser.GameObjects.RenderTexture;
   public focused: boolean = false;
-  public options: DialogListItem[] = [];
+  public options: any[] = [];
   public padding: number = 6;
   public childPanels: Map<string, PanelContainer>;
 
@@ -19,7 +20,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     this.name = id.toString();
     scene.add.existing(this);
     this.childPanels = new Map<string, PanelContainer>();
-    this.closePanel();
+    this.close();
 
   }
 
@@ -28,12 +29,12 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     this.add(this.panel)
   }
 
-  public showPanel() {
+  public show() {
     this.visible = true;
     this.showChildren();
   }
 
-  public closePanel() {
+  public close() {
     this.visible = false;
     this.hideChildren();
   }
@@ -42,7 +43,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
     return this.panel;
   }
 
-  public focusPanel() {
+  public focus() {
     if (this.visible) {
       this.focused = true;
       this.alpha = 1;
@@ -53,14 +54,14 @@ export class PanelContainer extends Phaser.GameObjects.Container {
   }
 
   public showChildren() {
-    this.childPanels.forEach(panel => panel.showPanel())
+    this.childPanels.forEach(panel => panel.show())
   }
 
   public hideChildren() {
-    this.childPanels.forEach(panel => panel.closePanel())
+    this.childPanels.forEach(panel => panel.close())
   }
 
-  public blurPanel() {
+  public blur() {
     this.focused = false;
     this.alpha = 0.9;
     this.hideChildren();
@@ -88,7 +89,7 @@ export class PanelContainer extends Phaser.GameObjects.Container {
   }
 }
 
-export class UIPanel extends PanelContainer {
+export class UIPanel extends PanelContainer implements HasOptions {
   constructor(dimensions: Coords,
     pos: Coords,
     spriteKey: string,
@@ -113,7 +114,7 @@ export class UIPanel extends PanelContainer {
     return this;
   }
 
-  public removeListItem(name: string) {
+  public removeOption(name: string) {
     this.options.filter(listItem => listItem.name !== name);
   }
 
@@ -161,7 +162,7 @@ export class UIPanel extends PanelContainer {
 }
 
 
-class DialogListItem extends Phaser.GameObjects.Text {
+class DialogListItem extends Phaser.GameObjects.Text implements Selectable {
   public disabled: boolean;
   public focused: boolean = false;
   //TODO: Refactor this into a separate class for dialog confirm panels and confirm panel Options
@@ -172,20 +173,20 @@ class DialogListItem extends Phaser.GameObjects.Text {
     public text: string,
     styles,
     public selectCallback: Function,
-    private focusCallback?: Function,
-    private dialogData?: any) {
+    public focusCallback?: Function,
+    public selectableData?: any) {
     super(scene, x, y, text, styles);
   }
 
   public select() {
     if (!this.disabled) {
-      this.selectCallback(this.dialogData);
+      this.selectCallback(this.selectableData);
     }
   }
 
   public focus() {
     if (!this.disabled && this.focusCallback) {
-      this.focusCallback(this.dialogData);
+      this.focusCallback(this.selectableData);
     }
   }
 

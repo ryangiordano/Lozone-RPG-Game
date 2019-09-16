@@ -1,11 +1,42 @@
 import { UIPanel, PanelContainer } from "./PanelContainer";
 import { KeyboardControl } from "./Keyboard";
+import { createRandom } from '../../utility/Utility';
+
+export interface Traversible {
+  close: Function,
+  show: Function,
+  focus: Function
+  blur: Function,
+  focused: boolean
+  id: string,
+}
+
+export interface HasOptions {
+  addOption: Function,
+  removeOption: Function,
+  focusOption: Function,
+  focusNextOption: Function,
+  getFocusIndex: Function,
+  focusPreviousOption: Function,
+  getFocusedOption: Function,
+  selectFocusedOption: Function
+}
+
+export interface Selectable {
+  focused: boolean,
+  disabled: boolean,
+  selectableData?: any,
+  selectCallback: Function,
+  focusCallback?: Function,
+  select: Function,
+  focus: Function
+}
 
 export class UserInterface extends Phaser.GameObjects.Container {
   private panelContainers: PanelContainer[] = [];
   private caret: Phaser.GameObjects.Text;
   private focusedPanel: UIPanel;
-  private panelTravelHistory: UIPanel[] = [];
+  private travelHistory: UIPanel[] = [];
   private keyboardMuted: boolean = false;
   public events = new Phaser.Events.EventEmitter();
 
@@ -79,7 +110,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     return panel;
   }
 
-  public addPanel(panel: UIPanel) {
+  public addPanel(panel: any) {
     this.add(panel);
     this.panelContainers.push(panel);
     return panel;
@@ -88,34 +119,33 @@ export class UserInterface extends Phaser.GameObjects.Container {
   public findFocusedPanel() {
     return this.panelContainers.find(d => d.focused);
   }
-  public focusPanel(toFocus: UIPanel) {
-    toFocus.showPanel();
+  public focusPanel(toFocus: any) {
+    toFocus.show();
     this.focusedPanel = toFocus;
 
     this.panelContainers.forEach(panel => {
       if (panel.id === toFocus.id) {
-        panel.focusPanel();
+        panel.focus();
       } else {
-        panel.blurPanel();
+        panel.blur();
       }
     });
     this.focusedPanel.focusOption(0);
     this.setCaret();
   }
 
-  showPanel(panel: UIPanel) {
-    this.panelTravelHistory.push(panel);
-    panel.showPanel();
+  showPanel(panel: any) {
+    this.travelHistory.push(panel);
+    panel.show();
     return this;
   }
 
-  closePanel(panel: UIPanel) {
-    this.panelTravelHistory.pop();
-    console.log(panel)
-    panel.closePanel();
-    if (this.panelTravelHistory.length) {
+  closePanel(panel: any) {
+    this.travelHistory.pop();
+    panel.close();
+    if (this.travelHistory.length) {
       this.focusPanel(
-        this.panelTravelHistory[this.panelTravelHistory.length - 1]
+        this.travelHistory[this.travelHistory.length - 1]
       );
     } else {
       this.scene.events.emit("close");
@@ -173,18 +203,120 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.menuSceneKeyboardControl.off("esc", "user-interface");
     this.menuSceneKeyboardControl.off("space", "user-interface");
   }
-  
+
   private traverseBackward() {
-    if (this.panelTravelHistory[this.panelTravelHistory.length - 1].escapable) {
-      const lastPanel = this.panelTravelHistory.pop();
-      lastPanel.closePanel();
-      if (this.panelTravelHistory.length) {
+    if (this.travelHistory[this.travelHistory.length - 1].escapable) {
+      const lastPanel = this.travelHistory.pop();
+      lastPanel.close();
+      if (this.travelHistory.length) {
         this.focusPanel(
-          this.panelTravelHistory[this.panelTravelHistory.length - 1]
+          this.travelHistory[this.travelHistory.length - 1]
         );
       } else {
         this.closeUI();
       }
     }
   }
+}
+
+//TODO: Find a way to compose this class...All of these methods exist on other classes.  Don't want to make a really deep heirarchy.
+export class TraversibleObject extends Phaser.GameObjects.GameObject implements Traversible, HasOptions {
+  public id: string = `Traversible-${createRandom(1000)}`;
+  public focused: boolean = false;
+  private options: any[] = []
+  private cursor: Phaser.GameObjects.Sprite;
+  constructor(scene) {
+    super(scene, 'TraversibleObject');
+  }
+
+  public show() {
+    this.setActive(true);
+  }
+
+  public close() {
+    this.setActive(false);
+
+  }
+  public focus() {
+    if (this.active) {
+      this.focused = true;
+    }
+  }
+  public blur() {
+    this.focused = false;
+  }
+
+  public addOption(optionData: any, selectCallback: Function, focusCallback?: Function): TraversibleObject {
+    const toAdd = new TraversibleListItem(selectCallback, focusCallback, optionData)
+    this.options.push(toAdd);
+    return this;
+  };
+
+  public focusOption(index: number) {
+    this.options.forEach((option, i) => {
+      if (i === index) {
+        option.focused = true;
+        console.log(option)
+        option.focus();
+      } else {
+        option.focused = false;
+      }
+    });
+
+  }
+
+  public focusNextOption() {
+    const index = this.getFocusIndex();
+    const toFocus = index >= this.options.length - 1 ? 0 : index + 1;
+    this.focusOption(toFocus);
+  }
+
+  public getFocusIndex() {
+    const current = this.options.find(opt => opt.focused);
+    return this.options.findIndex(opt => opt === current);
+  }
+
+  public focusPreviousOption() {
+    const index = this.getFocusIndex();
+    const toFocus = index <= 0 ? this.options.length - 1 : index - 1;
+    this.focusOption(toFocus);
+  }
+
+  public getFocusedOption() {
+    const option = this.options.find(opt => opt.focused);
+    if (option) {
+      return option;
+    }
+  }
+
+  public selectFocusedOption() {
+    const toSelect = this.getFocusedOption();
+    if (toSelect && !toSelect.disabled) {
+      toSelect.select();
+    }
+  }
+  public removeOption(name: string) {
+    //TODO: Implement if needed?
+  }
+}
+
+export class TraversibleListItem implements Selectable {
+  public focused: boolean = false;
+  public disabled: boolean;
+
+  constructor(public selectCallback, public focusCallback, public selectableData?: any) {
+
+  }
+  public select() {
+    if (!this.disabled) {
+      this.selectCallback(this.selectableData);
+    }
+  }
+
+  public focus() {
+    if (!this.disabled && this.focusCallback) {
+      this.focusCallback(this.selectableData);
+    }
+  }
+
 }

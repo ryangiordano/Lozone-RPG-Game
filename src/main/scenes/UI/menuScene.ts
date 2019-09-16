@@ -30,8 +30,8 @@ export class MenuScene extends Phaser.Scene {
       "dialog-white",
       new KeyboardControl(this)
     );
+    // DEBUG
     this.state.addItemToContents(1)
-    this.sound.play("menu-open", { volume: 0.1 })
 
     this.mainPanel = this.createAndSetUpMainPanel();
 
@@ -48,6 +48,7 @@ export class MenuScene extends Phaser.Scene {
     this.setEventListeners();
 
     this.UI.showPanel(this.mainPanel).focusPanel(this.mainPanel);
+    this.sound.play("menu-open", { volume: 0.1 })
   }
 
 
@@ -216,7 +217,7 @@ export class MenuScene extends Phaser.Scene {
       { x: 0, y: 8 },
       'dialog-white',
       this);
-    this.coinPanel.showPanel();
+    this.coinPanel.show();
     const coin = this.add.sprite(25, 32, 'coin');
     this.coinPanel.add(coin);
     this.anims.create({ key: 'spin', frames: this.anims.generateFrameNumbers('coin', { frames: [0, 1, 2, 1] }), frameRate: 10, repeat: -1, })

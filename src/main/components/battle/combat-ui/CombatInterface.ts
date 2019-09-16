@@ -1,4 +1,4 @@
-import { UserInterface } from "../../UI/UserInterface";
+import { UserInterface, TraversibleObject } from "../../UI/UserInterface";
 import { TextFactory } from "../../../utility/TextFactory";
 import { CombatEvent, UseItemEvent, SpellCastEvent } from '../CombatEvent';
 import { Orientation, CombatActionTypes, CombatEntity } from '../CombatDataStructures';
@@ -17,7 +17,12 @@ export class CombatInterface extends UserInterface {
   private statusPanel: PanelContainer;
   private spellPanel: UIPanel;
   private mainPanel: UIPanel;
+  private detailPanel: PanelContainer;
   private currentPartyMember: PartyMember;
+
+  private enemyTraversible: TraversibleObject;
+  private partyTraversible: TraversibleObject;
+
 
   constructor(
     scene: Phaser.Scene,
@@ -39,15 +44,23 @@ export class CombatInterface extends UserInterface {
 
     this.createEnemyTargetPanel();
     this.createPartyTargetPanel();
+    this.createDetailPanel();
     this.createItemPanel();
+
+    this.createEnemyTraversible();
+    this.createPartyTraversible();
   }
 
   private createMainPanel() {
     this.mainPanel = this.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption("Attack", () => {
-        this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
-        this.enemyTargetPanel.on('enemy-chosen', (enemy) => {
-          this.enemyTargetPanel.off('enemy-chosen');
+        // this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
+
+        this.showPanel(this.enemyTraversible).focusPanel(this.enemyTraversible);
+
+
+        this.enemyTraversible.on('enemy-chosen', (enemy) => {
+          this.enemyTraversible.off('enemy-chosen');
           const event = new CombatEvent(
             this.currentPartyMember,
             enemy.entity,
@@ -87,6 +100,17 @@ export class CombatInterface extends UserInterface {
     });
   }
 
+  private createDetailPanel() {
+    this.detailPanel = this.createPresentationPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
+  }
+
+  private showDetailPanel(selectedEntity: CombatEntity) {
+    this.detailPanel.clearPanelContainerByType('Text');
+    this.detailPanel.show();
+    const name = this.textFactory.createText(selectedEntity.entity.name, { x: 10, y: 10 });
+    this.detailPanel.add(name)
+  }
+
   private createEnemyTargetPanel() {
     this.enemyTargetPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
 
@@ -97,6 +121,21 @@ export class CombatInterface extends UserInterface {
     });
   }
 
+  private createEnemyTraversible() {
+    this.enemyTraversible = new TraversibleObject(this.scene);
+
+    this.enemies.forEach(enemyCombatant=>{
+      //TODO: Populate panel data on enemy...
+      this.enemyTraversible.addOption(enemyCombatant, ()=>{
+        this.enemyTraversible.emit("enemy-chosen", enemyCombatant);
+      })
+    })
+  }
+  private createPartyTraversible() {
+    this.partyTraversible = new TraversibleObject(this.scene)
+
+  }
+
   private createItemPanel() {
     this.itemPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
     const sm = State.getInstance();
@@ -105,7 +144,7 @@ export class CombatInterface extends UserInterface {
       // Create list of items to use in battle.
       this.itemPanel.addOption(`${item.name} x${item.quantity}`, () => {
         // On item use, show party member panel
-        this.itemPanel.closePanel();
+        this.itemPanel.close();
         this.showPanel(this.partyTargetPanel).focusPanel(this.partyTargetPanel);
         this.partyTargetPanel.on('party-member-chosen', (partyMember) => {
           this.partyTargetPanel.off("party-member-chosen");
@@ -175,14 +214,15 @@ export class CombatInterface extends UserInterface {
     combatant.combatClass.spells.forEach(classSpell =>
       classSpell.requiredLevel <= combatant.level &&
       this.spellPanel.addOption(classSpell.spell.name, () => {
-        this.spellPanel.closePanel();
+        this.spellPanel.close();
 
         // Show 
         if (classSpell.spell.type === SpellType.attack) {
           this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
           this.enemyTargetPanel.on('enemy-chosen', (enemy) => {
             this.enemyTargetPanel.off("enemy-chosen");
-            this.events.emit('option-selected', this.createEvent(enemy, classSpell));
+            const event = this.createEvent(enemy, classSpell)
+            this.events.emit('option-selected', event);
           });
         }
 
@@ -190,7 +230,8 @@ export class CombatInterface extends UserInterface {
           this.showPanel(this.partyTargetPanel).focusPanel(this.partyTargetPanel);
           this.partyTargetPanel.on('party-member-chosen', (partyMember) => {
             this.partyTargetPanel.off("party-member-chosen");
-            this.events.emit('option-selected', this.createEvent(partyMember, classSpell));
+            const event = this.createEvent(partyMember, classSpell)
+            this.events.emit('option-selected', event);
           })
         }
 
@@ -206,5 +247,6 @@ export class CombatInterface extends UserInterface {
       this.scene,
       classSpell.spell,
     );
+    return event;
   }
 }
