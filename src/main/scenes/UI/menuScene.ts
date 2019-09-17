@@ -24,6 +24,8 @@ export class MenuScene extends Phaser.Scene {
   }
 
   init(data) {
+    this.input.keyboard.resetKeys();
+
     this.callingSceneKey = data.callingSceneKey;
     this.UI = new UserInterface(
       this,
@@ -248,6 +250,11 @@ export class MenuScene extends Phaser.Scene {
         const wp = new WarpUtility(this);
         wp.warpTo(1);
       })
+      .addOption("Start Battle", () => {
+        this.input.keyboard.resetKeys();
+        this.scene.manager.sleep(this.scene.key);
+        this.scene.run('Battle', { key: this.scene.key, enemyPartyId: 6, bossBattle: false })
+      })
       .addOption("Cancel", () => {
         this.UI.closePanel(dungeonPanel);
       });
@@ -277,12 +284,10 @@ export class MenuScene extends Phaser.Scene {
   }
 
   private setKeyboardEventListeners() {
-    this.input.keyboard.on("keydown", event => {
-      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.Z) {
-        this.UI.events.off('menu-select')
-        this.UI.events.off('menu-traverse')
-        this.closeMenuScene();
-      }
+    this.input.keyboard.on("keyup-Z", event => {
+      this.UI.events.off('menu-select')
+      this.UI.events.off('menu-traverse')
+      this.closeMenuScene();
     });
   }
 

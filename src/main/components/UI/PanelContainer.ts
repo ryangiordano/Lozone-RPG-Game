@@ -36,6 +36,7 @@ export class PanelContainer extends Phaser.GameObjects.Container implements Trav
 
   public close() {
     this.visible = false;
+    this.handleClose();
     this.hideChildren();
   }
 
@@ -86,6 +87,10 @@ export class PanelContainer extends Phaser.GameObjects.Container implements Trav
   }
   public clearPanelContainerByTypes(types: string[]) {
     types.forEach(type=>this.clearPanelContainerByType(type));
+  }
+  
+  public handleClose(){
+    //To Implement;
   }
 }
 

@@ -111,7 +111,7 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
   private focusActive() {
     this.blurAll();
     const currentMember = this.getCurrentlyFocusedPartyMemberPanel();
-    currentMember.focusPanel();
+    currentMember.focus();
     if (this.partyMenuType === PartyMenuTypes.itemUse) {
       this.partyMessagePanel.displayMessage(`Use ${this.entity.name} on ${currentMember.partyMember.name}?`);
 
@@ -122,7 +122,7 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
   }
   private blurAll() {
     this.partyMemberPanels.forEach(row =>
-      row.forEach(panel => panel.blurPanel())
+      row.forEach(panel => panel.blur())
     );
   }
 

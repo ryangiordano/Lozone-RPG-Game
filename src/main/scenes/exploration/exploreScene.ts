@@ -84,7 +84,7 @@ export abstract class Explore extends Phaser.Scene {
   protected afterCreated() { }
 
   protected setEvents() {
-    this.input.keyboard.on("keydown-Z", event => {
+    this.input.keyboard.on("keyup-Z", event => {
       if (this.player.isMoving) {
         return false;
       }

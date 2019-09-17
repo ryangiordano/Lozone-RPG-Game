@@ -119,8 +119,8 @@ export class Combat {
     this.combatUI = new CombatInterface(
       this.scene,
       "dialog-white",
-      this.partyMembers,
-      this.enemies
+      this.enemyContainer,
+      this.partyContainer,
     );
     this.combatUI.create(partyMember);
     this.setListenersOnUI();

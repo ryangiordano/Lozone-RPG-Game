@@ -10,6 +10,7 @@ export interface Traversible {
   blur: Function,
   focused: boolean
   id: string,
+  handleClose:Function
 }
 
 export interface HasOptions {
@@ -225,16 +226,10 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
   public id: string = `Traversible-${createRandom(1000)}`;
   public focused: boolean = false;
   private options: any[] = []
-  private cursor: Phaser.GameObjects.Sprite;
   public escapable: boolean = true;
-  private cursorAnimation: any;
-  constructor(scene) {
+  constructor(scene, private onClose?:Function) {
     super(scene);
-    this.cursor = new Phaser.GameObjects.Sprite(this.scene, 100, 100, 'cursor');
-    this.scene.add.existing(this.cursor)
-    this.cursorAnimation = cursorHover(this.cursor, 0, this.scene,()=>{});
-    this.showCursor(false)
-    //TODO: The cursor does not belong here.  The cursor belongs in the combat grid.  We should instantiate, show, hide, and move the cursor there, not here.;
+
   }
 
   public show() {
@@ -243,34 +238,18 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
 
   public close() {
     this.setActive(false);
-
+    this.handleClose();
   }
   public focus() {
     if (this.active) {
       this.focused = true;
     }
+    this.focusOption(0);
   }
   public blur() {
     this.focused = false;
   }
 
-  public setCursor(coords: Coords, container: Phaser.GameObjects.Container) {
-    this.showCursor(true);
-    if (container) {
-      container.add(this.cursor);
-    }
-    this.cursor.x = coords.x;
-    this.cursor.y = coords.y
-    console.log(coords)
-  }
-
-  public showCursor(visible: boolean) {
-    this.cursor.visible = visible;
-    this.cursorAnimation.stop();
-    if (visible) {
-      this.cursorAnimation.play();
-    }
-  }
 
   public addOption(optionData: any, selectCallback: Function, focusCallback?: Function): TraversibleObject {
     const toAdd = new TraversibleListItem(selectCallback, focusCallback, optionData)
@@ -322,6 +301,10 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
   }
   public removeOption(name: string) {
     //TODO: Implement if needed?
+  }
+
+  public handleClose(){
+    this.onClose && this.onClose()
   }
 }
 

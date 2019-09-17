@@ -2,13 +2,19 @@ import { CombatGrid } from "./CombatGrid";
 import { getRandomFloor } from "../../../utility/Utility";
 import { Combatant } from "../Combatant";
 import { CombatEntity } from "../CombatDataStructures";
+import { cursorHover } from "../../../utility/tweens/text";
 
 export class CombatContainer extends Phaser.GameObjects.Container {
   private combatGrid: CombatGrid = new CombatGrid({ x: 3, y: 3 }, 64);
-  private battleTarget: Phaser.GameObjects.Image;
+  private cursor: Phaser.GameObjects.Sprite;
+  private cursorAnimation: any;
+
   constructor(position: Coords, scene, private combatants: CombatEntity[] = []) {
     super(scene, position.x * 64, position.y * 64);
-    this.battleTarget = new Phaser.GameObjects.Image(this.scene, 0, 0, 'battle-target');
+    this.cursor = new Phaser.GameObjects.Sprite(this.scene, 100, 100, 'cursor');
+    this.cursorAnimation = cursorHover(this.cursor, 0, this.scene, () => { });
+    this.add(this.cursor)
+    this.showCursor(false)
   }
 
   public populateContainerAt(position: Coords, combatant: Combatant) {
@@ -18,18 +24,36 @@ export class CombatContainer extends Phaser.GameObjects.Container {
     this.combatGrid.placeAt(position, combatant);
   }
 
+  public setCursor(sprite) {
+    this.showCursor(true);
+    this.bringToTop(this.cursor)
+    this.cursor.setX(sprite.x);
+    this.cursor.setY(sprite.y-(sprite.height/2))
+    this.beginCursorAnimate();
+  }
+
+  public showCursor(visible: boolean) {
+    this.cursor.visible = visible;
+    this.bringToTop(this.cursor)
+  }
+
+  private beginCursorAnimate(){
+    this.cursorAnimation.stop();
+    this.cursorAnimation = cursorHover(this.cursor, 0, this.scene, () => { });
+    this.cursorAnimation.play();
+
+  }
+
   public populateContainer() {
-    // TODO:For now let's populate four characters in four corners of the grid. Later let's store the position somewhere on the combatant themselves.
-    const positions = [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 2 }, { x: 2, y: 2 }];
     this.combatants.forEach(combatant => {
       const sprite = combatant.entity.getSprite();
       this.add(sprite);
-      const currentPosition = positions.pop();
       this.combatGrid.placeAt(combatant.position, combatant.entity);
       sprite.setOrigin(.5, .5);
       sprite.setAlpha(1);
     });
   }
+
   public populateContainerRandomly() {
     this.combatants.forEach(combatant => {
       const sprite = combatant.entity.getSprite();

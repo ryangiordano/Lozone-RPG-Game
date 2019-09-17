@@ -8,6 +8,7 @@ import { UIPanel, PanelContainer } from "../../UI/PanelContainer";
 import { KeyboardControl } from "../../UI/Keyboard";
 import { State } from "../../../utility/state/State";
 import { SpellType } from "../../../data/repositories/SpellRepository";
+import { CombatContainer } from "../combat-grid/CombatContainer";
 
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory;
@@ -23,12 +24,11 @@ export class CombatInterface extends UserInterface {
   private enemyTraversible: TraversibleObject;
   private partyTraversible: TraversibleObject;
 
-
   constructor(
     scene: Phaser.Scene,
     spriteKey: string,
-    private party: CombatEntity[],
-    private enemies: CombatEntity[]
+    private enemyCombatContainer: CombatContainer,
+    private partyCombatContainer: CombatContainer,
   ) {
     super(scene, spriteKey, new KeyboardControl(scene));
     this.textFactory = new TextFactory(scene);
@@ -54,17 +54,19 @@ export class CombatInterface extends UserInterface {
   private createMainPanel() {
     this.mainPanel = this.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption("Attack", () => {
-        // this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
 
         this.showPanel(this.enemyTraversible).focusPanel(this.enemyTraversible);
-        
+
+        const currentFocused = this.enemyTraversible.getFocusedOption();
+        this.enemyCombatContainer.setCursor(currentFocused.selectableData.entity.sprite)
         this.enemyTraversible.on('enemy-focused', (enemy) => {
           const sprite = enemy.entity.sprite;
-          this.enemyTraversible.setCursor({ x: sprite.x, y: sprite.y-sprite.height/2 }, sprite.parentContainer);
-        })
+          this.enemyCombatContainer.setCursor(sprite);
+        });
 
         this.enemyTraversible.on('enemy-chosen', (enemy) => {
           this.enemyTraversible.off('enemy-chosen');
+          this.enemyCombatContainer.showCursor(false);
           const event = new CombatEvent(
             this.currentPartyMember,
             enemy.entity,
@@ -73,7 +75,8 @@ export class CombatInterface extends UserInterface {
             this.scene
           );
           this.events.emit("option-selected", event);
-        })
+        });
+
       })
       .addOption("Defend", () => {
         const event = new CombatEvent(
@@ -118,7 +121,7 @@ export class CombatInterface extends UserInterface {
   private createEnemyTargetPanel() {
     this.enemyTargetPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
 
-    this.enemies.forEach(enemyCombatant => {
+    this.enemyCombatContainer.getCombatants().forEach(enemyCombatant => {
       this.enemyTargetPanel.addOption(enemyCombatant.entity.name, () => {
         this.enemyTargetPanel.emit("enemy-chosen", enemyCombatant);
       });
@@ -126,16 +129,19 @@ export class CombatInterface extends UserInterface {
   }
 
   private createEnemyTraversible() {
-    this.enemyTraversible = new TraversibleObject(this.scene);
+    this.enemyTraversible = new TraversibleObject(this.scene, ()=>{
+      this.enemyCombatContainer.showCursor(false);
+    });
 
-    this.enemies.forEach(enemyCombatant => {
-      //TODO: Populate panel data on enemy...and move cursor above the enemy.
+    this.enemyCombatContainer.getCombatants().forEach(enemyCombatant => {
+
       this.enemyTraversible.addOption(enemyCombatant, () => {
         this.enemyTraversible.emit("enemy-chosen", enemyCombatant);
       }, () => {
         this.enemyTraversible.emit("enemy-focused", enemyCombatant);
-      })
-    })
+      });
+
+    });
   }
   private createPartyTraversible() {
     this.partyTraversible = new TraversibleObject(this.scene)
@@ -172,7 +178,7 @@ export class CombatInterface extends UserInterface {
   private createPartyTargetPanel() {
     this.partyTargetPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
 
-    this.party.forEach(partyMember => {
+    this.partyCombatContainer.getCombatants().forEach(partyMember => {
       this.partyTargetPanel.addOption(partyMember.entity.name, () => {
         this.partyTargetPanel.emit("party-member-chosen", partyMember);
       });
