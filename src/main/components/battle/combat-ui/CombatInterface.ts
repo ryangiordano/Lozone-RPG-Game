@@ -57,7 +57,11 @@ export class CombatInterface extends UserInterface {
         // this.showPanel(this.enemyTargetPanel).focusPanel(this.enemyTargetPanel);
 
         this.showPanel(this.enemyTraversible).focusPanel(this.enemyTraversible);
-
+        
+        this.enemyTraversible.on('enemy-focused', (enemy) => {
+          const sprite = enemy.entity.sprite;
+          this.enemyTraversible.setCursor({ x: sprite.x, y: sprite.y-sprite.height/2 }, sprite.parentContainer);
+        })
 
         this.enemyTraversible.on('enemy-chosen', (enemy) => {
           this.enemyTraversible.off('enemy-chosen');
@@ -124,10 +128,12 @@ export class CombatInterface extends UserInterface {
   private createEnemyTraversible() {
     this.enemyTraversible = new TraversibleObject(this.scene);
 
-    this.enemies.forEach(enemyCombatant=>{
-      //TODO: Populate panel data on enemy...
-      this.enemyTraversible.addOption(enemyCombatant, ()=>{
+    this.enemies.forEach(enemyCombatant => {
+      //TODO: Populate panel data on enemy...and move cursor above the enemy.
+      this.enemyTraversible.addOption(enemyCombatant, () => {
         this.enemyTraversible.emit("enemy-chosen", enemyCombatant);
+      }, () => {
+        this.enemyTraversible.emit("enemy-focused", enemyCombatant);
       })
     })
   }

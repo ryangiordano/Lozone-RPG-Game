@@ -67,6 +67,7 @@ export class TweenFactory {
   }
   public setRepeat(times: number) {
     this.tweenConfig.repeat = times;
+    return this;
   }
   public getConfig() {
     const tweenConfig = { ...this.tweenConfig };

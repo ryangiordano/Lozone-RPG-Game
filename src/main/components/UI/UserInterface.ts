@@ -1,6 +1,7 @@
 import { UIPanel, PanelContainer } from "./PanelContainer";
 import { KeyboardControl } from "./Keyboard";
 import { createRandom } from '../../utility/Utility';
+import { cursorHover } from '../../utility/tweens/text';
 
 export interface Traversible {
   close: Function,
@@ -220,13 +221,20 @@ export class UserInterface extends Phaser.GameObjects.Container {
 }
 
 //TODO: Find a way to compose this class...All of these methods exist on other classes.  Don't want to make a really deep heirarchy.
-export class TraversibleObject extends Phaser.GameObjects.GameObject implements Traversible, HasOptions {
+export class TraversibleObject extends Phaser.GameObjects.Container implements Traversible, HasOptions {
   public id: string = `Traversible-${createRandom(1000)}`;
   public focused: boolean = false;
   private options: any[] = []
   private cursor: Phaser.GameObjects.Sprite;
+  public escapable: boolean = true;
+  private cursorAnimation: any;
   constructor(scene) {
-    super(scene, 'TraversibleObject');
+    super(scene);
+    this.cursor = new Phaser.GameObjects.Sprite(this.scene, 100, 100, 'cursor');
+    this.scene.add.existing(this.cursor)
+    this.cursorAnimation = cursorHover(this.cursor, 0, this.scene,()=>{});
+    this.showCursor(false)
+    //TODO: The cursor does not belong here.  The cursor belongs in the combat grid.  We should instantiate, show, hide, and move the cursor there, not here.;
   }
 
   public show() {
@@ -246,6 +254,24 @@ export class TraversibleObject extends Phaser.GameObjects.GameObject implements 
     this.focused = false;
   }
 
+  public setCursor(coords: Coords, container: Phaser.GameObjects.Container) {
+    this.showCursor(true);
+    if (container) {
+      container.add(this.cursor);
+    }
+    this.cursor.x = coords.x;
+    this.cursor.y = coords.y
+    console.log(coords)
+  }
+
+  public showCursor(visible: boolean) {
+    this.cursor.visible = visible;
+    this.cursorAnimation.stop();
+    if (visible) {
+      this.cursorAnimation.play();
+    }
+  }
+
   public addOption(optionData: any, selectCallback: Function, focusCallback?: Function): TraversibleObject {
     const toAdd = new TraversibleListItem(selectCallback, focusCallback, optionData)
     this.options.push(toAdd);
@@ -256,7 +282,6 @@ export class TraversibleObject extends Phaser.GameObjects.GameObject implements 
     this.options.forEach((option, i) => {
       if (i === index) {
         option.focused = true;
-        console.log(option)
         option.focus();
       } else {
         option.focused = false;

@@ -18,6 +18,14 @@ const boing = target =>
     .toY(20)
     .getConfig();
 
+const hover = target =>
+  builder
+    .createTween(target, 300, 0)
+    .toY(20)
+    .setYoyo()
+    .setRepeat(-1)
+    .getConfig();
+
 const fadeOut = target =>
   builder
     .createTween(target, 300, 500)
@@ -46,3 +54,15 @@ export const textScaleUp = (target, delay, scene: Phaser.Scene, onComplete) => {
   timeline.setCallback("onComplete", onComplete);
   return timeline;
 };
+
+export const cursorHover = (target, delay, scene: Phaser.Scene, onComplete) => {
+  const timeline = scene.tweens.createTimeline({
+    targets: target,
+    ease: "Linear",
+    delay
+  });
+
+  timeline.add(boing(target))
+  timeline.add(hover(target));
+  return timeline;
+}
