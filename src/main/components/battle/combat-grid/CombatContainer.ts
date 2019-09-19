@@ -34,7 +34,6 @@ export class CombatContainer extends Phaser.GameObjects.Container {
 
   public showCursor(visible: boolean) {
     this.cursor.visible = visible;
-    this.bringToTop(this.cursor)
   }
 
   private beginCursorAnimate(){
@@ -81,4 +80,10 @@ export class CombatContainer extends Phaser.GameObjects.Container {
   public getCombatants() {
     return this.combatants;
   }
+
+  public targetRow(row){
+
+  }
+
+  public targetColumn
 }

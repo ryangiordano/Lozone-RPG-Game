@@ -50,6 +50,7 @@ export class CombatInterface extends UserInterface {
   }
 
   private createMainPanel() {
+    const sm = State.getInstance();
     this.mainPanel = this.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption("Attack", () => {
         this.showPanel(this.enemyTraversible).focusPanel(this.enemyTraversible);
@@ -65,7 +66,15 @@ export class CombatInterface extends UserInterface {
         );
         this.events.emit("option-selected", event);
       })
-      .addOption("Item", () => this.showPanel(this.itemPanel).focusPanel(this.itemPanel))
+      .addOption("Item", () => {
+        if (sm.getConsumeablesOnPlayer().length) {
+          this.showPanel(this.itemPanel).focusPanel(this.itemPanel)
+        }else{
+          //TODO: Show a battle toast!
+        }
+      });
+
+
 
     if (this.currentPartyMember.combatClass.spells.length) {
       this.mainPanel.addOption("Spells", () => this.showPanel(this.spellPanel).focusPanel(this.spellPanel))
@@ -86,8 +95,8 @@ export class CombatInterface extends UserInterface {
   private handleTraversibleTargeting(traversible: TraversibleObject, combatContainer: CombatContainer, combatActionType: CombatActionTypes, data?) {
     const currentFocused = traversible.getFocusedOption();
     combatContainer.setCursor(currentFocused.selectableData.entity.sprite)
-    traversible.on('focused', (enemy) => {
-      const sprite = enemy.entity.sprite;
+    traversible.on('focused', (target) => {
+      const sprite = target.entity.sprite;
       combatContainer.setCursor(sprite);
     });
 
@@ -95,7 +104,22 @@ export class CombatInterface extends UserInterface {
       traversible.off('chosen');
       combatContainer.showCursor(false);
       //TODO: Improve this here;
-      const event =combatActionType === CombatActionTypes.attack ? this.createCombatEvent(target) : this.createSpellcastEvent(target, data);
+      let event;
+      switch (combatActionType) {
+        case CombatActionTypes.attack:
+          event = this.createCombatEvent(target)
+          break;
+        case CombatActionTypes.castSpell:
+          event = this.createSpellcastEvent(target, data)
+          break;
+        case CombatActionTypes.useItem:
+          event = this.createItemEvent(target, data)
+          break;
+        default:
+          // Don't know what to do? Just punch them.
+          event = this.createCombatEvent(target)
+          break;
+      }
       this.events.emit("option-selected", event);
     });
   }
@@ -142,30 +166,27 @@ export class CombatInterface extends UserInterface {
     });
   }
 
+  /**
+   * Create list of items to use in battle.  
+   * Selecting an item opens the party traversible
+   */
   private createItemPanel() {
     this.itemPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
     const sm = State.getInstance();
     const consumeables = sm.getConsumeablesOnPlayer();
     consumeables.forEach(item => {
-      // Create list of items to use in battle.
+
       this.itemPanel.addOption(`${item.name} x${item.quantity}`, () => {
-        // On item use, show party member panel
         this.itemPanel.close();
-        this.showPanel(this.partyTargetPanel).focusPanel(this.partyTargetPanel);
-        this.partyTargetPanel.on('party-member-chosen', (partyMember) => {
-          this.partyTargetPanel.off("party-member-chosen");
-          const event = new UseItemEvent(
-            this.currentPartyMember,
-            partyMember.entity,
-            CombatActionTypes.useItem,
-            Orientation.left,
-            this.scene,
-            item,
-          );
-          this.events.emit('option-selected', event);
-        })
+        this.showPanel(this.partyTraversible).focusPanel(this.partyTraversible);
+
+        this.handleTraversibleTargeting(
+          this.partyTraversible,
+          this.partyCombatContainer,
+          CombatActionTypes.useItem,
+          item);
       })
-    })
+    });
 
   }
 
@@ -225,19 +246,27 @@ export class CombatInterface extends UserInterface {
         // Show 
         if (classSpell.spell.type === SpellType.attack) {
           this.showPanel(this.enemyTraversible).focusPanel(this.enemyTraversible);
-          this.handleTraversibleTargeting(this.enemyTraversible, this.enemyCombatContainer, CombatActionTypes.castSpell, classSpell);
+          this.handleTraversibleTargeting(
+            this.enemyTraversible,
+            this.enemyCombatContainer,
+            CombatActionTypes.castSpell,
+            classSpell);
         }
 
         if (classSpell.spell.type === SpellType.restoration) {
           this.showPanel(this.partyTraversible).focusPanel(this.partyTraversible);
-          this.handleTraversibleTargeting(this.partyTraversible, this.partyCombatContainer, CombatActionTypes.castSpell, classSpell)
+          this.handleTraversibleTargeting(
+            this.partyTraversible,
+            this.partyCombatContainer,
+            CombatActionTypes.castSpell,
+            classSpell)
         }
 
       }));
     return this.spellPanel;
   }
 
-  createCombatEvent(target){
+  createCombatEvent(target) {
     const event = new CombatEvent(
       this.currentPartyMember,
       target.entity,
@@ -260,5 +289,16 @@ export class CombatInterface extends UserInterface {
     return event;
   }
 
+  createItemEvent(target, item) {
+    const event = new UseItemEvent(
+      this.currentPartyMember,
+      target.entity,
+      CombatActionTypes.useItem,
+      Orientation.left,
+      this.scene,
+      item,
+    );
+    return event;
+  }
 
 }

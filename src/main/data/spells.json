@@ -8,8 +8,8 @@
     "type":0,
     "manaCost": 5,
     "targetType": {
-      "targeting": 1,
-      "targetArea": 1
+      "targeting": 0,
+      "targetArea": 0
     },
     "status": []
   },
@@ -22,8 +22,8 @@
     "type":0,
     "manaCost": 20,
     "targetType": {
-      "targeting": 1,
-      "targetArea": 1
+      "targeting": 0,
+      "targetArea": 0
     },
     "status": []
   },
@@ -36,8 +36,8 @@
     "type":0,
     "manaCost": 50,
     "targetType": {
-      "targeting": 1,
-      "targetArea": 1
+      "targeting": 0,
+      "targetArea": 0
     },
     "status": []
   },
@@ -50,21 +50,21 @@
     "type":1,
     "manaCost": 5,
     "targetType": {
-      "targeting": 2,
-      "targetArea": 1
+      "targeting": 1,
+      "targetArea": 0
     },
     "status": []
   },
   "11": {
     "id": 1,
-    "name": "Flame",
+    "name": "Flame All",
     "animationEffect": 2,
-    "description": "Does a small amount of damage",
-    "basePotency": 10,
+    "description": "Does a small amount of damage to all enemies",
+    "basePotency": 7,
     "type":1,
-    "manaCost": 5,
+    "manaCost": 13,
     "targetType": {
-      "targeting": 2,
+      "targeting": 1,
       "targetArea": 1
     },
     "status": []

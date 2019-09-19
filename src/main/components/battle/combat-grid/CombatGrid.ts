@@ -33,4 +33,6 @@ export class CombatGrid extends Grid {
     const randomEmpty = this.findRandomEmptyCel();
     randomEmpty.set(combatant);
   }
+
+
 }
