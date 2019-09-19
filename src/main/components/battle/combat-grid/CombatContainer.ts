@@ -3,6 +3,7 @@ import { getRandomFloor } from "../../../utility/Utility";
 import { Combatant } from "../Combatant";
 import { CombatEntity } from "../CombatDataStructures";
 import { cursorHover } from "../../../utility/tweens/text";
+import { CombatCel } from './CombatCel';
 
 export class CombatContainer extends Phaser.GameObjects.Container {
   private combatGrid: CombatGrid = new CombatGrid({ x: 3, y: 3 }, 64);
@@ -28,15 +29,34 @@ export class CombatContainer extends Phaser.GameObjects.Container {
     this.showCursor(true);
     this.bringToTop(this.cursor)
     this.cursor.setX(sprite.x);
-    this.cursor.setY(sprite.y-(sprite.height/2))
+    this.cursor.setY(sprite.y - (sprite.height / 2))
     this.beginCursorAnimate();
+  }
+
+  public setMultiCursor() {
+    this.combatGrid.getAllTargets().forEach(target => {
+      // Set a cursor on top of each target's head.
+      const cursor = new Phaser.GameObjects.Sprite(this.scene, 100, 100, 'cursor');
+      this.add(cursor);
+      cursor.setX(target.getX());
+      cursor.setY(target.getY()-(target.get().sprite.height/2));
+      const cursorAnimation = cursorHover(cursor, 0, this.scene, () => { });
+      cursorAnimation.play();
+    })
+  }
+
+  public unsetMultiCursor() {
+    this.getAll('type', 'sprite').forEach(child => {
+      console.log(child)
+      // child.destroy()
+    });
   }
 
   public showCursor(visible: boolean) {
     this.cursor.visible = visible;
   }
 
-  private beginCursorAnimate(){
+  private beginCursorAnimate() {
     this.cursorAnimation.stop();
     this.cursorAnimation = cursorHover(this.cursor, 0, this.scene, () => { });
     this.cursorAnimation.play();
@@ -81,9 +101,17 @@ export class CombatContainer extends Phaser.GameObjects.Container {
     return this.combatants;
   }
 
-  public targetRow(row){
+  public targetRow(row) {
 
   }
 
-  public targetColumn
+  public targetColumn(column) {
+
+  }
+  public targetAll() {
+    this.setMultiCursor();
+  }
+  public untargetAll() {
+    this.unsetMultiCursor();
+  }
 }

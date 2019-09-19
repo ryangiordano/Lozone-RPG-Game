@@ -7,7 +7,7 @@ import { Combatant } from "../Combatant";
 import { UIPanel, PanelContainer } from "../../UI/PanelContainer";
 import { KeyboardControl } from "../../UI/Keyboard";
 import { State } from "../../../utility/state/State";
-import { SpellType } from "../../../data/repositories/SpellRepository";
+import { SpellType, TargetArea } from '../../../data/repositories/SpellRepository';
 import { CombatContainer } from "../combat-grid/CombatContainer";
 
 export class CombatInterface extends UserInterface {
@@ -69,7 +69,7 @@ export class CombatInterface extends UserInterface {
       .addOption("Item", () => {
         if (sm.getConsumeablesOnPlayer().length) {
           this.showPanel(this.itemPanel).focusPanel(this.itemPanel)
-        }else{
+        } else {
           //TODO: Show a battle toast!
         }
       });
@@ -93,35 +93,49 @@ export class CombatInterface extends UserInterface {
     });
   }
   private handleTraversibleTargeting(traversible: TraversibleObject, combatContainer: CombatContainer, combatActionType: CombatActionTypes, data?) {
-    const currentFocused = traversible.getFocusedOption();
-    combatContainer.setCursor(currentFocused.selectableData.entity.sprite)
-    traversible.on('focused', (target) => {
-      const sprite = target.entity.sprite;
-      combatContainer.setCursor(sprite);
-    });
 
-    traversible.on('chosen', (target) => {
-      traversible.off('chosen');
-      combatContainer.showCursor(false);
-      //TODO: Improve this here;
-      let event;
-      switch (combatActionType) {
-        case CombatActionTypes.attack:
-          event = this.createCombatEvent(target)
-          break;
-        case CombatActionTypes.castSpell:
-          event = this.createSpellcastEvent(target, data)
-          break;
-        case CombatActionTypes.useItem:
-          event = this.createItemEvent(target, data)
-          break;
-        default:
-          // Don't know what to do? Just punch them.
-          event = this.createCombatEvent(target)
-          break;
-      }
-      this.events.emit("option-selected", event);
-    });
+    if (data && data.spell.targetType.targetArea === TargetArea.all) {
+      //TODO: Implement attacking all enemies
+      combatContainer.targetAll();
+      traversible.setTargetAll(true);
+      traversible.on('all-chosen',()=>{
+        traversible.off('all-chosen');
+        console.log("All chosen")
+
+      })
+
+    } else {
+      const currentFocused = traversible.getFocusedOption();
+      combatContainer.setCursor(currentFocused.selectableData.entity.sprite)
+      traversible.on('focused', (target) => {
+        const sprite = target.entity.sprite;
+        combatContainer.setCursor(sprite);
+      });
+
+      traversible.on('chosen', (target) => {
+        traversible.off('chosen');
+        combatContainer.showCursor(false);
+        //TODO: Improve this here;
+        let event;
+        switch (combatActionType) {
+          case CombatActionTypes.attack:
+            event = this.createCombatEvent(target)
+            break;
+          case CombatActionTypes.castSpell:
+            event = this.createSpellcastEvent(target, data)
+            break;
+          case CombatActionTypes.useItem:
+            event = this.createItemEvent(target, data)
+            break;
+          default:
+            // Don't know what to do? Just punch them.
+            event = this.createCombatEvent(target)
+            break;
+        }
+        this.events.emit("option-selected", event);
+      });
+    }
+
   }
 
   private createDetailPanel() {
@@ -243,7 +257,6 @@ export class CombatInterface extends UserInterface {
       this.spellPanel.addOption(classSpell.spell.name, () => {
         this.spellPanel.close();
 
-        // Show 
         if (classSpell.spell.type === SpellType.attack) {
           this.showPanel(this.enemyTraversible).focusPanel(this.enemyTraversible);
           this.handleTraversibleTargeting(

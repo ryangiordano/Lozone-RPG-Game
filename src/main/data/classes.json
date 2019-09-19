@@ -46,6 +46,11 @@
                 "requiredLevel":1,
                 "classModifier":1,
                 "spell": 1
+            },
+            {
+                "requiredLevel":1,
+                "classModifier":1,
+                "spell": 11
             }
         ]
     }

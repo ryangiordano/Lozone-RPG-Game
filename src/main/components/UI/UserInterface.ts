@@ -2,6 +2,7 @@ import { UIPanel, PanelContainer } from "./PanelContainer";
 import { KeyboardControl } from "./Keyboard";
 import { createRandom } from '../../utility/Utility';
 import { cursorHover } from '../../utility/tweens/text';
+import { TargetType, TargetArea } from '../../data/repositories/SpellRepository';
 
 export interface Traversible {
   close: Function,
@@ -227,9 +228,10 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
   public focused: boolean = false;
   private options: any[] = []
   public escapable: boolean = true;
+  private targetingMode: TargetArea;
   constructor(scene, private onClose?:Function) {
     super(scene);
-
+    this.targetingMode = TargetArea.single;
   }
 
   public show() {
@@ -269,6 +271,17 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
 
   }
 
+
+  public setAllTarget(){
+    this.emit('all-chosen', this.options);
+  }
+
+  setTargetAll(set:boolean){
+    this.targetingMode = set ? TargetArea.all : TargetArea.single;
+  }
+
+
+
   public focusNextOption() {
     const index = this.getFocusIndex();
     const toFocus = index >= this.options.length - 1 ? 0 : index + 1;
@@ -294,6 +307,9 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
   }
 
   public selectFocusedOption() {
+    if(this.targetingMode === TargetArea.all){
+      return this.emit('all-chosen');
+    }
     const toSelect = this.getFocusedOption();
     if (toSelect && !toSelect.disabled) {
       toSelect.select();
