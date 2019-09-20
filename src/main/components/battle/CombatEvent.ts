@@ -33,7 +33,7 @@ export class CombatEvent {
     public target: Combatant,
     public action: CombatActionTypes,
     protected orientation: Orientation,
-    protected scene: Phaser.Scene
+    protected scene: Phaser.Scene,
   ) {
     this.textFactory = new TextFactory(scene);
     this.effectsRepository = new EffectsRepository(this.scene.game);
