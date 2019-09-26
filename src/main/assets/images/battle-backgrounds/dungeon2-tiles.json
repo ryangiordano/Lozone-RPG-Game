@@ -1,0 +1,15 @@
+{ "columns":6,
+ "image":"..\/..\/tiles\/dungeon-alt.png",
+ "imageheight":768,
+ "imagewidth":768,
+ "margin":0,
+ "name":"dungeon-alt",
+ "spacing":0,
+ "tilecount":36,
+ "tiledversion":"1.2.3",
+ "tileheight":128,
+ "tilewidth":128,
+ "transparentcolor":"#ff00ff",
+ "type":"tileset",
+ "version":1.2
+}

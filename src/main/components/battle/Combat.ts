@@ -153,7 +153,7 @@ export class Combat {
       this.addEvent(
         new CombatEvent(
           enemy.entity,
-          randomPartyMember.entity,
+          [randomPartyMember.entity],
           CombatActionTypes.attack,
           Orientation.right,
           this.scene
@@ -201,19 +201,21 @@ export class Combat {
     }
 
     const combatEvent = this.combatEvents.pop();
-    let result = await combatEvent.executeAction();
+    let results = await combatEvent.executeAction();
     this.updateCombatGrids();
 
     if (combatEvent.type === CombatActionTypes.useItem) {
-      await this.displayMessage(result.message)
+      await Promise.all(results.map(r => this.displayMessage(r.message)));
     }
     // TODO: Hook this up so we don't have to use a wait here.  
     // The goal is to get all of the cels in all of the grids to tell us when every single
     // one is done updating, and only when the last cel is done do we continue.
     // Right now we use wait :x
     await wait(500);
-    const target = result.target;
-    this.resolveTargetDeaths(target);
+    await Promise.all(results.map(r => {
+      const target = r.target;
+      this.resolveTargetDeaths(target);
+    }));
     this.startLoop();
   }
 

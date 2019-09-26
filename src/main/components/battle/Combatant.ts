@@ -107,60 +107,66 @@ export class Combatant {
   removeSpell(spellId) {
     this.spells.delete(spellId);
   }
-  attackTarget(target: Combatant): CombatResult {
+  attackTarget(targets: Combatant[]): CombatResult[] {
     const potency = this.getAttackPower();
-    const damageDone = target.receivePhysicalDamage(potency);
-    return {
-      actionType: CombatActionTypes.attack,
-      executor: this,
-      target,
-      resultingValue: damageDone,
-      targetDown: target.currentHp === 0
-    };
+    return targets.map(t => {
+      const damageDone = t.receivePhysicalDamage(potency);
+      return {
+        actionType: CombatActionTypes.attack,
+        executor: this,
+        target: t,
+        resultingValue: damageDone,
+        targetDown: t.currentHp === 0
+      };
+    })
+
   }
 
-  public castSpell(spell: Spell, target: Combatant): CombatResult {
+  public castSpell(spell: Spell, targets: Combatant[]): CombatResult[] {
     const potency = this.getMagicPower() + spell.basePotency;
-    let resultingValue;
-    switch (spell.type) {
-      case SpellType.attack:
-        resultingValue = target.receiveMagicalDamage(potency);
-        break;
-      case SpellType.restoration:
-        resultingValue = target.healFor(potency);
-        break;
-      default:
-        console.error(`SpellType not supported: ${spell.type}`)
-    }
-    return {
-      actionType: CombatActionTypes.castSpell,
-      executor: this,
-      target: target,
-      resultingValue: resultingValue,
-      targetDown: target.currentHp === 0
-    }
+    const combatResults = targets.map(t => {
+      let resultingValue;
+      switch (spell.type) {
+        case SpellType.attack:
+          resultingValue = t.receiveMagicalDamage(potency);
+        case SpellType.restoration:
+          resultingValue = t.healFor(potency);
+        default:
+          console.error(`SpellType not supported: ${spell.type}`)
+      }
+      return {
+        actionType: CombatActionTypes.castSpell,
+        executor: this,
+        target: t,
+        resultingValue: resultingValue,
+        targetDown: t.currentHp === 0
+      }
+    })
+
+    return combatResults;
   }
 
-  applyItem(item: Item): CombatResult {
+  applyItem(item: Item): CombatResult[] {
     const potency = item.effectPotency * item.effect.basePotency;
     const healedFor = this.healFor(potency);
-    return {
+    return [{
       actionType: CombatActionTypes.attack,
       executor: null,
       target: this,
       resultingValue: healedFor,
       targetDown: this.currentHp === 0
-    };
+    }]
   }
 
-  failedAction(target: Combatant): CombatResult {
-    return {
+  failedAction(targets: Combatant[]): CombatResult[] {
+    const results = targets.map(t => ({
       actionType: CombatActionTypes.failure,
       executor: this,
-      target,
+      target: t,
       resultingValue: 0,
-      targetDown: target.currentHp === 0
-    };
+      targetDown: t.currentHp === 0
+    }))
+    return results;
   }
   receivePhysicalDamage(potency: number) {
     const defensePotency = this.getDefensePower();

@@ -30,7 +30,7 @@ export class CombatEvent {
   protected textFactory: TextFactory;
   constructor(
     public executor: Combatant,
-    public target: Combatant,
+    public targets: Combatant[],
     public action: CombatActionTypes,
     protected orientation: Orientation,
     protected scene: Phaser.Scene,
@@ -39,17 +39,17 @@ export class CombatEvent {
     this.effectsRepository = new EffectsRepository(this.scene.game);
   }
 
-  public async executeAction(): Promise<CombatResult> {
+  public async executeAction(): Promise<CombatResult[]> {
     return new Promise(async resolve => {
       const executor = this.executor;
-      const target = this.confirmTarget();
+      const targets = this.confirmTargets();
       let results;
       // This is where we implement our Actions.ts actions.
       if (this.action === CombatActionTypes.attack) {
-        if (!target || !this.executorIsValid()) {
-          return resolve(this.returnFailedAction(executor, target));
+        if (!targets.length || !this.executorIsValid()) {
+          return resolve(this.returnFailedAction(executor, targets));
         }
-        results = await this.handleAttack(executor, target);
+        results = await this.handleAttack(executor, targets);
       }
       if (this.action === CombatActionTypes.defend) {
         results = await this.handleDefend(executor);
@@ -77,25 +77,20 @@ export class CombatEvent {
 
   protected async handleAttack(
     executor: Combatant,
-    target: Combatant
+    targets: Combatant[]
   ): Promise<any> {
     return new Promise(async resolve => {
       const modifier = this.orientation === Orientation.left ? 1 : -1;
-      const results: CombatResult = executor.attackTarget(target);
+      const results: CombatResult[] = executor.attackTarget(targets);
       await this.playMemberAttack(executor.getSprite(), modifier * 25);
-      await this.playCombatantTakeDamage(target.getSprite());
-      const text = this.createCombatText(
-        results.resultingValue.toString(),
-        this.target
-      );
-
-      await this.playCombatText(text);
-      const message = [
-        `${executor.name} attacks ${target.name} for ${results.resultingValue}`,
-        `${target.name} has ${target.currentHp} HP out of ${target.getMaxHp()} left.`
-      ];
-
-      results.message = message;
+      await Promise.all(targets.map(t => this.playCombatantTakeDamage(t.getSprite())));
+      const texts = results.map(r => this.createCombatText(r.resultingValue.toString(), r.target));
+      await Promise.all(texts.map(t => this.playCombatText(t)));
+      results.forEach(r => {
+        r.message = [`${executor.name} attacks ${r.target.name} for ${r.resultingValue}`,
+        `${r.target.name} has ${r.target.currentHp} HP out of ${r.target.getMaxHp()} left.`];
+        return r;
+      });
       return resolve(results);
     });
   }
@@ -103,9 +98,9 @@ export class CombatEvent {
 
   protected returnFailedAction(
     executor: Combatant,
-    target: Combatant
-  ): CombatResult {
-    return executor.failedAction(target);
+    targets: Combatant[]
+  ): CombatResult[] {
+    return executor.failedAction(targets);
   }
 
   protected createCombatText(
@@ -179,18 +174,24 @@ export class CombatEvent {
     });
   }
 
-  protected confirmTarget(): Combatant {
-    let target = this.target;
-    if (target && target.currentHp <= 0) {
-      const nextTargetable = target
-        .getParty()
-        .members.find(potentialTarget => potentialTarget.entity.currentHp > 0);
-      if (nextTargetable) {
-        this.target = nextTargetable.entity;
-        target = nextTargetable.entity;
+  protected confirmTargets(): Combatant[] {
+    if (this.targets.length > 1) {
+      // Multiple targets
+      this.targets = this.targets.filter(t => t.currentHp <= 0)
+    } else {
+      // Single target
+
+      if (this.targets[0] && this.targets[0].currentHp <= 0) {
+        const nextTargetable = this.targets[0]
+          .getParty()
+          .members.find(potentialTarget => potentialTarget.entity.currentHp > 0);
+        if (nextTargetable) {
+          this.targets = [nextTargetable.entity];
+        }
       }
     }
-    return target;
+
+    return this.targets;
   }
 
   protected executorIsValid(): boolean {
@@ -206,52 +207,68 @@ export class SpellCastEvent extends CombatEvent {
   public type: CombatActionTypes = CombatActionTypes.castSpell;
   constructor(
     executor: Combatant,
-    target: Combatant,
+    targets: Combatant[],
     action: CombatActionTypes,
     orientation: Orientation,
     scene: Phaser.Scene,
     private spell: Spell,
   ) {
-    super(executor, target, action, orientation, scene)
+    super(executor, targets, action, orientation, scene)
   }
   /**
    * Handles the case when a spell is cast.
    * @param executor 
    * @param target 
    */
-  protected async handleSpellCast(executor: Combatant, target: Combatant): Promise<any> {
+  protected async handleSpellCast(executor: Combatant, targets: Combatant[]): Promise<any> {
     return new Promise(async resolve => {
       //TODO: Handle offensive or assistive magic here;
-      const results: CombatResult = executor.castSpell(this.spell, target);
-      const targetSprite = target.getSprite();
-      //TODO: Clean this up because it sucks.
-      await this.spell.animationEffect.play(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer)
+      // Handle mana check.  Lower mana here, NOT in executor.castSpell.  Otherwise, we use mana on every iteration.
 
-      const text = this.createCombatText(
-        results.resultingValue.toString(),
-        this.target,
+      const results: CombatResult[] = executor.castSpell(this.spell, targets);
+
+
+      await Promise.all(results.map(r => {
+        const targetSprite = r.target.getSprite();
+        return this.spell.animationEffect.play(
+          targetSprite.x,
+          targetSprite.y,
+          this.scene,
+          targetSprite.parentContainer)
+      }));
+
+      const texts = results.map(r => this.createCombatText(
+        r.resultingValue.toString(),
+        r.target,
         this.spell.type === SpellType.restoration ? "#92e8a2" : "#ffffff"
-      );
-      await this.playCombatText(text);
-      const message = [
-        `${executor.name} uses the ${this.spell.name} on ${target.name}.  ${target.name} is healed for ${results.resultingValue} HP`,
-        `${target.name} has ${target.currentHp} HP out of ${target.getMaxHp()} left.`
-      ];
-      results.message = message;
-      State.getInstance().consumeItem(this.spell.id);
+      ));
+
+      await Promise.all(texts.map(t => this.playCombatText(t)));
+      results.forEach(r => {
+        const message = [
+          `${executor.name} uses the ${this.spell.name} on ${r.target.name}.  ${r.target.name} is healed for ${r.resultingValue} HP`,
+          `${r.target.name} has ${r.target.currentHp} HP out of ${r.target.getMaxHp()} left.`
+        ];
+        r.message = message;
+      });
+
       return resolve(results);
     });
   }
 
-  public async executeAction(): Promise<CombatResult> {
+  protected async handleMultiSpellCast(executor: Combatant, ) {
+
+  }
+
+  public async executeAction(): Promise<CombatResult[]> {
     return new Promise(async resolve => {
       const executor = this.executor;
-      const target = this.confirmTarget();
+      const targets = this.confirmTargets();
       let results;
-      if (!target || !this.executorIsValid()) {
-        return resolve(this.returnFailedAction(executor, target));
+      if (!targets.length || !this.executorIsValid()) {
+        return resolve(this.returnFailedAction(executor, targets));
       }
-      results = await this.handleSpellCast(executor, target);
+      results = await this.handleSpellCast(executor, targets);
       return resolve(results);
     });
   }
@@ -264,13 +281,13 @@ export class UseItemEvent extends CombatEvent {
   public type: CombatActionTypes = CombatActionTypes.useItem;
   constructor(
     executor: Combatant,
-    target: Combatant,
+    targets: Combatant[],
     action: CombatActionTypes,
     orientation: Orientation,
     scene: Phaser.Scene,
     private item: Item,
   ) {
-    super(executor, target, action, orientation, scene)
+    super(executor, targets, action, orientation, scene)
   }
 
   /**
@@ -278,40 +295,48 @@ export class UseItemEvent extends CombatEvent {
    * @param executor 
    * @param target 
    */
-  protected async handleUseItem(executor: Combatant, target: Combatant): Promise<any> {
+  protected async handleUseItem(executor: Combatant, targets: Combatant[]): Promise<any> {
     return new Promise(async resolve => {
-      const results: CombatResult = target.applyItem(this.item)
-      const targetSprite = target.getSprite();
-      //TODO: Clean this up because it sucks.
-      await this.item.effect.animationEffect.play(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer)
+      const results: CombatResult[] = targets[0].applyItem(this.item);
 
-      const text = this.createCombatText(
-        results.resultingValue.toString(),
-        this.target,
+      await Promise.all(targets.map(async t => {
+        const targetSprite = t.getSprite();
+        await this.item.effect.animationEffect.play(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer);
+      }))
+
+      const texts = results.map(r => this.createCombatText(
+        r.resultingValue.toString(),
+        r.target,
         "#92e8a2"
-      );
-      await this.playCombatText(text);
-      const message = [
-        `${executor.name} uses the ${this.item.name} on ${target.name}.  ${target.name} is healed for ${results.resultingValue} HP`,
-        `${target.name} has ${target.currentHp} HP out of ${target.getMaxHp()} left.`
-      ];
-      results.message = message;
+      ));
+
+      await Promise.all(texts.map(t => this.playCombatText(t)));
+
+      results.forEach(r => {
+        const message = [
+          `${executor.name} uses the ${this.item.name} on ${r.target.name}.  ${r.target.name} is healed for ${r.resultingValue} HP`,
+          `${r.target.name} has ${r.target.currentHp} HP out of ${r.target.getMaxHp()} left.`
+        ];
+        r.message = message;
+
+      })
+
       State.getInstance().consumeItem(this.item.id);
       return resolve(results);
     });
   }
 
-  public async executeAction(): Promise<CombatResult> {
+  public async executeAction(): Promise<CombatResult[]> {
     return new Promise(async resolve => {
       const executor = this.executor;
-      const target = this.confirmTarget();
+      const targets = this.confirmTargets();
       let results;
       // This is where we implement our Actions.ts actions.
       if (this.action === CombatActionTypes.useItem) {
-        if (!target || !this.executorIsValid()) {
-          return resolve(this.returnFailedAction(executor, target));
+        if (!targets.length || !this.executorIsValid()) {
+          return resolve(this.returnFailedAction(executor, targets));
         }
-        results = await this.handleUseItem(executor, target);
+        results = await this.handleUseItem(executor, targets);
       }
       return resolve(results);
     });

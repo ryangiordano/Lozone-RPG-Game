@@ -92,13 +92,17 @@ export class CombatInterface extends UserInterface {
       }
     });
   }
-  private handleTraversibleTargeting(traversible: TraversibleObject, combatContainer: CombatContainer, combatActionType: CombatActionTypes, data?) {
+  private handleTraversibleTargeting(
+    traversible: TraversibleObject,
+    combatContainer: CombatContainer,
+    combatActionType: CombatActionTypes,
+    data?) {
 
     if (data && data.spell.targetType.targetArea === TargetArea.all) {
       //TODO: Implement attacking all enemies
       combatContainer.targetAll();
       traversible.setTargetAll(true);
-      traversible.on('all-chosen',()=>{
+      traversible.on('all-chosen', () => {
         traversible.off('all-chosen');
         console.log("All chosen")
 
@@ -156,11 +160,14 @@ export class CombatInterface extends UserInterface {
 
     this.enemyCombatContainer.getCombatants().forEach(enemyCombatant => {
 
-      this.enemyTraversible.addOption(enemyCombatant, () => {
-        this.enemyTraversible.emit("chosen", enemyCombatant);
-      }, () => {
-        this.enemyTraversible.emit("focused", enemyCombatant);
-      });
+      this.enemyTraversible.addOption(
+        enemyCombatant,
+        () => {
+          this.enemyTraversible.emit("chosen", enemyCombatant);
+        },
+        () => {
+          this.enemyTraversible.emit("focused", enemyCombatant);
+        });
 
     });
   }
@@ -282,7 +289,7 @@ export class CombatInterface extends UserInterface {
   createCombatEvent(target) {
     const event = new CombatEvent(
       this.currentPartyMember,
-      target.entity,
+      [target.entity],
       CombatActionTypes.attack,
       Orientation.left,
       this.scene
@@ -293,7 +300,7 @@ export class CombatInterface extends UserInterface {
   createSpellcastEvent(target, classSpell) {
     const event = new SpellCastEvent(
       this.currentPartyMember,
-      target.entity,
+      [target.entity],
       CombatActionTypes.castSpell,
       Orientation.left,
       this.scene,
@@ -302,10 +309,11 @@ export class CombatInterface extends UserInterface {
     return event;
   }
 
+
   createItemEvent(target, item) {
     const event = new UseItemEvent(
       this.currentPartyMember,
-      target.entity,
+      [target.entity],
       CombatActionTypes.useItem,
       Orientation.left,
       this.scene,
