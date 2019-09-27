@@ -104,22 +104,8 @@ export class CombatInterface extends UserInterface {
       traversible.setTargetAll(true);
       traversible.on('all-chosen', () => {
         traversible.off('all-chosen');
-        console.log("All chosen")
-
-      })
-
-    } else {
-      const currentFocused = traversible.getFocusedOption();
-      combatContainer.setCursor(currentFocused.selectableData.entity.sprite)
-      traversible.on('focused', (target) => {
-        const sprite = target.entity.sprite;
-        combatContainer.setCursor(sprite);
-      });
-
-      traversible.on('chosen', (target) => {
-        traversible.off('chosen');
+        const target = this.enemyCombatContainer.getCombatants();
         combatContainer.showCursor(false);
-        //TODO: Improve this here;
         let event;
         switch (combatActionType) {
           case CombatActionTypes.attack:
@@ -137,6 +123,39 @@ export class CombatInterface extends UserInterface {
             break;
         }
         this.events.emit("option-selected", event);
+//TODO: This emits the event, however it's skipped over during the turn execution phase.
+      })
+
+    } else {
+      traversible.on('chosen', (target) => {
+        traversible.off('chosen');
+        combatContainer.showCursor(false);
+        //TODO: Improve this here;
+        let event;
+        switch (combatActionType) {
+          case CombatActionTypes.attack:
+            event = this.createCombatEvent([target])
+            break;
+          case CombatActionTypes.castSpell:
+            event = this.createSpellcastEvent([target], data)
+            break;
+          case CombatActionTypes.useItem:
+            event = this.createItemEvent([target], data)
+            break;
+          default:
+            // Don't know what to do? Just punch them.
+            event = this.createCombatEvent([target])
+            break;
+        }
+        this.events.emit("option-selected", event);
+      });
+
+      // Handling Focused.
+      const currentFocused = traversible.getFocusedOption();
+      combatContainer.setCursor(currentFocused.selectableData.entity.sprite)
+      traversible.on('focused', (target) => {
+        const sprite = target.entity.sprite;
+        combatContainer.setCursor(sprite);
       });
     }
 
@@ -286,10 +305,10 @@ export class CombatInterface extends UserInterface {
     return this.spellPanel;
   }
 
-  createCombatEvent(target) {
+  createCombatEvent(targets) {
     const event = new CombatEvent(
       this.currentPartyMember,
-      [target.entity],
+      targets.map(t => t.entity),
       CombatActionTypes.attack,
       Orientation.left,
       this.scene
@@ -297,10 +316,10 @@ export class CombatInterface extends UserInterface {
     return event;
   }
 
-  createSpellcastEvent(target, classSpell) {
+  createSpellcastEvent(targets, classSpell) {
     const event = new SpellCastEvent(
       this.currentPartyMember,
-      [target.entity],
+      targets.map(t => t.entity),
       CombatActionTypes.castSpell,
       Orientation.left,
       this.scene,
@@ -310,10 +329,10 @@ export class CombatInterface extends UserInterface {
   }
 
 
-  createItemEvent(target, item) {
+  createItemEvent(targets, item) {
     const event = new UseItemEvent(
       this.currentPartyMember,
-      [target.entity],
+      targets.map(t => t.entity),
       CombatActionTypes.useItem,
       Orientation.left,
       this.scene,

@@ -9,11 +9,16 @@ export class CombatContainer extends Phaser.GameObjects.Container {
   private combatGrid: CombatGrid = new CombatGrid({ x: 3, y: 3 }, 64);
   private cursor: Phaser.GameObjects.Sprite;
   private cursorAnimation: any;
+  private multiCursorContainer: Phaser.GameObjects.Container;
 
   constructor(position: Coords, scene, private combatants: CombatEntity[] = []) {
     super(scene, position.x * 64, position.y * 64);
     this.cursor = new Phaser.GameObjects.Sprite(this.scene, 100, 100, 'cursor');
     this.cursorAnimation = cursorHover(this.cursor, 0, this.scene, () => { });
+    this.multiCursorContainer = new Phaser.GameObjects.Container(this.scene);
+    this.add(this.multiCursorContainer);
+    this.bringToTop(this.multiCursorContainer);
+  
     this.add(this.cursor)
     this.showCursor(false)
   }
@@ -37,7 +42,9 @@ export class CombatContainer extends Phaser.GameObjects.Container {
     this.combatGrid.getAllTargets().forEach(target => {
       // Set a cursor on top of each target's head.
       const cursor = new Phaser.GameObjects.Sprite(this.scene, 100, 100, 'cursor');
-      this.add(cursor);
+      this.multiCursorContainer.add(cursor);
+      this.bringToTop(this.multiCursorContainer);
+      this.multiCursorContainer.bringToTop(cursor);
       cursor.setX(target.getX());
       cursor.setY(target.getY()-(target.get().sprite.height/2));
       const cursorAnimation = cursorHover(cursor, 0, this.scene, () => { });
@@ -46,14 +53,20 @@ export class CombatContainer extends Phaser.GameObjects.Container {
   }
 
   public unsetMultiCursor() {
-    this.getAll('type', 'sprite').forEach(child => {
-      console.log(child)
+    this.multiCursorContainer.getAll('type', 'Sprite').forEach(child => {
+      if(child['texture'].key === 'cursor'){
+
+        child.destroy();
+      }
       // child.destroy()
     });
   }
 
   public showCursor(visible: boolean) {
     this.cursor.visible = visible;
+    if(!visible){
+      this.unsetMultiCursor();
+    }
   }
 
   private beginCursorAnimate() {
