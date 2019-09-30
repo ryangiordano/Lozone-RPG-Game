@@ -129,8 +129,10 @@ export class Combatant {
       switch (spell.type) {
         case SpellType.attack:
           resultingValue = t.receiveMagicalDamage(potency);
+          break;
         case SpellType.restoration:
           resultingValue = t.healFor(potency);
+          break;
         default:
           console.error(`SpellType not supported: ${spell.type}`)
       }

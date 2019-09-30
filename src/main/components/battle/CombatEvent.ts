@@ -177,7 +177,7 @@ export class CombatEvent {
   protected confirmTargets(): Combatant[] {
     if (this.targets.length > 1) {
       // Multiple targets
-      this.targets = this.targets.filter(t => t.currentHp <= 0)
+      this.targets = this.targets.filter(t => t.currentHp > 0)
     } else {
       // Single target
 
@@ -190,7 +190,6 @@ export class CombatEvent {
         }
       }
     }
-
     return this.targets;
   }
 
@@ -226,7 +225,10 @@ export class SpellCastEvent extends CombatEvent {
       // Handle mana check.  Lower mana here, NOT in executor.castSpell.  Otherwise, we use mana on every iteration.
 
       const results: CombatResult[] = executor.castSpell(this.spell, targets);
-
+      console.log(this.spell)
+      if (this.spell.primaryAnimationEffect) {
+        await this.spell.primaryAnimationEffect.play(0, 0, this.scene, targets[0].getSprite().parentContainer);
+      }
 
       await Promise.all(results.map(r => {
         const targetSprite = r.target.getSprite();

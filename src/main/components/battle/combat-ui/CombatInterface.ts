@@ -1,9 +1,8 @@
 import { UserInterface, TraversibleObject } from "../../UI/UserInterface";
 import { TextFactory } from "../../../utility/TextFactory";
 import { CombatEvent, UseItemEvent, SpellCastEvent } from '../CombatEvent';
-import { Orientation, CombatActionTypes, CombatEntity, CombatAction } from '../CombatDataStructures';
+import { Orientation, CombatActionTypes, CombatEntity } from '../CombatDataStructures';
 import { PartyMember } from "../PartyMember";
-import { Combatant } from "../Combatant";
 import { UIPanel, PanelContainer } from "../../UI/PanelContainer";
 import { KeyboardControl } from "../../UI/Keyboard";
 import { State } from "../../../utility/state/State";

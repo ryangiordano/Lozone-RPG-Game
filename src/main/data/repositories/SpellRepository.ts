@@ -6,10 +6,10 @@ export enum SpellType {
     attack,
     status
 }
+
 export enum TargetArea {
     single, all, row, column, self
 }
-
 
 export enum Targeting {
     ally,
@@ -24,7 +24,8 @@ export type TargetType = {
 export type SpellData = {
     id: number,
     name: string,
-    animationEffect: number
+    animationEffect: number,
+    primaryAnimationEffect: number,
     description: string,
     basePotency: number,
     type: SpellType,

@@ -362,6 +362,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "explosion",
+        "url": "./src/main/assets/sprites/explosion.png",
+        "frameConfig": {
+          "frameWidth": 512,
+          "frameHeight": 512
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "cursor",
         "url": "./src/main/assets/sprites/cursor.png",
         "frameConfig": {

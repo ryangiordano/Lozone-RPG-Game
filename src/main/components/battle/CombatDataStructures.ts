@@ -51,6 +51,7 @@ export interface Modifier {
 export interface Spell {
   id: number,
   name: string,
+  primaryAnimationEffect: Effect
   animationEffect: Effect
   description: string,
   basePotency: number,

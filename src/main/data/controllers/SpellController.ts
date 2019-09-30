@@ -13,8 +13,11 @@ export class SpellController {
 
         const spellFromDB = this.spellRepository.getById(id);
         const effect = this.effectsRepository.getById(spellFromDB.animationEffect)
+
+        const primaryAnimationEffect = spellFromDB.primaryAnimationEffect && this.effectsRepository.getById(spellFromDB.primaryAnimationEffect)
         const spellToReturn = {
             ...spellFromDB,
+            primaryAnimationEffect: primaryAnimationEffect, 
             animationEffect: effect,
         }
         return spellToReturn;
