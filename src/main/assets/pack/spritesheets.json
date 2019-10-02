@@ -371,6 +371,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "implosion",
+        "url": "./src/main/assets/sprites/implosion.png",
+        "frameConfig": {
+          "frameWidth": 512,
+          "frameHeight": 512
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "cursor",
         "url": "./src/main/assets/sprites/cursor.png",
         "frameConfig": {

@@ -58,6 +58,16 @@
             },
             "repeat": 0,
             "frameRate": 18
+        },
+        {
+            "key": "implosion",
+            "frames": {
+                "typeOfGeneration": 1,
+                "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                "key": "implosion"
+            },
+            "repeat": 0,
+            "frameRate": 18
         }
     ]
 }

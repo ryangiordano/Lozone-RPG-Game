@@ -99,6 +99,23 @@ export class Combatant {
     this.currentMp = currentMp || this.maxMp;
   }
 
+  private canCastSpell(spell: Spell): boolean {
+    const { manaCost } = spell;
+    return this.currentMp - manaCost >= 0;
+  }
+  /**
+   * Return true if successful, false otherwise.
+   * @param spell 
+   */
+  private subtractSpellCostFromMp(spell: Spell): boolean {
+    const { manaCost } = spell;
+    if (this.currentMp - manaCost >= 0) {
+      this.setCurrentMp(this.currentMp - manaCost);
+      return true;
+    }
+    return false;
+  }
+
   addSpell(spell: Spell) {
     if (!this.spells.has(spell.id)) {
       this.spells.set(spell.id, spell);
@@ -124,28 +141,39 @@ export class Combatant {
 
   public castSpell(spell: Spell, targets: Combatant[]): CombatResult[] {
     const potency = this.getMagicPower() + spell.basePotency;
-    const combatResults = targets.map(t => {
-      let resultingValue;
-      switch (spell.type) {
-        case SpellType.attack:
-          resultingValue = t.receiveMagicalDamage(potency);
-          break;
-        case SpellType.restoration:
-          resultingValue = t.healFor(potency);
-          break;
-        default:
-          console.error(`SpellType not supported: ${spell.type}`)
-      }
-      return {
-        actionType: CombatActionTypes.castSpell,
-        executor: this,
-        target: t,
-        resultingValue: resultingValue,
-        targetDown: t.currentHp === 0
-      }
-    })
+    if (this.canCastSpell(spell)) {
+      this.subtractSpellCostFromMp(spell)
+      const combatResults = targets.map(t => {
+        let resultingValue;
+        switch (spell.type) {
+          case SpellType.attack:
+            resultingValue = t.receiveMagicalDamage(potency);
+            break;
+          case SpellType.restoration:
+            resultingValue = t.healFor(potency);
+            break;
+          default:
+            console.error(`SpellType not supported: ${spell.type}`)
+        }
+        return {
+          actionType: CombatActionTypes.castSpell,
+          executor: this,
+          target: t,
+          resultingValue: resultingValue,
+          targetDown: t.currentHp === 0
+        }
+      });
+      return combatResults;
+    }
 
-    return combatResults;
+    return [{
+      actionType: CombatActionTypes.failure,
+      executor: this,
+      target: null,
+      resultingValue: 0,
+      targetDown: false
+    }]
+
   }
 
   applyItem(item: Item): CombatResult[] {

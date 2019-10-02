@@ -105,7 +105,6 @@ export class CombatInterface extends UserInterface {
     combatActionType: CombatActionTypes,
     targetType: TargetType, 
     data?) {
-    debugger;
 
     if (data && targetType.targetArea === TargetArea.all) {
       //TODO: Implement attacking all enemies
