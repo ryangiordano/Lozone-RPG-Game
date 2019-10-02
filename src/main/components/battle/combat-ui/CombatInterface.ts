@@ -6,7 +6,7 @@ import { PartyMember } from "../PartyMember";
 import { UIPanel, PanelContainer } from "../../UI/PanelContainer";
 import { KeyboardControl } from "../../UI/Keyboard";
 import { State } from "../../../utility/state/State";
-import { SpellType, TargetArea } from '../../../data/repositories/SpellRepository';
+import { SpellType, TargetArea, TargetType, Targeting } from '../../../data/repositories/SpellRepository';
 import { CombatContainer } from "../combat-grid/CombatContainer";
 
 export class CombatInterface extends UserInterface {
@@ -53,7 +53,15 @@ export class CombatInterface extends UserInterface {
     this.mainPanel = this.createUIPanel({ x: 3, y: 3 }, { x: 0, y: 6 }, false)
       .addOption("Attack", () => {
         this.showPanel(this.enemyTraversible).focusPanel(this.enemyTraversible);
-        this.handleTraversibleTargeting(this.enemyTraversible, this.enemyCombatContainer, CombatActionTypes.attack);
+        this.handleTraversibleTargeting(
+          this.enemyTraversible, 
+          this.enemyCombatContainer, 
+          CombatActionTypes.attack,
+          {
+            targetArea: TargetArea.single,
+            targeting: Targeting.enemy
+          }
+          );
       })
       .addOption("Defend", () => {
         const event = new CombatEvent(
@@ -95,34 +103,36 @@ export class CombatInterface extends UserInterface {
     traversible: TraversibleObject,
     combatContainer: CombatContainer,
     combatActionType: CombatActionTypes,
+    targetType: TargetType, 
     data?) {
+    debugger;
 
-    if (data && data.spell.targetType.targetArea === TargetArea.all) {
+    if (data && targetType.targetArea === TargetArea.all) {
       //TODO: Implement attacking all enemies
       combatContainer.targetAll();
       traversible.setTargetAll(true);
       traversible.on('all-chosen', () => {
         traversible.off('all-chosen');
-        const target = this.enemyCombatContainer.getCombatants();
+        const targets = targetType.targeting === Targeting.enemy ? this.enemyCombatContainer.getCombatants() : this.partyCombatContainer.getCombatants();
         combatContainer.showCursor(false);
         let event;
         switch (combatActionType) {
           case CombatActionTypes.attack:
-            event = this.createCombatEvent(target)
+            event = this.createCombatEvent(targets)
             break;
           case CombatActionTypes.castSpell:
-            event = this.createSpellcastEvent(target, data)
+            event = this.createSpellcastEvent(targets, data)
             break;
           case CombatActionTypes.useItem:
-            event = this.createItemEvent(target, data)
+            event = this.createItemEvent(targets, data)
             break;
           default:
             // Don't know what to do? Just punch them.
-            event = this.createCombatEvent(target)
+            event = this.createCombatEvent(targets)
             break;
         }
         this.events.emit("option-selected", event);
-//TODO: This emits the event, however it's skipped over during the turn execution phase.
+        //TODO: This emits the event, however it's skipped over during the turn execution phase.
       })
 
     } else {
@@ -218,11 +228,11 @@ export class CombatInterface extends UserInterface {
       this.itemPanel.addOption(`${item.name} x${item.quantity}`, () => {
         this.itemPanel.close();
         this.showPanel(this.partyTraversible).focusPanel(this.partyTraversible);
-
         this.handleTraversibleTargeting(
           this.partyTraversible,
           this.partyCombatContainer,
           CombatActionTypes.useItem,
+          item.effect.targetType,
           item);
       })
     });
@@ -288,6 +298,7 @@ export class CombatInterface extends UserInterface {
             this.enemyTraversible,
             this.enemyCombatContainer,
             CombatActionTypes.castSpell,
+            classSpell.spell.targetType,
             classSpell);
         }
 
@@ -297,6 +308,7 @@ export class CombatInterface extends UserInterface {
             this.partyTraversible,
             this.partyCombatContainer,
             CombatActionTypes.castSpell,
+            classSpell.spell.targetType,
             classSpell)
         }
 
