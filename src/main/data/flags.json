@@ -67,79 +67,97 @@
     },
     "13": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "14": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "15": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "16": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "17": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "18": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "19": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "20": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "21": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "22": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "23": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "24": {
         "name": "chest",
-        "description": "Some random door",
+        "description": "Some chest",
         "type": 0,
         "flagged": false
     },
     "25": {
         "name": "chest",
         "description": "Locked chest in room",
+        "type": 0,
+        "flagged": false
+    },
+    "26": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "27": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "28": {
+        "name": "chest",
+        "description": "Some random chest",
         "type": 0,
         "flagged": false
     },

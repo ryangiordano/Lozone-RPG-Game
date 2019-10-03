@@ -497,7 +497,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":8
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -519,7 +519,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":3
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -541,7 +541,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"chest",

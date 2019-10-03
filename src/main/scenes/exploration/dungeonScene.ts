@@ -18,7 +18,7 @@ export class DungeonScene extends Explore {
     this.keyboardControl = new KeyboardControl(this);
     this.keyboardControl.setupKeyboardControl();
   }
-  
+
   public afterCreated() {
     this.player.on('finished-movement', () => {
       if (this.hasRandomEncounter() && this.enemyPartyIds) {

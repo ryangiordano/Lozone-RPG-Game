@@ -225,7 +225,6 @@ export class SpellCastEvent extends CombatEvent {
       // Handle mana check.  Lower mana here, NOT in executor.castSpell.  Otherwise, we use mana on every iteration.
 
       const results: CombatResult[] = executor.castSpell(this.spell, targets);
-      console.log(this.spell)
       if (this.spell.primaryAnimationEffect) {
         await this.spell.primaryAnimationEffect.play(0, 0, this.scene, targets[0].getSprite().parentContainer);
       }

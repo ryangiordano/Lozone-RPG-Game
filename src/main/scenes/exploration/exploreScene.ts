@@ -7,6 +7,8 @@ import { KeyboardControl } from '../../components/UI/Keyboard';
 import { WarpUtility } from '../../utility/exploration/Warp';
 import { MapObjectFactory } from '../../utility/exploration/ObjectLoader';
 import { EffectsRepository } from '../../data/repositories/EffectRepository';
+import { textScaleUp } from '../../utility/tweens/text';
+import { Item } from '../../components/entities/Item';
 
 class EntityGroup extends Phaser.GameObjects.Group {
 
@@ -244,15 +246,32 @@ export abstract class Explore extends Phaser.Scene {
     this.foregroundLayer.setName("foreground");
   }
 
-  async acquiredItemCallback({ itemId, flagId }) {
+  async acquiredItemCallback({ itemId, flagId, chestCoords }) {
     const sm = State.getInstance();
     const item = sm.addItemToContents(itemId);
     sm.setFlag(flagId, true);
     this.player.controllable.canInput = false;
     this.sound.play(item.collectSound, { volume: 0.1 });
+    // item float above here
+    await this.animateItemAbove(item, { x: chestCoords.x, y: chestCoords.y })
+
     await this.displayMessage([`Lo got ${item.name}`]);
     await wait(300)
     this.player.controllable.canInput = true;
+  }
+
+  async animateItemAbove(item: Item, coords: Coords) {
+    return new Promise((resolve) => {
+      const itemSprite = new Phaser.GameObjects.Sprite(this, coords.x, coords.y, item.spriteKey);
+      itemSprite.setFrame(item.frame)
+      this.add.existing(itemSprite)
+      const tween = textScaleUp(itemSprite, 0, this, () => {
+        itemSprite.destroy();
+        resolve();
+      });
+      tween.play();
+    })
+
   }
 
   displayMessage(message: string[]): Promise<any> {

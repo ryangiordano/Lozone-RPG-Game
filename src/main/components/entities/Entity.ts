@@ -161,22 +161,23 @@ export class Chest extends Entity {
       this.currentScene.sound.play("chest", { volume: 0.1 });
       this.currentScene.events.emit("item-acquired", {
         itemId: this.properties["itemId"],
-        flagId: this.properties["id"]
+        flagId: this.properties["id"],
+        chestCoords: { x: this.x, y: this.y }
       });
-    }
   }
+}
   public setOpen() {
-    this.open = true;
-    this.unlockItemId ? this.setFrame(5, false) : this.setFrame(1, false);
-  }
+  this.open = true;
+  this.unlockItemId ? this.setFrame(5, false) : this.setFrame(1, false);
+}
   public lock() {
-    this.locked = true;
-    this.setFrame(4, false)
-  }
+  this.locked = true;
+  this.setFrame(4, false)
+}
   public unlock() {
-    this.currentScene.sound.play("unlock", { volume: 0.1 });
-    this.locked = false;
-  }
+  this.currentScene.sound.play("unlock", { volume: 0.1 });
+  this.locked = false;
+}
 }
 
 /**
@@ -198,7 +199,8 @@ export class KeyItem extends Entity {
     this.currentScene.events.emit("item-acquired", {
       itemId: this.properties["itemId"],
       flagId: this.properties["flagId"],
-      isKeyItem: true
+      isKeyItem: true,
+      chestCoords: { x: this.x, y: this.y }
     });
     this.setCollideOnTileBelowFoot(false);
     this.destroy();
