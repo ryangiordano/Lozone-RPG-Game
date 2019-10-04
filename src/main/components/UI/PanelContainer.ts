@@ -4,7 +4,6 @@ import { Traversible, Selectable, HasOptions, } from "./UserInterface";
 export class PanelContainer extends Phaser.GameObjects.Container implements Traversible {
   public panel: Phaser.GameObjects.RenderTexture;
   public focused: boolean = false;
-  public options: any[] = [];
   public padding: number = 6;
   public childPanels: Map<string, PanelContainer>;
 
@@ -86,15 +85,18 @@ export class PanelContainer extends Phaser.GameObjects.Container implements Trav
     });
   }
   public clearPanelContainerByTypes(types: string[]) {
-    types.forEach(type=>this.clearPanelContainerByType(type));
+    types.forEach(type => this.clearPanelContainerByType(type));
   }
-  
-  public handleClose(){
+
+  public handleClose() {
     //To Implement;
   }
 }
 
 export class UIPanel extends PanelContainer implements HasOptions {
+  public options: any[] = [];
+  public visibleOptions: any[] = [];
+
   constructor(dimensions: Coords,
     pos: Coords,
     spriteKey: string,
@@ -102,8 +104,15 @@ export class UIPanel extends PanelContainer implements HasOptions {
     public escapable: boolean = true,
     id?: string) {
     super(dimensions, pos, spriteKey, scene, id);
-  }
 
+  }
+  private getNumberOfVisibleOptions() {
+    if (this.options.length) {
+      return Math.ceil(this.panel.height / this.options[0].height);
+    }
+    return 1;
+  }
+  
   public addOption(text: string, selectCallback: Function, focusCallback?: Function): UIPanel {
     const lastItem = <Phaser.GameObjects.Text>this.options[this.options.length - 1];
     const x = 0;
@@ -115,7 +124,9 @@ export class UIPanel extends PanelContainer implements HasOptions {
     }, selectCallback, focusCallback);
     toAdd.setPadding(30, 0, 0, 0);
     this.add(toAdd);
-    this.options.push(toAdd)
+    this.options.push(toAdd);
+
+    console.log(this.getNumberOfVisibleOptions())
     return this;
   }
 

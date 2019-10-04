@@ -87,6 +87,11 @@ export class CombatInterface extends UserInterface {
       this.mainPanel.addOption("Spells", () => this.showPanel(this.spellPanel).focusPanel(this.spellPanel))
     }
 
+    this.mainPanel.addOption("Filler", () => console.log("Why not who cares"))
+    this.mainPanel.addOption("Filler", () => console.log("Why not who cares"))
+    this.mainPanel.addOption("Filler", () => console.log("Why not who cares"))
+    this.mainPanel.addOption("Filler", () => console.log("Why not who cares"))
+
     //TODO: Scrollable panels;
     this.mainPanel.addOption("Run", () => {
       this.scene.events.emit("run-battle");
