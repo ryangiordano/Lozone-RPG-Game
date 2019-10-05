@@ -4,7 +4,8 @@ import { Effect } from "../../components/battle/CombatDataStructures";
 export enum SpellType {
     restoration,
     attack,
-    status
+    status,
+    manaRecover
 }
 
 export enum TargetArea {

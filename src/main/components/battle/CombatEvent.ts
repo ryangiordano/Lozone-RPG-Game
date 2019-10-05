@@ -237,11 +237,24 @@ export class SpellCastEvent extends CombatEvent {
           this.scene,
           targetSprite.parentContainer)
       }));
-
+      let color;
+      switch (this.spell.type) {
+        case SpellType.restoration:
+          color = "#92e8a2";
+          break;
+        case SpellType.attack:
+          color = "#ffffff";
+          break;
+        case SpellType.manaRecover:
+          color = "#3181f7";
+          break;
+        default:
+          color = "#ffffff";
+      }
       const texts = results.map(r => this.createCombatText(
         r.resultingValue.toString(),
         r.target,
-        this.spell.type === SpellType.restoration ? "#92e8a2" : "#ffffff"
+        color
       ));
 
       await Promise.all(texts.map(t => this.playCombatText(t)));

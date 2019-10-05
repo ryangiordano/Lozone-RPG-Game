@@ -73,6 +73,35 @@
       "targetArea": 1
     },
     "status": []
+  },
+  "12": {
+    "id": 1,
+    "name": "Debug Nuke",
+    "primaryAnimationEffect":4,
+    "animationEffect": 2,
+    "description": "Fuck game logic.",
+    "basePotency": 100,
+    "type":1,
+    "manaCost": 13,
+    "targetType": {
+      "targeting": 1,
+      "targetArea": 1
+    },
+    "status": []
+  },
+  "4": {
+    "id": 2,
+    "name": "Replenish",
+    "primaryAnimationEffect": null,
+    "animationEffect": 1,
+    "description": "Restore some MP.",
+    "basePotency": 10,
+    "type":3,
+    "manaCost": 0,
+    "targetType": {
+      "targeting": 0,
+      "targetArea": 0
+    },
+    "status": []
   }
-
 }

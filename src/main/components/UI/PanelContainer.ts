@@ -138,18 +138,16 @@ export class UIPanel extends PanelContainer implements HasOptions {
     const endWindow = startWindow + this.getNumberOfVisibleOptions();
     const options = [...this.options];
     this.resetOptions();
-    const toAdd = options.filter((o, i) =>{
+    const toAdd = options.filter((o, i) => {
       return i >= startWindow && i <= endWindow
-    } );
+    });
     let lastPlacement = 20;
-    toAdd.forEach((o,i) => {
-      console.log(`index: ${options.indexOf(o)}, start window: ${startWindow} end window: ${endWindow}`)
+    toAdd.forEach((o, i) => {
       o.y = i > 0 ? lastPlacement + 40 : lastPlacement;
       lastPlacement = o.y;
       this.add(o);
     });
     this.options = options;
-    console.log('--------------------------------------')
   }
 
   resetOptions() {
@@ -162,15 +160,10 @@ export class UIPanel extends PanelContainer implements HasOptions {
   }
 
   public focusOption(index: number) {
-
     this.options.forEach((option, i) => {
-
       if (i === index) {
         this.focusedIndex = i;
-        // this.readjustOptionsForWindow();
-
-
-        if(this.options.length > this.getNumberOfVisibleOptions()){
+        if (this.options.length > this.getNumberOfVisibleOptions()) {
           this.readjustOptionsForWindow();
         }
         option.focused = true;

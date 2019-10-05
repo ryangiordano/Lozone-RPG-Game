@@ -57,15 +57,19 @@ export class State {
   getItemOnPlayer(id: string | number) {
     return this.playerContents.getItemOnPlayer(id);
   }
+  playerHasItem(id: string | number) {
+    const item = this.playerContents.getItemOnPlayer(id);
+    return item && item.quantity > 0;
+  }
   getItemsOnPlayer() {
     return this.playerContents.getItemsOnPlayer();
   }
-  getConsumeablesOnPlayer(){
-    return this.playerContents.getItemsOnPlayer().filter(item=>item.category === ItemCategory.consumable)
+  getConsumeablesOnPlayer() {
+    return this.playerContents.getItemsOnPlayer().filter(item => item.category === ItemCategory.consumable)
   }
 
   public getCurrentParty() {
-    
+
     return this.party;
   }
 
@@ -82,15 +86,15 @@ export class State {
     const combatEntities = [
       {
         entity: this.partyController.getPartyMemberById(1),
-        position: {x:0,y:0}
+        position: { x: 0, y: 0 }
       },
       {
         entity: this.partyController.getPartyMemberById(2),
-        position: {x:1,y:1}
+        position: { x: 1, y: 1 }
       },
       {
         entity: this.partyController.getPartyMemberById(3),
-        position: {x:0,y:2}
+        position: { x: 0, y: 2 }
       }
     ]
     this.party = new HeroParty(combatEntities, this.game);

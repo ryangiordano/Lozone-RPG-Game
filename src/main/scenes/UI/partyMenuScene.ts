@@ -7,6 +7,7 @@ import { TextFactory } from '../../utility/TextFactory';
 import { Bar, HpBar, MpBar, XpBar } from '../../components/UI/Bars';
 import { CombatEntity } from '../../components/battle/CombatDataStructures';
 import { Item } from '../../components/entities/Item';
+import { SpellType } from '../../data/repositories/SpellRepository';
 
 export class PartyMenuScene extends Phaser.Scene {
   private partyMenuContainer: PartyMenuContainer;
@@ -114,7 +115,6 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
     currentMember.focus();
     if (this.partyMenuType === PartyMenuTypes.itemUse) {
       this.partyMessagePanel.displayMessage(`Use ${this.entity.name} on ${currentMember.partyMember.name}?`);
-
     }
     if (this.partyMenuType === PartyMenuTypes.statusCheck) {
       this.partyMessagePanel.populateStatsPanel(currentMember.partyMember);
@@ -174,19 +174,42 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
       const state = State.getInstance();
 
       // This isn't working TODO
-      if (!state.getItemOnPlayer(this.entity.id)) {
+      if (!state.playerHasItem(this.entity.id)) {
         this.partyMessagePanel.displayMessage(`You have no ${this.entity.name} left!`);
+        return;
       }
-      if (partyMember.currentHp < partyMember.getMaxHp() && this.entity.quantity > 0) {
+      let resource;
+      let resourceFull;
+      let resourceRecoverFunction;
+      switch (this.entity.effect.type) {
+        case SpellType.manaRecover:
+          resource = 'MP';
+          resourceFull = partyMember.currentMp >= partyMember.getMaxMp();
+          resourceRecoverFunction = partyMember.recoverManaFor;
+          break;
+        case SpellType.restoration:
+          resource = 'HP';
+          resourceFull = partyMember.currentHp >= partyMember.getMaxHp();
+          resourceRecoverFunction = partyMember.healFor;
+          break;
+        default:
+          break;
+      }
+
+
+      if (!resourceFull) {
         state.consumeItem(this.entity.id);
-        const healedFor = partyMember.healFor(potency);
-        this.partyMessagePanel.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${healedFor} HP.`);
+
+        const recoveredFor = resourceRecoverFunction.call(partyMember, potency);
+
+        this.partyMessagePanel.displayMessage(`Used ${this.entity.name} on ${partyMember.name}.  Recovered ${recoveredFor} ${resource}.`);
         panel.setHp(partyMember.currentHp);
+        panel.setMp(partyMember.currentMp);
 
         this.playHealAnimation(panel, this.entity);
 
       } else {
-        this.partyMessagePanel.displayMessage(`${partyMember.name} already has full HP!`);
+        this.partyMessagePanel.displayMessage(`${partyMember.name} already has full ${resource}!`);
       }
       return;
     }

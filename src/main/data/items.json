@@ -207,5 +207,16 @@
     "category": "loot",
     "value": 500,
     "collectSound": "item-collect"
+  },
+  "20": {
+    "name": "passion fruit",
+    "description": "A passionate fruit.  Restores a small amount of MP.",
+    "spellId": 4,
+    "effectPotency": 1,
+    "spriteKey": "items",
+    "frame": 19,
+    "category": "consumable",
+    "value": 10,
+    "collectSound": "item-collect"
   }
 }
