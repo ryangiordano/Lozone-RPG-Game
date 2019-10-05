@@ -6,7 +6,7 @@ import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 import { TextFactory } from '../../utility/TextFactory';
 import { Bar, HpBar, MpBar, XpBar } from '../../components/UI/Bars';
 import { CombatEntity } from '../../components/battle/CombatDataStructures';
-import { Item } from '../../components/entities/Item';
+import { Item, handleItemUse } from '../../components/entities/Item';
 import { SpellType } from '../../data/repositories/SpellRepository';
 
 export class PartyMenuScene extends Phaser.Scene {
@@ -178,23 +178,8 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
         this.partyMessagePanel.displayMessage(`You have no ${this.entity.name} left!`);
         return;
       }
-      let resource;
-      let resourceFull;
-      let resourceRecoverFunction;
-      switch (this.entity.effect.type) {
-        case SpellType.manaRecover:
-          resource = 'MP';
-          resourceFull = partyMember.currentMp >= partyMember.getMaxMp();
-          resourceRecoverFunction = partyMember.recoverManaFor;
-          break;
-        case SpellType.restoration:
-          resource = 'HP';
-          resourceFull = partyMember.currentHp >= partyMember.getMaxHp();
-          resourceRecoverFunction = partyMember.healFor;
-          break;
-        default:
-          break;
-      }
+      
+      const {resourceFull, resourceRecoverFunction, resource} = handleItemUse(partyMember, this.entity);
 
 
       if (!resourceFull) {

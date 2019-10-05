@@ -1,4 +1,6 @@
-import { Effect, Spell } from "../battle/CombatDataStructures";
+import { Spell } from "../battle/CombatDataStructures";
+import { SpellType } from "../../data/repositories/SpellRepository";
+import { Combatant } from "../battle/Combatant";
 
 export enum ItemCategory {
   consumable,
@@ -50,5 +52,47 @@ export class Item {
   }
   public setQuantity(amount: number) {
     this.quantity = amount;
+  }
+}
+
+type ItemUseObject = {
+  resource: string,
+  resourceFull: boolean,
+  resourceRecoverFunction: Function,
+  item: Item
+}
+
+
+/**
+ * Returns an object with meta-data pertaining to whether we can use an item on a target,
+ * and which function to invoke when using the item, and the type of resource
+ * the item affects.
+ * Returns an object with whether the 
+ * @param member The recipient of the item use
+ * @param item The item being used
+ */
+export const handleItemUse = (target: Combatant, item: Item): ItemUseObject => {
+  let resource;
+  let resourceFull;
+  let resourceRecoverFunction;
+  switch (item.effect.type) {
+    case SpellType.manaRecover:
+      resource = 'MP';
+      resourceFull = target.currentMp >= target.getMaxMp();
+      resourceRecoverFunction = target.recoverManaFor;
+      break;
+    case SpellType.restoration:
+      resource = 'HP';
+      resourceFull = target.currentHp >= target.getMaxHp();
+      resourceRecoverFunction = target.healFor;
+      break;
+    default:
+      break;
+  }
+  return {
+    item,
+    resource,
+    resourceFull,
+    resourceRecoverFunction
   }
 }

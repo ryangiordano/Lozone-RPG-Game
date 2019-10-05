@@ -214,7 +214,7 @@
     "spellId": 4,
     "effectPotency": 1,
     "spriteKey": "items",
-    "frame": 19,
+    "frame": 17,
     "category": "consumable",
     "value": 10,
     "collectSound": "item-collect"

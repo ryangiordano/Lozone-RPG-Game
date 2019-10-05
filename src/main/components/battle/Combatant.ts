@@ -10,7 +10,7 @@ import {
 import { getUID, Directions } from "../../utility/Utility";
 import { Defend } from "./Actions";
 import { Buff } from "./Buff";
-import { Item } from "../entities/Item";
+import { Item, handleItemUse } from "../entities/Item";
 import { SpellType } from "../../data/repositories/SpellRepository";
 
 export class Combatant {
@@ -178,7 +178,8 @@ export class Combatant {
 
   applyItem(item: Item): CombatResult[] {
     const potency = item.effectPotency * item.effect.basePotency;
-    const healedFor = this.healFor(potency);
+    const {resourceRecoverFunction} = handleItemUse(this, item);
+    const healedFor = resourceRecoverFunction.call(this, potency);
     return [{
       actionType: CombatActionTypes.attack,
       executor: null,

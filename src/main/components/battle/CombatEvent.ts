@@ -10,7 +10,7 @@ import {
   characterAttack,
   characterDamage
 } from "../../utility/tweens/character";
-import { Item } from '../entities/Item';
+import { Item, handleItemUse } from '../entities/Item';
 import { State } from "../../utility/state/State";
 import { SpellController } from "../../data/controllers/SpellController";
 import { EffectsRepository } from '../../data/repositories/EffectRepository';
@@ -316,7 +316,9 @@ export class UseItemEvent extends CombatEvent {
       await Promise.all(targets.map(async t => {
         const targetSprite = t.getSprite();
         await this.item.effect.animationEffect.play(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer);
-      }))
+      }));
+
+      const {resource} = handleItemUse(targets[0], this.item);
 
       const texts = results.map(r => this.createCombatText(
         r.resultingValue.toString(),
@@ -328,8 +330,7 @@ export class UseItemEvent extends CombatEvent {
 
       results.forEach(r => {
         const message = [
-          `${executor.name} uses the ${this.item.name} on ${r.target.name}.  ${r.target.name} is healed for ${r.resultingValue} HP`,
-          `${r.target.name} has ${r.target.currentHp} HP out of ${r.target.getMaxHp()} left.`
+          `${executor.name} uses the ${this.item.name} on ${r.target.name}.  ${r.target.name} restores ${r.resultingValue} ${resource}`
         ];
         r.message = message;
 
