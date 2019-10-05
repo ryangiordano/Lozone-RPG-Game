@@ -352,7 +352,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",

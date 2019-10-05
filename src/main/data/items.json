@@ -126,7 +126,7 @@
     "spellId": null,
     "effectPotency": null,
     "spriteKey": "items",
-    "frame": 11,
+    "frame": 12,
     "category": "loot",
     "value": 200,
     "collectSound": "item-collect"

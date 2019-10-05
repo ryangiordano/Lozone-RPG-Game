@@ -352,7 +352,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -446,6 +446,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -482,6 +487,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -489,6 +499,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -500,6 +515,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -507,6 +527,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -527,6 +552,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -543,6 +573,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -563,6 +598,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -579,6 +619,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -599,6 +644,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -606,6 +656,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -617,6 +672,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -626,6 +686,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -633,6 +698,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -653,6 +723,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -660,6 +735,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -671,6 +751,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -678,6 +763,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -696,6 +786,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -725,6 +820,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -732,6 +832,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -752,6 +857,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -759,6 +869,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -770,6 +885,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -777,6 +897,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -788,6 +913,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -795,6 +925,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -806,6 +941,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -813,6 +953,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -824,6 +969,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -831,6 +981,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -842,6 +997,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -849,6 +1009,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -860,6 +1025,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -867,6 +1037,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -905,6 +1080,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -912,6 +1092,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -923,6 +1108,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -930,6 +1120,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -941,6 +1136,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -948,6 +1148,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]
@@ -959,6 +1164,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -968,6 +1178,11 @@
                          "name":"collide",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -975,6 +1190,11 @@
                  "properties":[
                         {
                          "name":"collide",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
                          "type":"bool",
                          "value":true
                         }]

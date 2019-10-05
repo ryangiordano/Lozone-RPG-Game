@@ -66,7 +66,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -88,7 +88,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -110,7 +110,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":1
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -132,7 +132,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":1
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -154,7 +154,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":2
+                         "value":19
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -176,7 +176,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -220,7 +220,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -242,7 +242,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -308,7 +308,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":3
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -347,7 +347,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":10
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -453,7 +453,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":19
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -475,7 +475,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -497,7 +497,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":8
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -563,7 +563,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -585,7 +585,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":10
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -607,7 +607,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":3
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -629,7 +629,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":17
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -651,7 +651,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -673,7 +673,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -695,7 +695,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -739,7 +739,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":20
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -761,7 +761,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"chest",
@@ -805,7 +805,7 @@
                         {
                          "name":"itemId",
                          "type":"int",
-                         "value":1
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"chest",
