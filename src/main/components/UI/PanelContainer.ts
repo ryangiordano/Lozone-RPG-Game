@@ -95,7 +95,7 @@ export class PanelContainer extends Phaser.GameObjects.Container implements Trav
 
 export class UIPanel extends PanelContainer implements HasOptions {
   public options: any[] = [];
-  public visibleOptions: any[] = [];
+  private focusedIndex: number = 0;
 
   constructor(dimensions: Coords,
     pos: Coords,
@@ -108,26 +108,53 @@ export class UIPanel extends PanelContainer implements HasOptions {
   }
   private getNumberOfVisibleOptions() {
     if (this.options.length) {
-      return Math.ceil(this.panel.height / this.options[0].height);
+      return Math.floor(this.panel.height / this.options[0].height);
     }
     return 1;
   }
-  
+
+  public show() {
+    this.visible = true;
+    this.readjustOptionsForWindow();
+    this.showChildren();
+  }
+
   public addOption(text: string, selectCallback: Function, focusCallback?: Function): UIPanel {
     const lastItem = <Phaser.GameObjects.Text>this.options[this.options.length - 1];
-    const x = 0;
-    const y = lastItem ? lastItem.y + 40 : 20;
-    const toAdd = new DialogListItem(this.scene, x, y, text, {
+    // const x = 0;
+    // const y = lastItem ? lastItem.y + 40 : 20;
+    const toAdd = new DialogListItem(this.scene, 0, 0, text, {
       fontFamily: 'pixel',
       fontSize: '32px',
       fill: '#000000',
     }, selectCallback, focusCallback);
     toAdd.setPadding(30, 0, 0, 0);
-    this.add(toAdd);
     this.options.push(toAdd);
-
-    console.log(this.getNumberOfVisibleOptions())
     return this;
+  }
+
+  public readjustOptionsForWindow() {
+    const startWindow = this.focusedIndex;
+    const endWindow = startWindow + this.getNumberOfVisibleOptions();
+    const options = [...this.options];
+    this.resetOptions();
+    const toAdd = options.filter((o, i) =>{
+      return i >= startWindow && i <= endWindow
+    } );
+    let lastPlacement = 20;
+    toAdd.forEach((o,i) => {
+      console.log(`index: ${options.indexOf(o)}, start window: ${startWindow} end window: ${endWindow}`)
+      o.y = i > 0 ? lastPlacement + 40 : lastPlacement;
+      lastPlacement = o.y;
+      this.add(o);
+    });
+    this.options = options;
+    console.log('--------------------------------------')
+  }
+
+  resetOptions() {
+    this.remove(this.options);
+
   }
 
   public removeOption(name: string) {
@@ -135,8 +162,17 @@ export class UIPanel extends PanelContainer implements HasOptions {
   }
 
   public focusOption(index: number) {
+
     this.options.forEach((option, i) => {
+
       if (i === index) {
+        this.focusedIndex = i;
+        // this.readjustOptionsForWindow();
+
+
+        if(this.options.length > this.getNumberOfVisibleOptions()){
+          this.readjustOptionsForWindow();
+        }
         option.focused = true;
         option.focus();
       } else {
