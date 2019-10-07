@@ -23,6 +23,7 @@ export class CombatScene extends Phaser.Scene {
     this.sound.add("dead");
     this.sound.add("level-up");
     this.sound.add('battle');
+    this.sound.add('coin');
     this.sound.add('victory');
     this.levelUp = this.sound.add('level-up');
     this.enemyController = new EnemyController(this.game);

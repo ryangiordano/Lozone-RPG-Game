@@ -125,7 +125,7 @@ export class CombatEvent {
 
   public playCombatText(textObject): Promise<any> {
     return new Promise(resolve => {
-      const tween = textScaleUp(textObject, 0, this.scene, () => {
+      const tween = textScaleUp(textObject, 0, -80, this.scene, () => {
         textObject.destroy();
         resolve();
       });

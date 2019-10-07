@@ -69,14 +69,14 @@ export const scaleUpDown = (target, scene, onComplete)=>{
   return timeline;
 } 
 
-export const textScaleUp = (target, delay, scene: Phaser.Scene, onComplete) => {
+export const textScaleUp = (target, delay, height=-80, scene: Phaser.Scene, onComplete) => {
   const timeline = scene.tweens.createTimeline({
     targets: target,
     ease: "Linear",
     loop: false,
     delay
   });
-  timeline.add(scaleFadeIn(target));
+  timeline.add(scaleFadeIn(target, height));
   timeline.add(boing(target));
   timeline.add(fadeOut(target));
   timeline.setCallback("onComplete", onComplete);

@@ -124,6 +124,11 @@
         "type": "audio",
         "key": "large-flame",
         "url": "./src/main/assets/sounds/large-flame.wav"
+      },
+      {
+        "type": "audio",
+        "key": "coin",
+        "url": "./src/main/assets/sounds/coin.wav"
       }
     ]
   }

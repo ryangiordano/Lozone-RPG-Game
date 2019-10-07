@@ -1,4 +1,4 @@
-import { scaleUpDown, slowScaleUp } from './../../utility/tweens/text';
+import { scaleUpDown, slowScaleUp, textScaleUp } from './../../utility/tweens/text';
 import { Combatant } from "./Combatant";
 import {
   CombatActionTypes,
@@ -310,14 +310,16 @@ export class Combat {
       const coinText = tf.createText(`${target.goldValue} coins`, { x: sprite.x, y: sprite.y }, '32px', {
         fill: '#ffffff'
       });
+      this.scene.sound.play('coin', { volume: .4 })
+
       container.add(coinText);
       return new Promise((resolve) => {
-        slowScaleUp(coinText, this.scene, () => {
+        textScaleUp(coinText,0, -120, this.scene, () => {
           resolve();
         }).play();
       });
     }
-    await coinScaleUp()
+    coinScaleUp()
 
     // ===================================
     // items
@@ -342,7 +344,7 @@ export class Combat {
       });
       container.add(coinText);
       return new Promise((resolve) => {
-        slowScaleUp(coinText, this.scene, () => {
+        textScaleUp(coinText,0, -80, this.scene, () => {
           resolve();
         }).play();
       });

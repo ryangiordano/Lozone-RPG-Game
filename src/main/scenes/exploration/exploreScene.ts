@@ -265,7 +265,7 @@ export abstract class Explore extends Phaser.Scene {
       const itemSprite = new Phaser.GameObjects.Sprite(this, coords.x, coords.y, item.spriteKey);
       itemSprite.setFrame(item.frame)
       this.add.existing(itemSprite)
-      const tween = textScaleUp(itemSprite, 0, this, () => {
+      const tween = textScaleUp(itemSprite, 0, -80, this, () => {
         itemSprite.destroy();
         resolve();
       });
