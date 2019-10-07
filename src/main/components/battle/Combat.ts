@@ -1,3 +1,4 @@
+import { scaleUpDown, slowScaleUp } from './../../utility/tweens/text';
 import { Combatant } from "./Combatant";
 import {
   CombatActionTypes,
@@ -14,6 +15,8 @@ import { CombatInterface } from "./combat-ui/CombatInterface";
 import { State } from "../../utility/state/State";
 import { Enemy } from "./Enemy";
 import { CombatEntity } from './CombatDataStructures';
+import { EffectsRepository } from '../../data/repositories/EffectRepository';
+import { TextFactory } from '../../utility/TextFactory';
 
 export interface BattleState {
   flagsToFlip: number[],
@@ -30,6 +33,8 @@ export class Combat {
   private currentPartyFocusIndex: number = 0;
   private state = State.getInstance();
   private victoryFlags: number[] = [];
+  private effectsRepository: EffectsRepository;
+
   constructor(
     private scene: Phaser.Scene,
     party: CombatEntity[],
@@ -65,6 +70,8 @@ export class Combat {
         flagsToFlip: null
       });
     });
+
+    this.effectsRepository = new EffectsRepository(this.scene.game);
   }
 
   private setListenersOnUI() {
@@ -212,9 +219,9 @@ export class Combat {
     // one is done updating, and only when the last cel is done do we continue.
     // Right now we use wait :x
     await wait(500);
-    await Promise.all(results.map(r => {
+    await Promise.all(results.map(async r => {
       const target = r.target;
-      this.resolveTargetDeaths(target);
+      await this.resolveTargetDeaths(target);
     }));
     this.startLoop();
   }
@@ -241,32 +248,80 @@ export class Combat {
 
   }
 
+  /**
+   * Play death animations and sounds, reward coins and experience and items
+   * @param target 
+   */
   private async resolveTargetDeaths(target) {
-    if (target && target.currentHp === 0) {
-      if (target.type === CombatantType.enemy) {
-        const index = this.enemies.findIndex(enemy => enemy.entity.uid === target.uid);
-        // Store xp and coins and stuff...
-        this.lootEnemy(target);
-        target.getSprite().destroy();
-        if (index > -1) {
-          this.enemies.splice(index, 1);
-        }
-      } else if (target.type === CombatantType.partyMember) {
-        target.addStatusCondition(Status.fainted);
-        if (
-          this.partyMembers.every(partyMember =>
-            partyMember.entity.status.has(Status.fainted)
-          )
-        ) {
-          await this.displayMessage(["Your party has been defeated..."]);
-          this.scene.events.emit("game-over");
+    return new Promise(async resolve => {
+      if (target && target.currentHp === 0) {
+        if (target.type === CombatantType.enemy) {
+          const container = target.getSprite().parentContainer;
+          const cel = this.enemyContainer.getCombatCelByCombatant(target);
+          const deathAnimation = async () => {
+            return new Promise((resolve) => {
+              const sprite = target.getSprite();
+              scaleUpDown(sprite, this.scene, async () => {
+                this.scene.sound.play("dead", { volume: .1 });
+
+                const hitEffect = this.effectsRepository.getById(3);
+                await hitEffect.play(sprite.x, sprite.y, this.scene, sprite.parentContainer);
+
+                resolve();
+                cel.destroyEnemy();
+
+              }).play();
+            });
+          }
+
+          await deathAnimation();
+          await this.lootEnemy(target, container);
+
+          const index = this.enemies.findIndex(enemy => enemy.entity.uid === target.uid);
+          if (index > -1) {
+            this.enemies.splice(index, 1);
+          }
+        } else if (target.type === CombatantType.partyMember) {
+          target.addStatusCondition(Status.fainted);
+          if (
+            this.partyMembers.every(partyMember =>
+              partyMember.entity.status.has(Status.fainted)
+            )
+          ) {
+            await this.displayMessage(["Your party has been defeated..."]);
+            this.scene.events.emit("game-over");
+          }
         }
       }
-    }
+      resolve();
+    })
+
   }
 
-  private lootEnemy(target: any) {
+  private async lootEnemy(target: any, container: any) {
+    const tf = new TextFactory(this.scene);
+    const sprite = target.getSprite();
+
     this.lootCrate.coin += target.goldValue;
+    // ===================================
+    // Coins
+    // ===================================
+    const coinScaleUp = () => {
+      const coinText = tf.createText(`${target.goldValue} coins`, { x: sprite.x, y: sprite.y }, '32px', {
+        fill: '#ffffff'
+      });
+      container.add(coinText);
+      return new Promise((resolve) => {
+        slowScaleUp(coinText, this.scene, () => {
+          resolve();
+        }).play();
+      });
+    }
+    await coinScaleUp()
+
+    // ===================================
+    // items
+    // ===================================
 
     target.lootTable.forEach(itemObject => {
       const roll = Math.random();
@@ -275,7 +330,24 @@ export class Combat {
         this.lootCrate.itemIds.push(itemObject.itemId)
       }
     });
+
+    // ===================================
+    // experience
+    // ===================================
     this.lootCrate.experiencePoints += Math.ceil((target.experiencePoints * ((target.level / 2) + 1)));
+
+    const expScaleUp = () => {
+      const coinText = tf.createText(`${target.goldValue}xp`, { x: sprite.x, y: sprite.y }, '32px', {
+        fill: '#ffffff'
+      });
+      container.add(coinText);
+      return new Promise((resolve) => {
+        slowScaleUp(coinText, this.scene, () => {
+          resolve();
+        }).play();
+      });
+    }
+    await expScaleUp()
   }
 
   private async distributeExperience(experience) {

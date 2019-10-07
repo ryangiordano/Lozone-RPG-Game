@@ -1,4 +1,3 @@
-
 export class Bar extends Phaser.GameObjects.Container {
   private barBack: Phaser.GameObjects.Rectangle;
   private barFill: Phaser.GameObjects.Rectangle;
@@ -49,7 +48,7 @@ export class Bar extends Phaser.GameObjects.Container {
         targets: this.barFill,
         duration: 300,
         width: fill,
-        onCompleteCallback: () => {
+        onComplete: () => {
           resolve();
         }
       });
@@ -57,31 +56,27 @@ export class Bar extends Phaser.GameObjects.Container {
 
   }
 }
-
+/**
+ * Standard HP bar
+ */
 export class HpBar extends Bar {
-  /**
-   * Standard HP bar
-   */
   constructor(scene: Phaser.Scene, position: Coords, currentValue: number, maxValue: number) {
     super(scene, position, currentValue, maxValue, 0xff777a);
-
   }
 }
 
+/**
+ * Standard MP bar
+ */
 export class MpBar extends Bar {
-  /**
-   * Standard HP bar
-   */
   constructor(scene: Phaser.Scene, position: Coords, currentValue: number, maxValue: number) {
     super(scene, position, currentValue, maxValue, 0x778eff);
-
   }
 }
-
+/**
+ * Standard XP bar
+ */
 export class XpBar extends Bar {
-  /**
-   * Standard HP bar
-   */
   constructor(scene: Phaser.Scene, position: Coords, currentValue: number, maxValue: number) {
     super(scene, position, currentValue, maxValue, 0xe6ef3b);
 

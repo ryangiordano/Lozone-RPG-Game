@@ -20,7 +20,7 @@ export class CombatScene extends Phaser.Scene {
   init(data) {
     this.sound.add("hit");
     this.sound.add("heal");
-    this.sound.add("heal");
+    this.sound.add("dead");
     this.sound.add("level-up");
     this.sound.add('battle');
     this.sound.add('victory');

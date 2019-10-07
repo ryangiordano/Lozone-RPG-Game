@@ -34,5 +34,9 @@ export class CombatGrid extends Grid {
     randomEmpty.set(combatant);
   }
 
+  public getCelWithCombatant(combatant: Combatant){
+    return this.flattenGrid().find(cel=>cel.get() === combatant);
+  }
+
 
 }

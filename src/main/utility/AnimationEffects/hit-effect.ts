@@ -15,3 +15,19 @@ export const hitEffect = (x, y, scene: Phaser.Scene, container?: Phaser.GameObje
     })
 
 }
+
+export const deathEffect = (x, y, scene: Phaser.Scene, container?: Phaser.GameObjects.Container): Promise<any> => {
+    return new Promise(resolve => {
+        const hit: Phaser.GameObjects.Sprite = scene.add.sprite(x, y, 'hit');
+        container && container.add(hit);
+        container && container.bringToTop(hit)
+        hit.setTint(0xffffff)
+        hit.anims.play('critical-hit');
+
+        hit.on('animationcomplete', () => {
+            hit.destroy();
+            resolve();
+        });
+    })
+
+}

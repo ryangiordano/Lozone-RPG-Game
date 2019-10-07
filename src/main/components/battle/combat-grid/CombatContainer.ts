@@ -55,10 +55,8 @@ export class CombatContainer extends Phaser.GameObjects.Container {
   public unsetMultiCursor() {
     this.multiCursorContainer.getAll('type', 'Sprite').forEach(child => {
       if(child['texture'].key === 'cursor'){
-
         child.destroy();
       }
-      // child.destroy()
     });
   }
 
@@ -112,6 +110,10 @@ export class CombatContainer extends Phaser.GameObjects.Container {
 
   public getCombatants() {
     return this.combatants;
+  }
+
+  public getCombatCelByCombatant(combatant:Combatant): any{
+    return this.combatGrid.getCelWithCombatant(combatant);
   }
 
   public targetRow(row) {

@@ -17,7 +17,7 @@ export class CombatCel implements Cel {
   setX(x) {
     this.pixelCoordinates.x = x;
   }
-  
+
   setY(y) {
     this.pixelCoordinates.y = y;
   }
@@ -34,10 +34,9 @@ export class CombatCel implements Cel {
       const scene = combatant.getSprite().parentContainer['scene'];
       this.combatantBars = new CombatantBars(scene, combatant);
       this.combatantBars.setUpBars();
-
-      scene.events.on('update-combat-grids', () => {
+      scene.events.on('update-combat-grids', async () => {
         this.updateBars();
-      })
+      });
       return true;
     }
 
@@ -51,8 +50,19 @@ export class CombatCel implements Cel {
       }
       resolve();
     })
+  }
 
+  destroyEnemy() {
+    this.get().getSprite().destroy();
+    this.hideBars();
+  }
 
+  hideBars() {
+    this.combatantBars.show(false);
+  }
+
+  showBars() {
+    this.combatantBars.show(true);
   }
   isEmpty() {
     return !this.combatantInCel;
@@ -112,5 +122,9 @@ class CombatantBars {
       container.bringToTop(this.hpBar)
       container.bringToTop(this.mpBar)
     }
+  }
+  show(show: boolean) {
+    this.hpBar.visible = show;
+    this.mpBar.visible = show;
   }
 }
