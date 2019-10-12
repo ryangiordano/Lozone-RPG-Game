@@ -306,20 +306,20 @@ export class Combat {
     // ===================================
     // Coins
     // ===================================
-    const coinScaleUp = () => {
-      const coinText = tf.createText(`${target.goldValue} coins`, { x: sprite.x, y: sprite.y }, '32px', {
-        fill: '#ffffff'
-      });
-      this.scene.sound.play('coin', { volume: .4 })
+    // const coinScaleUp = () => {
+    //   const coinText = tf.createText(`${target.goldValue} coins`, { x: sprite.x, y: sprite.y }, '32px', {
+    //     fill: '#ffffff'
+    //   });
+    //   this.scene.sound.play('coin', { volume: .4 })
 
-      container.add(coinText);
-      return new Promise((resolve) => {
-        textScaleUp(coinText,0, -120, this.scene, () => {
-          resolve();
-        }).play();
-      });
-    }
-    coinScaleUp()
+    //   container.add(coinText);
+    //   return new Promise((resolve) => {
+    //     textScaleUp(coinText,0, -120, this.scene, () => {
+    //       resolve();
+    //     }).play();
+    //   });
+    // }
+    // coinScaleUp()
 
     // ===================================
     // items
