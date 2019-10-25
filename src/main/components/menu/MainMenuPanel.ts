@@ -24,7 +24,7 @@ export class MainPanel extends UIPanel {
         this.emit("party-selected", PartyMenuTypes.statusCheck);
       })
       .addOption("Amazon", () => {
-        this.emit("amazon-selected");
+        this.emit("store-selected");
       })
       .addOption("Debug", () => {
         this.emit("debug-selected");

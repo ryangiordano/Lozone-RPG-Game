@@ -9,6 +9,7 @@ import { DungeonScene } from "./scenes/exploration/dungeonScene";
 import { CombatScene } from "./scenes/combat/combatScene";
 import {DialogScene } from "./scenes/dialogscene";
 import { PartyMenuScene } from './scenes/UI/partyMenuScene';
+import { StoreScene } from './scenes/store/storeScene';
 // main game configuration
 const config: GameConfig = {
   width: 640,
@@ -25,6 +26,7 @@ const config: GameConfig = {
     CombatScene,
     DialogScene,
     PartyMenuScene,
+    StoreScene,
   ],
   input: {
     keyboard: true

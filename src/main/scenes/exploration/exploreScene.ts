@@ -45,6 +45,9 @@ export abstract class Explore extends Phaser.Scene {
     this.afterInit(data);
 
 
+
+
+
     // setTimeout(() => {
     //   const er = new EffectsRepository(this.game);
     //   const effect = er.getById(4)

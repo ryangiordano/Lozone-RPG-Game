@@ -84,17 +84,17 @@ export class MenuScene extends Phaser.Scene {
 
     mainPanel.on("party-selected", () =>
       this.startPartyMenuScene({ type: PartyMenuTypes.statusCheck, entity: null })
-    );
+    )
 
-    mainPanel.on("amazon-selected", () =>
-    this.UI.showPanel(this.shopPanel).focusPanel(this.shopPanel)
-  );
+    mainPanel.on("store-selected", () =>
+      this.startStoreScene()
+    );
 
     mainPanel.on("debug-selected", () =>
       this.UI.showPanel(this.debugPanel).focusPanel(this.debugPanel)
     );
 
-    
+
 
     mainPanel.on('cancel-selected', () => this.closeMenuScene())
 
@@ -321,6 +321,16 @@ export class MenuScene extends Phaser.Scene {
 
   private openPartyPanel(item) {
     this.startPartyMenuScene({ type: PartyMenuTypes.itemUse, entity: item })
+  }
+
+  private startStoreScene() {
+    const storeScene = this.scene.get("StoreScene");
+    const scenePlugin = new Phaser.Scenes.ScenePlugin(storeScene);
+    scenePlugin.bringToTop("StoreScene");
+    scenePlugin.setActive(false, "MenuScene");
+    scenePlugin.start("StoreScene", {
+      callingSceneKey: "MenuScene"
+    });
   }
 
   private closeMenuScene() {
