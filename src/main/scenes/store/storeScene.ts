@@ -8,10 +8,10 @@ import { CombatEntity } from '../../components/battle/CombatDataStructures';
 import { Item, handleItemUse } from '../../components/entities/Item';
 import { SpellType } from '../../data/repositories/SpellRepository';
 import { UserInterface } from '../../components/UI/UserInterface';
-import { StoreInterfaceBuilder, StoreInterface } from '../../components/menu/shop/StoreInterface';
+import { StoreInterfaceBuilder } from '../../components/menu/shop/StoreInterface';
 
 export class StoreScene extends Phaser.Scene {
-  private storeUI: StoreInterface;
+  private storeUI: UserInterface;
   private callingSceneKey
   constructor() {
     super({ key: "StoreScene" });

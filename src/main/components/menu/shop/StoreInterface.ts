@@ -58,36 +58,6 @@ export class StoreInterfaceBuilder {
 
 }
 
-export class StoreInterface extends UserInterface {
-  constructor(
-    scene: Phaser.Scene,
-    spriteKey: string,
-    panels: any
-  ) {
-    super(scene, spriteKey);
-  }
-
-  private setupKeyboard() {
-    this.keyboardControl.on("esc", "party-menu-container", () =>
-      this.emit("close-menu")
-    );
-    this.keyboardControl.on("right", "party-menu-container", () =>
-      this.focusNext()
-    );
-    this.keyboardControl.on("down", "party-menu-container", () =>
-      this.focusBelow()
-    );
-    this.keyboardControl.on("up", "party-menu-container", () =>
-      this.focusAbove()
-    );
-    this.keyboardControl.on("left", "party-menu-container", () =>
-      this.focusPrevious()
-    );
-    this.keyboardControl.on("space", "party-menu-container", () => {
-      this.selectPartyMember();
-    });
-  }
-}
 
 
 class StoreMessagePanel extends PanelContainer {

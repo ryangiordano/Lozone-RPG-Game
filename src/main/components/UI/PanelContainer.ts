@@ -1,5 +1,6 @@
 import { getUID } from "../../utility/Utility";
 import { Traversible, Selectable, HasOptions, } from "./UserInterface";
+import { KeyboardControlKeys } from './Keyboard';
 
 export class PanelContainer extends Phaser.GameObjects.Container implements Traversible {
   public panel: Phaser.GameObjects.RenderTexture;
@@ -91,9 +92,14 @@ export class PanelContainer extends Phaser.GameObjects.Container implements Trav
   public handleClose() {
     //To Implement;
   }
+
+  public handleKeydown(event: KeyboardControlKeys) {
+
+  }
 }
 
 export class UIPanel extends PanelContainer implements HasOptions {
+  private caret: Phaser.GameObjects.Text;
   public options: any[] = [];
   private focusedIndex: number = 0;
 
@@ -104,6 +110,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
     public escapable: boolean = true,
     id?: string) {
     super(dimensions, pos, spriteKey, scene, id);
+    this.createCaret();
 
   }
   private getNumberOfVisibleOptions() {
@@ -114,9 +121,18 @@ export class UIPanel extends PanelContainer implements HasOptions {
   }
 
   public show() {
+    this.setCaret()
     this.visible = true;
     this.readjustOptionsForWindow();
     this.showChildren();
+    this.focusOption(0);
+  }
+
+  public close(){
+    this.caret && this.caret.destroy();
+    this.visible = false;
+    this.handleClose();
+    this.hideChildren();
   }
 
   public addOption(text: string, selectCallback: Function, focusCallback?: Function): UIPanel {
@@ -203,6 +219,70 @@ export class UIPanel extends PanelContainer implements HasOptions {
     if (toSelect && !toSelect.disabled) {
       toSelect.select();
     }
+  }
+
+  private createCaret() {
+    this.caret = this.scene.add.text(-100, -100, ">", {
+      fontFamily: "pixel",
+      fontSize: "32px",
+      fill: "#000000"
+    });
+    this.add(this.caret);
+  }
+
+  private setCaret() {
+    const focusedOption = this.getFocusedOption();
+    const parentPanel = this.parentContainer;
+    if (this.caret && focusedOption && parentPanel) {
+      this.caret.x = parentPanel.x + focusedOption.x + 5;
+      this.caret.y = parentPanel.y + focusedOption.y;
+      // this.moveTo(this.caret, this.list.length - 1);
+    }
+  }
+
+  public onKeyDown(key: KeyboardControlKeys) {
+    switch (key) {
+      case KeyboardControlKeys.UP:
+      case KeyboardControlKeys.LEFT:
+        this.scene.sound.play("menu-tick", { volume: 0.1 })
+        this.focusPreviousOption();
+        break;
+      case KeyboardControlKeys.RIGHT:
+      case KeyboardControlKeys.DOWN:
+        this.scene.sound.play("menu-tick", { volume: 0.1 })
+        this.focusNextOption();
+        break;
+      case KeyboardControlKeys.ESC:
+          this.parentContainer["traverseBackward"]()
+        break;
+      case KeyboardControlKeys.SPACE:
+        this.scene.sound.play("menu-select", { volume: 0.1 })
+        this.selectFocusedOption();
+        break;
+    }
+
+    // this.menuSceneKeyboardControl.on([KeyboardControlKeys.UP, KeyboardControlKeys.LEFT], "user-interface", () => {
+    //   this.focusedPanel.focusPreviousOption();
+    //   this.setCaret();
+    //   this.events.emit('menu-traverse');
+    // });
+    // this.menuSceneKeyboardControl.on(
+    //   [KeyboardControlKeys.DOWN, KeyboardControlKeys.RIGHT],
+    //   "user-interface",
+    //   () => {
+    //     this.focusedPanel.focusNextOption();
+    //     this.setCaret();
+    //     this.events.emit('menu-traverse');
+    //   }
+    // );
+    // this.menuSceneKeyboardControl.on(KeyboardControlKeys.ESC, "user-interface", () => {
+    //   this.traverseBackward();
+    // });
+    // this.menuSceneKeyboardControl.on(KeyboardControlKeys.SPACE, "user-interface", () => {
+    //   this.focusedPanel.selectFocusedOption();
+    //   this.setCaret();
+    //   this.events.emit('menu-select');
+    // });
   }
 }
 
