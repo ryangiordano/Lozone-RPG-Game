@@ -1,30 +1,40 @@
+export enum KeyboardControlKeys {
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT,
+  ESC,
+  SPACE,
+  Z
+}
+
 export class KeyboardControl {
   private events = {};
-  constructor(private currentScene: Phaser.Scene) {}
+  constructor(private currentScene: Phaser.Scene) { }
   setupKeyboardControl() {
     // Setup first to be imperative, then eventually set it up to be more generic
     this.currentScene.input.keyboard.on("keydown", event => {
       switch (event.keyCode) {
         case Phaser.Input.Keyboard.KeyCodes.UP:
-          this.emit("up");
+          this.emit(KeyboardControlKeys.UP);
           break;
         case Phaser.Input.Keyboard.KeyCodes.LEFT:
-          this.emit("left");
+          this.emit(KeyboardControlKeys.LEFT);
           break;
         case Phaser.Input.Keyboard.KeyCodes.RIGHT:
-          this.emit("right");
+          this.emit(KeyboardControlKeys.RIGHT);
           break;
         case Phaser.Input.Keyboard.KeyCodes.DOWN:
-          this.emit("down");
+          this.emit(KeyboardControlKeys.DOWN);
           break;
         case Phaser.Input.Keyboard.KeyCodes.ESC:
-          this.emit("esc");
+          this.emit(KeyboardControlKeys.ESC);
           break;
         case Phaser.Input.Keyboard.KeyCodes.SPACE:
-          this.emit("space");
+          this.emit(KeyboardControlKeys.SPACE);
           break;
         case Phaser.Input.Keyboard.KeyCodes.Z:
-          this.emit("z");
+          this.emit(KeyboardControlKeys.Z);
           break;
         default:
           break;
@@ -47,7 +57,7 @@ export class KeyboardControl {
       addEvent(eventName);
     }
   }
-  public emit(eventName: string) {
+  public emit(eventName: KeyboardControlKeys) {
     const eventArray = this.events[eventName];
     if (eventArray) {
       eventArray.forEach(event => {
@@ -55,10 +65,10 @@ export class KeyboardControl {
       });
     }
   }
-  public off(eventName: string, uniqueContextId: string) {
+  public off(eventName: KeyboardControlKeys, uniqueContextId: string) {
     this.events[eventName] = this.events[eventName].filter(event => {
       return event.uid !== uniqueContextId;
     });
   }
-  removeAllKeyboardControl() {}
+  removeAllKeyboardControl() { }
 }

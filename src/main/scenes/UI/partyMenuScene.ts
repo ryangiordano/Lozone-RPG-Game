@@ -1,7 +1,7 @@
 import { PanelContainer } from '../../components/UI/PanelContainer';
 import { PartyMember } from "../../components/battle/PartyMember";
 import { State } from "../../utility/state/State";
-import { KeyboardControl } from "../../components/UI/Keyboard";
+import { KeyboardControl, KeyboardControlKeys } from "../../components/UI/Keyboard";
 import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 import { TextFactory } from '../../utility/TextFactory';
 import { Bar, HpBar, MpBar, XpBar } from '../../components/UI/Bars';
@@ -86,27 +86,27 @@ class PartyMenuContainer extends Phaser.GameObjects.Container {
     this.focusActive();
   }
   private setupKeyboard() {
-    this.keyboardControl.on("esc", "party-menu-container", () =>
+    this.keyboardControl.on(KeyboardControlKeys.ESC, "party-menu-container", () =>
       this.emit("close-menu")
     );
-    this.keyboardControl.on("right", "party-menu-container", () =>
+    this.keyboardControl.on(KeyboardControlKeys.RIGHT, "party-menu-container", () =>
       this.focusNext()
     );
-    this.keyboardControl.on("down", "party-menu-container", () =>
+    this.keyboardControl.on(KeyboardControlKeys.DOWN, "party-menu-container", () =>
       this.focusBelow()
     );
-    this.keyboardControl.on("up", "party-menu-container", () =>
+    this.keyboardControl.on(KeyboardControlKeys.UP, "party-menu-container", () =>
       this.focusAbove()
     );
-    this.keyboardControl.on("left", "party-menu-container", () =>
+    this.keyboardControl.on(KeyboardControlKeys.LEFT, "party-menu-container", () =>
       this.focusPrevious()
     );
-    this.keyboardControl.on("space", "party-menu-container", () => {
+    this.keyboardControl.on(KeyboardControlKeys.SPACE, "party-menu-container", () => {
       this.selectPartyMember();
     });
   }
   private teardownKeyboard() {
-    this.keyboardControl.off("esc", "party-menu-container");
+    this.keyboardControl.off(KeyboardControlKeys.ESC, "party-menu-container");
   }
 
   private focusActive() {

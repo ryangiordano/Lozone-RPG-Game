@@ -1,5 +1,5 @@
 import { UIPanel, PanelContainer } from "./PanelContainer";
-import { KeyboardControl } from "./Keyboard";
+import { KeyboardControl, KeyboardControlKeys } from "./Keyboard";
 import { createRandom } from '../../utility/Utility';
 import { cursorHover } from '../../utility/tweens/text';
 import { TargetType, TargetArea } from '../../data/repositories/SpellRepository';
@@ -34,7 +34,11 @@ export interface Selectable {
   select: Function,
   focus: Function
 }
-
+/**
+ * Creates a panel-based menu system for executing actions in the game world.
+ * Initialize in your scene's init function.
+ * Suggested to create a factory for initializing it
+ */
 export class UserInterface extends Phaser.GameObjects.Container {
   private panelContainers: PanelContainer[] = [];
   private caret: Phaser.GameObjects.Text;
@@ -45,7 +49,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
 
   constructor(
     protected scene: Phaser.Scene,
-    private spriteKey: string,
+    protected spriteKey: string,
     private menuSceneKeyboardControl: KeyboardControl
   ) {
     super(scene, 0, 0);
@@ -53,6 +57,9 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.createCaret();
     scene.add.existing(this);
   }
+  /**
+   * Set keyboard event listeners for the UI
+   */
   public initialize() {
     this.setKeyboardListeners();
   }
@@ -174,13 +181,13 @@ export class UserInterface extends Phaser.GameObjects.Container {
 
   private setKeyboardListeners() {
     this.menuSceneKeyboardControl.setupKeyboardControl();
-    this.menuSceneKeyboardControl.on(["up", "left"], "user-interface", () => {
+    this.menuSceneKeyboardControl.on([KeyboardControlKeys.UP, KeyboardControlKeys.LEFT], "user-interface", () => {
       this.focusedPanel.focusPreviousOption();
       this.setCaret();
       this.events.emit('menu-traverse');
     });
     this.menuSceneKeyboardControl.on(
-      ["down", "right"],
+      [KeyboardControlKeys.DOWN, KeyboardControlKeys.RIGHT],
       "user-interface",
       () => {
         this.focusedPanel.focusNextOption();
@@ -188,10 +195,10 @@ export class UserInterface extends Phaser.GameObjects.Container {
         this.events.emit('menu-traverse');
       }
     );
-    this.menuSceneKeyboardControl.on("esc", "user-interface", () => {
+    this.menuSceneKeyboardControl.on(KeyboardControlKeys.ESC, "user-interface", () => {
       this.traverseBackward();
     });
-    this.menuSceneKeyboardControl.on("space", "user-interface", () => {
+    this.menuSceneKeyboardControl.on(KeyboardControlKeys.SPACE, "user-interface", () => {
       this.focusedPanel.selectFocusedOption();
       this.setCaret();
       this.events.emit('menu-select');
@@ -199,12 +206,13 @@ export class UserInterface extends Phaser.GameObjects.Container {
   }
 
   public removeKeyboardListeners() {
-    this.menuSceneKeyboardControl.off("up", "user-interface");
-    this.menuSceneKeyboardControl.off("left", "user-interface");
-    this.menuSceneKeyboardControl.off("down", "user-interface");
-    this.menuSceneKeyboardControl.off("right", "user-interface");
-    this.menuSceneKeyboardControl.off("esc", "user-interface");
-    this.menuSceneKeyboardControl.off("space", "user-interface");
+    this.menuSceneKeyboardControl.off(KeyboardControlKeys.UP, "user-interface");
+    this.menuSceneKeyboardControl.off(KeyboardControlKeys.DOWN, "user-interface");
+    this.menuSceneKeyboardControl.off(KeyboardControlKeys.LEFT, "user-interface");
+    this.menuSceneKeyboardControl.off(KeyboardControlKeys.RIGHT, "user-interface");
+    this.menuSceneKeyboardControl.off(KeyboardControlKeys.SPACE, "user-interface");
+    this.menuSceneKeyboardControl.off(KeyboardControlKeys.ESC, "user-interface");
+    this.menuSceneKeyboardControl.off(KeyboardControlKeys.Z, "user-interface");
   }
 
   private traverseBackward() {

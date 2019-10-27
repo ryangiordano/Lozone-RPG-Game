@@ -46,8 +46,6 @@ export class MenuScene extends Phaser.Scene {
 
     this.keyItemPanel = this.createKeyItemPanel();
 
-    this.shopPanel = this.createStorePanel();
-
     this.debugPanel = this.createDebugPanel();
 
     this.createCoinPanel();
@@ -239,41 +237,6 @@ export class MenuScene extends Phaser.Scene {
     this.coinPanel.add(coinAmount)
     coin.anims.play('spin');
 
-  }
-
-
-  // ===================================
-  // Store Panels
-  // ===================================
-  private createStorePanel() {
-    const storePanel = new ShopPanel(
-      { x: 6, y: 6 },
-      { x: 4, y: 0 },
-      "dialog-white",
-      this
-    );
-
-    this.UI.addPanel(storePanel);
-
-    // storePanel.on("item-selected", item => {
-    //   storePanel.emit("show-and-focus-confirm-panel", item);
-    // });
-
-    // storePanel.on("item-focused", item => {
-    //   storePanel.updateDisplay(item);
-    // });
-
-    // const itemDetailPanel = new PanelContainer(
-    //   { x: 6, y: 3 },
-    //   { x: 4, y: 6 },
-    //   "dialog-white",
-    //   this
-    // );
-    // storePanel.addChildPanel('item-detail', itemDetailPanel);
-    // storePanel.on("panel-close", () => {
-    //   this.UI.closePanel(storePanel);
-    // });
-    return storePanel;
   }
 
   // ===================================
