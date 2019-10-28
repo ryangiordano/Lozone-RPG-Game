@@ -122,6 +122,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
 
   public show() {
     this.setCaret()
+    this.bringToTop(this.caret)
     this.visible = true;
     this.readjustOptionsForWindow();
     this.showChildren();
@@ -188,6 +189,8 @@ export class UIPanel extends PanelContainer implements HasOptions {
         option.focused = false;
       }
     });
+    this.setCaret();
+
   }
 
   public focusNextOption() {
@@ -228,15 +231,16 @@ export class UIPanel extends PanelContainer implements HasOptions {
       fill: "#000000"
     });
     this.add(this.caret);
+    //TODO: Refactor to create a correct cursor object
+    this.caret.type = "Cursor"
   }
 
   private setCaret() {
     const focusedOption = this.getFocusedOption();
-    const parentPanel = this.parentContainer;
-    if (this.caret && focusedOption && parentPanel) {
-      this.caret.x = parentPanel.x + focusedOption.x + 5;
-      this.caret.y = parentPanel.y + focusedOption.y;
-      // this.moveTo(this.caret, this.list.length - 1);
+    if (this.caret && focusedOption) {
+      this.caret.x = focusedOption.x + 5;
+      this.caret.y = focusedOption.y;
+      this.bringToTop(this.caret);
     }
   }
 
@@ -246,11 +250,13 @@ export class UIPanel extends PanelContainer implements HasOptions {
       case KeyboardControlKeys.LEFT:
         this.scene.sound.play("menu-tick", { volume: 0.1 })
         this.focusPreviousOption();
+
         break;
       case KeyboardControlKeys.RIGHT:
       case KeyboardControlKeys.DOWN:
         this.scene.sound.play("menu-tick", { volume: 0.1 })
         this.focusNextOption();
+
         break;
       case KeyboardControlKeys.ESC:
           this.parentContainer["traverseBackward"]()
@@ -260,29 +266,6 @@ export class UIPanel extends PanelContainer implements HasOptions {
         this.selectFocusedOption();
         break;
     }
-
-    // this.menuSceneKeyboardControl.on([KeyboardControlKeys.UP, KeyboardControlKeys.LEFT], "user-interface", () => {
-    //   this.focusedPanel.focusPreviousOption();
-    //   this.setCaret();
-    //   this.events.emit('menu-traverse');
-    // });
-    // this.menuSceneKeyboardControl.on(
-    //   [KeyboardControlKeys.DOWN, KeyboardControlKeys.RIGHT],
-    //   "user-interface",
-    //   () => {
-    //     this.focusedPanel.focusNextOption();
-    //     this.setCaret();
-    //     this.events.emit('menu-traverse');
-    //   }
-    // );
-    // this.menuSceneKeyboardControl.on(KeyboardControlKeys.ESC, "user-interface", () => {
-    //   this.traverseBackward();
-    // });
-    // this.menuSceneKeyboardControl.on(KeyboardControlKeys.SPACE, "user-interface", () => {
-    //   this.focusedPanel.selectFocusedOption();
-    //   this.setCaret();
-    //   this.events.emit('menu-select');
-    // });
   }
 }
 

@@ -166,28 +166,6 @@ export class UserInterface extends Phaser.GameObjects.Container {
 
   private setKeyboardListeners() {
     this.menuSceneKeyboardControl.setupKeyboardControl();
-    // this.menuSceneKeyboardControl.on([KeyboardControlKeys.UP, KeyboardControlKeys.LEFT], "user-interface", () => {
-    //   this.focusedPanel.focusPreviousOption();
-    //   this.setCaret();
-    //   this.events.emit('menu-traverse');
-    // });
-    // this.menuSceneKeyboardControl.on(
-    //   [KeyboardControlKeys.DOWN, KeyboardControlKeys.RIGHT],
-    //   "user-interface",
-    //   () => {
-    //     this.focusedPanel.focusNextOption();
-    //     this.setCaret();
-    //     this.events.emit('menu-traverse');
-    //   }
-    // );
-    // this.menuSceneKeyboardControl.on(KeyboardControlKeys.ESC, "user-interface", () => {
-    //   this.traverseBackward();
-    // });
-    // this.menuSceneKeyboardControl.on(KeyboardControlKeys.SPACE, "user-interface", () => {
-    //   this.focusedPanel.selectFocusedOption();
-    //   this.setCaret();
-    //   this.events.emit('menu-select');
-    // });
     this.keyboardKeys.forEach(key => this.menuSceneKeyboardControl.on(key, "user-interface", () => this.focusedPanel.onKeyDown(key)));
   }
 
@@ -195,7 +173,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.keyboardKeys.forEach(key => this.menuSceneKeyboardControl.off(key, "user-interface"))
   }
 
-  private traverseBackward() {
+  public traverseBackward() {
     if (this.travelHistory[this.travelHistory.length - 1].escapable) {
       const lastPanel = this.travelHistory.pop();
       lastPanel.close();
