@@ -62,7 +62,7 @@ export class MenuScene extends Phaser.Scene {
   // ===================================
   private createAndSetUpMainPanel() {
     const mainPanel = new MainPanel(
-      { x: 4, y: 7 }, { x: 0, y: 0 },
+      { x: 4, y: 3 }, { x: 0, y: 0 },
       "dialog-white",
       this
     );

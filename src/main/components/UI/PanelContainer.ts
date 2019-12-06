@@ -45,6 +45,7 @@ export class PanelContainer extends Phaser.GameObjects.Container implements Trav
   }
 
   public focus() {
+    console.log("Focus")
     if (this.visible) {
       this.focused = true;
       this.alpha = 1;
@@ -155,9 +156,16 @@ export class UIPanel extends PanelContainer implements HasOptions {
     const endWindow = startWindow + this.getNumberOfVisibleOptions();
     const options = [...this.options];
     this.resetOptions();
-    const toAdd = options.filter((o, i) => {
-      return i >= startWindow && i <= endWindow
-    });
+    //TODO: Items that fit to window turned off for now.
+    // If there is aneough space to show all options, skip this behavior.
+    let toAdd = options;
+    if(options.length >= this.getNumberOfVisibleOptions()){
+       toAdd = options.filter((o, i) => {
+        return i >= startWindow && i <= endWindow
+      });
+    }
+    // const toAdd = options;
+
     let lastPlacement = 20;
     toAdd.forEach((o, i) => {
       o.y = i > 0 ? lastPlacement + 40 : lastPlacement;
