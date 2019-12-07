@@ -23,7 +23,6 @@ export class StoreScene extends Phaser.Scene {
     const storeBuilder = new StoreInterfaceBuilder(this);
 
     this.storeUI = storeBuilder.create();
-    console.log(this.storeUI)
     const rect = new Phaser.GameObjects.Rectangle(this, 0, 0, 2000, 2000, 0x383838, 1);
     this.add.existing(rect);
 

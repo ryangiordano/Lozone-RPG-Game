@@ -45,7 +45,6 @@ export class PanelContainer extends Phaser.GameObjects.Container implements Trav
   }
 
   public focus() {
-    console.log("Focus")
     if (this.visible) {
       this.focused = true;
       this.alpha = 1;
@@ -130,7 +129,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
     this.focusOption(0);
   }
 
-  public close(){
+  public close() {
     this.caret && this.caret.destroy();
     this.visible = false;
     this.handleClose();
@@ -159,8 +158,8 @@ export class UIPanel extends PanelContainer implements HasOptions {
     //TODO: Items that fit to window turned off for now.
     // If there is aneough space to show all options, skip this behavior.
     let toAdd = options;
-    if(options.length >= this.getNumberOfVisibleOptions()){
-       toAdd = options.filter((o, i) => {
+    if (options.length >= this.getNumberOfVisibleOptions()) {
+      toAdd = options.filter((o, i) => {
         return i >= startWindow && i <= endWindow
       });
     }
@@ -267,7 +266,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
 
         break;
       case KeyboardControlKeys.ESC:
-          this.parentContainer["traverseBackward"]()
+        this.parentContainer["traverseBackward"]()
         break;
       case KeyboardControlKeys.SPACE:
         this.scene.sound.play("menu-select", { volume: 0.1 })

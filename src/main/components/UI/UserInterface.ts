@@ -1,5 +1,5 @@
 import { UIPanel, PanelContainer } from "./PanelContainer";
-import { KeyboardControl, KeyboardControlKeys } from "./Keyboard";
+import { KeyboardControl, KeyboardControlKeys } from './Keyboard';
 import { createRandom } from '../../utility/Utility';
 import { cursorHover } from '../../utility/tweens/text';
 import { TargetType, TargetArea } from '../../data/repositories/SpellRepository';
@@ -220,7 +220,7 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
 
 
   public addOption(optionData: any, selectCallback: Function, focusCallback?: Function): TraversibleObject {
-    const toAdd = new TraversibleListItem(selectCallback, focusCallback, optionData)
+    const toAdd = new TraversibleListItem(selectCallback, focusCallback, optionData);
     this.options.push(toAdd);
     return this;
   };
@@ -234,7 +234,6 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
         option.focused = false;
       }
     });
-
   }
 
 
@@ -290,7 +289,19 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
   }
 
   public onKeyDown(key: KeyboardControlKeys) {
-
+    switch (key) {
+      case KeyboardControlKeys.UP:
+      case KeyboardControlKeys.LEFT:
+        this.focusPreviousOption();
+        break;
+      case KeyboardControlKeys.DOWN:
+      case KeyboardControlKeys.RIGHT:
+        this.focusNextOption();
+        break;
+      case KeyboardControlKeys.SPACE:
+        this.selectFocusedOption()
+        break;
+    }
   }
 }
 

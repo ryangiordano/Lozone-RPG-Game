@@ -13,7 +13,6 @@ export class MainPanel extends UIPanel {
   }
 
   setUp() {
-    console.log("-------")
     this
       .addOption("Items", () => {
         this.emit("items-selected", PartyMenuTypes.itemUse);

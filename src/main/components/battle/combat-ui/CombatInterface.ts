@@ -103,7 +103,6 @@ export class CombatInterface extends UserInterface {
     combatActionType: CombatActionTypes,
     targetType: TargetType, 
     data?) {
-
     if (data && targetType.targetArea === TargetArea.all) {
       //TODO: Implement attacking all enemies
       combatContainer.targetAll();
@@ -133,6 +132,7 @@ export class CombatInterface extends UserInterface {
       })
 
     } else {
+
       traversible.on('chosen', (target) => {
         traversible.off('chosen');
         combatContainer.showCursor(false);
@@ -184,7 +184,6 @@ export class CombatInterface extends UserInterface {
     });
 
     this.enemyCombatContainer.getCombatants().forEach(enemyCombatant => {
-
       this.enemyTraversible.addOption(
         enemyCombatant,
         () => {
