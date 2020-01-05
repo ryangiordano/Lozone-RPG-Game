@@ -66,7 +66,7 @@ export class CombatInterface extends UserInterface {
       .addOption("Defend", () => {
         const event = new CombatEvent(
           this.currentPartyMember,
-          null,
+          [this.currentPartyMember],
           CombatActionTypes.defend,
           Orientation.left,
           this.scene

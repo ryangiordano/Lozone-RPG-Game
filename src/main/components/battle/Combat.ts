@@ -14,7 +14,7 @@ import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./combat-ui/CombatInterface";
 import { State } from "../../utility/state/State";
 import { Enemy } from "./Enemy";
-import { CombatEntity } from './CombatDataStructures';
+import { CombatEntity, CombatAction } from './CombatDataStructures';
 import { EffectsRepository } from '../../data/repositories/EffectRepository';
 import { TextFactory } from '../../utility/TextFactory';
 
@@ -212,6 +212,9 @@ export class Combat {
     this.updateCombatGrids();
 
     if (combatEvent.type === CombatActionTypes.useItem) {
+      await Promise.all(results.map(r => this.displayMessage(r.message)));
+    }
+    if (combatEvent.type === CombatActionTypes.defend) {
       await Promise.all(results.map(r => this.displayMessage(r.message)));
     }
     // TODO: Hook this up so we don't have to use a wait here.  

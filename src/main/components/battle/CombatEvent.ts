@@ -25,13 +25,12 @@ import { SpellType } from "../../data/repositories/SpellRepository";
  */
 export class CombatEvent {
   //TODO: Abstract this out to be different classes inheriting from CombatEvent;
-  public type: CombatActionTypes = null;
   private effectsRepository: EffectsRepository;
   protected textFactory: TextFactory;
   constructor(
     public executor: Combatant,
     public targets: Combatant[],
-    public action: CombatActionTypes,
+    public type: CombatActionTypes,
     protected orientation: Orientation,
     protected scene: Phaser.Scene,
   ) {
@@ -45,13 +44,13 @@ export class CombatEvent {
       const targets = this.confirmTargets();
       let results;
       // This is where we implement our Actions.ts actions.
-      if (this.action === CombatActionTypes.attack) {
+      if (this.type === CombatActionTypes.attack) {
         if (!targets.length || !this.executorIsValid()) {
           return resolve(this.returnFailedAction(executor, targets));
         }
         results = await this.handleAttack(executor, targets);
       }
-      if (this.action === CombatActionTypes.defend) {
+      if (this.type === CombatActionTypes.defend) {
         results = await this.handleDefend(executor);
       }
       return resolve(results);
@@ -61,16 +60,16 @@ export class CombatEvent {
   protected async handleDefend(executor: Combatant): Promise<any> {
     return new Promise(async resolve => {
       executor.defendSelf();
-      const results: CombatResult = {
+      const results: CombatResult[] = [{
         actionType: CombatActionTypes.defend,
         executor,
         target: executor,
         resultingValue: 0,
         targetDown: false
-      };
+      }];
       const text = this.createCombatText("^", this.executor);
       await this.playFadeUp(text);
-      results.message = [`${this.executor.name} is defending.`];
+      results[0].message= [`${this.executor.name} is defending.`];
       return resolve(results);
     });
   }
@@ -203,16 +202,15 @@ export class SpellCastEvent extends CombatEvent {
   /**
    * Handles the case when a player chooses to use a spell.
    */
-  public type: CombatActionTypes = CombatActionTypes.castSpell;
   constructor(
     executor: Combatant,
     targets: Combatant[],
-    action: CombatActionTypes,
+    type: CombatActionTypes,
     orientation: Orientation,
     scene: Phaser.Scene,
     private spell: Spell,
   ) {
-    super(executor, targets, action, orientation, scene)
+    super(executor, targets, type, orientation, scene)
   }
   /**
    * Handles the case when a spell is cast.
@@ -292,16 +290,15 @@ export class UseItemEvent extends CombatEvent {
   /**
    * Handles the case when a player chooses to use an item during battle.
    */
-  public type: CombatActionTypes = CombatActionTypes.useItem;
   constructor(
     executor: Combatant,
     targets: Combatant[],
-    action: CombatActionTypes,
+    type: CombatActionTypes,
     orientation: Orientation,
     scene: Phaser.Scene,
     private item: Item,
   ) {
-    super(executor, targets, action, orientation, scene)
+    super(executor, targets, type, orientation, scene)
   }
 
   /**
@@ -347,7 +344,7 @@ export class UseItemEvent extends CombatEvent {
       const targets = this.confirmTargets();
       let results;
       // This is where we implement our Actions.ts actions.
-      if (this.action === CombatActionTypes.useItem) {
+      if (this.type === CombatActionTypes.useItem) {
         if (!targets.length || !this.executorIsValid()) {
           return resolve(this.returnFailedAction(executor, targets));
         }
