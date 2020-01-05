@@ -54,14 +54,14 @@ export class CombatInterface extends UserInterface {
       .addOption("Attack", () => {
         this.showPanel(this.enemyTraversible).focusPanel(this.enemyTraversible);
         this.handleTraversibleTargeting(
-          this.enemyTraversible, 
-          this.enemyCombatContainer, 
+          this.enemyTraversible,
+          this.enemyCombatContainer,
           CombatActionTypes.attack,
           {
             targetArea: TargetArea.single,
             targeting: Targeting.enemy
           }
-          );
+        );
       })
       .addOption("Defend", () => {
         const event = new CombatEvent(
@@ -97,11 +97,12 @@ export class CombatInterface extends UserInterface {
       }
     });
   }
+
   private handleTraversibleTargeting(
     traversible: TraversibleObject,
     combatContainer: CombatContainer,
     combatActionType: CombatActionTypes,
-    targetType: TargetType, 
+    targetType: TargetType,
     data?) {
     if (data && targetType.targetArea === TargetArea.all) {
       //TODO: Implement attacking all enemies
@@ -129,8 +130,7 @@ export class CombatInterface extends UserInterface {
         }
         this.events.emit("option-selected", event);
         //TODO: This emits the event, however it's skipped over during the turn execution phase.
-      })
-
+      });
     } else {
 
       traversible.on('chosen', (target) => {
@@ -164,6 +164,10 @@ export class CombatInterface extends UserInterface {
         combatContainer.setCursor(sprite);
       });
     }
+
+    traversible.on("escape", () => {
+      this.traverseBackward();
+    })
 
   }
 

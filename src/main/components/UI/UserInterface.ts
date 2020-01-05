@@ -301,6 +301,9 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
       case KeyboardControlKeys.SPACE:
         this.selectFocusedOption()
         break;
+      case KeyboardControlKeys.ESC:
+        this.emit('escape')
+        break;
     }
   }
 }
