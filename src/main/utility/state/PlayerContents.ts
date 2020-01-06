@@ -31,6 +31,7 @@ export class PlayerContents {
       else {
         toRemove.decrementQuantity();
       }
+      toRemove.setIntendToUse(-1);
       return true;
     }
     return false;

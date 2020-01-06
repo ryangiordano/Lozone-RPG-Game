@@ -223,10 +223,11 @@ export class CombatInterface extends UserInterface {
     this.itemPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
     const sm = State.getInstance();
     const consumeables = sm.getConsumeablesOnPlayer();
-    consumeables.forEach(item => {
+    consumeables.filter(item=>item.canSetIntendToUse()).forEach(item => {
 
-      this.itemPanel.addOption(`${item.name} x${item.quantity}`, () => {
+      this.itemPanel.addOption(`${item.name} x${item.getQuantity()}`, () => {
         this.itemPanel.close();
+        item.setIntendToUse();
         this.showPanel(this.partyTraversible).focusPanel(this.partyTraversible);
         this.handleTraversibleTargeting(
           this.partyTraversible,

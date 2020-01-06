@@ -22,6 +22,7 @@ export interface ItemData {
 
 export class Item {
   private limit = 99;
+  private pendingUse: number = 0;
   constructor(
     public id: number | string,
     public name: string,
@@ -53,6 +54,23 @@ export class Item {
   public setQuantity(amount: number) {
     this.quantity = amount;
   }
+
+  public setIntendToUse(amount = 1) {
+    this.pendingUse += amount;
+  }
+
+  public resetIntendToUse() {
+    this.pendingUse = 0;
+  }
+
+  public canSetIntendToUse() {
+    return this.getQuantity() >0;
+  }
+
+  public getQuantity(){
+    return this.quantity-this.pendingUse;
+  }
+
 }
 
 type ItemUseObject = {
