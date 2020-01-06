@@ -141,9 +141,11 @@ export class Combatant {
 
   public castSpell(spell: Spell, targets: Combatant[]): CombatResult[] {
     const potency = this.getMagicPower() + spell.basePotency;
+    let combatResults;
     if (this.canCastSpell(spell)) {
       this.subtractSpellCostFromMp(spell)
-      const combatResults = targets.map(t => {
+
+      combatResults = targets.map(t => {
         let resultingValue;
         switch (spell.type) {
           case SpellType.attack:
@@ -163,16 +165,19 @@ export class Combatant {
           targetDown: t.currentHp === 0
         }
       });
+      
       return combatResults;
     }
-
-    return [{
-      actionType: CombatActionTypes.failure,
-      executor: this,
-      target: null,
-      resultingValue: 0,
-      targetDown: false
-    }]
+    combatResults = targets.map(t=>{
+      return {
+        actionType: CombatActionTypes.failure,
+        executor: this,
+        target: t,
+        resultingValue: 0,
+        targetDown: false
+      }
+    })
+    return combatResults;
 
   }
 

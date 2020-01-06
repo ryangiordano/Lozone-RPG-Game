@@ -211,6 +211,12 @@ export class Combat {
     let results = await combatEvent.executeAction();
     this.updateCombatGrids();
 
+    // Handle failures
+    const failures = results.filter(r => r.actionType === CombatActionTypes.failure);
+    if (failures.length > 0) {
+      await Promise.all(failures.map(f=>this.displayMessage(f.message)))
+    }
+
     if (combatEvent.type === CombatActionTypes.useItem) {
       await Promise.all(results.map(r => this.displayMessage(r.message)));
     }
@@ -347,7 +353,7 @@ export class Combat {
       });
       container.add(coinText);
       return new Promise((resolve) => {
-        textScaleUp(coinText,0, -80, this.scene, () => {
+        textScaleUp(coinText, 0, -80, this.scene, () => {
           resolve();
         }).play();
       });

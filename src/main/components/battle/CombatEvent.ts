@@ -179,7 +179,6 @@ export class CombatEvent {
       this.targets = this.targets.filter(t => t.currentHp > 0)
     } else {
       // Single target
-
       if (this.targets[0] && this.targets[0].currentHp <= 0) {
         const nextTargetable = this.targets[0]
           .getParty()
@@ -189,6 +188,7 @@ export class CombatEvent {
         }
       }
     }
+
     return this.targets;
   }
 
@@ -222,7 +222,21 @@ export class SpellCastEvent extends CombatEvent {
       //TODO: Handle offensive or assistive magic here;
       // Handle mana check.  Lower mana here, NOT in executor.castSpell.  Otherwise, we use mana on every iteration.
 
+      
       const results: CombatResult[] = executor.castSpell(this.spell, targets);
+      
+      // If there were any failures
+      const allFailed = results.reduce((acc,r)=>acc=r.actionType === CombatActionTypes.failure,false)
+      if(allFailed){
+        results.forEach(r => {
+          const message = [
+            `${executor.name} failed to cast ${this.spell.name}`
+          ];
+          r.message = message;
+        });
+        return resolve(results);
+      }
+
       if (this.spell.primaryAnimationEffect) {
         await this.spell.primaryAnimationEffect.play(0, 0, this.scene, targets[0].getSprite().parentContainer);
       }
