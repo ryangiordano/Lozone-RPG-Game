@@ -110,7 +110,6 @@ export class UIPanel extends PanelContainer implements HasOptions {
     public escapable: boolean = true,
     id?: string) {
     super(dimensions, pos, spriteKey, scene, id);
-    this.createCaret();
 
   }
   private getNumberOfVisibleOptions() {
@@ -121,6 +120,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
   }
 
   public show() {
+    this.createCaret();
     this.setCaret()
     this.bringToTop(this.caret)
     this.visible = true;
@@ -130,10 +130,15 @@ export class UIPanel extends PanelContainer implements HasOptions {
   }
 
   public close() {
-    this.caret && this.caret.destroy();
+    this.destroyCaret();
     this.visible = false;
     this.handleClose();
     this.hideChildren();
+  }
+
+  private destroyCaret() {
+    this.caret && this.caret.destroy(true);
+    delete this.caret
   }
 
   public addOption(text: string, selectCallback: Function, focusCallback?: Function): UIPanel {
@@ -151,7 +156,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
   }
 
   public readjustOptionsForWindow() {
-    const startWindow = this.focusedIndex;
+    const startWindow = 0;
     const endWindow = startWindow + this.getNumberOfVisibleOptions();
     const options = [...this.options];
     this.resetOptions();
@@ -232,6 +237,9 @@ export class UIPanel extends PanelContainer implements HasOptions {
   }
 
   private createCaret() {
+    if (this.caret) {
+      return;
+    }
     this.caret = this.scene.add.text(-100, -100, ">", {
       fontFamily: "pixel",
       fontSize: "32px",
