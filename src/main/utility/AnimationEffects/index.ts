@@ -2,6 +2,7 @@ import { lesserHeal } from "./lesser-heal";
 import { hitEffect, deathEffect } from './hit-effect';
 import { flame } from './flame';
 import { explosion} from './explosion';
+import { fainted } from "./fainted";
 
 export const effectDatabase = {
     "1": {
@@ -28,5 +29,10 @@ export const effectDatabase = {
         id:5, 
         name: "Death Effect",
         play: deathEffect
+    },
+    "6": {
+        id: 6,
+        name: "Fainted",
+        play: fainted
     }
 }

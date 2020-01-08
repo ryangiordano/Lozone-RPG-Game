@@ -12,6 +12,26 @@ import { Defend } from "./Actions";
 import { Buff } from "./Buff";
 import { Item, handleItemUse } from "../entities/Item";
 import { SpellType } from "../../data/repositories/SpellRepository";
+import { EffectsRepository } from "../../data/repositories/EffectRepository";
+
+class EffectManager {
+  private effectContainer: Phaser.GameObjects.Container;
+  private effectRepository: EffectsRepository;
+  constructor(private scene: Phaser.Scene, private sprite: Phaser.GameObjects.Sprite) {
+    this.effectContainer = new Phaser.GameObjects.Container(scene);
+    this.effectRepository = new EffectsRepository(scene.game);
+  }
+
+  addEffect(effectId: number) {
+    const effect = this.effectRepository.getById(effectId);
+    effect.play(this.sprite.x, this.sprite.y, this.scene, this.effectContainer);
+
+  }
+
+  public getEffectContainer() {
+    return this.effectContainer;
+  }
+}
 
 export class Combatant {
   private buffs: Map<number, Buff>;
@@ -21,7 +41,8 @@ export class Combatant {
   public currentMp: number;
   public status: Set<Status>;
   public type: CombatantType;
-  private sprite: Phaser.GameObjects.Sprite;
+  protected sprite: Phaser.GameObjects.Sprite;
+  protected effectManager: EffectManager;
   public uid: string = getUID();
   protected currentParty;
   constructor(
@@ -49,6 +70,9 @@ export class Combatant {
   }
   public setSprite(scene: Phaser.Scene, direction?: Directions) {
     this.sprite = new Phaser.GameObjects.Sprite(scene, 0, 0, this.spriteKey);
+    this.effectManager = new EffectManager(scene, this.sprite);
+    this.sprite.setOrigin(.5, .5);
+    this.sprite.setAlpha(1);
     if (direction === Directions.right) {
       this.faceRight();
     }
@@ -65,7 +89,7 @@ export class Combatant {
     this.sprite.flipX = false;
   }
   faint() {
-    this.sprite.setFrame(8);
+    this.sprite.setFrame(9);
   }
   addBehaviors(behaviors: Behavior[]) {
     behaviors.forEach(behavior => {
@@ -165,10 +189,10 @@ export class Combatant {
           targetDown: t.currentHp === 0
         }
       });
-      
+
       return combatResults;
     }
-    combatResults = targets.map(t=>{
+    combatResults = targets.map(t => {
       return {
         actionType: CombatActionTypes.failure,
         executor: this,
@@ -183,7 +207,7 @@ export class Combatant {
 
   applyItem(item: Item): CombatResult[] {
     const potency = item.effectPotency * item.effect.basePotency;
-    const {resourceRecoverFunction} = handleItemUse(this, item);
+    const { resourceRecoverFunction } = handleItemUse(this, item);
     const healedFor = resourceRecoverFunction.call(this, potency);
     return [{
       actionType: CombatActionTypes.attack,
@@ -295,5 +319,8 @@ export class Combatant {
   }
   public getParty() {
     return this.currentParty;
+  }
+  public getEffectManager() {
+    return this.effectManager;
   }
 }

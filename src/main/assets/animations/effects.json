@@ -68,6 +68,16 @@
             },
             "repeat": 0,
             "frameRate": 18
+        },
+        {
+            "key": "fainted",
+            "frames": {
+                "typeOfGeneration": 1,
+                "frames": [0, 1, 2, 3],
+                "key": "fainted"
+            },
+            "repeat": -1,
+            "frameRate": 9
         }
     ]
 }

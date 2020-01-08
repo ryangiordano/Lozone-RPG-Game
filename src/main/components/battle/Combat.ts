@@ -173,9 +173,10 @@ export class Combat {
     const targetablePartyMembers = this.partyMembers.filter(
       partyMember => !partyMember.entity.status.has(Status.fainted)
     );
-    return targetablePartyMembers[
-      getRandomFloor(targetablePartyMembers.length)
-    ];
+    return targetablePartyMembers[0];
+    // return targetablePartyMembers[
+    //   getRandomFloor(targetablePartyMembers.length)
+    // ];
   }
 
   public sortEventsBySpeed() {
@@ -291,7 +292,9 @@ export class Combat {
             this.enemies.splice(index, 1);
           }
         } else if (target.type === CombatantType.partyMember) {
-          target.addStatusCondition(Status.fainted);
+          target.handleFaint();
+          await this.displayMessage([`${target.name} has fainted!`]);
+          
           if (
             this.partyMembers.every(partyMember =>
               partyMember.entity.status.has(Status.fainted)

@@ -2,7 +2,7 @@
   "1": {
     "name": "Lo",
     "spriteKey": "lo",
-    "maxHp": 10,
+    "maxHp": 1,
     "maxMp": 20,
     "currentHp": 10,
     "currentMp": 20,

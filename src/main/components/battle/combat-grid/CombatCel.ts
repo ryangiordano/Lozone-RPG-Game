@@ -31,6 +31,10 @@ export class CombatCel implements Cel {
       this.combatantInCel = combatant;
       this.combatantInCel.getSprite().setX(this.getX());
       this.combatantInCel.getSprite().setY(this.getY());
+      this.combatantInCel.getEffectManager().getEffectContainer().setX(this.getX());
+      this.combatantInCel.getEffectManager().getEffectContainer().setY(this.getY());
+
+
       const scene = combatant.getSprite().parentContainer['scene'];
       this.combatantBars = new CombatantBars(scene, combatant);
       this.combatantBars.setUpBars();

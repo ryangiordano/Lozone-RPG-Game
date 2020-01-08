@@ -77,10 +77,11 @@ export class CombatContainer extends Phaser.GameObjects.Container {
   public populateContainer() {
     this.combatants.forEach(combatant => {
       const sprite = combatant.entity.getSprite();
+      const effectContainer = combatant.entity.getEffectManager().getEffectContainer();
       this.add(sprite);
+      this.add(effectContainer);
       this.combatGrid.placeAt(combatant.position, combatant.entity);
-      sprite.setOrigin(.5, .5);
-      sprite.setAlpha(1);
+
     });
   }
 
@@ -91,8 +92,6 @@ export class CombatContainer extends Phaser.GameObjects.Container {
       const y = getRandomFloor(this.combatGrid.getHeight());
       this.combatGrid.placeAtRandomOpenPosition(combatant.entity);
       y > 1 ? this.bringToTop(sprite) : this.sendToBack(sprite);
-      sprite.setOrigin(.5, .5);
-      sprite.setAlpha(1);
     });
     this.combatGrid.grid.forEach((row) => {
       row.forEach((cel) => {

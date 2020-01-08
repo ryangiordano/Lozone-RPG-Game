@@ -1,12 +1,7 @@
 import { Combatant } from "./Combatant";
-import { CombatantType, Spell } from "./CombatDataStructures";
-
+import { CombatantType, Spell, Status } from "./CombatDataStructures";
 
 export class PartyMember extends Combatant {
-  private experienceCurve: number = 1.2;
-  public setExperienceCurve(newCurve) {
-    this.experienceCurve = newCurve;
-  }
   constructor(
     id,
     name,
@@ -42,10 +37,12 @@ export class PartyMember extends Combatant {
       spells);
     this.type = CombatantType.partyMember;
     this.initializeStatus();
-
   }
 
-
+  private experienceCurve: number = 1.2;
+  public setExperienceCurve(newCurve) {
+    this.experienceCurve = newCurve;
+  }
 
   public levelUp() {
     this.level += 1;
@@ -147,6 +144,29 @@ export class PartyMember extends Combatant {
     }
     this.currentExperience = leveledUp ? overFlow : total;
     return leveledUp;
+  }
+
+  public clearStatus() {
+    this.status = new Set();
+  }
+
+  /**
+   * Set the party member to fainted status, change the sprite to the fainted spritebundleRenderer.renderToStream
+   */
+  handleFaint() {
+    console.log(this.sprite)
+    this.clearStatus();
+    this.addStatusCondition(Status.fainted);
+    this.faint();
+    this.effectManager.addEffect(6)
+    // this.effectContainer.add()
+  }
+
+  private addSwirling
+
+  handleRevive() {
+    this.clearStatus();
+
   }
 }
 
