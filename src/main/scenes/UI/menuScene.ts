@@ -36,6 +36,7 @@ export class MenuScene extends Phaser.Scene {
       new KeyboardControl(this)
     );
     // DEBUG
+    this.state.addItemToContents(21)
     this.state.addItemToContents(20)
 
     this.mainPanel = this.createAndSetUpMainPanel();

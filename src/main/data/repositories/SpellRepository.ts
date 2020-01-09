@@ -5,7 +5,8 @@ export enum SpellType {
     restoration,
     attack,
     status,
-    manaRecover
+    manaRecover,
+    revive
 }
 
 export enum TargetArea {

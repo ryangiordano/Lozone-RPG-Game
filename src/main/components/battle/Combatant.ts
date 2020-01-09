@@ -285,20 +285,16 @@ export class Combatant {
     this.currentHp = Math.min(this.getMaxHp(), this.currentHp + hitPoints);
     return Math.min(missingHealth, hitPoints)
   }
-
   public recoverManaFor(manaPoints: number): number {
     const missingMana = this.getMaxMp() - this.currentMp;
     this.currentMp = Math.min(this.getMaxMp(), this.currentMp + manaPoints);
     return Math.min(missingMana, manaPoints)
   }
-
   public damageFor(hitPoints: number) {
     this.currentHp = Math.max(0, this.currentHp - hitPoints);
     if (this.currentHp === 0) {
     }
   }
-
-
   public addStatusCondition(status: Status) {
     this.status.add(status);
   }

@@ -154,19 +154,15 @@ export class PartyMember extends Combatant {
    * Set the party member to fainted status, change the sprite to the fainted spritebundleRenderer.renderToStream
    */
   handleFaint() {
-    console.log(this.sprite)
     this.clearStatus();
     this.addStatusCondition(Status.fainted);
     this.faint();
     this.effectManager.addEffect(6)
-    // this.effectContainer.add()
   }
 
-  private addSwirling
-
-  handleRevive() {
-    this.clearStatus();
-
+  handleRevive(){
+    this.removeStatusCondition(Status.fainted);
+    this.setCurrentHp(1);
   }
 }
 
