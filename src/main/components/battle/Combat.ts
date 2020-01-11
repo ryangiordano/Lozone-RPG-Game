@@ -17,6 +17,7 @@ import { Enemy } from "./Enemy";
 import { CombatEntity, CombatAction } from './CombatDataStructures';
 import { EffectsRepository } from '../../data/repositories/EffectRepository';
 import { TextFactory } from '../../utility/TextFactory';
+import { fainted } from '../../utility/AnimationEffects/fainted';
 
 export interface BattleState {
   flagsToFlip: number[],
@@ -30,7 +31,7 @@ export class Combat {
   private combatEvents: CombatEvent[] = [];
   private partyMembers: CombatEntity[] = [];
   private enemies: CombatEntity[] = [];
-  private currentPartyFocusIndex: number = 0;
+  private currentPartyFocusIndex: number = -1;
   private state = State.getInstance();
   private victoryFlags: number[] = [];
   private effectsRepository: EffectsRepository;
@@ -79,6 +80,9 @@ export class Combat {
       this.addEvent(event);
       this.confirmSelection();
     });
+    this.combatUI.events.on("character-incapacitated", () => {
+      this.confirmSelection();
+    })
   }
 
   public focusPreviousPartyInput(): boolean {
@@ -106,7 +110,7 @@ export class Combat {
         previous ? this.combatEvents.pop() : null;
         return true;
       }
-      return false;
+      //TODO: If we have no party members, the battle should end...
     }
   }
 
@@ -174,9 +178,6 @@ export class Combat {
       partyMember => !partyMember.entity.status.has(Status.fainted)
     );
     return targetablePartyMembers[0];
-    // return targetablePartyMembers[
-    //   getRandomFloor(targetablePartyMembers.length)
-    // ];
   }
 
   public sortEventsBySpeed() {
@@ -186,11 +187,16 @@ export class Combat {
   }
 
   private displayInputControlsForCurrentPartyMember() {
+    // if this is the first selection.
+    if (this.currentPartyFocusIndex < 0) {
+      this.focusNextPartyInput();
+    }
     this.constructInputUI(<PartyMember>this.getCurrentPartyMember().entity);
     this.combatUI.initialize();
   }
 
   private getCurrentPartyMember() {
+
     const partyMember = this.partyMembers[this.currentPartyFocusIndex];
     return partyMember;
   }
@@ -215,7 +221,7 @@ export class Combat {
     // Handle failures
     const failures = results.filter(r => r.actionType === CombatActionTypes.failure);
     if (failures.length > 0) {
-      await Promise.all(failures.map(f=>this.displayMessage(f.message)))
+      await Promise.all(failures.map(f => this.displayMessage(f.message)))
     }
 
     if (combatEvent.type === CombatActionTypes.useItem) {
@@ -294,7 +300,7 @@ export class Combat {
         } else if (target.type === CombatantType.partyMember) {
           target.handleFaint();
           await this.displayMessage([`${target.name} has fainted!`]);
-          
+
           if (
             this.partyMembers.every(partyMember =>
               partyMember.entity.status.has(Status.fainted)
@@ -442,7 +448,7 @@ export class Combat {
   }
 
   private resetPartyFocusIndex() {
-    this.currentPartyFocusIndex = 0;
+    this.currentPartyFocusIndex = -1;
   }
 
   public addAndPopulateContainers() {

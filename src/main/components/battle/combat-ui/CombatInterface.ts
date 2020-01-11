@@ -1,13 +1,14 @@
 import { UserInterface, TraversibleObject } from "../../UI/UserInterface";
 import { TextFactory } from "../../../utility/TextFactory";
 import { CombatEvent, UseItemEvent, SpellCastEvent } from '../CombatEvent';
-import { Orientation, CombatActionTypes, CombatEntity } from '../CombatDataStructures';
+import { Orientation, CombatActionTypes, CombatEntity, Status } from '../CombatDataStructures';
 import { PartyMember } from "../PartyMember";
 import { UIPanel, PanelContainer } from "../../UI/PanelContainer";
 import { KeyboardControl } from "../../UI/Keyboard";
 import { State } from "../../../utility/state/State";
 import { SpellType, TargetArea, TargetType, Targeting } from '../../../data/repositories/SpellRepository';
 import { CombatContainer } from "../combat-grid/CombatContainer";
+import { fainted } from '../../../utility/AnimationEffects/fainted';
 
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory;
@@ -33,6 +34,7 @@ export class CombatInterface extends UserInterface {
     this.textFactory = new TextFactory(scene);
   }
   public create(partyMember: PartyMember) {
+
     this.currentPartyMember = partyMember;
     this.createMainPanel();
     this.createStatusPanel();

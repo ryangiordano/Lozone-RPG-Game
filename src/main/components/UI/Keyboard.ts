@@ -41,7 +41,7 @@ export class KeyboardControl {
       }
     });
   }
-  
+
   public on(eventName: any, uniqueContextId: string, fn: Function) {
     const eventObj = {
       uid: uniqueContextId,
@@ -69,7 +69,7 @@ export class KeyboardControl {
   }
 
   public off(eventName: KeyboardControlKeys, uniqueContextId: string) {
-    this.events[eventName] = this.events[eventName].filter(event => {
+    this.events[eventName] = this.events[eventName] && this.events[eventName].filter(event => {
       return event.uid !== uniqueContextId;
     });
   }
