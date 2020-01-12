@@ -110,6 +110,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "aris",
+        "url": "./src/main/assets/sprites/aris.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "yaya",
         "url": "./src/main/assets/sprites/yaya.png",
         "frameConfig": {

@@ -43,16 +43,6 @@ export abstract class Explore extends Phaser.Scene {
     }
     this.warpUtility = new WarpUtility(this);
     this.afterInit(data);
-
-
-
-
-
-    // setTimeout(() => {
-    //   const er = new EffectsRepository(this.game);
-    //   const effect = er.getById(4)
-    //   effect.play(300, 300, this)
-    // }, 1500)
   }
   protected abstract afterInit(data);
   preload(): void {

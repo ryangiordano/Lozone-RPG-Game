@@ -58,5 +58,39 @@
                 "spell": 12
             }
         ]
+    },
+    "4": {
+        "name": "Plumpkin",
+        "maxHp": 1.8,
+        "maxMp": 1.8,
+        "intellect": 1.9,
+        "dexterity": 1.1,
+        "wisdom": 1.8,
+        "stamina": 1.9,
+        "strength": 1.1,
+        "physicalResist": 1.5,
+        "magicalResist": 1.7,
+        "spells":[
+            {
+                "requiredLevel":1,
+                "classModifier":1,
+                "spell": 10
+            },
+            {
+                "requiredLevel":1,
+                "classModifier":1,
+                "spell": 1
+            },
+            {
+                "requiredLevel":1,
+                "classModifier":1,
+                "spell": 11
+            },
+            {
+                "requiredLevel":1,
+                "classModifier":1,
+                "spell": 12
+            }
+        ]
     }
 }

@@ -187,7 +187,10 @@ export class Combat {
     const targetablePartyMembers = this.partyMembers.filter(
       partyMember => !partyMember.entity.status.has(Status.fainted)
     );
-    return targetablePartyMembers[0];
+    return targetablePartyMembers[
+      getRandomFloor(targetablePartyMembers.length)
+    ];
+
   }
 
   public sortEventsBySpeed() {

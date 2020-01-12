@@ -74,5 +74,24 @@
     "currentExperience": 0,
     "toNextLevel": 90,
     "classId": 1
+  },
+  "5": {
+    "name": "Aris",
+    "spriteKey": "aris",
+    "maxHp": 10,
+    "maxMp": 30,
+    "currentHp": 40,
+    "currentMp": 30,
+    "level": 1,
+    "intellect": 8,
+    "dexterity": 8,
+    "wisdom": 8,
+    "stamina": 8,
+    "strength": 8,
+    "physicalResist": 1,
+    "magicalResist": 1,
+    "currentExperience": 0,
+    "toNextLevel": 90,
+    "classId": 4
   }
 }

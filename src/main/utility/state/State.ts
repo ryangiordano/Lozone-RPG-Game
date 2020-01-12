@@ -69,7 +69,6 @@ export class State {
   }
 
   public getCurrentParty() {
-
     return this.party;
   }
 
@@ -83,7 +82,7 @@ export class State {
     this.playerContents = new PlayerContents();
 
     this.flags = this.flagController.getAllFlags();
-    const combatEntities = [
+    const partyMembers = [
       {
         entity: this.partyController.getPartyMemberById(1),
         position: { x: 0, y: 0 }
@@ -95,9 +94,13 @@ export class State {
       {
         entity: this.partyController.getPartyMemberById(3),
         position: { x: 0, y: 2 }
+      },
+      {
+        entity: this.partyController.getPartyMemberById(5),
+        position: { x: 2, y: 2 }
       }
     ]
-    this.party = new HeroParty(combatEntities, this.game);
+    this.party = new HeroParty(partyMembers, this.game);
   }
 
   public isFlagged(id: number) {
