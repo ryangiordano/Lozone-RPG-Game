@@ -5,7 +5,8 @@ import {
   Status,
   CombatActionTypes,
   CombatResult,
-  CombatantType
+  CombatantType,
+  Effect
 } from "./CombatDataStructures";
 import { getUID, Directions } from "../../utility/Utility";
 import { Defend } from "./Actions";
@@ -14,9 +15,15 @@ import { Item, handleItemUse } from "../entities/Item";
 import { SpellType } from "../../data/repositories/SpellRepository";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
 
+interface PersistentAffect {
+  id: number,
+  stop: Function,
+}
+
 class EffectManager {
   private effectContainer: Phaser.GameObjects.Container;
   private effectRepository: EffectsRepository;
+  private activeEffects: PersistentAffect[] = [];
   constructor(private scene: Phaser.Scene, private sprite: Phaser.GameObjects.Sprite) {
     this.effectContainer = new Phaser.GameObjects.Container(scene);
     this.effectRepository = new EffectsRepository(scene.game);
@@ -24,8 +31,21 @@ class EffectManager {
 
   addEffect(effectId: number) {
     const effect = this.effectRepository.getById(effectId);
-    effect.play(this.sprite.x, this.sprite.y, this.scene, this.effectContainer);
+    const stop = effect.play(this.sprite.x, this.sprite.y, this.scene, this.effectContainer);
+    this.activeEffects.push({id: effectId, stop });
 
+
+  }
+
+  public removeEffect(effectId: number) {
+    this.activeEffects = this.activeEffects.reduce((acc, effect) => {
+      if (effect.id === effectId) {
+        effect.stop && effect.stop();
+      }else {
+        acc.push(effect)
+      }
+      return acc;
+    }, []);
   }
 
   public getEffectContainer() {
@@ -45,6 +65,7 @@ export class Combatant {
   protected effectManager: EffectManager;
   public uid: string = getUID();
   protected currentParty;
+  private direction: Directions;
   constructor(
     public id: number,
     public name: string,
@@ -69,14 +90,18 @@ export class Combatant {
     }
   }
   public setSprite(scene: Phaser.Scene, direction?: Directions) {
+    this.direction = direction;
     this.sprite = new Phaser.GameObjects.Sprite(scene, 0, 0, this.spriteKey);
     this.effectManager = new EffectManager(scene, this.sprite);
     this.sprite.setOrigin(.5, .5);
     this.sprite.setAlpha(1);
-    if (direction === Directions.right) {
+    this.standUp();
+  }
+  standUp() {
+    if (this.direction === Directions.right) {
       this.faceRight();
     }
-    if (direction === Directions.left) {
+    if (this.direction === Directions.left) {
       this.faceLeft();
     }
   }
@@ -318,5 +343,8 @@ export class Combatant {
   }
   public getEffectManager() {
     return this.effectManager;
+  }
+  public revive() {
+    //todo
   }
 }

@@ -44,6 +44,7 @@ export class Combat {
     party.forEach(member => {
       member.entity.setSprite(scene, Directions.right);
       this.partyMembers.push(member);
+      this.applyStatus(this.partyMembers);
     });
 
     this.lootCrate = {
@@ -73,6 +74,15 @@ export class Combat {
     });
 
     this.effectsRepository = new EffectsRepository(this.scene.game);
+  }
+
+  private applyStatus(partyMembers) {
+    partyMembers.forEach(p => {
+      const fainted = p.entity.status.has(Status.fainted)
+      if (fainted) {
+        p.entity.handleFaint();
+      }
+    })
   }
 
   private setListenersOnUI() {

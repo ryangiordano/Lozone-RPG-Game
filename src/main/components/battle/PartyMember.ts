@@ -160,9 +160,12 @@ export class PartyMember extends Combatant {
     this.effectManager.addEffect(6)
   }
 
-  handleRevive(){
+  revive(){
     this.removeStatusCondition(Status.fainted);
     this.setCurrentHp(1);
+    this.standUp();
+    this.effectManager.removeEffect(6)
+    return "Revived!"
   }
 }
 

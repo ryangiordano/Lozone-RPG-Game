@@ -104,6 +104,11 @@ export const handleItemUse = (target: Combatant, item: Item): ItemUseObject => {
       resourceFull = target.currentHp >= target.getMaxHp();
       resourceRecoverFunction = target.healFor;
       break;
+    case SpellType.revive:
+      resource = '';
+      resourceFull = target.currentHp >= target.getMaxHp();
+      resourceRecoverFunction = target.revive;
+      break;
     default:
       break;
   }

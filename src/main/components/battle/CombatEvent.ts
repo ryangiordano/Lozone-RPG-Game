@@ -69,7 +69,7 @@ export class CombatEvent {
       }];
       const text = this.createCombatText("^", this.executor);
       await this.playFadeUp(text);
-      results[0].message= [`${this.executor.name} is defending.`];
+      results[0].message = [`${this.executor.name} is defending.`];
       return resolve(results);
     });
   }
@@ -173,12 +173,16 @@ export class CombatEvent {
     });
   }
 
-  protected confirmTargets(): Combatant[] {
+  protected confirmTargets(targetOverride = false): Combatant[] {
     if (this.targets.length > 1) {
       // Multiple targets
       this.targets = this.targets.filter(t => t.currentHp > 0)
     } else {
       // Single target
+      if(targetOverride && this.targets[0]){
+        this.targets = [this.targets[0]];
+        return this.targets;
+      }
       if (this.targets[0] && this.targets[0].currentHp <= 0) {
         const nextTargetable = this.targets[0]
           .getParty()
@@ -222,12 +226,12 @@ export class SpellCastEvent extends CombatEvent {
       //TODO: Handle offensive or assistive magic here;
       // Handle mana check.  Lower mana here, NOT in executor.castSpell.  Otherwise, we use mana on every iteration.
 
-      
+
       const results: CombatResult[] = executor.castSpell(this.spell, targets);
-      
+
       // If there were any failures
-      const allFailed = results.reduce((acc,r)=>acc=r.actionType === CombatActionTypes.failure,false)
-      if(allFailed){
+      const allFailed = results.reduce((acc, r) => acc = r.actionType === CombatActionTypes.failure, false)
+      if (allFailed) {
         results.forEach(r => {
           const message = [
             `${executor.name} failed to cast ${this.spell.name}`
@@ -329,7 +333,7 @@ export class UseItemEvent extends CombatEvent {
         await this.item.effect.animationEffect.play(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer);
       }));
 
-      const {resource} = handleItemUse(targets[0], this.item);
+      const { resource } = handleItemUse(targets[0], this.item);
 
       const texts = results.map(r => this.createCombatText(
         r.resultingValue.toString(),
@@ -355,7 +359,8 @@ export class UseItemEvent extends CombatEvent {
   public async executeAction(): Promise<CombatResult[]> {
     return new Promise(async resolve => {
       const executor = this.executor;
-      const targets = this.confirmTargets();
+      const targetOverride = this.item.effect.type === SpellType.revive;
+      const targets = this.confirmTargets(targetOverride);
       let results;
       // This is where we implement our Actions.ts actions.
       if (this.type === CombatActionTypes.useItem) {

@@ -5,7 +5,7 @@ import { KeyboardControl, KeyboardControlKeys } from "../../components/UI/Keyboa
 import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 import { TextFactory } from '../../utility/TextFactory';
 import { Bar, HpBar, MpBar, XpBar } from '../../components/UI/Bars';
-import { CombatEntity } from '../../components/battle/CombatDataStructures';
+import { CombatEntity, Status } from '../../components/battle/CombatDataStructures';
 import { Item, handleItemUse } from '../../components/entities/Item';
 import { SpellType } from '../../data/repositories/SpellRepository';
 
@@ -316,7 +316,16 @@ class PartyMemberPanel extends PanelContainer {
   public addSprite() {
     this.sprite = this.scene.add.sprite(95, 55, this.partyMember.spriteKey, 0);
     this.add(this.sprite)
+    this.refreshStatus();
 
+  }
+
+  /**Update the sprite to reflect the current status of the character. */
+  public refreshStatus(){
+    if(this.partyMember.status.has(Status.fainted)){
+      //TODO: This isn't working.
+      this.partyMember.faint()
+    }
   }
 
   public createHpBar() {
@@ -362,6 +371,7 @@ class PartyMemberPanel extends PanelContainer {
   public focus() {
     super.focus();
     this.sprite.anims.setRepeat(-1)
+    // Instead of playing directly, do this in another a function.
     this.sprite.anims.play(`${this.sprite.texture.key}-walkDown`, false);
   }
 }
