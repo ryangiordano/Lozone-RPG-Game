@@ -7,9 +7,10 @@ import { CreditsScene } from "./scenes/credits/creditsScene";
 import { HouseScene } from "./scenes/exploration/houseScene";
 import { DungeonScene } from "./scenes/exploration/dungeonScene";
 import { CombatScene } from "./scenes/combat/combatScene";
-import {DialogScene } from "./scenes/dialogscene";
-import { PartyMenuScene } from './scenes/UI/partyMenuScene';
-import { StoreScene } from './scenes/store/storeScene';
+import { DialogScene } from "./scenes/dialogscene";
+import { PartyMenuScene } from "./scenes/UI/partyMenuScene";
+import { StoreScene } from "./scenes/store/storeScene";
+import { GameOverScene } from "./scenes/gameOverScene";
 // main game configuration
 const config: GameConfig = {
   width: 640,
@@ -27,6 +28,7 @@ const config: GameConfig = {
     DialogScene,
     PartyMenuScene,
     StoreScene,
+    GameOverScene
   ],
   input: {
     keyboard: true
@@ -37,7 +39,7 @@ const config: GameConfig = {
       { key: "updatePlugin", plugin: PhaserUpdatePlugin, mapping: "updates" }
     ]
   },
-  backgroundColor: "#383838", 
+  backgroundColor: "#383838",
   physics: {
     default: "arcade",
     render: { pixelArt: true, antialias: false }

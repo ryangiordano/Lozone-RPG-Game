@@ -1,0 +1,7 @@
+
+class PartyManagement {
+  constructor() {
+
+  }
+  
+}

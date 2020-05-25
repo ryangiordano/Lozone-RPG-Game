@@ -1,5 +1,21 @@
+interface TweenFactoryConfig {
+  targets?: any[],
+  ease?: string,
+  duration?: number,
+  delay?: number,
+  repeat?: number,
+  paused?: boolean,
+  alpha?: object,
+  color?: string,
+  scaleY?: number,
+  scaleX?: number,
+  onComplete?: Function,
+  yoyo?: boolean
+  x?:string,
+  y?:string
+}
 export class TweenFactory {
-  private tweenConfig;
+  private tweenConfig: TweenFactoryConfig;
   constructor() {}
   public createTween(target: any, duration: number = 5, delay: number = 0) {
     target.setOrigin(0.5, 0.5);
@@ -17,12 +33,14 @@ export class TweenFactory {
     this.tweenConfig.ease = ease;
     return this;
   }
-  public fadeIn() {
+  public fadeIn(duration) {
     this.tweenConfig.targets.forEach(target => target.setAlpha(0));
     this.tweenConfig.alpha = {
       getStart: () => 0,
       getEnd: () => 1
     };
+    this.tweenConfig.duration = duration;
+    this.tweenConfig
     return this;
   }
   public fadeOut() {

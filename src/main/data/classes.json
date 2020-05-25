@@ -51,11 +51,6 @@
                 "requiredLevel":1,
                 "classModifier":1,
                 "spell": 11
-            },
-            {
-                "requiredLevel":1,
-                "classModifier":1,
-                "spell": 12
             }
         ]
     },
@@ -70,6 +65,35 @@
         "strength": 1.1,
         "physicalResist": 1.5,
         "magicalResist": 1.7,
+        "spells":[
+            {
+                "requiredLevel":1,
+                "classModifier":1,
+                "spell": 10
+            },
+            {
+                "requiredLevel":1,
+                "classModifier":1,
+                "spell": 1
+            },
+            {
+                "requiredLevel":1,
+                "classModifier":1,
+                "spell": 11
+            }
+        ]
+    },
+    "5": {
+        "name": "Debug Warrior",
+        "maxHp": 100.8,
+        "maxMp": 100.8,
+        "intellect": 100.9,
+        "dexterity": 100.1,
+        "wisdom": 100.8,
+        "stamina": 100.9,
+        "strength": 100.1,
+        "physicalResist": 100.5,
+        "magicalResist": 100.7,
         "spells":[
             {
                 "requiredLevel":1,

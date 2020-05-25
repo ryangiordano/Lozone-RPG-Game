@@ -20,8 +20,9 @@ export class State {
   public itemController: ItemController;
   public dialogController: DialogController;
   public npcController: NPCController;
-  public playerContents: PlayerContents;
   private partyController: PartyController;
+  public playerContents: PlayerContents;
+  
   private party: HeroParty;
 
   private constructor() { }
@@ -82,22 +83,11 @@ export class State {
     this.playerContents = new PlayerContents();
 
     this.flags = this.flagController.getAllFlags();
+    // Move this out to save data
     const partyMembers = [
       {
         entity: this.partyController.getPartyMemberById(1),
         position: { x: 0, y: 0 }
-      },
-      {
-        entity: this.partyController.getPartyMemberById(2),
-        position: { x: 1, y: 1 }
-      },
-      {
-        entity: this.partyController.getPartyMemberById(3),
-        position: { x: 0, y: 2 }
-      },
-      {
-        entity: this.partyController.getPartyMemberById(5),
-        position: { x: 2, y: 2 }
       }
     ]
     this.party = new HeroParty(partyMembers, this.game);

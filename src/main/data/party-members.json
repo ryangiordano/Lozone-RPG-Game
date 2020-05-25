@@ -49,12 +49,12 @@
     "dexterity": 12,
     "wisdom": 8,
     "stamina": 8,
-    "strength": 400,
+    "strength": 6,
     "physicalResist": 1,
     "magicalResist": 1,
     "currentExperience": 0,
     "toNextLevel": 98,
-    "classId": 3
+    "classId": 5
   },
   "4": {
     "name": "Ryan",

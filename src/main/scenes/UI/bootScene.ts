@@ -3,50 +3,75 @@ import { State } from "../../utility/state/State";
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
-  private progressBar: Phaser.GameObjects.Graphics;
+  private progressBar: Phaser.GameObjects.Graphics; 
+  private loaded: boolean = false;
   constructor() {
     super({ key: "BootScene" });
+    console.log(this.loaded)
+    if (this.loaded) {
+      this.runStartupProcess();
+    }
+  }
+  private runStartupProcess() {
+    console.log("Runnin'")
+    const daruma = this.add.text(50, 99, "Catshape Daruma®", {
+      fontFamily: "pixel",
+      fontSize: "10px",
+      fill: "#000000",
+      fontWeight: "bold",
+    });
+    const animationHelper = new AnimationHelper(this);
+    animationHelper.createGameAnimations(
+      this.cache.json.get("ryanAndLoAnimation").anims
+    );
+    animationHelper.createGameAnimations(
+      this.cache.json.get("animated-spell-effects").anims
+    );
+    animationHelper.createGenericGameAnimations(
+      ["lo", "yaya", "tuzi", "aris", "ryan"],
+      this.cache.json.get("npcSpriteAnimation").anims
+    );
+    animationHelper.createGenericGameAnimations(
+      ["laundromancer-sprite", "wanmonster-sprite", "cosmoknight-sprite"],
+      this.cache.json.get("bossMonsterSpriteAnimation").anims
+    );
+
+    const sprite = this.add.sprite(80, 65, "ryanandlo");
+    sprite.scaleX = 0.3;
+    sprite.scaleY = 0.3;
+    sprite.anims.play("shine-in");
+    sprite.on("animationcomplete", () => {
+      console.log("Animatin'");
+      this.sound.play("startup", { volume: 0.1 });
+      setTimeout(() => {
+        // this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
+        this.scene.start("GameOverScene", {
+          map: "room",
+          tileset: "room-tiles",
+        });
+      }, 3000);
+    });
+
+    // When we get to the point  where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.
+    const sm = State.getInstance();
+    sm.initialize(this.game);
+
+    // ===================================
+    // Start the scene in Debug Mode
+    // ===================================
+    // this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
+    // const tempParty = [13, 1, 2, 3, 4, 5];
+    // this.scene.start("GameOverScene", { map: "room", tileset: "room-tiles" });
   }
 
   preload(): void {
     this.sound.add("startup");
     this.cameras.main.setBackgroundColor(0xffffff);
     this.createLoadingGraphics();
-    this.load.on(
-      "complete",
-      () => {
-
-        const daruma = this.add.text(50, 99, "Daruma®", {
-          fontFamily: "pixel",
-          fontSize: "10px",
-          fill: "#000000",
-          fontWeight: "bold"
-        });
-        const animationHelper = new AnimationHelper(this);
-        animationHelper.createGameAnimations(this.cache.json.get("ryanAndLoAnimation").anims);
-        animationHelper.createGameAnimations(this.cache.json.get("animated-spell-effects").anims);
-        animationHelper.createGenericGameAnimations(['lo', 'yaya', 'tuzi', 'aris', 'ryan'], this.cache.json.get("npcSpriteAnimation").anims);
-        animationHelper.createGenericGameAnimations(['laundromancer-sprite', 'wanmonster-sprite', 'cosmoknight-sprite'], this.cache.json.get("bossMonsterSpriteAnimation").anims);
-
-        const sprite = this.add.sprite(80, 65, "ryanandlo");
-        sprite.scaleX = 0.3;
-        sprite.scaleY = 0.3;
-        sprite.anims.play("shine-in");
-        sprite.on("animationcomplete", () => {
-          this.sound.play("startup", { volume: .1 });
-        });
-
-        // When we get to the point where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.
-        const sm = State.getInstance();
-        sm.initialize(this.game);
-
-        // ===================================
-        // Start the scene in Debug Mode
-        // ===================================
-        this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
-        const tempParty = [13, 1, 2, 3, 4, 5];
-      },
-    );
+    this.load.on("complete", () => {
+      this.loaded = true;
+      this.runStartupProcess();
+    });
     // Load the packages
     this.load.pack(
       "preload_spritesheets",

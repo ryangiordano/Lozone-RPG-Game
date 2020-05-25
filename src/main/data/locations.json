@@ -19,7 +19,7 @@
         "scene": "Dungeon",
         "tileset": "dungeon",
         "map": "dungeon_1",
-        "enemyPartyIds": [13, 1, 2, 3, 4, 5, 6 ]
+        "enemyPartyIds": [13, 1, 2, 4, 5, 6 ]
     },
     "5": {
         "name": "Dungeon_1_2",

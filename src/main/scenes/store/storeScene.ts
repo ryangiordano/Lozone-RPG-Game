@@ -19,14 +19,14 @@ export class StoreScene extends Phaser.Scene {
   preload() {
   }
   public init(data) {
-    const {callingSceneKey} = data;
+    const { callingSceneKey } = data;
     const storeBuilder = new StoreInterfaceBuilder(this);
 
     this.storeUI = storeBuilder.create();
     const rect = new Phaser.GameObjects.Rectangle(this, 0, 0, 2000, 2000, 0x383838, 1);
     this.add.existing(rect);
 
-    this.storeUI.on('close-menu',()=>{
+    this.storeUI.on('close-menu', () => {
       this.scene.setActive(true, this.callingSceneKey);
       this.scene.stop();
     })

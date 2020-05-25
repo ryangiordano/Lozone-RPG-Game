@@ -1,11 +1,15 @@
-import { scaleUpDown, slowScaleUp, textScaleUp } from './../../utility/tweens/text';
+import {
+  scaleUpDown,
+  slowScaleUp,
+  textScaleUp,
+} from "./../../utility/tweens/text";
 import { Combatant } from "./Combatant";
 import {
   CombatActionTypes,
   CombatantType,
   Orientation,
   Status,
-  LootCrate
+  LootCrate,
 } from "./CombatDataStructures";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import { getRandomFloor, Directions, wait } from "../../utility/Utility";
@@ -14,14 +18,14 @@ import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./combat-ui/CombatInterface";
 import { State } from "../../utility/state/State";
 import { Enemy } from "./Enemy";
-import { CombatEntity, CombatAction } from './CombatDataStructures';
-import { EffectsRepository } from '../../data/repositories/EffectRepository';
-import { TextFactory } from '../../utility/TextFactory';
-import { fainted } from '../../utility/AnimationEffects/fainted';
+import { CombatEntity, CombatAction } from "./CombatDataStructures";
+import { EffectsRepository } from "../../data/repositories/EffectRepository";
+import { TextFactory } from "../../utility/TextFactory";
+import { fainted } from "../../utility/AnimationEffects/fainted";
 
 export interface BattleState {
-  flagsToFlip: number[],
-  victorious: boolean,
+  flagsToFlip: number[];
+  victorious: boolean;
 }
 export class Combat {
   private partyContainer: CombatContainer;
@@ -41,7 +45,7 @@ export class Combat {
     party: CombatEntity[],
     enemies: CombatEntity[]
   ) {
-    party.forEach(member => {
+    party.forEach((member) => {
       member.entity.setSprite(scene, Directions.right);
       this.partyMembers.push(member);
       this.applyStatus(this.partyMembers);
@@ -50,15 +54,18 @@ export class Combat {
     this.lootCrate = {
       itemIds: [],
       coin: 0,
-      experiencePoints: 0
+      experiencePoints: 0,
     };
 
-    enemies.forEach(enemy => {
+    enemies.forEach((enemy) => {
       enemy.entity.setSprite(scene, Directions.left);
       this.enemies.push(enemy);
       const enemyEntity = <Enemy>enemy.entity;
       if (enemyEntity.flagsWhenDefeated) {
-        this.victoryFlags = [...this.victoryFlags, ...enemyEntity.flagsWhenDefeated]
+        this.victoryFlags = [
+          ...this.victoryFlags,
+          ...enemyEntity.flagsWhenDefeated,
+        ];
       }
     });
 
@@ -69,7 +76,7 @@ export class Combat {
       await this.displayMessage(["Escaped Successfully"]);
       this.scene.events.emit("end-battle", {
         victorious: false,
-        flagsToFlip: null
+        flagsToFlip: null,
       });
     });
 
@@ -77,22 +84,22 @@ export class Combat {
   }
 
   private applyStatus(partyMembers) {
-    partyMembers.forEach(p => {
-      const fainted = p.entity.status.has(Status.fainted)
+    partyMembers.forEach((p) => {
+      const fainted = p.entity.status.has(Status.fainted);
       if (fainted) {
         p.entity.handleFaint();
       }
-    })
+    });
   }
 
   private setListenersOnUI() {
-    this.combatUI.events.on("option-selected", event => {
+    this.combatUI.events.on("option-selected", (event) => {
       this.addEvent(event);
       this.confirmSelection();
     });
     this.combatUI.events.on("character-incapacitated", () => {
       this.confirmSelection();
-    })
+    });
   }
 
   public focusPreviousPartyInput(): boolean {
@@ -112,7 +119,7 @@ export class Combat {
       : this.currentPartyFocusIndex + 1;
 
     while (previous ? tempIndex > 0 : tempIndex < count) {
-      const partyMember = <PartyMember>this.partyMembers[tempIndex].entity
+      const partyMember = <PartyMember>this.partyMembers[tempIndex].entity;
       if (this.partyMemberHasImobileStatus(partyMember)) {
         previous ? tempIndex-- : tempIndex++;
       } else {
@@ -141,7 +148,7 @@ export class Combat {
       this.scene,
       "dialog-white",
       this.enemyContainer,
-      this.partyContainer,
+      this.partyContainer
     );
     this.combatUI.create(partyMember);
     this.setListenersOnUI();
@@ -167,7 +174,7 @@ export class Combat {
   }
 
   private applyEnemyTurns() {
-    this.enemies.forEach(enemy => {
+    this.enemies.forEach((enemy) => {
       //TODO: In here we would query the enemy's behavior script, and check the state of the battlefield before making a decision for what to do.  For now, we attack;
       const randomPartyMember = this.getRandomAttackablePartyMember();
 
@@ -185,12 +192,11 @@ export class Combat {
 
   private getRandomAttackablePartyMember() {
     const targetablePartyMembers = this.partyMembers.filter(
-      partyMember => !partyMember.entity.status.has(Status.fainted)
+      (partyMember) => !partyMember.entity.status.has(Status.fainted)
     );
     return targetablePartyMembers[
       getRandomFloor(targetablePartyMembers.length)
     ];
-
   }
 
   public sortEventsBySpeed() {
@@ -204,12 +210,14 @@ export class Combat {
     if (this.currentPartyFocusIndex < 0) {
       this.focusNextPartyInput();
     }
-    this.constructInputUI(<PartyMember>this.getCurrentPartyMember().entity);
+    const partyMemberEntity =
+      this.getCurrentPartyMember() &&
+      <PartyMember>this.getCurrentPartyMember().entity;
+    partyMemberEntity && this.constructInputUI(partyMemberEntity);
     this.combatUI.initialize();
   }
 
   private getCurrentPartyMember() {
-
     const partyMember = this.partyMembers[this.currentPartyFocusIndex];
     return partyMember;
   }
@@ -232,57 +240,60 @@ export class Combat {
     this.updateCombatGrids();
 
     // Handle failures
-    const failures = results.filter(r => r.actionType === CombatActionTypes.failure);
+    const failures = results.filter(
+      (r) => r.actionType === CombatActionTypes.failure
+    );
     if (failures.length > 0) {
-      await Promise.all(failures.map(f => this.displayMessage(f.message)))
+      await Promise.all(failures.map((f) => this.displayMessage(f.message)));
     }
 
     if (combatEvent.type === CombatActionTypes.useItem) {
-      await Promise.all(results.map(r => this.displayMessage(r.message)));
+      await Promise.all(results.map((r) => this.displayMessage(r.message)));
     }
     if (combatEvent.type === CombatActionTypes.defend) {
-      await Promise.all(results.map(r => this.displayMessage(r.message)));
+      await Promise.all(results.map((r) => this.displayMessage(r.message)));
     }
-    // TODO: Hook this up so we don't have to use a wait here.  
+    // TODO: Hook this up so we don't have to use a wait here.
     // The goal is to get all of the cels in all of the grids to tell us when every single
     // one is done updating, and only when the last cel is done do we continue.
     // Right now we use wait :x
     await wait(500);
-    await Promise.all(results.map(async r => {
-      const target = r.target;
-      await this.resolveTargetDeaths(target);
-    }));
+    await Promise.all(
+      results.map(async (r) => {
+        const target = r.target;
+        await this.resolveTargetDeaths(target);
+      })
+    );
     this.startLoop();
   }
 
   private async handleBattleEnd() {
     this.scene.sound.stopAll();
-    this.scene.sound.play('victory', { volume: .4 })
+    this.scene.sound.play("victory", { volume: 0.4 });
     await this.displayMessage(["You've won!"]);
     await this.distributeLoot();
     return this.scene.events.emit("end-battle", {
       victorious: true,
-      flagsToFlip: this.victoryFlags
+      flagsToFlip: this.victoryFlags,
     });
   }
 
   private updateCombatGrids(): Promise<any> {
-    return new Promise(resolve => {
-      this.scene.events.emit('update-combat-grids');
-      this.scene.events.on('finish-update-combat-grids', () => {
-        this.scene.events.off('finish-update-combat-grids');
+    return new Promise((resolve) => {
+      this.scene.events.emit("update-combat-grids");
+      this.scene.events.on("finish-update-combat-grids", () => {
+        this.scene.events.off("finish-update-combat-grids");
         resolve();
-      })
-    })
-
+      });
+    });
   }
 
   /**
    * Play death animations and sounds, reward coins and experience and items
-   * @param target 
+   * @param target
    */
   private async resolveTargetDeaths(target) {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       if (target && target.currentHp === 0) {
         if (target.type === CombatantType.enemy) {
           const container = target.getSprite().parentContainer;
@@ -291,22 +302,28 @@ export class Combat {
             return new Promise((resolve) => {
               const sprite = target.getSprite();
               scaleUpDown(sprite, this.scene, async () => {
-                this.scene.sound.play("dead", { volume: .1 });
+                this.scene.sound.play("dead", { volume: 0.1 });
 
                 const hitEffect = this.effectsRepository.getById(3);
-                await hitEffect.play(sprite.x, sprite.y, this.scene, sprite.parentContainer);
+                await hitEffect.play(
+                  sprite.x,
+                  sprite.y,
+                  this.scene,
+                  sprite.parentContainer
+                );
 
                 resolve();
                 cel.destroyEnemy();
-
               }).play();
             });
-          }
+          };
 
           await deathAnimation();
           await this.lootEnemy(target, container);
 
-          const index = this.enemies.findIndex(enemy => enemy.entity.uid === target.uid);
+          const index = this.enemies.findIndex(
+            (enemy) => enemy.entity.uid === target.uid
+          );
           if (index > -1) {
             this.enemies.splice(index, 1);
           }
@@ -315,7 +332,7 @@ export class Combat {
           await this.displayMessage([`${target.name} has fainted!`]);
 
           if (
-            this.partyMembers.every(partyMember =>
+            this.partyMembers.every((partyMember) =>
               partyMember.entity.status.has(Status.fainted)
             )
           ) {
@@ -325,8 +342,7 @@ export class Combat {
         }
       }
       resolve();
-    })
-
+    });
   }
 
   private async lootEnemy(target: any, container: any) {
@@ -356,42 +372,51 @@ export class Combat {
     // items
     // ===================================
 
-    target.lootTable.forEach(itemObject => {
+    target.lootTable.forEach((itemObject) => {
       const roll = Math.random();
       const winningRoll = roll < itemObject.rate;
       if (winningRoll) {
-        this.lootCrate.itemIds.push(itemObject.itemId)
+        this.lootCrate.itemIds.push(itemObject.itemId);
       }
     });
 
     // ===================================
     // experience
     // ===================================
-    this.lootCrate.experiencePoints += Math.ceil((target.experiencePoints * ((target.level / 2) + 1)));
+    this.lootCrate.experiencePoints += Math.ceil(
+      target.experiencePoints * (target.level / 2 + 1)
+    );
 
     const expScaleUp = () => {
-      const coinText = tf.createText(`${target.goldValue}xp`, { x: sprite.x, y: sprite.y }, '32px', {
-        fill: '#ffffff'
-      });
+      const coinText = tf.createText(
+        `${target.goldValue}xp`,
+        { x: sprite.x, y: sprite.y },
+        "32px",
+        {
+          fill: "#ffffff",
+        }
+      );
       container.add(coinText);
       return new Promise((resolve) => {
         textScaleUp(coinText, 0, -80, this.scene, () => {
           resolve();
         }).play();
       });
-    }
-    await expScaleUp()
+    };
+    await expScaleUp();
   }
 
   private async distributeExperience(experience) {
     const messages = [];
-    this.partyMembers.forEach(partyMember => {
+    this.partyMembers.forEach((partyMember) => {
       const partyEntity = <PartyMember>partyMember.entity;
       if (partyEntity.currentHp > 0) {
-        const hasLeveledUp = partyEntity.gainExperience(experience)
+        const hasLeveledUp = partyEntity.gainExperience(experience);
         if (hasLeveledUp) {
-          this.scene.sound.play('level-up', { volume: 0.1 })
-          messages.push(`${partyEntity.name} has reached level ${partyEntity.level}`)
+          this.scene.sound.play("level-up", { volume: 0.1 });
+          messages.push(
+            `${partyEntity.name} has reached level ${partyEntity.level}`
+          );
         }
       }
     });
@@ -403,7 +428,7 @@ export class Combat {
   private async distributeLoot() {
     const itemMessages = this.handleItemDistribution();
     await this.displayMessage([
-      `Each member receives ${this.lootCrate.experiencePoints} XP.`
+      `Each member receives ${this.lootCrate.experiencePoints} XP.`,
     ]);
     await this.distributeExperience(this.lootCrate.experiencePoints);
     State.getInstance().playerContents.addCoins(this.lootCrate.coin);
@@ -411,14 +436,14 @@ export class Combat {
       ...itemMessages,
       `The party receives ${this.lootCrate.coin} coins.`,
     ]);
-
   }
 
-
   private handleItemDistribution(): string[] {
-    const items = this.lootCrate.itemIds.map(id => this.state.addItemToContents(id));
+    const items = this.lootCrate.itemIds.map((id) =>
+      this.state.addItemToContents(id)
+    );
     if (!items.length) {
-      return []
+      return [];
     }
     const itemObjects: any = items.reduce((acc, item) => {
       if (acc.hasOwnProperty(item.id)) {
@@ -431,9 +456,9 @@ export class Combat {
       return acc;
     }, {});
     return Object.keys(itemObjects).map(
-      key =>
+      (key) =>
         `Received ${itemObjects[key].amount} ${itemObjects[key].name}${
-        itemObjects[key].amount > 1 ? "s" : ""
+          itemObjects[key].amount > 1 ? "s" : ""
         }. `
     );
   }
@@ -445,12 +470,12 @@ export class Combat {
   displayMessage(message: string[]): Promise<any> {
     const dialogScene = this.scene.scene.get("DialogScene");
     const scenePlugin = new Phaser.Scenes.ScenePlugin(dialogScene);
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       scenePlugin.setActive(false, "Battle");
       scenePlugin.start("DialogScene", {
         callingSceneKey: "Battle",
         color: "dialog-white",
-        message
+        message,
       });
 
       scenePlugin.setActive(true, "DialogScene").bringToTop("DialogScene");
