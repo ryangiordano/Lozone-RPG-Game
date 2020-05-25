@@ -3,23 +3,19 @@ import { State } from "../../utility/state/State";
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
-  private progressBar: Phaser.GameObjects.Graphics; 
+  private progressBar: Phaser.GameObjects.Graphics;
   private loaded: boolean = false;
   constructor() {
     super({ key: "BootScene" });
-    console.log(this.loaded)
+  }
+
+  public init() {
     if (this.loaded) {
       this.runStartupProcess();
     }
   }
   private runStartupProcess() {
-    console.log("Runnin'")
-    const daruma = this.add.text(50, 99, "Catshape Daruma®", {
-      fontFamily: "pixel",
-      fontSize: "10px",
-      fill: "#000000",
-      fontWeight: "bold",
-    });
+
     const animationHelper = new AnimationHelper(this);
     animationHelper.createGameAnimations(
       this.cache.json.get("ryanAndLoAnimation").anims
@@ -36,19 +32,25 @@ export class BootScene extends Phaser.Scene {
       this.cache.json.get("bossMonsterSpriteAnimation").anims
     );
 
-    const sprite = this.add.sprite(80, 65, "ryanandlo");
-    sprite.scaleX = 0.3;
-    sprite.scaleY = 0.3;
+    const sprite = this.add.sprite(320, 265, "ryanandlo");
+    sprite.scaleX = 1;
+    sprite.scaleY = 1;
     sprite.anims.play("shine-in");
     sprite.on("animationcomplete", () => {
-      console.log("Animatin'");
       this.sound.play("startup", { volume: 0.1 });
+
+      this.add.text(340,310, "Catshape Daruma®", {
+        fontFamily: "pixel",
+        fontSize: "20px",
+        fill: "#000000",
+        fontWeight: "bold",
+      });
       setTimeout(() => {
-        // this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
-        this.scene.start("GameOverScene", {
-          map: "room",
-          tileset: "room-tiles",
-        });
+        this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
+        // this.scene.start("GameOverScene", {
+        //   map: "room",
+        //   tileset: "room-tiles",
+        // });
       }, 3000);
     });
 
