@@ -258,7 +258,7 @@ export class LockedDoor extends Entity {
     { scene, x, y, map, properties },
     public unlockItemId: number,
     public lockMessage = `It's locked tight.`,
-    public unlockMessage = `'The door clicks open!'.`
+    public unlockMessage = `The door clicks open!`
   ) {
     super({ scene, x, y, key: "door" });
     this.properties = properties;
