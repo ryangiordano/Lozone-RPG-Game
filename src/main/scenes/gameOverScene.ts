@@ -62,6 +62,7 @@ export class GameOverScene extends Phaser.Scene {
 
   private setKeyboardListeners() {
     this.keyboardControl.on(KeyboardControlKeys.SPACE, "game-over", () => {
+      this.scene.stop();
       this.scene.run("BootScene", {
         key: this.scene.key,
       });

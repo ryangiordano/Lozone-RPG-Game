@@ -162,14 +162,14 @@
         "flagged": false
     },
     "500": {
-        "name": "pick up USB",
-        "description": "Flag for picking up the USB stick",
+        "name": "pick up catshape key",
+        "description": "Flag for picking up the catshape key",
         "type": 0,
         "flagged": false
     },
     "501": {
         "name": "Lo has hearing aids",
-        "description": "Flag for picking up the USB stick",
+        "description": "Flag for picking up Lo's hearing aids",
         "type": 0,
         "flagged": false
     },
@@ -224,6 +224,12 @@
     "802": {
         "name": "door 3",
         "description": "Door on floor two, behind the second.",
+        "type": 1,
+        "flagged": false
+    },
+    "803": {
+        "name": "Catshape Lock unlocked",
+        "description": "Unlock catshape lock to gain access to dungeons",
         "type": 1,
         "flagged": false
     }

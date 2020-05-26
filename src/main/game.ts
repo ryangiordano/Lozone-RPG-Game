@@ -11,6 +11,7 @@ import { DialogScene } from "./scenes/dialogscene";
 import { PartyMenuScene } from "./scenes/UI/partyMenuScene";
 import { StoreScene } from "./scenes/store/storeScene";
 import { GameOverScene } from "./scenes/gameOverScene";
+import { AudioScene } from './scenes/audioScene';
 // main game configuration
 const config: GameConfig = {
   width: 640,
@@ -28,7 +29,8 @@ const config: GameConfig = {
     DialogScene,
     PartyMenuScene,
     StoreScene,
-    GameOverScene
+    GameOverScene,
+    AudioScene
   ],
   input: {
     keyboard: true

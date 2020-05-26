@@ -3,12 +3,13 @@ import { Combat, BattleState } from "../../components/battle/Combat";
 import { EnemyController } from "../../data/controllers/EnemyController";
 import { EnemyParty } from "../../components/battle/Party";
 import { getRandomFloor } from "../../utility/Utility";
+import { AudioScene } from "../audioScene";
 
 export class CombatScene extends Phaser.Scene {
   private previousSceneKey: string;
   private enemyController: EnemyController;
   private combat: Combat;
-  private music: Phaser.Sound.BaseSound;
+  private music: string;
   private levelUp: Phaser.Sound.BaseSound;
   constructor() {
     super("Battle");
@@ -21,7 +22,6 @@ export class CombatScene extends Phaser.Scene {
     this.sound.add("heal");
     this.sound.add("dead");
     this.sound.add("level-up");
-    this.sound.add("battle");
     this.sound.add("coin");
     this.sound.add("victory");
     this.levelUp = this.sound.add("level-up");
@@ -44,6 +44,7 @@ export class CombatScene extends Phaser.Scene {
         battleState.flagsToFlip.forEach((flag) => sm.setFlag(flag, true));
       }
       this.endBattle();
+      this.backToPreviousScene();
     });
     this.events.once("game-over", (battleState: BattleState) => {
       this.endBattle();
@@ -51,9 +52,9 @@ export class CombatScene extends Phaser.Scene {
         key: this.scene.key,
       });
     });
-    const music = data.bossBattle ? "boss-battle" : "battle";
-
-    this.sound.play(music, { volume: 0.1, loop: true });
+    this.music = data.bossBattle ? "boss-battle" : "battle";
+    const audio = <AudioScene>this.scene.get("Audio");
+    audio.play(this.music, true);
   }
 
   private endBattle() {
@@ -64,7 +65,8 @@ export class CombatScene extends Phaser.Scene {
     this.events.off("run-battle");
 
     this.scene.stop();
-    this.sound.stopAll();
+    const audio = <AudioScene>this.scene.get("Audio");
+    audio.stop(this.music);
   }
 
   private backToPreviousScene() {

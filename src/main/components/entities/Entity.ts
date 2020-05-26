@@ -1,5 +1,5 @@
 import { State } from "../../utility/state/State";
-import { createThrottle } from "../../utility/Utility";
+import { createThrottle, hasProperty } from "../../utility/Utility";
 import { Cast, CastType, CastData } from "./Cast";
 
 export enum EntityTypes {
@@ -12,10 +12,8 @@ export enum EntityTypes {
   keyItem,
   chest,
   door,
-  player
+  player,
 }
-
-
 
 /**
  * A basic building block for an item on a map.
@@ -28,6 +26,7 @@ export class Entity extends Phaser.GameObjects.Sprite {
   protected currentScene: Phaser.Scene;
   protected currentTile: Phaser.Tilemaps.Tile;
   public entityType: EntityTypes;
+  public properties: { type?: string; id?: number | string } = {};
   constructor({ scene, x, y, key }) {
     super(scene, x, y, key);
     this.currentScene = scene;
@@ -43,9 +42,33 @@ export class Entity extends Phaser.GameObjects.Sprite {
     this.currentScene.physics.world.enable(this);
   }
 
+  public isFlagged(): boolean {
+    if (this.properties.hasOwnProperty("placementFlag")) {
+      const sm = State.getInstance();
+      return sm.allAreFlagged([this.properties["placementFlag"]]);
+    } else {
+      return true;
+    }
+  }
+
   protected getTileBelowFoot() {
-    const tile = this.currentMap.getTileAt(Math.floor(this.x / 64), Math.floor(this.y / 64), true, "foreground");
+    const tile = this.currentMap.getTileAt(
+      Math.floor(this.x / 64),
+      Math.floor(this.y / 64),
+      true,
+      "foreground"
+    );
     return tile;
+  }
+  /**
+   * Sets the item to 'placed', meaning it is visible, it's able to be interacted with,
+   * and it sets the tile below it to 'occupied'.
+   * @param placed Whether to polace the item on the map.
+   */
+  public setPlaced(placed: boolean) {
+    this.setActive(placed);
+    this.setVisible(placed);
+    this.setCollideOnTileBelowFoot(placed);
   }
 
   /**
@@ -57,7 +80,8 @@ export class Entity extends Phaser.GameObjects.Sprite {
   protected async setCollideOnTileBelowFoot(toCollide: boolean) {
     const tile = this.getTileBelowFoot();
     const castData: CastData = await this.emitCast({ x: this.x, y: this.y });
-    const isOccupiedByAnotherEntity = castData.castedOn && castData.castedOn.active;
+    const isOccupiedByAnotherEntity =
+      castData.castedOn && castData.castedOn.active;
     if (isOccupiedByAnotherEntity) return;
 
     tile.properties["collide"] = toCollide;
@@ -67,43 +91,41 @@ export class Entity extends Phaser.GameObjects.Sprite {
    * Emits a throttled Cast that is meant to trigger Entities belowfoot.
    */
   public queryUnderfoot = createThrottle(100, async () => {
-    const castResult = await this.emitCast({ x: this.x, y: this.y }, CastType.pressure);
+    const castResult = await this.emitCast(
+      { x: this.x, y: this.y },
+      CastType.pressure
+    );
     return castResult;
   });
 
   /**
-   * Places an invisible Cast on the map.  The Cast has physics and will 
-   * interact with Entities on the map, gathering and sending back data 
+   * Places an invisible Cast on the map.  The Cast has physics and will
+   * interact with Entities on the map, gathering and sending back data
    * on the Entity it collides with before destroying itself.
    * @param coords The coordinates that the cast is emitted on.
    * @param castType The type of cast we're emitting.  Important for
    *  things that respond to pressure(Casting Entity is on top of it) or
    *  by reach (Casting Entity is adjacent)
    */
-  protected async emitCast(coords: Coords, castType?: CastType): Promise<CastData> {
-    return new Promise(resolve => {
-      const cast = new Cast(
-        this.currentScene,
-        coords,
-        this,
-        castType,
-      );
-      this.scene.events.emit('cast-delivered', {
-        cast
+  protected async emitCast(
+    coords: Coords,
+    castType?: CastType
+  ): Promise<CastData> {
+    return new Promise((resolve) => {
+      const cast = new Cast(this.currentScene, coords, this, castType);
+      this.scene.events.emit("cast-delivered", {
+        cast,
       });
-      cast.on('resolve', (castData: CastData) => {
+      cast.on("resolve", (castData: CastData) => {
         resolve(castData);
       });
     });
-
-
   }
-
 }
 
 /**
  * Performs an action or flips a flag when the character steps on it.
- * 
+ *
  */
 export class Trigger extends Entity {
   //TODO: Implement this in game.  Currently there isn't anything in game using a trigger...;
@@ -119,11 +141,33 @@ export class Trigger extends Entity {
  */
 export class WarpTrigger extends Entity {
   public warpId: number;
-  constructor({ scene, x, y, warpId }) {
-    super({ scene, x, y, key: null });
+  public properties: any;
+
+  constructor({ scene, x, y, warpId, key = null, properties }) {
+    super({ scene, x, y, key });
+    this.properties = properties;
+
     this.warpId = warpId;
     this.visible = false;
+    this.setAlpha(1);
     this.entityType = EntityTypes.warp;
+    this.setCollideOnTileBelowFoot(false);
+  }
+  public setPlaced(placed: boolean) {
+    this.setActive(placed);
+    this.setCollideOnTileBelowFoot(false);
+  }
+}
+
+export class Warp extends WarpTrigger {
+  constructor({ scene, x, y, warpId, properties }) {
+    super({ scene, x, y, warpId, key: "warp-tile", properties });
+    this.visible = true;
+    this.anims.play("warp-tile");
+  }
+  public setPlaced(placed: boolean) {
+    this.setActive(placed);
+    this.setVisible(placed);
     this.setCollideOnTileBelowFoot(false);
   }
 }
@@ -139,7 +183,6 @@ export class Spawn extends Entity {
     this.setCollideOnTileBelowFoot(false);
   }
 }
-
 
 //TODO: Split chests and locked chests out into separate entities
 // So we don't have to play games with the frames;
@@ -162,22 +205,22 @@ export class Chest extends Entity {
       this.currentScene.events.emit("item-acquired", {
         itemId: this.properties["itemId"],
         flagId: this.properties["id"],
-        chestCoords: { x: this.x, y: this.y }
+        chestCoords: { x: this.x, y: this.y },
       });
+    }
   }
-}
   public setOpen() {
-  this.open = true;
-  this.unlockItemId ? this.setFrame(5, false) : this.setFrame(1, false);
-}
+    this.open = true;
+    this.unlockItemId ? this.setFrame(5, false) : this.setFrame(1, false);
+  }
   public lock() {
-  this.locked = true;
-  this.setFrame(4, false)
-}
+    this.locked = true;
+    this.setFrame(4, false);
+  }
   public unlock() {
-  this.currentScene.sound.play("unlock", { volume: 0.1 });
-  this.locked = false;
-}
+    this.currentScene.sound.play("unlock", { volume: 0.1 });
+    this.locked = false;
+  }
 }
 
 /**
@@ -200,26 +243,10 @@ export class KeyItem extends Entity {
       itemId: this.properties["itemId"],
       flagId: this.properties["flagId"],
       isKeyItem: true,
-      chestCoords: { x: this.x, y: this.y }
+      chestCoords: { x: this.x, y: this.y },
     });
     this.setCollideOnTileBelowFoot(false);
     this.destroy();
-  }
-
-  /**
-   * Sets the item to 'placed', meaning it is visible, it's able to be interacted with,
-   * and it sets the tile below it to 'occupied'.
-   * @param placed Whether to polace the item on the map.
-   */
-  public setPlaced(placed: boolean) {
-    this.setActive(placed)
-    this.setVisible(placed)
-    this.setCollideOnTileBelowFoot(placed)
-  }
-
-  public isFlagged(): boolean {
-    const sm = State.getInstance();
-    return sm.allAreFlagged([this.properties['placementFlag']]);
   }
 }
 
@@ -227,12 +254,15 @@ export class KeyItem extends Entity {
  *  Represents locked doors on the map.
  */
 export class LockedDoor extends Entity {
-  public properties: { type: string; id: number | string; };
-  constructor({ scene, x, y, map, properties }, public unlockItemId: number) {
-    super({ scene, x, y, key: 'door' });
+  constructor(
+    { scene, x, y, map, properties },
+    public unlockItemId: number,
+    public lockMessage = `It's locked tight.`,
+    public unlockMessage = `'The door clicks open!'.`
+  ) {
+    super({ scene, x, y, key: "door" });
     this.properties = properties;
     this.entityType = EntityTypes.door;
-
   }
   public unlock() {
     this.currentScene.sound.play("lock-open", { volume: 0.1 });

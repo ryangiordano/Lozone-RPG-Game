@@ -1,11 +1,11 @@
 { "columns":8,
  "image":"room.png",
- "imageheight":512,
+ "imageheight":576,
  "imagewidth":512,
  "margin":0,
  "name":"room",
  "spacing":0,
- "tilecount":64,
+ "tilecount":72,
  "tiledversion":"1.2.3",
  "tileheight":64,
  "tiles":[
@@ -793,7 +793,12 @@
                 {
                  "name":"collide",
                  "type":"bool",
-                 "value":false
+                 "value":true
+                }, 
+                {
+                 "name":"wall",
+                 "type":"bool",
+                 "value":true
                 }]
         }, 
         {
@@ -802,7 +807,54 @@
                 {
                  "name":"collide",
                  "type":"bool",
-                 "value":false
+                 "value":true
+                }, 
+                {
+                 "name":"wall",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":64,
+         "properties":[
+                {
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
+                 "name":"wall",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":65,
+         "properties":[
+                {
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
+                 "name":"wall",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":66,
+         "properties":[
+                {
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
+                 "name":"wall",
+                 "type":"bool",
+                 "value":true
                 }]
         }],
  "tilewidth":64,

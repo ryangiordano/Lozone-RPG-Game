@@ -1,18 +1,22 @@
-import { EntityTypes, WarpTrigger, Spawn, Entity, KeyItem } from '../../components/entities/Entity';
+import {
+  EntityTypes,
+  WarpTrigger,
+  Spawn,
+  Entity,
+  KeyItem,
+} from "../../components/entities/Entity";
 import { Cast } from "../../components/entities/Cast";
 import { Player } from "../../components/entities/Player";
 import { wait } from "../../utility/Utility";
 import { State } from "../../utility/state/State";
-import { KeyboardControl } from '../../components/UI/Keyboard';
-import { WarpUtility } from '../../utility/exploration/Warp';
-import { MapObjectFactory } from '../../utility/exploration/ObjectLoader';
-import { EffectsRepository } from '../../data/repositories/EffectRepository';
-import { textScaleUp } from '../../utility/tweens/text';
-import { Item } from '../../components/entities/Item';
+import { KeyboardControl } from "../../components/UI/Keyboard";
+import { WarpUtility } from "../../utility/exploration/Warp";
+import { MapObjectFactory } from "../../utility/exploration/ObjectLoader";
+import { EffectsRepository } from "../../data/repositories/EffectRepository";
+import { textScaleUp } from "../../utility/tweens/text";
+import { Item } from "../../components/entities/Item";
 
-class EntityGroup extends Phaser.GameObjects.Group {
-
-}
+class EntityGroup extends Phaser.GameObjects.Group {}
 
 export abstract class Explore extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap;
@@ -29,7 +33,7 @@ export abstract class Explore extends Phaser.Scene {
   private mapObjectFactory: MapObjectFactory;
   constructor(key) {
     super({
-      key: key || "Explore"
+      key: key || "Explore",
     });
     this.mapObjectFactory = new MapObjectFactory(this);
   }
@@ -56,13 +60,13 @@ export abstract class Explore extends Phaser.Scene {
     this.sound.add("key-item-collect");
     this.sound.add("great-key-item-collect");
 
-    this.events.on('battle-finish', () => {
+    this.events.on("battle-finish", () => {
       this.refreshInteractivesByFlag();
     });
-    this.events.on('cast-delivered', (data) => {
+    this.events.on("cast-delivered", (data) => {
       const { cast, castingEntity } = data;
       this.casts.add(cast);
-    })
+    });
   }
   create(): void {
     this.setGroups();
@@ -78,10 +82,10 @@ export abstract class Explore extends Phaser.Scene {
     this.afterCreated();
   }
 
-  protected afterCreated() { }
+  protected afterCreated() {}
 
   protected setEvents() {
-    this.input.keyboard.on("keyup-Z", event => {
+    this.input.keyboard.on("keyup-Z", (event) => {
       if (this.player.isMoving) {
         return false;
       }
@@ -95,36 +99,45 @@ export abstract class Explore extends Phaser.Scene {
 
   protected setGroups() {
     this.interactive = this.add.group({
-      runChildUpdate: true
+      runChildUpdate: true,
     });
     this.casts = this.add.group({
-      runChildUpdate: true
+      runChildUpdate: true,
     });
   }
 
   protected loadObjectsFromTilemap() {
     const dataToLoad = this.mapObjectFactory.getDataToLoad();
-    dataToLoad.interactives.forEach(d => this.interactive.add(d))
-
+    dataToLoad.interactives.forEach((d) => this.interactive.add(d));
   }
 
   refreshInteractivesByFlag() {
-    this.interactive.children.entries.forEach(child => {
+    this.interactive.children.entries.forEach((child) => {
       const entity = <Entity>child;
-      if (entity.entityType === EntityTypes.keyItem) {
-        const keyItem = <KeyItem>entity;
-        keyItem.setPlaced(keyItem.isFlagged());
+      const keyItem = <KeyItem>entity;
+      if (
+        keyItem.entityType === EntityTypes.warp ||
+        keyItem.entityType === EntityTypes.keyItem
+      ) {
+        keyItem.isFlagged &&
+          keyItem.setPlaced &&
+          keyItem.setPlaced(keyItem.isFlagged());
       }
     });
-
   }
 
   private setPlayer() {
     const dropPoint =
-      <WarpTrigger>this.interactive.children.entries
-        .find(t => t['warpId'] === this.warpDestId) ||
-      <Spawn>this.interactive.children.entries
-        .find(t => t['entityType'] === EntityTypes.spawn);
+      <WarpTrigger>(
+        this.interactive.children.entries.find(
+          (t) => t["warpId"] === this.warpDestId
+        )
+      ) ||
+      <Spawn>(
+        this.interactive.children.entries.find(
+          (t) => t["entityType"] === EntityTypes.spawn
+        )
+      );
 
     this.player = new Player({
       scene: this,
@@ -151,25 +164,24 @@ export abstract class Explore extends Phaser.Scene {
       async (cast: Cast, interactive: any) => {
         // Ensures we're not touching ourselves.  Gross.
         if (cast.caster === interactive) return false;
-        cast.emit('resolve', { castedOn: interactive, caster: cast.caster })
-        cast.destroy();
+        cast.emit("resolve", { castedOn: interactive, caster: cast.caster });
         // Ensures that only the player can trigger entities when querying.
         if (cast.caster.entityType !== EntityTypes.player) return false;
         // TODO: Do a check to make sure the cast's castType === the entity's triggeringCastType
         this.player.stop();
 
         if (interactive.entityType === EntityTypes.bossMonster) {
-          await this.displayMessage(interactive.getCurrentDialog())
+          await this.displayMessage(interactive.getCurrentDialog());
           this.startEncounter(interactive.encounterId, true);
           interactive.destroy();
         }
 
         if (interactive.entityType === EntityTypes.interactive) {
-          await this.displayMessage(interactive.properties.message)
+          await this.displayMessage(interactive.properties.message);
         }
 
         if (interactive.entityType === EntityTypes.npc) {
-          this.displayMessage(interactive.getCurrentDialog())
+          this.displayMessage(interactive.getCurrentDialog());
         }
 
         if (interactive.entityType === EntityTypes.chest) {
@@ -184,8 +196,11 @@ export abstract class Explore extends Phaser.Scene {
           this.handleOpenDoor(interactive);
         }
         if (interactive.entityType === EntityTypes.warp) {
-          this.handleWarp(interactive);
+          if (interactive.active) {
+            this.handleWarp(interactive);
+          }
         }
+        this.refreshInteractivesByFlag();
       }
     );
   }
@@ -196,12 +211,14 @@ export abstract class Explore extends Phaser.Scene {
       const keyItem = sm.getItemOnPlayer(interactive.unlockItemId);
       if (keyItem) {
         interactive.unlock();
-        await this.displayMessage([`You unlock the chest with a ${keyItem.name}`]);
+        await this.displayMessage([
+          `You unlock the chest with a ${keyItem.name}`,
+        ]);
         sm.consumeItem(interactive.unlockItemId);
         await wait(300);
         interactive.openChest();
       } else {
-        this.displayMessage(["The chest is locked."])
+        this.displayMessage(["The chest is locked."]);
       }
     } else {
       interactive.openChest();
@@ -214,15 +231,15 @@ export abstract class Explore extends Phaser.Scene {
     if (keyItem) {
       sm.setFlag(interactive.properties.id, true);
       interactive.unlock();
-      await this.displayMessage(['The door clicks open!'])
+      await this.displayMessage([interactive.unlockMessage]);
       return;
     }
-    await this.displayMessage([`It's locked tight.`])
+    await this.displayMessage([interactive.lockMessage]);
   }
 
   protected handleWarp(interactive) {
     this.events.off("item-acquired", this.acquiredItemCallback);
-    const warp = this.warpUtility.getWarp(interactive.warpId)
+    const warp = this.warpUtility.getWarp(interactive.warpId);
     this.warpUtility.warpTo(warp.warpDestId);
   }
 
@@ -246,35 +263,39 @@ export abstract class Explore extends Phaser.Scene {
     this.player.controllable.canInput = false;
     this.sound.play(item.collectSound, { volume: 0.1 });
     // item float above here
-    await this.animateItemAbove(item, { x: chestCoords.x, y: chestCoords.y })
+    await this.animateItemAbove(item, { x: chestCoords.x, y: chestCoords.y });
 
     await this.displayMessage([`Lo got ${item.name}`]);
-    await wait(300)
+    await wait(300);
     this.player.controllable.canInput = true;
   }
 
   async animateItemAbove(item: Item, coords: Coords) {
     return new Promise((resolve) => {
-      const itemSprite = new Phaser.GameObjects.Sprite(this, coords.x, coords.y, item.spriteKey);
-      itemSprite.setFrame(item.frame)
-      this.add.existing(itemSprite)
+      const itemSprite = new Phaser.GameObjects.Sprite(
+        this,
+        coords.x,
+        coords.y,
+        item.spriteKey
+      );
+      itemSprite.setFrame(item.frame);
+      this.add.existing(itemSprite);
       const tween = textScaleUp(itemSprite, 0, -80, this, () => {
         itemSprite.destroy();
         resolve();
       });
       tween.play();
-    })
-
+    });
   }
 
   displayMessage(message: string[]): Promise<any> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.player.controllable.canInput = false;
       this.scene.setActive(false, this.scene.key);
       this.game.scene.start("DialogScene", {
         callingSceneKey: this.scene.key,
         color: "dialog-white",
-        message
+        message,
       });
       this.scene.setActive(true, "DialogScene").bringToTop("DialogScene");
       const dialog = this.game.scene.getScene("DialogScene");
@@ -288,6 +309,10 @@ export abstract class Explore extends Phaser.Scene {
   protected startEncounter(enemyPartyId: number, bossBattle: boolean = false) {
     this.input.keyboard.resetKeys();
     this.scene.manager.sleep(this.scene.key);
-    this.scene.run('Battle', { key: this.scene.key, enemyPartyId, bossBattle: bossBattle })
+    this.scene.run("Battle", {
+      key: this.scene.key,
+      enemyPartyId,
+      bossBattle: bossBattle,
+    });
   }
 }

@@ -74,6 +74,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "warp-tile",
+        "url": "./src/main/assets/sprites/warp.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "items",
         "url": "./src/main/assets/sprites/items.png",
         "frameConfig": {

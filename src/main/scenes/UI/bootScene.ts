@@ -15,7 +15,6 @@ export class BootScene extends Phaser.Scene {
     }
   }
   private runStartupProcess() {
-
     const animationHelper = new AnimationHelper(this);
     animationHelper.createGameAnimations(
       this.cache.json.get("ryanAndLoAnimation").anims
@@ -32,6 +31,10 @@ export class BootScene extends Phaser.Scene {
       this.cache.json.get("bossMonsterSpriteAnimation").anims
     );
 
+    animationHelper.createGameAnimations(
+      this.cache.json.get("overworld").anims
+    );
+
     const sprite = this.add.sprite(320, 265, "ryanandlo");
     sprite.scaleX = 1;
     sprite.scaleY = 1;
@@ -39,18 +42,16 @@ export class BootScene extends Phaser.Scene {
     sprite.on("animationcomplete", () => {
       this.sound.play("startup", { volume: 0.1 });
 
-      this.add.text(340,310, "Catshape Daruma®", {
+      this.add.text(210, 310, "Catshape Daruma®", {
         fontFamily: "pixel",
         fontSize: "20px",
         fill: "#000000",
         fontWeight: "bold",
       });
       setTimeout(() => {
-        this.scene.start('House', { map: 'room', tileset: 'room-tiles' });
-        // this.scene.start("GameOverScene", {
-        //   map: "room",
-        //   tileset: "room-tiles",
-        // });
+        this.scene.start("Audio");
+        this.scene.start("House", { map: "room", tileset: "room-tiles" });
+
       }, 3000);
     });
 

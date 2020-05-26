@@ -7,7 +7,6 @@ import { EntityTypes } from './Entity';
 
 export class NPC extends Moveable {
   public entityType: EntityTypes = EntityTypes.npc;
-  properties: any = {};
   constructor(
     { scene, key },
     facing?: Directions,

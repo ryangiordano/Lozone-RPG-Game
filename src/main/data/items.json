@@ -44,8 +44,8 @@
     "collectSound": "key-item-collect"
   },
   "5": {
-    "name": "Cat USB",
-    "description": "A mysterious cat-shape USB.",
+    "name": "Cat-Shape Key",
+    "description": "A mysterious cat-shape Key.",
     "spellId": null,
     "effectPotency": null,
     "spriteKey": "key-items",

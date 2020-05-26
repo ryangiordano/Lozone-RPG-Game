@@ -2,11 +2,11 @@
  "infinite":false,
  "layers":[
         {
-         "data":[28, 26, 2, 2, 2, 2, 2, 27, 28, 28, 26, 2, 2, 2, 2, 2, 2, 2, 27, 28, 1, 1, 1, 1, 1, 1, 1, 1, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28],
+         "data":[28, 26, 2, 2, 2, 2, 2, 27, 28, 28, 26, 2, 2, 2, 2, 2, 2, 2, 27, 28, 1, 1, 1, 1, 86, 1, 1, 1, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28],
          "height":9,
          "id":6,
          "name":"background",
-         "opacity":1,
+         "opacity":0.9,
          "type":"tilelayer",
          "visible":true,
          "width":10,
@@ -389,6 +389,11 @@
                  "name":"to-dungeon",
                  "properties":[
                         {
+                         "name":"placementFlag",
+                         "type":"int",
+                         "value":803
+                        }, 
+                        {
                          "name":"warpDestId",
                          "type":"int",
                          "value":4
@@ -399,7 +404,39 @@
                          "value":3
                         }],
                  "rotation":0,
-                 "type":"warp",
+                 "type":"warp-tile",
+                 "visible":true,
+                 "width":64,
+                 "x":256,
+                 "y":128
+                }, 
+                {
+                 "height":64,
+                 "id":33,
+                 "name":"door 1",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":803
+                        }, 
+                        {
+                         "name":"keyItem",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
+                         "name":"lockMessage",
+                         "type":"string",
+                         "value":"It's locked.  It has a cat-shape keyhole."
+                        }, 
+                        {
+                         "name":"unlockMessage",
+                         "type":"string",
+                         "value":"The door unlocks with a 'meow'!"
+                        }],
+                 "rotation":0,
+                 "type":"door",
                  "visible":true,
                  "width":64,
                  "x":256,
@@ -412,7 +449,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":33,
+ "nextobjectid":34,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
@@ -421,6 +458,10 @@
         {
          "firstgid":1,
          "source":"..\/tiles\/room-tiles.json"
+        }, 
+        {
+         "firstgid":73,
+         "source":"..\/tiles\/dungeon-tiles.json"
         }],
  "tilewidth":64,
  "type":"map",

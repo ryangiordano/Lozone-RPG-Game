@@ -92,6 +92,16 @@
       },
       {
         "type": "audio",
+        "key": "dungeon",
+        "url": "./src/main/assets/music/dungeon.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "home",
+        "url": "./src/main/assets/music/home.mp3"
+      },
+      {
+        "type": "audio",
         "key": "menu-select",
         "url": "./src/main/assets/sounds/menu-select.mp3"
       },

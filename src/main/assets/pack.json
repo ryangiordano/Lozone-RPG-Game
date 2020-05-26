@@ -19,6 +19,11 @@
         "type": "json",
         "key": "animated-spell-effects",
         "url": "./src/main/assets/animations/effects.json"
+      },
+      {
+        "type": "json",
+        "key": "overworld",
+        "url": "./src/main/assets/animations/overworld.json"
       }
     ]
   }
