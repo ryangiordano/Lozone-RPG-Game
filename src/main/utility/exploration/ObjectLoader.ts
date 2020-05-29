@@ -271,11 +271,11 @@ export class MapObjectFactory {
     const properties = {
       flagId: flagId,
       itemId: itemId,
-
       type: EntityTypes.keyItem,
       spriteKey: item.spriteKey,
       frame: item.frame,
     };
+
     if (placementFlagId) {
       properties["placementFlag"] = placementFlagId;
     }

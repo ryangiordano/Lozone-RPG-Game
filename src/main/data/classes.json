@@ -36,20 +36,19 @@
         "strength": 1.2,
         "physicalResist": 1.1,
         "magicalResist": 1.7,
-        "spells":[
-            {
-                "requiredLevel":1,
-                "classModifier":1,
+        "spells": [{
+                "requiredLevel": 1,
+                "classModifier": 1,
                 "spell": 10
             },
             {
-                "requiredLevel":1,
-                "classModifier":1,
+                "requiredLevel": 1,
+                "classModifier": 1,
                 "spell": 1
             },
             {
-                "requiredLevel":1,
-                "classModifier":1,
+                "requiredLevel": 1,
+                "classModifier": 1,
                 "spell": 11
             }
         ]
@@ -65,20 +64,19 @@
         "strength": 1.1,
         "physicalResist": 1.5,
         "magicalResist": 1.7,
-        "spells":[
-            {
-                "requiredLevel":1,
-                "classModifier":1,
+        "spells": [{
+                "requiredLevel": 1,
+                "classModifier": 1,
                 "spell": 10
             },
             {
-                "requiredLevel":1,
-                "classModifier":1,
+                "requiredLevel": 1,
+                "classModifier": 1,
                 "spell": 1
             },
             {
-                "requiredLevel":1,
-                "classModifier":1,
+                "requiredLevel": 1,
+                "classModifier": 1,
                 "spell": 11
             }
         ]
@@ -94,25 +92,24 @@
         "strength": 100.1,
         "physicalResist": 100.5,
         "magicalResist": 100.7,
-        "spells":[
-            {
-                "requiredLevel":1,
-                "classModifier":1,
+        "spells": [{
+                "requiredLevel": 1,
+                "classModifier": 1,
                 "spell": 10
             },
             {
-                "requiredLevel":1,
-                "classModifier":1,
+                "requiredLevel": 1,
+                "classModifier": 1,
                 "spell": 1
             },
             {
-                "requiredLevel":1,
-                "classModifier":1,
+                "requiredLevel": 1,
+                "classModifier": 1,
                 "spell": 11
             },
             {
-                "requiredLevel":1,
-                "classModifier":1,
+                "requiredLevel": 1,
+                "classModifier": 1,
                 "spell": 12
             }
         ]

@@ -111,6 +111,9 @@ export abstract class Explore extends Phaser.Scene {
     dataToLoad.interactives.forEach((d) => this.interactive.add(d));
   }
 
+  /** Key items and warps are placed if they're placementFlag condition
+   * has been satisfied.
+   */
   refreshInteractivesByFlag() {
     this.interactive.children.entries.forEach((child) => {
       const entity = <Entity>child;
@@ -119,9 +122,10 @@ export abstract class Explore extends Phaser.Scene {
         keyItem.entityType === EntityTypes.warp ||
         keyItem.entityType === EntityTypes.keyItem
       ) {
-        keyItem.isFlagged &&
-          keyItem.setPlaced &&
-          keyItem.setPlaced(keyItem.isFlagged());
+        const sm = State.getInstance();
+        keyItem.setPlaced &&
+          keyItem.properties["placementFlag"] &&
+          keyItem.setPlaced(sm.isFlagged(keyItem.properties["placementFlag"]));
       }
     });
   }
@@ -168,8 +172,6 @@ export abstract class Explore extends Phaser.Scene {
         // Ensures that only the player can trigger entities when querying.
         if (cast.caster.entityType !== EntityTypes.player) return false;
         // TODO: Do a check to make sure the cast's castType === the entity's triggeringCastType
-        this.player.stop();
-
         if (interactive.entityType === EntityTypes.bossMonster) {
           await this.displayMessage(interactive.getCurrentDialog());
           this.startEncounter(interactive.encounterId, true);

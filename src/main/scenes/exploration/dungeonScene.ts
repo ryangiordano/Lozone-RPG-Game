@@ -24,7 +24,8 @@ export class DungeonScene extends Explore {
 
   public afterCreated() {
     this.player.on("finished-movement", () => {
-      if (this.hasRandomEncounter() && this.enemyPartyIds) {
+      const r = this.hasRandomEncounter()
+      if (r && this.enemyPartyIds) {
         this.startEncounter(this.chooseEnemyAtRandom());
       }
     });

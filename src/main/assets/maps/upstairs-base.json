@@ -2,7 +2,7 @@
  "infinite":false,
  "layers":[
         {
-         "data":[28, 26, 2, 2, 2, 2, 2, 27, 28, 28, 26, 2, 2, 2, 2, 2, 2, 2, 27, 28, 1, 1, 1, 1, 86, 1, 1, 1, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28],
+         "data":[28, 26, 2, 2, 2, 2, 2, 27, 28, 28, 26, 2, 2, 2, 2, 2, 2, 2, 27, 28, 1, 1, 1, 1, 1, 1, 1, 1, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28],
          "height":9,
          "id":6,
          "name":"background",
@@ -364,7 +364,7 @@
                 {
                  "height":64,
                  "id":31,
-                 "name":"usb",
+                 "name":"cat-shape-key",
                  "properties":[
                         {
                          "name":"flagId",
@@ -375,6 +375,11 @@
                          "name":"itemId",
                          "type":"int",
                          "value":5
+                        }, 
+                        {
+                         "name":"placementFlag",
+                         "type":"int",
+                         "value":501
                         }],
                  "rotation":0,
                  "type":"key-item",
@@ -441,6 +446,28 @@
                  "width":64,
                  "x":256,
                  "y":128
+                }, 
+                {
+                 "height":64,
+                 "id":34,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"dialogId",
+                         "type":"int",
+                         "value":35
+                        }, 
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":64,
+                 "x":512,
+                 "y":320
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -449,7 +476,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":34,
+ "nextobjectid":35,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
@@ -458,10 +485,6 @@
         {
          "firstgid":1,
          "source":"..\/tiles\/room-tiles.json"
-        }, 
-        {
-         "firstgid":73,
-         "source":"..\/tiles\/dungeon-tiles.json"
         }],
  "tilewidth":64,
  "type":"map",

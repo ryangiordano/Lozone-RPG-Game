@@ -1,5 +1,5 @@
 import { State } from "../../utility/state/State";
-import { createThrottle, hasProperty } from "../../utility/Utility";
+import { createThrottle } from "../../utility/Utility";
 import { Cast, CastType, CastData } from "./Cast";
 
 export enum EntityTypes {
@@ -40,15 +40,6 @@ export class Entity extends Phaser.GameObjects.Sprite {
     this.setOrigin(0.5, 0.5);
     this.setFlipX(false);
     this.currentScene.physics.world.enable(this);
-  }
-
-  public isFlagged(): boolean {
-    if (this.properties.hasOwnProperty("placementFlag")) {
-      const sm = State.getInstance();
-      return sm.allAreFlagged([this.properties["placementFlag"]]);
-    } else {
-      return true;
-    }
   }
 
   protected getTileBelowFoot() {

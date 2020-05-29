@@ -2,11 +2,11 @@
  "infinite":false,
  "layers":[
         {
-         "data":[28, 26, 2, 2, 2, 2, 2, 27, 28, 28, 26, 2, 2, 2, 2, 2, 2, 2, 27, 28, 1, 1, 1, 1, 86, 1, 1, 1, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28],
+         "data":[28, 26, 2, 2, 2, 2, 2, 27, 28, 28, 26, 2, 2, 2, 2, 2, 2, 2, 27, 28, 1, 1, 1, 1, 1, 1, 1, 1, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 6, 6, 28, 1, 1, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 1, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28, 6, 6, 6, 1, 1, 1, 1, 1, 1, 28],
          "height":9,
          "id":6,
          "name":"background",
-         "opacity":1,
+         "opacity":0.9,
          "type":"tilelayer",
          "visible":true,
          "width":10,
@@ -364,7 +364,7 @@
                 {
                  "height":64,
                  "id":31,
-                 "name":"usb",
+                 "name":"cat-shape-key",
                  "properties":[
                         {
                          "name":"flagId",
@@ -375,6 +375,11 @@
                          "name":"itemId",
                          "type":"int",
                          "value":5
+                        }, 
+                        {
+                         "name":"placementFlag",
+                         "type":"int",
+                         "value":501
                         }],
                  "rotation":0,
                  "type":"key-item",
@@ -441,6 +446,28 @@
                  "width":64,
                  "x":256,
                  "y":128
+                }, 
+                {
+                 "height":64,
+                 "id":34,
+                 "name":"boxes",
+                 "properties":[
+                        {
+                         "name":"dialogId",
+                         "type":"int",
+                         "value":35
+                        }, 
+                        {
+                         "name":"interactive",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":64,
+                 "x":512,
+                 "y":320
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -449,7 +476,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":34,
+ "nextobjectid":35,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
@@ -1251,7 +1278,12 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
@@ -1260,26 +1292,16 @@
                         {
                          "name":"collide",
                          "type":"bool",
-                         "value":false
+                         "value":true
+                        }, 
+                        {
+                         "name":"wall",
+                         "type":"bool",
+                         "value":true
                         }]
-                }],
-         "tilewidth":64,
-         "transparentcolor":"#ff00ff"
-        }, 
-        {
-         "columns":5,
-         "firstgid":73,
-         "image":"..\/tiles\/dungeon.png",
-         "imageheight":320,
-         "imagewidth":320,
-         "margin":0,
-         "name":"dungeon-tiles",
-         "spacing":0,
-         "tilecount":25,
-         "tileheight":64,
-         "tiles":[
+                }, 
                 {
-                 "id":0,
+                 "id":64,
                  "properties":[
                         {
                          "name":"collide",
@@ -1293,7 +1315,7 @@
                         }]
                 }, 
                 {
-                 "id":1,
+                 "id":65,
                  "properties":[
                         {
                          "name":"collide",
@@ -1307,133 +1329,7 @@
                         }]
                 }, 
                 {
-                 "id":2,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"wall",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":3,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"wall",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":4,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"wall",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":5,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"wall",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":6,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"wall",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":7,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"wall",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":8,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"wall",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":9,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"wall",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":10,
-                 "properties":[
-                        {
-                         "name":"collide",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
-                         "name":"wall",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
-                 "id":11,
+                 "id":66,
                  "properties":[
                         {
                          "name":"collide",
@@ -1446,7 +1342,8 @@
                          "value":true
                         }]
                 }],
-         "tilewidth":64
+         "tilewidth":64,
+         "transparentcolor":"#ff00ff"
         }],
  "tilewidth":64,
  "type":"map",
