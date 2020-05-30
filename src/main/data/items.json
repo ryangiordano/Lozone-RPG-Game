@@ -170,7 +170,7 @@
     "spellId": null,
     "effectPotency": null,
     "spriteKey": "items",
-    "frame": 15,
+    "frame": 13,
     "category": "loot",
     "value": 300,
     "collectSound": "item-collect"
@@ -181,7 +181,7 @@
     "spellId": null,
     "effectPotency": null,
     "spriteKey": "items",
-    "frame": 16,
+    "frame": 14,
     "category": "loot",
     "value": 150,
     "collectSound": "item-collect"
@@ -192,7 +192,7 @@
     "spellId": null,
     "effectPotency": null,
     "spriteKey": "items",
-    "frame": 17,
+    "frame": 15,
     "category": "loot",
     "value": 1000,
     "collectSound": "item-collect"
@@ -203,7 +203,7 @@
     "spellId": null,
     "effectPotency": null,
     "spriteKey": "items",
-    "frame": 18,
+    "frame": 16,
     "category": "loot",
     "value": 500,
     "collectSound": "item-collect"

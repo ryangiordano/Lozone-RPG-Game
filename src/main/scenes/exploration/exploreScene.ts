@@ -115,6 +115,7 @@ export abstract class Explore extends Phaser.Scene {
    * has been satisfied.
    */
   refreshInteractivesByFlag() {
+    console.log("Called");
     this.interactive.children.entries.forEach((child) => {
       const entity = <Entity>child;
       const keyItem = <KeyItem>entity;
@@ -123,9 +124,17 @@ export abstract class Explore extends Phaser.Scene {
         keyItem.entityType === EntityTypes.keyItem
       ) {
         const sm = State.getInstance();
+        if (keyItem.properties["flagId"]) {
+          console.log(keyItem);
+          console.log(sm.isFlagged(keyItem.properties["placementFlag"]));
+          console.log(!sm.isFlagged(keyItem.properties["flagId"]));
+        }
         keyItem.setPlaced &&
           keyItem.properties["placementFlag"] &&
-          keyItem.setPlaced(sm.isFlagged(keyItem.properties["placementFlag"]));
+          keyItem.setPlaced(
+            sm.isFlagged(keyItem.properties["placementFlag"]) &&
+              !sm.isFlagged(keyItem.properties["flagId"])
+          );
       }
     });
   }
@@ -176,30 +185,39 @@ export abstract class Explore extends Phaser.Scene {
           await this.displayMessage(interactive.getCurrentDialog());
           this.startEncounter(interactive.encounterId, true);
           interactive.destroy();
+          cast.destroy();
         }
 
         if (interactive.entityType === EntityTypes.interactive) {
           await this.displayMessage(interactive.properties.message);
+          cast.destroy();
         }
 
         if (interactive.entityType === EntityTypes.npc) {
           this.displayMessage(interactive.getCurrentDialog());
+          cast.destroy();
         }
 
         if (interactive.entityType === EntityTypes.chest) {
           this.handleOpenChest(interactive);
+          cast.destroy();
         }
 
         if (interactive.entityType === EntityTypes.keyItem) {
-          interactive.active && interactive.pickup();
+          if (interactive.active) {
+            cast.destroy();
+            interactive.pickup();
+          }
         }
 
         if (interactive.entityType === EntityTypes.door) {
           this.handleOpenDoor(interactive);
+          cast.destroy();
         }
         if (interactive.entityType === EntityTypes.warp) {
           if (interactive.active) {
             this.handleWarp(interactive);
+            cast.destroy();
           }
         }
         this.refreshInteractivesByFlag();
