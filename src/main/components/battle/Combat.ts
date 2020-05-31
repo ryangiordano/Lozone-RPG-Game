@@ -22,6 +22,7 @@ import { CombatEntity, CombatAction } from "./CombatDataStructures";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
 import { TextFactory } from "../../utility/TextFactory";
 import { fainted } from "../../utility/AnimationEffects/fainted";
+import { AudioScene } from "../../scenes/audioScene";
 
 export interface BattleState {
   flagsToFlip: number[];
@@ -70,7 +71,9 @@ export class Combat {
     });
 
     this.addAndPopulateContainers();
-    this.displayInputControlsForCurrentPartyMember();
+    setTimeout(() => {
+      this.displayInputControlsForCurrentPartyMember();
+    }, 1000);
 
     this.scene.events.on("run-battle", async () => {
       await this.displayMessage(["Escaped Successfully"]);
@@ -268,8 +271,10 @@ export class Combat {
   }
 
   private async handleBattleEnd() {
-    this.scene.sound.stopAll();
-    this.scene.sound.play("victory", { volume: 0.4 });
+    const audio = <AudioScene>this.scene.scene.get("Audio");
+    audio.stop(this.scene["music"]);
+    audio.playSound("victory");
+
     await this.displayMessage(["You've won!"]);
     await this.distributeLoot();
     return this.scene.events.emit("end-battle", {
@@ -302,7 +307,8 @@ export class Combat {
             return new Promise((resolve) => {
               const sprite = target.getSprite();
               scaleUpDown(sprite, this.scene, async () => {
-                this.scene.sound.play("dead", { volume: 0.1 });
+                const audio = <AudioScene>this.scene.scene.get("Audio");
+                audio.playSound("dead");
 
                 const hitEffect = this.effectsRepository.getById(3);
                 await hitEffect.play(
@@ -413,7 +419,8 @@ export class Combat {
       if (partyEntity.currentHp > 0) {
         const hasLeveledUp = partyEntity.gainExperience(experience);
         if (hasLeveledUp) {
-          this.scene.sound.play("level-up", { volume: 0.1 });
+          const audio = <AudioScene>this.scene.scene.get("Audio");
+          audio.playSound("level-up");
           messages.push(
             `${partyEntity.name} has reached level ${partyEntity.level}`
           );

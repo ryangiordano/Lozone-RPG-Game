@@ -1,9 +1,7 @@
 import { createThrottle, Directions } from "../../utility/Utility";
-import {
-  Moveable,
-  Controllable
-} from "./Movement";
+import { Moveable, Controllable } from "./Movement";
 import { EntityTypes } from "./Entity";
+import { AudioScene } from "../../scenes/audioScene";
 
 export class Player extends Moveable {
   public controllable: Controllable;
@@ -16,7 +14,8 @@ export class Player extends Moveable {
   // TODO: Emit that the player bumped rather than handling playing sounds
   // From the player.
   private playBump = createThrottle(300, () => {
-    this.scene.sound.play("bump", { volume: .1 });
+    const audio = <AudioScene>this.scene.scene.get("Audio");
+    audio.playSound("bump");
   });
   protected async setCollideOnTileBelowFoot(toCollide: boolean) {
     const tile = this.getTileBelowFoot();

@@ -6,7 +6,7 @@ import {
   CombatActionTypes,
   CombatResult,
   CombatantType,
-  Effect
+  Effect,
 } from "./CombatDataStructures";
 import { getUID, Directions } from "../../utility/Utility";
 import { Defend } from "./Actions";
@@ -16,33 +16,39 @@ import { SpellType } from "../../data/repositories/SpellRepository";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
 
 interface PersistentAffect {
-  id: number,
-  stop: Function,
+  id: number;
+  stop: Function;
 }
 
 class EffectManager {
   private effectContainer: Phaser.GameObjects.Container;
   private effectRepository: EffectsRepository;
   private activeEffects: PersistentAffect[] = [];
-  constructor(private scene: Phaser.Scene, private sprite: Phaser.GameObjects.Sprite) {
+  constructor(
+    private scene: Phaser.Scene,
+    private sprite: Phaser.GameObjects.Sprite
+  ) {
     this.effectContainer = new Phaser.GameObjects.Container(scene);
     this.effectRepository = new EffectsRepository(scene.game);
   }
 
   addEffect(effectId: number) {
     const effect = this.effectRepository.getById(effectId);
-    const stop = effect.play(this.sprite.x, this.sprite.y, this.scene, this.effectContainer);
-    this.activeEffects.push({id: effectId, stop });
-
-
+    const stop = effect.play(
+      this.sprite.x,
+      this.sprite.y,
+      this.scene,
+      this.effectContainer
+    );
+    this.activeEffects.push({ id: effectId, stop });
   }
 
   public removeEffect(effectId: number) {
     this.activeEffects = this.activeEffects.reduce((acc, effect) => {
       if (effect.id === effectId) {
         effect.stop && effect.stop();
-      }else {
-        acc.push(effect)
+      } else {
+        acc.push(effect);
       }
       return acc;
     }, []);
@@ -93,7 +99,7 @@ export class Combatant {
     this.direction = direction;
     this.sprite = new Phaser.GameObjects.Sprite(scene, 0, 0, this.spriteKey);
     this.effectManager = new EffectManager(scene, this.sprite);
-    this.sprite.setOrigin(.5, .5);
+    this.sprite.setOrigin(0.5, 0.5);
     this.sprite.setAlpha(1);
     this.standUp();
   }
@@ -117,7 +123,7 @@ export class Combatant {
     this.sprite.setFrame(9);
   }
   addBehaviors(behaviors: Behavior[]) {
-    behaviors.forEach(behavior => {
+    behaviors.forEach((behavior) => {
       if (!this.behaviors.has(behavior.id)) {
         this.behaviors.set(behavior.id, behavior);
       }
@@ -131,10 +137,10 @@ export class Combatant {
   ) {
     this.setCurrentHp(currentHp);
     this.setCurrentMp(currentMp);
-    statusArray.forEach(status => {
+    statusArray.forEach((status) => {
       this.status.add(status);
     });
-    buffArray.forEach(buff => {
+    buffArray.forEach((buff) => {
       if (!this.buffs.has(buff.id)) {
         this.buffs.set(buff.id, buff);
       }
@@ -154,7 +160,7 @@ export class Combatant {
   }
   /**
    * Return true if successful, false otherwise.
-   * @param spell 
+   * @param spell
    */
   private subtractSpellCostFromMp(spell: Spell): boolean {
     const { manaCost } = spell;
@@ -175,26 +181,25 @@ export class Combatant {
   }
   attackTarget(targets: Combatant[]): CombatResult[] {
     const potency = this.getAttackPower();
-    return targets.map(t => {
+    return targets.map((t) => {
       const damageDone = t.receivePhysicalDamage(potency);
       return {
         actionType: CombatActionTypes.attack,
         executor: this,
         target: t,
         resultingValue: damageDone,
-        targetDown: t.currentHp === 0
+        targetDown: t.currentHp === 0,
       };
-    })
-
+    });
   }
 
   public castSpell(spell: Spell, targets: Combatant[]): CombatResult[] {
     const potency = this.getMagicPower() + spell.basePotency;
     let combatResults;
     if (this.canCastSpell(spell)) {
-      this.subtractSpellCostFromMp(spell)
+      this.subtractSpellCostFromMp(spell);
 
-      combatResults = targets.map(t => {
+      combatResults = targets.map((t) => {
         let resultingValue;
         switch (spell.type) {
           case SpellType.attack:
@@ -204,53 +209,54 @@ export class Combatant {
             resultingValue = t.healFor(potency);
             break;
           default:
-            console.error(`SpellType not supported: ${spell.type}`)
+            console.error(`SpellType not supported: ${spell.type}`);
         }
         return {
           actionType: CombatActionTypes.castSpell,
           executor: this,
           target: t,
           resultingValue: resultingValue,
-          targetDown: t.currentHp === 0
-        }
+          targetDown: t.currentHp === 0,
+        };
       });
 
       return combatResults;
     }
-    combatResults = targets.map(t => {
+    combatResults = targets.map((t) => {
       return {
         actionType: CombatActionTypes.failure,
         executor: this,
         target: t,
         resultingValue: 0,
-        targetDown: false
-      }
-    })
+        targetDown: false,
+      };
+    });
     return combatResults;
-
   }
 
   applyItem(item: Item): CombatResult[] {
     const potency = item.effectPotency * item.effect.basePotency;
     const { resourceRecoverFunction } = handleItemUse(this, item);
     const healedFor = resourceRecoverFunction.call(this, potency);
-    return [{
-      actionType: CombatActionTypes.attack,
-      executor: null,
-      target: this,
-      resultingValue: healedFor,
-      targetDown: this.currentHp === 0
-    }]
+    return [
+      {
+        actionType: CombatActionTypes.attack,
+        executor: null,
+        target: this,
+        resultingValue: healedFor,
+        targetDown: this.currentHp === 0,
+      },
+    ];
   }
 
   failedAction(targets: Combatant[]): CombatResult[] {
-    const results = targets.map(t => ({
+    const results = targets.map((t) => ({
       actionType: CombatActionTypes.failure,
       executor: this,
       target: t,
       resultingValue: 0,
-      targetDown: t.currentHp === 0
-    }))
+      targetDown: t.currentHp === 0,
+    }));
     return results;
   }
   receivePhysicalDamage(potency: number) {
@@ -267,31 +273,38 @@ export class Combatant {
     return actualDamage;
   }
   public getAttackPower() {
-    return this.strength * this.level;
+    return this.strength * this.levelModifier();
   }
   public getMagicPower() {
-    return this.intellect * this.level;
+    return this.intellect * this.levelModifier();
   }
   public getDefensePower() {
-    return this.stamina * this.level;
+    return this.stamina * this.levelModifier();
   }
 
   public getMagicResist() {
-    return (this.magicalResist * this.level) + (this.wisdom * this.level);
+    return (
+      this.magicalResist * this.levelModifier() +
+      this.wisdom * this.levelModifier()
+    );
   }
 
   public getSpeed() {
-    return this.dexterity * this.level;
+    return this.dexterity * this.levelModifier();
   }
 
   public getCritChance() {
-    return this.dexterity * .01;
+    return this.dexterity * 0.01;
   }
-  public getModifierValue() { }
+  public getModifierValue() {}
   // Ad a defense up buff that lasts one turn to yourself.
   public defendSelf() {
     //TODO: Implement defending self
     // this.buffs.set()
+  }
+
+  protected levelModifier() {
+    return Math.round(1 + this.level / 10);
   }
 
   public getMaxHp() {
@@ -308,12 +321,12 @@ export class Combatant {
   public healFor(hitPoints: number): number {
     const missingHealth = this.getMaxHp() - this.currentHp;
     this.currentHp = Math.min(this.getMaxHp(), this.currentHp + hitPoints);
-    return Math.min(missingHealth, hitPoints)
+    return Math.min(missingHealth, hitPoints);
   }
   public recoverManaFor(manaPoints: number): number {
     const missingMana = this.getMaxMp() - this.currentMp;
     this.currentMp = Math.min(this.getMaxMp(), this.currentMp + manaPoints);
-    return Math.min(missingMana, manaPoints)
+    return Math.min(missingMana, manaPoints);
   }
   public damageFor(hitPoints: number) {
     this.currentHp = Math.max(0, this.currentHp - hitPoints);

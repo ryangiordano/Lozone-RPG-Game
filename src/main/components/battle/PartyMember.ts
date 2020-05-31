@@ -73,10 +73,6 @@ export class PartyMember extends Combatant {
     return this.modified('dexterity') * .01;
   }
 
-  private levelModifier() {
-    return 1 + this.level / 10;
-  }
-
   public getStrength() {
     return this.modified('strength')
   }

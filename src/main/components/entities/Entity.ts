@@ -1,6 +1,7 @@
 import { State } from "../../utility/state/State";
 import { createThrottle } from "../../utility/Utility";
 import { Cast, CastType, CastData } from "./Cast";
+import { AudioScene } from "../../scenes/audioScene";
 
 export enum EntityTypes {
   npc,
@@ -192,7 +193,8 @@ export class Chest extends Entity {
   public openChest() {
     if (!this.open) {
       this.setOpen();
-      this.currentScene.sound.play("chest", { volume: 0.1 });
+      const audio = <AudioScene>this.scene.scene.get("Audio");
+      audio.playSound("chest");
       this.currentScene.events.emit("item-acquired", {
         itemId: this.properties["itemId"],
         flagId: this.properties["id"],
@@ -209,7 +211,8 @@ export class Chest extends Entity {
     this.setFrame(4, false);
   }
   public unlock() {
-    this.currentScene.sound.play("unlock", { volume: 0.1 });
+    const audio = <AudioScene>this.scene.scene.get("Audio");
+    audio.playSound("unlock");
     this.locked = false;
   }
 }
@@ -256,7 +259,8 @@ export class LockedDoor extends Entity {
     this.entityType = EntityTypes.door;
   }
   public unlock() {
-    this.currentScene.sound.play("lock-open", { volume: 0.1 });
+    const audio = <AudioScene>this.scene.scene.get("Audio");
+    audio.playSound("lock-open");
     this.setCollideOnTileBelowFoot(false);
     this.destroy();
   }

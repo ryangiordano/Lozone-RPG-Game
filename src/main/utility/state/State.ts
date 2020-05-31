@@ -3,10 +3,11 @@ import { ItemController } from "../../data/controllers/ItemController";
 import { Flag } from "./FlagModule";
 import { PlayerContents } from "./PlayerContents";
 import { HeroParty } from "../../components/battle/Party";
-import { FlagController } from '../../data/controllers/FlagController';
-import { NPCController } from '../../data/controllers/NPCController';
+import { FlagController } from "../../data/controllers/FlagController";
+import { NPCController } from "../../data/controllers/NPCController";
 import { PartyController } from "../../data/controllers/PartyController";
 import { ItemCategory } from "../../components/entities/Item";
+import SpecialEffects from "./SpecialEffects";
 
 export class State {
   /**
@@ -22,10 +23,13 @@ export class State {
   public npcController: NPCController;
   private partyController: PartyController;
   public playerContents: PlayerContents;
-  
+  public specialEffects: SpecialEffects;
+
   private party: HeroParty;
 
-  private constructor() { }
+  private constructor() {
+    this.specialEffects = new SpecialEffects();
+  }
 
   static getInstance() {
     if (!State.instance) {
@@ -66,7 +70,9 @@ export class State {
     return this.playerContents.getItemsOnPlayer();
   }
   getConsumeablesOnPlayer() {
-    return this.playerContents.getItemsOnPlayer().filter(item => item.category === ItemCategory.consumable)
+    return this.playerContents
+      .getItemsOnPlayer()
+      .filter((item) => item.category === ItemCategory.consumable);
   }
 
   public getCurrentParty() {
@@ -87,13 +93,13 @@ export class State {
     const partyMembers = [
       {
         entity: this.partyController.getPartyMemberById(1),
-        position: { x: 0, y: 0 }
+        position: { x: 0, y: 0 },
       },
       {
         entity: this.partyController.getPartyMemberById(5),
-        position: { x: 0, y: 1 }
-      }
-    ]
+        position: { x: 0, y: 1 },
+      },
+    ];
     this.party = new HeroParty(partyMembers, this.game);
   }
 
@@ -101,12 +107,12 @@ export class State {
     return this.flags.get(`${id}`) && this.flags.get(`${id}`).flagged;
   }
   public allAreFlagged(ids: number[]) {
-    return ids.every(id => this.isFlagged(id));
+    return ids.every((id) => this.isFlagged(id));
   }
   public setFlag(id: number, flagged: boolean) {
     if (!this.flags.get(`${id}`)) {
       throw new Error(`Flag with ${id} does not exist`);
     }
-    return this.flags.get(`${id}`).flagged = flagged;
+    return (this.flags.get(`${id}`).flagged = flagged);
   }
 }
