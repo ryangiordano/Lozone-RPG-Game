@@ -42,12 +42,12 @@
                 "spell": 10
             },
             {
-                "requiredLevel": 1,
+                "requiredLevel": 3,
                 "classModifier": 1,
                 "spell": 1
             },
             {
-                "requiredLevel": 1,
+                "requiredLevel": 7,
                 "classModifier": 1,
                 "spell": 11
             }
@@ -70,12 +70,12 @@
                 "spell": 10
             },
             {
-                "requiredLevel": 1,
+                "requiredLevel": 3,
                 "classModifier": 1,
                 "spell": 1
             },
             {
-                "requiredLevel": 1,
+                "requiredLevel": 7,
                 "classModifier": 1,
                 "spell": 11
             }

@@ -1,13 +1,23 @@
 import { UserInterface, TraversibleObject } from "../../UI/UserInterface";
 import { TextFactory } from "../../../utility/TextFactory";
-import { CombatEvent, UseItemEvent, SpellCastEvent } from '../CombatEvent';
-import { Orientation, CombatActionTypes, CombatEntity, Status } from '../CombatDataStructures';
+import { CombatEvent, UseItemEvent, SpellCastEvent } from "../CombatEvent";
+import {
+  Orientation,
+  CombatActionTypes,
+  CombatEntity,
+  Status,
+} from "../CombatDataStructures";
 import { PartyMember } from "../PartyMember";
 import { UIPanel, PanelContainer } from "../../UI/PanelContainer";
 import { KeyboardControl } from "../../UI/Keyboard";
 import { State } from "../../../utility/state/State";
-import { SpellType, TargetArea, TargetType, Targeting } from '../../../data/repositories/SpellRepository';
 import { CombatContainer } from "../combat-grid/CombatContainer";
+import {
+  TargetArea,
+  Targeting,
+  TargetType,
+  SpellType,
+} from "../../../data/repositories/SpellRepository";
 
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory;
@@ -27,13 +37,12 @@ export class CombatInterface extends UserInterface {
     scene: Phaser.Scene,
     spriteKey: string,
     private enemyCombatContainer: CombatContainer,
-    private partyCombatContainer: CombatContainer,
+    private partyCombatContainer: CombatContainer
   ) {
     super(scene, spriteKey, new KeyboardControl(scene));
     this.textFactory = new TextFactory(scene);
   }
   public create(partyMember: PartyMember) {
-
     this.currentPartyMember = partyMember;
     this.createMainPanel();
     this.createStatusPanel();
@@ -60,7 +69,7 @@ export class CombatInterface extends UserInterface {
           CombatActionTypes.attack,
           {
             targetArea: TargetArea.single,
-            targeting: Targeting.enemy
+            targeting: Targeting.enemy,
           }
         );
       })
@@ -76,25 +85,26 @@ export class CombatInterface extends UserInterface {
       })
       .addOption("Item", () => {
         if (sm.getConsumeablesOnPlayer().length) {
-          this.showPanel(this.itemPanel).focusPanel(this.itemPanel)
+          this.showPanel(this.itemPanel).focusPanel(this.itemPanel);
         } else {
           //TODO: Show a battle toast!
         }
       });
 
-
     if (this.currentPartyMember.combatClass.spells.length) {
-      this.mainPanel.addOption("Spells", () => this.showPanel(this.spellPanel).focusPanel(this.spellPanel))
+      this.mainPanel.addOption("Spells", () =>
+        this.showPanel(this.spellPanel).focusPanel(this.spellPanel)
+      );
     }
 
     this.mainPanel.addOption("Run", () => {
       this.scene.events.emit("run-battle");
     });
 
-    this.setEventOnPanel(this.mainPanel, "keydown", event => {
+    this.setEventOnPanel(this.mainPanel, "keydown", (event) => {
       if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
         //TODO: Handle iterating backward through the combat input loop.
-        this.events.emit("move-backward")
+        this.events.emit("move-backward");
       }
     });
   }
@@ -104,54 +114,57 @@ export class CombatInterface extends UserInterface {
     combatContainer: CombatContainer,
     combatActionType: CombatActionTypes,
     targetType: TargetType,
-    data?) {
+    data?
+  ) {
     if (data && targetType.targetArea === TargetArea.all) {
       //TODO: Implement attacking all enemies
       combatContainer.targetAll();
       traversible.setTargetAll(true);
-      traversible.on('all-chosen', () => {
-        traversible.off('all-chosen');
-        const targets = targetType.targeting === Targeting.enemy ? this.enemyCombatContainer.getCombatants() : this.partyCombatContainer.getCombatants();
+      traversible.on("all-chosen", () => {
+        traversible.off("all-chosen");
+        const targets =
+          targetType.targeting === Targeting.enemy
+            ? this.enemyCombatContainer.getCombatants()
+            : this.partyCombatContainer.getCombatants();
         combatContainer.showCursor(false);
         let event;
         switch (combatActionType) {
           case CombatActionTypes.attack:
-            event = this.createCombatEvent(targets)
+            event = this.createCombatEvent(targets);
             break;
           case CombatActionTypes.castSpell:
-            event = this.createSpellcastEvent(targets, data)
+            event = this.createSpellcastEvent(targets, data);
             break;
           case CombatActionTypes.useItem:
-            event = this.createItemEvent(targets, data)
+            event = this.createItemEvent(targets, data);
             break;
           default:
             // Don't know what to do? Just punch them.
-            event = this.createCombatEvent(targets)
+            event = this.createCombatEvent(targets);
             break;
         }
         this.events.emit("option-selected", event);
         //TODO: This emits the event, however it's skipped over during the turn execution phase.
       });
     } else {
-
-      traversible.on('chosen', (target) => {
-        traversible.off('chosen');
+      traversible.on("chosen", (target) => {
+        traversible.off("chosen");
         combatContainer.showCursor(false);
         //TODO: Improve this here;
         let event;
         switch (combatActionType) {
           case CombatActionTypes.attack:
-            event = this.createCombatEvent([target])
+            event = this.createCombatEvent([target]);
             break;
           case CombatActionTypes.castSpell:
-            event = this.createSpellcastEvent([target], data)
+            event = this.createSpellcastEvent([target], data);
             break;
           case CombatActionTypes.useItem:
-            event = this.createItemEvent([target], data)
+            event = this.createItemEvent([target], data);
             break;
           default:
             // Don't know what to do? Just punch them.
-            event = this.createCombatEvent([target])
+            event = this.createCombatEvent([target]);
             break;
         }
         this.events.emit("option-selected", event);
@@ -159,8 +172,8 @@ export class CombatInterface extends UserInterface {
 
       // Handling Focused.
       const currentFocused = traversible.getFocusedOption();
-      combatContainer.setCursor(currentFocused.selectableData.entity.sprite)
-      traversible.on('focused', (target) => {
+      combatContainer.setCursor(currentFocused.selectableData.entity.sprite);
+      traversible.on("focused", (target) => {
         const sprite = target.entity.sprite;
         combatContainer.setCursor(sprite);
       });
@@ -168,19 +181,24 @@ export class CombatInterface extends UserInterface {
 
     traversible.on("escape", () => {
       this.traverseBackward();
-    })
-
+    });
   }
 
   private createDetailPanel() {
-    this.detailPanel = this.createPresentationPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
+    this.detailPanel = this.createPresentationPanel(
+      { x: 7, y: 3 },
+      { x: 3, y: 6 }
+    );
   }
 
   private showDetailPanel(selectedEntity: CombatEntity) {
-    this.detailPanel.clearPanelContainerByType('Text');
+    this.detailPanel.clearPanelContainerByType("Text");
     this.detailPanel.show();
-    const name = this.textFactory.createText(selectedEntity.entity.name, { x: 10, y: 10 });
-    this.detailPanel.add(name)
+    const name = this.textFactory.createText(selectedEntity.entity.name, {
+      x: 10,
+      y: 10,
+    });
+    this.detailPanel.add(name);
   }
 
   private createEnemyTraversible() {
@@ -188,7 +206,7 @@ export class CombatInterface extends UserInterface {
       this.enemyCombatContainer.showCursor(false);
     });
 
-    this.enemyCombatContainer.getCombatants().forEach(enemyCombatant => {
+    this.enemyCombatContainer.getCombatants().forEach((enemyCombatant) => {
       this.enemyTraversible.addOption(
         enemyCombatant,
         () => {
@@ -196,8 +214,8 @@ export class CombatInterface extends UserInterface {
         },
         () => {
           this.enemyTraversible.emit("focused", enemyCombatant);
-        });
-
+        }
+      );
     });
   }
   private createPartyTraversible() {
@@ -205,52 +223,56 @@ export class CombatInterface extends UserInterface {
       this.partyCombatContainer.showCursor(false);
     });
 
-    this.partyCombatContainer.getCombatants().forEach(partyMember => {
-
-      this.partyTraversible.addOption(partyMember, () => {
-        this.partyTraversible.emit("chosen", partyMember);
-      }, () => {
-        this.partyTraversible.emit("focused", partyMember);
-      });
-
+    this.partyCombatContainer.getCombatants().forEach((partyMember) => {
+      this.partyTraversible.addOption(
+        partyMember,
+        () => {
+          this.partyTraversible.emit("chosen", partyMember);
+        },
+        () => {
+          this.partyTraversible.emit("focused", partyMember);
+        }
+      );
     });
   }
 
   /**
-   * Create list of items to use in battle.  
+   * Create list of items to use in battle.
    * Selecting an item opens the party traversible
    */
   private createItemPanel() {
     this.itemPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
     const sm = State.getInstance();
     const consumeables = sm.getConsumeablesOnPlayer();
-    consumeables.filter(item=>item.canSetIntendToUse()).forEach(item => {
-
-      this.itemPanel.addOption(`${item.name} x${item.getQuantity()}`, () => {
-        this.itemPanel.close();
-        item.setIntendToUse();
-        this.showPanel(this.partyTraversible).focusPanel(this.partyTraversible);
-        this.handleTraversibleTargeting(
-          this.partyTraversible,
-          this.partyCombatContainer,
-          CombatActionTypes.useItem,
-          item.effect.targetType,
-          item);
-      })
-    });
-
+    consumeables
+      .filter((item) => item.canSetIntendToUse())
+      .forEach((item) => {
+        this.itemPanel.addOption(`${item.name} x${item.getQuantity()}`, () => {
+          this.itemPanel.close();
+          item.setIntendToUse();
+          this.showPanel(this.partyTraversible).focusPanel(
+            this.partyTraversible
+          );
+          this.handleTraversibleTargeting(
+            this.partyTraversible,
+            this.partyCombatContainer,
+            CombatActionTypes.useItem,
+            item.effect.targetType,
+            item
+          );
+        });
+      });
   }
 
   private createPartyTargetPanel() {
     this.partyTargetPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
 
-    this.partyCombatContainer.getCombatants().forEach(partyMember => {
+    this.partyCombatContainer.getCombatants().forEach((partyMember) => {
       this.partyTargetPanel.addOption(partyMember.entity.name, () => {
         this.partyTargetPanel.emit("party-member-chosen", partyMember);
       });
     });
   }
-
 
   private createStatusPanel() {
     this.statusPanel = this.createPresentationPanel(
@@ -274,7 +296,7 @@ export class CombatInterface extends UserInterface {
       { x: 20, y: 90 },
       statusTextSize
     );
-    [hp, mp, name].forEach(gameObject => {
+    [hp, mp, name].forEach((gameObject) => {
       this.scene.add.existing(gameObject);
       this.statusPanel.add(gameObject);
     });
@@ -282,46 +304,49 @@ export class CombatInterface extends UserInterface {
     return this.statusPanel;
   }
 
-
   private createSpellPanel() {
-    this.spellPanel = this.createUIPanel(
-      { x: 7, y: 3 },
-      { x: 3, y: 6 }
-    );
+    this.spellPanel = this.createUIPanel({ x: 7, y: 3 }, { x: 3, y: 6 });
     const combatant = this.currentPartyMember;
-    combatant.combatClass.spells.forEach(classSpell =>
-      classSpell.requiredLevel <= combatant.level &&
-      this.spellPanel.addOption(classSpell.spell.name, () => {
-        this.spellPanel.close();
+    combatant.combatClass.spells.forEach(
+      (classSpell) =>
+        classSpell.requiredLevel <= combatant.level &&
+        this.spellPanel.addOption(classSpell.spell.name, () => {
+          this.spellPanel.close();
 
-        if (classSpell.spell.type === SpellType.attack) {
-          this.showPanel(this.enemyTraversible).focusPanel(this.enemyTraversible);
-          this.handleTraversibleTargeting(
-            this.enemyTraversible,
-            this.enemyCombatContainer,
-            CombatActionTypes.castSpell,
-            classSpell.spell.targetType,
-            classSpell);
-        }
+          if (classSpell.spell.type === SpellType.attack) {
+            this.showPanel(this.enemyTraversible).focusPanel(
+              this.enemyTraversible
+            );
+            this.handleTraversibleTargeting(
+              this.enemyTraversible,
+              this.enemyCombatContainer,
+              CombatActionTypes.castSpell,
+              classSpell.spell.targetType,
+              classSpell
+            );
+          }
 
-        if (classSpell.spell.type === SpellType.restoration) {
-          this.showPanel(this.partyTraversible).focusPanel(this.partyTraversible);
-          this.handleTraversibleTargeting(
-            this.partyTraversible,
-            this.partyCombatContainer,
-            CombatActionTypes.castSpell,
-            classSpell.spell.targetType,
-            classSpell)
-        }
-
-      }));
+          if (classSpell.spell.type === SpellType.restoration) {
+            this.showPanel(this.partyTraversible).focusPanel(
+              this.partyTraversible
+            );
+            this.handleTraversibleTargeting(
+              this.partyTraversible,
+              this.partyCombatContainer,
+              CombatActionTypes.castSpell,
+              classSpell.spell.targetType,
+              classSpell
+            );
+          }
+        })
+    );
     return this.spellPanel;
   }
 
   createCombatEvent(targets) {
     const event = new CombatEvent(
       this.currentPartyMember,
-      targets.map(t => t.entity),
+      targets.map((t) => t.entity),
       CombatActionTypes.attack,
       Orientation.left,
       this.scene
@@ -332,26 +357,24 @@ export class CombatInterface extends UserInterface {
   createSpellcastEvent(targets, classSpell) {
     const event = new SpellCastEvent(
       this.currentPartyMember,
-      targets.map(t => t.entity),
+      targets.map((t) => t.entity),
       CombatActionTypes.castSpell,
       Orientation.left,
       this.scene,
-      classSpell.spell,
+      classSpell.spell
     );
     return event;
   }
-
 
   createItemEvent(targets, item) {
     const event = new UseItemEvent(
       this.currentPartyMember,
-      targets.map(t => t.entity),
+      targets.map((t) => t.entity),
       CombatActionTypes.useItem,
       Orientation.left,
       this.scene,
-      item,
+      item
     );
     return event;
   }
-
 }

@@ -95,10 +95,10 @@ export class State {
         entity: this.partyController.getPartyMemberById(1),
         position: { x: 0, y: 0 },
       },
-      {
-        entity: this.partyController.getPartyMemberById(5),
-        position: { x: 0, y: 2 },
-      },
+      // {
+      //   entity: this.partyController.getPartyMemberById(5),
+      //   position: { x: 0, y: 2 },
+      // },
     ];
     this.party = new HeroParty(partyMembers, this.game);
   }

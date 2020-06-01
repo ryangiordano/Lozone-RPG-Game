@@ -1,0 +1,9 @@
+{
+  "1": {
+    "name": "chest 1",
+    "description": "Ryan joins the party",
+    "type": 0,
+    "dialogId": 37,
+    "flagged": false
+  }
+}

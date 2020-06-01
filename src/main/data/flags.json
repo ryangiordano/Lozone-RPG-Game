@@ -161,6 +161,12 @@
         "type": 0,
         "flagged": false
     },
+    "300": {
+        "name": "party",
+        "description": "Ryan joins the party",
+        "type": 0,
+        "flagged": false
+    },
     "500": {
         "name": "pick up catshape key",
         "description": "Flag for picking up the catshape key",

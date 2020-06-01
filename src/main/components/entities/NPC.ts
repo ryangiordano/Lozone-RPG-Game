@@ -1,9 +1,8 @@
-import { Directions } from '../../utility/Utility';
-import { Moveable } from './Movement';
-import { NPCDialog, NPCPlacement } from '../../data/repositories/NPCRepository';
-import { State } from '../../utility/state/State';
-import { EntityTypes } from './Entity';
-
+import { Directions } from "../../utility/Utility";
+import { Moveable } from "./Movement";
+import { State } from "../../utility/state/State";
+import { EntityTypes } from "./Entity";
+import { NPCPlacement, NPCDialog } from "../../data/repositories/NPCRepository";
 
 export class NPC extends Moveable {
   public entityType: EntityTypes = EntityTypes.npc;
@@ -20,15 +19,20 @@ export class NPC extends Moveable {
   }
 
   public getCurrentDialog() {
-    const sm = State.getInstance()
+    const sm = State.getInstance();
     // flags should work by getting the most recent flag in the list
     // that resolves to true.
-    const dialog = this.dialog.find(dialog => sm.allAreFlagged(dialog.flags));
+    const dialog = this.dialog.find((dialog) => sm.allAreFlagged(dialog.flags));
     return dialog.message;
   }
 
+  public getCurrentInteraction() {
+    const sm = State.getInstance();
+    //TODO
+  }
+
   public getCurrentPlacement() {
-    const sm = State.getInstance()
+    const sm = State.getInstance();
     // flags should work by getting the most recent flag in the list
     // that resolves to true.
     const placement = this.placement.reduce((acc, placement) => {
@@ -36,11 +40,9 @@ export class NPC extends Moveable {
         acc = placement;
       }
       return acc;
-
     });
     return placement;
   }
-
 
   private setCurrentPlacement() {
     this.setCollideOnTileBelowFoot(false);
@@ -48,9 +50,7 @@ export class NPC extends Moveable {
     this.x = loc.x + 32;
     this.y = loc.y + 32;
     this.setCollideOnTileBelowFoot(true);
-
   }
-
 }
 
 export class BossMonster extends NPC {
@@ -58,17 +58,19 @@ export class BossMonster extends NPC {
    *  Represents boss monsters on the world map.
    */
   public entityType: EntityTypes = EntityTypes.bossMonster;
-  constructor({ scene, key },
+  constructor(
+    { scene, key },
     public encounterId: number,
     facing?: Directions,
     protected dialog?: NPCDialog[],
-    protected placement?: NPCPlacement[]) {
+    protected placement?: NPCPlacement[]
+  ) {
     super({ scene, key }, facing, dialog, placement);
     this.face(facing);
-    this.idle()
+    this.idle();
   }
 
   idle() {
-    this.anims.play(`${this.spriteKey}-idle`)
+    this.anims.play(`${this.spriteKey}-idle`);
   }
 }

@@ -170,6 +170,11 @@
                  "name":"ryan",
                  "properties":[
                         {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":300
+                        }, 
+                        {
                          "name":"npcId",
                          "type":"int",
                          "value":1
@@ -357,18 +362,18 @@
                 {
                  "height":64,
                  "id":29,
-                 "name":"diploma",
+                 "name":"bed",
                  "properties":[
                         {
                          "name":"dialogId",
                          "type":"int",
-                         "value":23
+                         "value":36
                         }],
                  "rotation":0,
                  "type":"interactive",
                  "visible":true,
                  "width":64,
-                 "x":128,
+                 "x":0,
                  "y":192
                 }, 
                 {
@@ -436,6 +441,23 @@
                  "width":64,
                  "x":448,
                  "y":448
+                }, 
+                {
+                 "height":64,
+                 "id":34,
+                 "name":"diploma",
+                 "properties":[
+                        {
+                         "name":"dialogId",
+                         "type":"int",
+                         "value":23
+                        }],
+                 "rotation":0,
+                 "type":"interactive",
+                 "visible":true,
+                 "width":64,
+                 "x":128,
+                 "y":192
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -444,7 +466,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":34,
+ "nextobjectid":35,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.2.3",
