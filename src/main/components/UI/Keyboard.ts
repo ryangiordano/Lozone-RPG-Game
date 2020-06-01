@@ -5,15 +5,20 @@ export enum KeyboardControlKeys {
   RIGHT,
   ESC,
   SPACE,
-  Z
+  Z,
 }
 
 export class KeyboardControl {
   private events = {};
-  constructor(private currentScene: Phaser.Scene) { }
+  private disabled = false;
+  public setDisabled(disabled) {
+    this.disabled = disabled;
+  }
+  constructor(private currentScene: Phaser.Scene) {}
   setupKeyboardControl() {
     // Setup first to be imperative, then eventually set it up to be more generic
-    this.currentScene.input.keyboard.on("keydown", event => {
+    this.currentScene.input.keyboard.on("keydown", (event) => {
+      if (this.disabled) return;
       switch (event.keyCode) {
         case Phaser.Input.Keyboard.KeyCodes.UP:
           this.emit(KeyboardControlKeys.UP);
@@ -45,15 +50,15 @@ export class KeyboardControl {
   public on(eventName: any, uniqueContextId: string, fn: Function) {
     const eventObj = {
       uid: uniqueContextId,
-      callback: fn
+      callback: fn,
     };
-    const addEvent = event => {
+    const addEvent = (event) => {
       this.events[event] = this.events[event]
         ? this.events[event].push(eventObj)
         : [eventObj];
     };
     if (Array.isArray(eventName)) {
-      eventName.forEach(event => addEvent(event));
+      eventName.forEach((event) => addEvent(event));
     } else {
       addEvent(eventName);
     }
@@ -62,16 +67,18 @@ export class KeyboardControl {
   public emit(eventName: KeyboardControlKeys) {
     const eventArray = this.events[eventName];
     if (eventArray) {
-      eventArray.forEach(event => {
+      eventArray.forEach((event) => {
         event.callback();
       });
     }
   }
 
   public off(eventName: KeyboardControlKeys, uniqueContextId: string) {
-    this.events[eventName] = this.events[eventName] && this.events[eventName].filter(event => {
-      return event.uid !== uniqueContextId;
-    });
+    this.events[eventName] =
+      this.events[eventName] &&
+      this.events[eventName].filter((event) => {
+        return event.uid !== uniqueContextId;
+      });
   }
-  removeAllKeyboardControl() { }
+  removeAllKeyboardControl() {}
 }

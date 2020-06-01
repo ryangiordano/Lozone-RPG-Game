@@ -9,6 +9,7 @@ import { WarpUtility } from "../../utility/exploration/Warp";
 import { ItemPanel, ConfirmItemPanel } from "../../components/menu/ItemPanel";
 import { MainPanel } from "../../components/menu/MainMenuPanel";
 import { ShopPanel } from "../../components/menu/shop/ShopPanel";
+import { AudioScene } from "../audioScene";
 
 
 export class MenuScene extends Phaser.Scene {
@@ -264,6 +265,13 @@ export class MenuScene extends Phaser.Scene {
         this.input.keyboard.resetKeys();
         this.scene.manager.sleep(this.scene.key);
         this.scene.run('Battle', { key: this.scene.key, enemyPartyId: 6, bossBattle: false })
+      })
+      .addOption("Credits", () => {
+        this.input.keyboard.resetKeys();
+        this.scene.manager.sleep(this.scene.key);
+        const audio = <AudioScene>this.scene.get("Audio");
+        audio.stop();
+        this.scene.run('CreditsScene', { key: this.scene.key, enemyPartyId: 6, bossBattle: false })
       })
       .addOption("Cancel", () => {
         this.UI.closePanel(dungeonPanel);

@@ -26,7 +26,7 @@ export class Player extends Moveable {
     if (this.isMoving) {
       this.moveToTarget();
     } else {
-      if (this.controllable.canInput) {
+      if (!this.controllable.disabled) {
         this.controllable.handleInput();
       }
     }

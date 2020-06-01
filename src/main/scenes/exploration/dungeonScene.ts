@@ -2,6 +2,7 @@ import { Explore } from "./exploreScene";
 import { createRandom, getRandomFloor } from "../../utility/Utility";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { AudioScene } from "../audioScene";
+import { battleZoom } from "../camera";
 
 export class DungeonScene extends Explore {
   private enemyPartyIds: number[] = [];
@@ -24,7 +25,7 @@ export class DungeonScene extends Explore {
 
   public afterCreated() {
     this.player.on("finished-movement", () => {
-      const r = this.hasRandomEncounter()
+      const r = this.hasRandomEncounter();
       if (r && this.enemyPartyIds) {
         this.startEncounter(this.chooseEnemyAtRandom());
       }

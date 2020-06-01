@@ -2,8 +2,8 @@ import { State } from "../../utility/state/State";
 import { Combat, BattleState } from "../../components/battle/Combat";
 import { EnemyController } from "../../data/controllers/EnemyController";
 import { EnemyParty } from "../../components/battle/Party";
-import { getRandomFloor } from "../../utility/Utility";
 import { AudioScene } from "../audioScene";
+import { sceneFadeIn, sceneFadeOut } from "../camera";
 
 export class CombatScene extends Phaser.Scene {
   private previousSceneKey: string;
@@ -17,13 +17,15 @@ export class CombatScene extends Phaser.Scene {
 
   preload(): void {}
 
-  init(data) {
+  async init(data) {
+    sceneFadeIn(this.cameras.main, 500);
+
     this.sound.add("hit");
     this.sound.add("heal");
     this.sound.add("dead");
-    this.sound.add("level-up");
+    this.sound.add("kill");
+    this.sound.add("faint");
     this.sound.add("coin");
-    this.sound.add("victory");
     this.levelUp = this.sound.add("level-up");
     this.enemyController = new EnemyController(this.game);
     this.previousSceneKey = data.key;
@@ -38,16 +40,16 @@ export class CombatScene extends Phaser.Scene {
 
     this.combat = new Combat(this, party.getParty(), enemyParty.getParty());
 
-    this.events.once("end-battle", (battleState: BattleState) => {
+    this.events.once("end-battle", async (battleState: BattleState) => {
       if (battleState.victorious && battleState.flagsToFlip.length) {
         const sm = State.getInstance();
         battleState.flagsToFlip.forEach((flag) => sm.setFlag(flag, true));
       }
-      this.endBattle();
+      await this.endBattle();
       this.backToPreviousScene();
     });
-    this.events.once("game-over", (battleState: BattleState) => {
-      this.endBattle();
+    this.events.once("game-over", async (battleState: BattleState) => {
+      await this.endBattle();
       this.scene.run("GameOverScene", {
         key: this.scene.key,
       });
@@ -57,19 +59,22 @@ export class CombatScene extends Phaser.Scene {
     audio.play(this.music, true);
   }
 
-  private endBattle() {
-    this.events.off("end-battle");
-    this.events.off("game-over");
-    this.events.off("update-combat-grids");
-    this.events.off("finish-update-combat-grids");
-    this.events.off("run-battle");
-
-    this.scene.stop();
-    const audio = <AudioScene>this.scene.get("Audio");
-    audio.stop(this.music);
+  private async endBattle() {
+    return new Promise(async (resolve) => {
+      this.events.off("end-battle");
+      this.events.off("game-over");
+      this.events.off("update-combat-grids");
+      this.events.off("finish-update-combat-grids");
+      this.events.off("run-battle");
+      await sceneFadeOut(this.cameras.main, 500);
+      this.scene.stop();
+      const audio = <AudioScene>this.scene.get("Audio");
+      audio.stop(this.music);
+      resolve();
+    });
   }
 
-  private backToPreviousScene() {
+  private async backToPreviousScene() {
     this.scene.manager.wake(this.previousSceneKey);
     this.scene.bringToTop(this.previousSceneKey);
     const scene = this.scene.manager.getScene(this.previousSceneKey);

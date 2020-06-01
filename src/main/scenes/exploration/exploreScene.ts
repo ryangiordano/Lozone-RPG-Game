@@ -13,8 +13,10 @@ import { KeyboardControl } from "../../components/UI/Keyboard";
 import { WarpUtility } from "../../utility/exploration/Warp";
 import { MapObjectFactory } from "../../utility/exploration/ObjectLoader";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
-import { textScaleUp } from "../../utility/tweens/text";
+import { textScaleUp, fadeInOur } from "../../utility/tweens/text";
 import { Item } from "../../components/entities/Item";
+import { sceneFadeIn, battleZoom } from "../camera";
+import { AudioScene } from "../audioScene";
 
 class EntityGroup extends Phaser.GameObjects.Group {}
 
@@ -37,7 +39,21 @@ export abstract class Explore extends Phaser.Scene {
     });
     this.mapObjectFactory = new MapObjectFactory(this);
   }
-  init(data) {
+
+  gbFadeIn(callback = null) {
+    const alpha = this.cameras.main.alpha;
+    const camera = this.cameras.main;
+    if (alpha < 1) {
+      setTimeout(() => {
+        camera.alpha = alpha + 0.25;
+        this.gbFadeIn(callback);
+      }, 150);
+    }
+  }
+
+  async init(data) {
+    sceneFadeIn(this.cameras.main);
+
     // Specify the tileset you want to use based on the data passed to the scene.
     const { map, tileset, warpDestId } = data;
     this.map = this.make.tilemap({ key: map });
@@ -48,6 +64,7 @@ export abstract class Explore extends Phaser.Scene {
     this.warpUtility = new WarpUtility(this);
     this.afterInit(data);
   }
+
   protected abstract afterInit(data);
   preload(): void {
     // TODO: Gather these into a map
@@ -62,6 +79,7 @@ export abstract class Explore extends Phaser.Scene {
 
     this.events.on("battle-finish", () => {
       this.refreshInteractivesByFlag();
+      this.player.controllable.setDisabled(false);
     });
     this.events.on("cast-delivered", (data) => {
       const { cast, castingEntity } = data;
@@ -115,7 +133,6 @@ export abstract class Explore extends Phaser.Scene {
    * has been satisfied.
    */
   refreshInteractivesByFlag() {
-    console.log("Called");
     this.interactive.children.entries.forEach((child) => {
       const entity = <Entity>child;
       const keyItem = <KeyItem>entity;
@@ -124,11 +141,6 @@ export abstract class Explore extends Phaser.Scene {
         keyItem.entityType === EntityTypes.keyItem
       ) {
         const sm = State.getInstance();
-        if (keyItem.properties["flagId"]) {
-          console.log(keyItem);
-          console.log(sm.isFlagged(keyItem.properties["placementFlag"]));
-          console.log(!sm.isFlagged(keyItem.properties["flagId"]));
-        }
         keyItem.setPlaced &&
           keyItem.properties["placementFlag"] &&
           keyItem.setPlaced(
@@ -280,14 +292,20 @@ export abstract class Explore extends Phaser.Scene {
     const sm = State.getInstance();
     const item = sm.addItemToContents(itemId);
     sm.setFlag(flagId, true);
-    this.player.controllable.canInput = false;
-    this.sound.play(item.collectSound, { volume: 0.1 });
+    this.player.controllable.setDisabled(true);
+    const audio = <AudioScene>this.scene.get("Audio");
+    //TODO: Improve this
+    if (item.collectSound === "great-key-item-collect") {
+      audio.play(item.collectSound, true, false, 0.1);
+    } else {
+      audio.playSound(item.collectSound, 0.1);
+    }
     // item float above here
     await this.animateItemAbove(item, { x: chestCoords.x, y: chestCoords.y });
 
     await this.displayMessage([`Lo got ${item.name}`]);
     await wait(300);
-    this.player.controllable.canInput = true;
+    this.player.controllable.setDisabled(false);
   }
 
   async animateItemAbove(item: Item, coords: Coords) {
@@ -310,7 +328,8 @@ export abstract class Explore extends Phaser.Scene {
 
   displayMessage(message: string[]): Promise<any> {
     return new Promise((resolve) => {
-      this.player.controllable.canInput = false;
+      this.player.controllable.setDisabled(true);
+
       this.scene.setActive(false, this.scene.key);
       this.game.scene.start("DialogScene", {
         callingSceneKey: this.scene.key,
@@ -320,19 +339,29 @@ export abstract class Explore extends Phaser.Scene {
       this.scene.setActive(true, "DialogScene").bringToTop("DialogScene");
       const dialog = this.game.scene.getScene("DialogScene");
       dialog.events.on("close-dialog", () => {
-        this.player.controllable.canInput = true;
+        this.player.controllable.setDisabled(false);
+
         resolve();
       });
     });
   }
 
-  protected startEncounter(enemyPartyId: number, bossBattle: boolean = false) {
+  protected async startEncounter(
+    enemyPartyId: number,
+    bossBattle: boolean = false
+  ) {
     this.input.keyboard.resetKeys();
+    this.player.controllable.setDisabled(true);
+    const audio = <AudioScene>this.scene.get("Audio");
+    audio.playSound("encounter", 0.1);
+    await battleZoom(this.cameras.main);
     this.scene.manager.sleep(this.scene.key);
+
     this.scene.run("Battle", {
       key: this.scene.key,
       enemyPartyId,
       bossBattle: bossBattle,
     });
+    this.cameras.main.zoom = 1;
   }
 }

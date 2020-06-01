@@ -47,6 +47,11 @@
       },
       {
         "type": "audio",
+        "key": "kill",
+        "url": "./src/main/assets/sounds/kill.mp3"
+      },
+      {
+        "type": "audio",
         "key": "key-item-collect",
         "url": "./src/main/assets/sounds/key-item-collect.wav"
       },
@@ -74,6 +79,16 @@
         "type": "audio",
         "key": "victory",
         "url": "./src/main/assets/music/victory.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "victory-fanfare",
+        "url": "./src/main/assets/music/victory-fanfare.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "encounter",
+        "url": "./src/main/assets/music/encounter.mp3"
       },
       {
         "type": "audio",
@@ -134,6 +149,11 @@
         "type": "audio",
         "key": "large-flame",
         "url": "./src/main/assets/sounds/large-flame.wav"
+      },
+      {
+        "type": "audio",
+        "key": "faint",
+        "url": "./src/main/assets/sounds/faint.mp3"
       },
       {
         "type": "audio",

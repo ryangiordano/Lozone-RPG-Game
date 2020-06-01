@@ -12,7 +12,12 @@ import {
   LootCrate,
 } from "./CombatDataStructures";
 import { CombatContainer } from "./combat-grid/CombatContainer";
-import { getRandomFloor, Directions, wait } from "../../utility/Utility";
+import {
+  getRandomFloor,
+  Directions,
+  wait,
+  asyncForEach,
+} from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./CombatEvent";
 import { CombatInterface } from "./combat-ui/CombatInterface";
@@ -21,7 +26,6 @@ import { Enemy } from "./Enemy";
 import { CombatEntity, CombatAction } from "./CombatDataStructures";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
 import { TextFactory } from "../../utility/TextFactory";
-import { fainted } from "../../utility/AnimationEffects/fainted";
 import { AudioScene } from "../../scenes/audioScene";
 
 export interface BattleState {
@@ -261,10 +265,16 @@ export class Combat {
     // one is done updating, and only when the last cel is done do we continue.
     // Right now we use wait :x
     await wait(500);
+    // await asyncForEach(results, async (r) => {
+    //   const target = r.target;
+    //   await wait(250);
+    //   return this.resolveTargetDeaths(target);
+    // });
     await Promise.all(
-      results.map(async (r) => {
+      results.map(async (r, i) => {
         const target = r.target;
-        await this.resolveTargetDeaths(target);
+        await wait(150 * i);
+        return this.resolveTargetDeaths(target);
       })
     );
     this.startLoop();
@@ -308,7 +318,7 @@ export class Combat {
               const sprite = target.getSprite();
               scaleUpDown(sprite, this.scene, async () => {
                 const audio = <AudioScene>this.scene.scene.get("Audio");
-                audio.playSound("dead");
+                audio.playSound("kill", 0.1);
 
                 const hitEffect = this.effectsRepository.getById(3);
                 await hitEffect.play(
@@ -389,22 +399,21 @@ export class Combat {
     // ===================================
     // experience
     // ===================================
-    this.lootCrate.experiencePoints += Math.ceil(
-      target.experiencePoints * (target.level / 2 + 1)
-    );
+    const xp = Math.ceil(target.experiencePoints * (target.level / 2 + 1));
+    this.lootCrate.experiencePoints += xp;
 
     const expScaleUp = () => {
-      const coinText = tf.createText(
-        `${target.goldValue}xp`,
+      const experienceText = tf.createText(
+        `${xp}xp`,
         { x: sprite.x, y: sprite.y },
         "32px",
         {
           fill: "#ffffff",
         }
       );
-      container.add(coinText);
+      container.add(experienceText);
       return new Promise((resolve) => {
-        textScaleUp(coinText, 0, -80, this.scene, () => {
+        textScaleUp(experienceText, 0, -80, this.scene, () => {
           resolve();
         }).play();
       });
@@ -420,7 +429,7 @@ export class Combat {
         const hasLeveledUp = partyEntity.gainExperience(experience);
         if (hasLeveledUp) {
           const audio = <AudioScene>this.scene.scene.get("Audio");
-          audio.playSound("level-up");
+          audio.playSound("level-up", 0.1);
           messages.push(
             `${partyEntity.name} has reached level ${partyEntity.level}`
           );

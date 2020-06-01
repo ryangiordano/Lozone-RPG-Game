@@ -8,7 +8,6 @@ import { KeyboardControl } from "../../UI/Keyboard";
 import { State } from "../../../utility/state/State";
 import { SpellType, TargetArea, TargetType, Targeting } from '../../../data/repositories/SpellRepository';
 import { CombatContainer } from "../combat-grid/CombatContainer";
-import { fainted } from '../../../utility/AnimationEffects/fainted';
 
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory;
@@ -255,7 +254,7 @@ export class CombatInterface extends UserInterface {
 
   private createStatusPanel() {
     this.statusPanel = this.createPresentationPanel(
-      { x: 4, y: 3 },
+      { x: 5, y: 3 },
       { x: 3, y: 6 }
     );
     const combatant = this.currentPartyMember;

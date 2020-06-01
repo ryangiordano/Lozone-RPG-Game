@@ -3,7 +3,7 @@ import { getRandomFloor } from "../../../utility/Utility";
 import { Combatant } from "../Combatant";
 import { CombatEntity } from "../CombatDataStructures";
 import { cursorHover } from "../../../utility/tweens/text";
-import { CombatCel } from './CombatCel';
+import { CombatCel } from "./CombatCel";
 
 export class CombatContainer extends Phaser.GameObjects.Container {
   private combatGrid: CombatGrid = new CombatGrid({ x: 3, y: 3 }, 64);
@@ -11,16 +11,20 @@ export class CombatContainer extends Phaser.GameObjects.Container {
   private cursorAnimation: any;
   private multiCursorContainer: Phaser.GameObjects.Container;
 
-  constructor(position: Coords, scene, private combatants: CombatEntity[] = []) {
+  constructor(
+    position: Coords,
+    scene,
+    private combatants: CombatEntity[] = []
+  ) {
     super(scene, position.x * 64, position.y * 64);
-    this.cursor = new Phaser.GameObjects.Sprite(this.scene, 100, 100, 'cursor');
-    this.cursorAnimation = cursorHover(this.cursor, 0, this.scene, () => { });
+    this.cursor = new Phaser.GameObjects.Sprite(this.scene, 100, 100, "cursor");
+    this.cursorAnimation = cursorHover(this.cursor, 0, this.scene, () => {});
     this.multiCursorContainer = new Phaser.GameObjects.Container(this.scene);
     this.add(this.multiCursorContainer);
     this.bringToTop(this.multiCursorContainer);
-  
-    this.add(this.cursor)
-    this.showCursor(false)
+
+    this.add(this.cursor);
+    this.showCursor(false);
   }
 
   public populateContainerAt(position: Coords, combatant: Combatant) {
@@ -32,29 +36,38 @@ export class CombatContainer extends Phaser.GameObjects.Container {
 
   public setCursor(sprite) {
     this.showCursor(true);
-    this.bringToTop(this.cursor)
+    this.bringToTop(this.cursor);
     this.cursor.setX(sprite.x);
-    this.cursor.setY(sprite.y - (sprite.height / 2))
+    this.cursor.setY(sprite.y - sprite.height / 2);
     this.beginCursorAnimate();
   }
 
+  /**  Set a cursor on top of each target's head. */
   public setMultiCursor() {
-    this.combatGrid.getAllTargets().forEach(target => {
-      // Set a cursor on top of each target's head.
-      const cursor = new Phaser.GameObjects.Sprite(this.scene, 100, 100, 'cursor');
+    this.combatGrid.getAllTargets().forEach((target) => {
+      if (target["combatantInCel"].currentHp <= 0) {
+        return;
+      }
+      const cursor = new Phaser.GameObjects.Sprite(
+        this.scene,
+        100,
+        100,
+        "cursor"
+      );
+
       this.multiCursorContainer.add(cursor);
       this.bringToTop(this.multiCursorContainer);
       this.multiCursorContainer.bringToTop(cursor);
       cursor.setX(target.getX());
-      cursor.setY(target.getY()-(target.get().sprite.height/2));
-      const cursorAnimation = cursorHover(cursor, 0, this.scene, () => { });
+      cursor.setY(target.getY() - target.get().sprite.height / 2);
+      const cursorAnimation = cursorHover(cursor, 0, this.scene, () => {});
       cursorAnimation.play();
-    })
+    });
   }
 
   public unsetMultiCursor() {
-    this.multiCursorContainer.getAll('type', 'Sprite').forEach(child => {
-      if(child['texture'].key === 'cursor'){
+    this.multiCursorContainer.getAll("type", "Sprite").forEach((child) => {
+      if (child["texture"].key === "cursor") {
         child.destroy();
       }
     });
@@ -62,31 +75,31 @@ export class CombatContainer extends Phaser.GameObjects.Container {
 
   public showCursor(visible: boolean) {
     this.cursor.visible = visible;
-    if(!visible){
+    if (!visible) {
       this.unsetMultiCursor();
     }
   }
 
   private beginCursorAnimate() {
     this.cursorAnimation.stop();
-    this.cursorAnimation = cursorHover(this.cursor, 0, this.scene, () => { });
+    this.cursorAnimation = cursorHover(this.cursor, 0, this.scene, () => {});
     this.cursorAnimation.play();
-
   }
 
   public populateContainer() {
-    this.combatants.forEach(combatant => {
+    this.combatants.forEach((combatant) => {
       const sprite = combatant.entity.getSprite();
-      const effectContainer = combatant.entity.getEffectManager().getEffectContainer();
+      const effectContainer = combatant.entity
+        .getEffectManager()
+        .getEffectContainer();
       this.add(sprite);
       this.add(effectContainer);
       this.combatGrid.placeAt(combatant.position, combatant.entity);
-
     });
   }
 
   public populateContainerRandomly() {
-    this.combatants.forEach(combatant => {
+    this.combatants.forEach((combatant) => {
       const sprite = combatant.entity.getSprite();
       this.add(sprite);
       const y = getRandomFloor(this.combatGrid.getHeight());
@@ -99,8 +112,8 @@ export class CombatContainer extends Phaser.GameObjects.Container {
         if (combatant) {
           this.bringToTop(combatant.getSprite());
         }
-      })
-    })
+      });
+    });
   }
 
   addCombatant(combatant: Combatant) {
@@ -111,17 +124,13 @@ export class CombatContainer extends Phaser.GameObjects.Container {
     return this.combatants;
   }
 
-  public getCombatCelByCombatant(combatant:Combatant): any{
+  public getCombatCelByCombatant(combatant: Combatant): any {
     return this.combatGrid.getCelWithCombatant(combatant);
   }
 
-  public targetRow(row) {
+  public targetRow(row) {}
 
-  }
-
-  public targetColumn(column) {
-
-  }
+  public targetColumn(column) {}
   public targetAll() {
     this.setMultiCursor();
   }

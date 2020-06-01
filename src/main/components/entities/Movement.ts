@@ -45,7 +45,7 @@ export class Moveable extends Entity {
     if (this.x === this.target.x && this.y === this.target.y) {
       this.isMoving = false;
       this.queryUnderfoot();
-      this.emit('finished-movement');
+      this.emit("finished-movement");
     } else {
       if (this.x !== this.target.x) {
         this.x += this.velocityX;
@@ -108,14 +108,15 @@ export class Moveable extends Entity {
   }
 
   private tileIsOpen(backgroundTile, foregroundTile) {
-    const backgroundTileIsOpen = backgroundTile &&
+    const backgroundTileIsOpen =
+      backgroundTile &&
       !backgroundTile.properties["collide"] &&
       !backgroundTile.properties["wall"];
-    const foregroundTileIsOpen = foregroundTile &&
+    const foregroundTileIsOpen =
+      foregroundTile &&
       !foregroundTile.properties["collide"] &&
       !foregroundTile.properties["wall"];
-    return backgroundTileIsOpen && foregroundTileIsOpen
-
+    return backgroundTileIsOpen && foregroundTileIsOpen;
   }
 
   public queryObject = createThrottle(300, () => {
@@ -139,14 +140,17 @@ export class Moveable extends Entity {
 
 export class Controllable {
   private keys: Map<string, Phaser.Input.Keyboard.Key>;
-  public canInput = true;
+  public disabled = false;
+  setDisabled(disabled) {
+    this.disabled = disabled;
+  }
   constructor(private scene: Phaser.Scene, private moveable: Moveable) {
     this.keys = new Map([
       ["LEFT", this.addKey("LEFT")],
       ["RIGHT", this.addKey("RIGHT")],
       ["DOWN", this.addKey("DOWN")],
       ["UP", this.addKey("UP")],
-      ["SPACE", this.addKey("SPACE")]
+      ["SPACE", this.addKey("SPACE")],
     ]);
   }
   private addKey(key: string): Phaser.Input.Keyboard.Key {
@@ -156,21 +160,21 @@ export class Controllable {
     //TODO: Refactor to use general animations.
     // Movement should bootstrap a specific animation object namespaced
     // to the sprite it belongs to. ex walkV-lo, walkV-ryan etc.
-    if (this.keys.get("RIGHT").isDown && this.canInput) {
+    if (this.keys.get("RIGHT").isDown && !this.disabled) {
       this.moveable.setFlipX(true);
       this.moveable.move(Directions.right, () =>
         this.moveable.anims.play("lo-walkV", true)
       );
-    } else if (this.keys.get("LEFT").isDown && this.canInput) {
+    } else if (this.keys.get("LEFT").isDown && !this.disabled) {
       this.moveable.setFlipX(false);
       this.moveable.move(Directions.left, () =>
         this.moveable.anims.play("lo-walkV", true)
       );
-    } else if (this.keys.get("DOWN").isDown && this.canInput) {
+    } else if (this.keys.get("DOWN").isDown && !this.disabled) {
       this.moveable.move(Directions.down, () =>
         this.moveable.anims.play("lo-walkDown", true)
       );
-    } else if (this.keys.get("UP").isDown && this.canInput) {
+    } else if (this.keys.get("UP").isDown && !this.disabled) {
       this.moveable.move(Directions.up, () =>
         this.moveable.anims.play("lo-walkUp", true)
       );

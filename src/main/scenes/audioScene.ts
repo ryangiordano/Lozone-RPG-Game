@@ -13,7 +13,12 @@ export abstract class AudioScene extends Phaser.Scene {
       key: key || "Audio",
     });
   }
-  public play(songName: string, pauseCurrent = false, loop = true) {
+  public play(
+    songName: string,
+    pauseCurrent = false,
+    loop = true,
+    volume = 0.1
+  ) {
     const song = this.getSongByName(songName);
     if (song && this.songIsPlaying(songName)) {
       return;
@@ -23,7 +28,7 @@ export abstract class AudioScene extends Phaser.Scene {
       return song.music.play();
     }
     pauseCurrent ? this.pauseCurrentlyPlaying() : this.stopCurrentlyPlaying();
-    this.addSongAndPlay(songName, loop);
+    this.addSongAndPlay(songName, loop, volume);
   }
 
   public resume(songName: string) {
@@ -34,15 +39,18 @@ export abstract class AudioScene extends Phaser.Scene {
       this.play(songName);
     }
   }
-  public stop(songName) {
+  public stop(songName?: string) {
+    if (!songName) {
+      return this.stopCurrentlyPlaying();
+    }
     const song = this.getSongByName(songName);
     if (song) {
       song.music.stop();
     }
   }
 
-  private addSongAndPlay(songName: string, loop) {
-    const b = this.sound.add(songName, { volume: 0.1, loop });
+  private addSongAndPlay(songName: string, loop, volume = 0.3) {
+    const b = this.sound.add(songName, { volume, loop });
     b.play();
     this.bgm.push({ key: songName, music: b });
   }
@@ -77,7 +85,7 @@ export abstract class AudioScene extends Phaser.Scene {
   init(data) {
     // Specify the tileset you want to use based on the data passed to the scene.
   }
-  playSound(soundName: string) {
-    this.sound.play(soundName, { volume: 0.3 });
+  playSound(soundName: string, volume = 0.3) {
+    this.sound.play(soundName, { volume });
   }
 }

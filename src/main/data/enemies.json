@@ -58,7 +58,7 @@
     "dexterity": 3,
     "wisdom": 2,
     "stamina": 5,
-    "strength": 8,
+    "strength":12,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
@@ -78,7 +78,7 @@
     "dexterity": 10,
     "wisdom": 2,
     "stamina": 6,
-    "strength": 10,
+    "strength": 12,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
@@ -129,7 +129,7 @@
     "dexterity": 4,
     "wisdom": 2,
     "stamina": 3,
-    "strength": 4,
+    "strength": 8,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
@@ -152,7 +152,7 @@
     "dexterity": 8,
     "wisdom": 2,
     "stamina": 3,
-    "strength": 8,
+    "strength": 12,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
@@ -167,12 +167,12 @@
     "spriteKey": "nose-wiper",
     "maxHp": 10,
     "maxMp": 10,
-    "level": 3,
+    "level": 5,
     "intellect": 2,
     "dexterity": 8,
     "wisdom": 2,
     "stamina": 8,
-    "strength": 6,
+    "strength": 10,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
