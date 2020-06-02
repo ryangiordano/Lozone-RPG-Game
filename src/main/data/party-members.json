@@ -54,7 +54,7 @@
     "magicalResist": 1,
     "currentExperience": 0,
     "toNextLevel": 110,
-    "classId": 5
+    "classId": 3
   },
   "4": {
     "name": "Ryan",
@@ -73,7 +73,7 @@
     "magicalResist": 1,
     "currentExperience": 0,
     "toNextLevel": 130,
-    "classId": 1
+    "classId": 5
   },
   "5": {
     "name": "Aris",

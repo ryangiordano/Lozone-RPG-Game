@@ -1,9 +1,10 @@
 import { EntityTypes } from "./Entity";
 
+//TODO: Deprecate
+/**
+ * Represents items on the map that react with a message when interacted with.
+ */
 export class Interactive extends Phaser.GameObjects.Sprite {
-  /**
-   * Represents items on the map that react with a message when interacted with.
-   */
   public entityType: EntityTypes = EntityTypes.interactive;
   private currentScene: Phaser.Scene;
   public properties: { type: string; id: number | string; message: string };

@@ -113,5 +113,33 @@
                 "spell": 12
             }
         ]
+    },
+    "6": {
+        "name": "Spell Sword",
+        "maxHp": 1.4,
+        "maxMp": 1.4,
+        "intellect": 1.7,
+        "dexterity": 1.4,
+        "wisdom": 1.8,
+        "stamina": 1.3,
+        "strength": 1.3,
+        "physicalResist": 1.1,
+        "magicalResist": 1.7,
+        "spells": [{
+                "requiredLevel": 1,
+                "classModifier": 1,
+                "spell": 10
+            },
+            {
+                "requiredLevel": 3,
+                "classModifier": 1,
+                "spell": 1
+            },
+            {
+                "requiredLevel": 7,
+                "classModifier": 1,
+                "spell": 11
+            }
+        ]
     }
 }

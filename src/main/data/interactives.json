@@ -1,0 +1,49 @@
+{
+
+  "1": {
+    "name": "Xiwan Palantyr",
+    "description": "Holder of Orb of Xiwan",
+    "spriteKey": "palantyr",
+    "keyItemId": 14,
+    "flagId": 29,
+    "frame": 0,
+    "activeFrame": 1,
+    "category": "item-switch",
+    "sound": "chest",
+    "color": "0x6DA6C9",
+    "invalidDialogId": 38,
+    "activateDialogId": 39,
+    "validDialogId": 40
+  },
+  "2": {
+    "name": "Huashao Palantyr",
+    "description": "Holder of Orb of Huashao",
+    "spriteKey": "palantyr",
+    "keyItemId": 15,
+    "flagId": 31,
+    "frame": 0,
+    "activeFrame": 1,
+    "category": "item-switch",
+    "sound": "chest",
+    "color": "0xBC5D5D",
+    "invalidDialogId": 38,
+    "activateDialogId": 39,
+    "validDialogId": 40
+  },
+  "3": {
+    "name": "Neiku Palantyr",
+    "description": "Holder of Orb of Neiku",
+    "spriteKey": "palantyr",
+    "keyItemId": 13,
+    "flagId": 30,
+    "frame": 0,
+    "activeFrame": 1,
+    "category": "item-switch",
+    "sound": "chest",
+    "color": "0x8EC96D",
+    "invalidDialogId": 38,
+    "activateDialogId": 39,
+    "validDialogId": 40
+
+  }
+}

@@ -59,6 +59,11 @@
         "type": "json",
         "key": "spells",
         "url": "./src/main/data/spells.json"
+      },
+      {
+        "type": "json",
+        "key": "interactives",
+        "url": "./src/main/data/interactives.json"
       }
     ]
   }

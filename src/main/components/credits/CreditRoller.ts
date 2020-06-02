@@ -26,13 +26,13 @@ export class CreditRoller extends Phaser.GameObjects.Container {
       paused: true,
       alpha: {
         getStart: () => 0,
-        getEnd: () => 1
+        getEnd: () => 1,
       },
       onComplete: () => {
         setTimeout(() => {
           this.fadeOut.restart();
         }, this.showDuration);
-      }
+      },
     });
     this.fadeOut = scene.add.tween({
       targets: [this],
@@ -42,7 +42,7 @@ export class CreditRoller extends Phaser.GameObjects.Container {
       paused: true,
       alpha: {
         getStart: () => 1,
-        getEnd: () => 0
+        getEnd: () => 0,
       },
       onComplete: () => {
         setTimeout(() => {
@@ -54,7 +54,7 @@ export class CreditRoller extends Phaser.GameObjects.Container {
           this.showCredits(toShowNext);
           this.fadeIn.restart();
         }, this.creditInterval);
-      }
+      },
     });
   }
   startCredits(scene) {
@@ -67,13 +67,13 @@ export class CreditRoller extends Phaser.GameObjects.Container {
       paused: true,
       alpha: {
         getStart: () => 0,
-        getEnd: () => 1
+        getEnd: () => 1,
       },
       onComplete: () => {
         setTimeout(() => {
           this.fadeOut.restart();
         }, this.showDuration);
-      }
+      },
     });
     this.fadeOut = scene.add.tween({
       targets: [this],
@@ -83,7 +83,7 @@ export class CreditRoller extends Phaser.GameObjects.Container {
       paused: true,
       alpha: {
         getStart: () => 1,
-        getEnd: () => 0
+        getEnd: () => 0,
       },
       onComplete: () => {
         setTimeout(() => {
@@ -95,13 +95,13 @@ export class CreditRoller extends Phaser.GameObjects.Container {
           this.showCredits(toShowNext);
           this.fadeIn.restart();
         }, this.creditInterval);
-      }
+      },
     });
   }
   showCredits(credits: any[]) {
     this.removeCredits();
     const coords = { x: 200, y: 200 };
-    credits.forEach(credit => {
+    credits.forEach((credit) => {
       this.createCredit(credit, coords);
     });
   }
@@ -136,8 +136,8 @@ export class CreditRoller extends Phaser.GameObjects.Container {
             padding: 32,
             wordWrap: {
               width: <number>this.scene.game.config.width,
-              useAdvancedWrap: true
-            }
+              useAdvancedWrap: true,
+            },
           }
         )
       );
@@ -154,17 +154,22 @@ export class CreditRoller extends Phaser.GameObjects.Container {
       img.setAlpha(0.7);
       this.add(img);
       coords.y += 170;
-      coords.x -= 180
-      console.log(credit.description)
+      coords.x -= 180;
       this.add(
-        new Phaser.GameObjects.Text(this.scene, coords.x, coords.y, credit.description, {
-          padding: 8,
-          fontFamily: "pixel",
-          fontSize: "20px",
-          fill: "#383838"
-        })
+        new Phaser.GameObjects.Text(
+          this.scene,
+          coords.x,
+          coords.y,
+          credit.description,
+          {
+            padding: 8,
+            fontFamily: "pixel",
+            fontSize: "20px",
+            fill: "#383838",
+          }
+        )
       );
-      return
+      return;
     }
   }
   removeCredits() {

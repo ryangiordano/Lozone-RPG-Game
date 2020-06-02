@@ -95,10 +95,10 @@ export class State {
         entity: this.partyController.getPartyMemberById(1),
         position: { x: 0, y: 0 },
       },
-      // {
-      //   entity: this.partyController.getPartyMemberById(5),
-      //   position: { x: 0, y: 2 },
-      // },
+      {
+        entity: this.partyController.getPartyMemberById(4),
+        position: { x: 0, y: 2 },
+      },
     ];
     this.party = new HeroParty(partyMembers, this.game);
   }
@@ -107,7 +107,7 @@ export class State {
     return this.flags.get(`${id}`) && this.flags.get(`${id}`).flagged;
   }
   public allAreFlagged(ids: number[]) {
-    return ids.every((id) => this.isFlagged(id));
+    return ids && ids.every((id) => this.isFlagged(id));
   }
   public setFlag(id: number, flagged: boolean) {
     if (!this.flags.get(`${id}`)) {

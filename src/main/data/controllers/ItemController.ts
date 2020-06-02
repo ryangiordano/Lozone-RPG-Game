@@ -23,7 +23,7 @@ export class ItemController {
       item.frame,
       itemCategory,
       1,
-      item.collectSound
+      item.sound
     );
   }
 }

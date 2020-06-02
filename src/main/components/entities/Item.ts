@@ -17,7 +17,7 @@ export interface ItemData {
   spriteKey: string,
   frame: number,
   category: string,
-  collectSound: string
+  sound: string
 }
 
 export class Item {
@@ -33,7 +33,7 @@ export class Item {
     public frame: number,
     public category: ItemCategory,
     public quantity: number = 1,
-    public collectSound: string) {
+    public sound: string) {
   }
   public incrementQuantity() {
     if (this.quantity >= this.limit) {

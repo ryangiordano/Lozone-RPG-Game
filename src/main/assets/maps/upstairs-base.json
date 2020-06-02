@@ -394,16 +394,6 @@
                  "name":"to-dungeon",
                  "properties":[
                         {
-                         "name":"placementFlag",
-                         "type":"int",
-                         "value":803
-                        }, 
-                        {
-                         "name":"warpDestId",
-                         "type":"int",
-                         "value":4
-                        }, 
-                        {
                          "name":"warpId",
                          "type":"int",
                          "value":3

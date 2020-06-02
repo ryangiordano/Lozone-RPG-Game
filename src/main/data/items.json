@@ -8,7 +8,7 @@
     "frame": 0,
     "category": "consumable",
     "value": 10,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "2": {
     "name": "tamarind",
@@ -19,7 +19,7 @@
     "frame": 1,
     "category": "consumable",
     "value": 20,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "3": {
     "name": "mango",
@@ -30,7 +30,7 @@
     "frame": 2,
     "category": "consumable",
     "value": 30,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "4": {
     "name": "Hearing Aids",
@@ -41,7 +41,7 @@
     "frame": 1,
     "category": "keyItem",
     "value": null,
-    "collectSound": "key-item-collect"
+    "sound": "key-item-collect"
   },
   "5": {
     "name": "Cat-Shape Key",
@@ -52,7 +52,7 @@
     "frame": 0,
     "category": "keyItem",
     "value": null,
-    "collectSound": "key-item-collect"
+    "sound": "key-item-collect"
   },
   "6": {
     "name": "Gold Key",
@@ -63,7 +63,7 @@
     "frame": 4,
     "category": "keyItem",
     "value": null,
-    "collectSound": "key-item-collect"
+    "sound": "key-item-collect"
   },
   "7": {
     "name": "Silver Key",
@@ -74,7 +74,7 @@
     "frame": 3,
     "category": "keyItem",
     "value": null,
-    "collectSound": "key-item-collect"
+    "sound": "key-item-collect"
   },
   "8": {
     "name": "Big Ruby",
@@ -85,7 +85,7 @@
     "frame": 8,
     "category": "loot",
     "value": 150,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "9": {
     "name": "Small Ruby",
@@ -96,7 +96,7 @@
     "frame": 9,
     "category": "loot",
     "value": 75,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "10": {
     "name": "Small Pearl",
@@ -107,7 +107,7 @@
     "frame": 10,
     "category": "loot",
     "value": 50,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "11": {
     "name": "Large Pearl",
@@ -118,7 +118,7 @@
     "frame": 11,
     "category": "loot",
     "value": 100,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "12": {
     "name": "Diamond Ring",
@@ -129,7 +129,7 @@
     "frame": 12,
     "category": "loot",
     "value": 200,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "13": {
     "name": "Orb of Neiku",
@@ -140,7 +140,7 @@
     "frame": 7,
     "category": "keyItem",
     "value": null,
-    "collectSound": "great-key-item-collect"
+    "sound": "great-key-item-collect"
   },
   "14": {
     "name": "Orb of Xiwan",
@@ -151,7 +151,7 @@
     "frame": 5,
     "category": "keyItem",
     "value": null,
-    "collectSound": "great-key-item-collect"
+    "sound": "great-key-item-collect"
   },
   "15": {
     "name": "Orb of Huashao",
@@ -162,7 +162,7 @@
     "frame": 6,
     "category": "keyItem",
     "value": null,
-    "collectSound": "great-key-item-collect"
+    "sound": "great-key-item-collect"
   },
   "16": {
     "name": "Large Emerald",
@@ -173,7 +173,7 @@
     "frame": 13,
     "category": "loot",
     "value": 300,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "17": {
     "name": "Emerald Shard",
@@ -184,7 +184,7 @@
     "frame": 14,
     "category": "loot",
     "value": 150,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "18": {
     "name": "Blue Diamond",
@@ -195,7 +195,7 @@
     "frame": 15,
     "category": "loot",
     "value": 1000,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "19": {
     "name": "Small Diamond",
@@ -206,7 +206,7 @@
     "frame": 16,
     "category": "loot",
     "value": 500,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "20": {
     "name": "passion fruit",
@@ -217,7 +217,7 @@
     "frame": 17,
     "category": "consumable",
     "value": 10,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   },
   "21": {
     "name": "bubble water",
@@ -228,6 +228,7 @@
     "frame": 18,
     "category": "consumable",
     "value": 100,
-    "collectSound": "item-collect"
+    "sound": "item-collect"
   }
+
 }

@@ -12,6 +12,9 @@ import {
   Spawn,
   Warp,
 } from "../../components/entities/Entity";
+import { InteractivesController } from "../../data/controllers/InteractivesController";
+import { ItemSwitch } from "../../components/entities/ItemSwitch";
+import { WarpController } from "../../data/controllers/WarpController";
 
 interface MapObject {}
 
@@ -24,9 +27,13 @@ export class MapObjectFactory {
    * Handles loading objects on the Explore scenes.
    */
   private stateManager: State;
+  private interactivesController: InteractivesController;
+  private warpController: WarpController;
   constructor(private scene: Explore) {
     //TODO: Use events to refactor having to pass casts down from scene to every npc;
     this.stateManager = State.getInstance();
+    this.interactivesController = new InteractivesController(scene.game);
+    this.warpController = new WarpController(scene.game);
   }
 
   public getDataToLoad(): ExploreData {
@@ -39,17 +46,31 @@ export class MapObjectFactory {
     // ===================================
 
     objects.forEach((object) => {
+      // ===================================
+      // Interactives
+      // ===================================
       if (object.type === "interactive") {
         const interactive = this.createInteractive(object);
         exploreData.interactives.push(interactive);
       }
+
+      //TODO: Eventually switch all interactives to this new system
+      // deprecating the above
+      if (object.type === "interactive-object") {
+        const interactive = this.createInteractiveObject(object);
+        exploreData.interactives.push(interactive);
+      }
+
+      // ===================================
+      // warps
+      // ===================================
       if (object.type === "spawn") {
         const spawn = this.createSpawn(object);
         exploreData.interactives.push(spawn);
       }
 
       if (object.type === "warp" || object.type === "warp-tile") {
-        const warp = this.createWarp(object, object.type !== "warp-tile");
+        const warp = this.createWarp(object, object.type === "warp-tile");
         exploreData.interactives.push(warp);
       }
 
@@ -110,19 +131,36 @@ export class MapObjectFactory {
     });
   }
 
-  private createWarp(object, triggerOnly) {
-    const warpId = getObjectPropertyByName("warpId", object.properties);
-    const flagId = getObjectPropertyByName("flagId", object.properties);
-    const placementFlagId = getObjectPropertyByName(
-      "placementFlag",
+  private createInteractiveObject(object) {
+    const interactiveId = getObjectPropertyByName(
+      "interactiveId",
       object.properties
     );
+    const interactiveObject = this.interactivesController.getInteractiveById(
+      interactiveId
+    );
+    if (interactiveObject.category === "item-switch") {
+      return new ItemSwitch(
+        {
+          scene: this.scene,
+          x: object.x + 32,
+          y: object.y + 32,
+        },
+        interactiveObject
+      );
+    }
+  }
+
+  private createWarp(object, isWarpTile) {
+    const warpId = getObjectPropertyByName("warpId", object.properties);
+    const flagId = getObjectPropertyByName("flagId", object.properties);
+    const warpData = this.warpController.getWarpById(warpId);
     const properties = {
       flagId: flagId,
       type: EntityTypes.keyItem,
     };
-    if (placementFlagId) {
-      properties["placementFlag"] = placementFlagId;
+    if (warpData.placementFlags) {
+      properties["placementFlags"] = warpData.placementFlags;
     }
     const warpConfig = {
       scene: this.scene,
@@ -133,16 +171,15 @@ export class MapObjectFactory {
       properties,
     };
 
-    const alreadyFlagged = this.stateManager.isFlagged(flagId);
-    const hasPlacementFlag = hasProperty("placementFlag", object.properties);
+    const hasPlacementFlag = warpData.hasOwnProperty("placementFlags");
+    const notYetFlagggedToPlace = !this.stateManager.allAreFlagged(
+      warpData.placementFlags || []
+    );
+    const unPlaced = hasPlacementFlag && notYetFlagggedToPlace;
 
-    const notYetFlagggedToPlace = !this.stateManager.isFlagged(placementFlagId);
-    const unPlaced =
-      (hasPlacementFlag && notYetFlagggedToPlace) || alreadyFlagged;
-
-    const warp = triggerOnly
-      ? new WarpTrigger(warpConfig)
-      : new Warp(warpConfig);
+    const warp = isWarpTile
+      ? new Warp(warpConfig)
+      : new WarpTrigger(warpConfig);
     warp.setPlaced(!unPlaced);
     return warp;
   }

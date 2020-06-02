@@ -177,5 +177,20 @@
     "content": [
       "Looks like you'll need some help.  I'll join your party."
     ]
+  },
+  "38": {
+    "content": [
+      "The palantyr is vacant.  There is an orb-shaped recess."
+    ]
+  },
+  "39": {
+    "content": [
+      "You place the orb into the palantyr."
+    ]
+  },
+  "40": {
+    "content": [
+      "The orb floats gently inside the palantyr."
+    ]
   }
 }

@@ -161,6 +161,25 @@
         "type": 0,
         "flagged": false
     },
+    "29": {
+        "name": "xiwan-item-switch",
+        "description": "Placed the orb of xiwan into the palantyr",
+        "type": 0,
+        "flagged": false
+    },
+    "30": {
+        "name": "neiku-item-switch",
+        "description": "Placed the orb of neiku into the palantyr",
+        "type": 0,
+        "flagged": false
+    },
+    "31": {
+        "name": "huashao-item-switch",
+        "description": "Placed the orb of huashao into the palantyr",
+        "type": 0,
+        "flagged": false
+    },
+
     "300": {
         "name": "party",
         "description": "Ryan joins the party",

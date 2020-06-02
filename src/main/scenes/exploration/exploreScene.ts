@@ -37,7 +37,6 @@ export abstract class Explore extends Phaser.Scene {
     super({
       key: key || "Explore",
     });
-    this.mapObjectFactory = new MapObjectFactory(this);
   }
 
   gbFadeIn(callback = null) {
@@ -87,6 +86,8 @@ export abstract class Explore extends Phaser.Scene {
     });
   }
   create(): void {
+    this.mapObjectFactory = new MapObjectFactory(this);
+
     this.setGroups();
     this.setMapLayers();
     this.loadObjectsFromTilemap();
@@ -140,11 +141,18 @@ export abstract class Explore extends Phaser.Scene {
         keyItem.entityType === EntityTypes.warp ||
         keyItem.entityType === EntityTypes.keyItem
       ) {
+        //TODO: Refactor all of this so all items that have placement flags use placementFlags
         const sm = State.getInstance();
-        keyItem.setPlaced &&
-          keyItem.properties["placementFlag"] &&
+
+        const placementFlags = keyItem.properties["placementFlag"]
+          ? [keyItem.properties["placementFlag"]]
+          : keyItem.properties["placementFlags"];
+
+        ((keyItem.setPlaced &&
+          keyItem.properties.hasOwnProperty("placementFlag")) ||
+          keyItem.properties.hasOwnProperty("placementFlags")) &&
           keyItem.setPlaced(
-            sm.isFlagged(keyItem.properties["placementFlag"]) &&
+            sm.allAreFlagged(placementFlags) &&
               !sm.isFlagged(keyItem.properties["flagId"])
           );
       }
@@ -232,6 +240,19 @@ export abstract class Explore extends Phaser.Scene {
             cast.destroy();
           }
         }
+
+        if (interactive.entityType === EntityTypes.itemSwitch) {
+          cast.destroy();
+          const sm = State.getInstance();
+
+          if (sm.playerHasItem(interactive.getKeyItemId())) {
+            sm.consumeItem(interactive.getKeyItemId());
+            interactive.activateSwitch();
+            await this.displayMessage(interactive.getActivateDialog());
+          } else {
+            await this.displayMessage(interactive.getCurrentDialog());
+          }
+        }
         this.refreshInteractivesByFlag();
       }
     );
@@ -295,10 +316,10 @@ export abstract class Explore extends Phaser.Scene {
     this.player.controllable.setDisabled(true);
     const audio = <AudioScene>this.scene.get("Audio");
     //TODO: Improve this
-    if (item.collectSound === "great-key-item-collect") {
-      audio.play(item.collectSound, true, false, 0.1);
+    if (item.sound === "great-key-item-collect") {
+      audio.play(item.sound, true, false, 0.1);
     } else {
-      audio.playSound(item.collectSound, 0.1);
+      audio.playSound(item.sound, 0.1);
     }
     // item float above here
     await this.animateItemAbove(item, { x: chestCoords.x, y: chestCoords.y });
