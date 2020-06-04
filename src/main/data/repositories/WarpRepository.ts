@@ -5,6 +5,7 @@ export interface WarpData {
   warpDestId: number;
   destinationLocationId: number;
   placementFlags?: number[];
+  event?: number;
 }
 
 export class WarpRepository extends Repository<WarpData> {

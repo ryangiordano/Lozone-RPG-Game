@@ -1,6 +1,6 @@
 import { Spell } from "../battle/CombatDataStructures";
-import { SpellType } from "../../data/repositories/SpellRepository";
 import { Combatant } from "../battle/Combatant";
+import { SpellType } from "../../data/repositories/SpellRepository";
 
 export enum ItemCategory {
   consumable,
@@ -9,15 +9,15 @@ export enum ItemCategory {
 }
 
 export interface ItemData {
-  id: number | string,
-  name: string,
-  description: string,
-  spellId: number,
-  effectPotency: number,
-  spriteKey: string,
-  frame: number,
-  category: string,
-  sound: string
+  id: number | string;
+  name: string;
+  description: string;
+  spellId: number;
+  effectPotency: number;
+  spriteKey: string;
+  frame: number;
+  category: string;
+  sound: string;
 }
 
 export class Item {
@@ -33,21 +33,19 @@ export class Item {
     public frame: number,
     public category: ItemCategory,
     public quantity: number = 1,
-    public sound: string) {
-  }
+    public sound: string
+  ) {}
   public incrementQuantity() {
     if (this.quantity >= this.limit) {
       this.quantity = this.quantity;
-    }
-    else {
+    } else {
       this.quantity++;
     }
   }
   public decrementQuantity() {
     if (this.quantity <= 0) {
       this.quantity = this.quantity;
-    }
-    else {
+    } else {
       this.quantity--;
     }
   }
@@ -64,28 +62,26 @@ export class Item {
   }
 
   public canSetIntendToUse() {
-    return this.getQuantity() >0;
+    return this.getQuantity() > 0;
   }
 
-  public getQuantity(){
-    return this.quantity-this.pendingUse;
+  public getQuantity() {
+    return this.quantity - this.pendingUse;
   }
-
 }
 
 type ItemUseObject = {
-  resource: string,
-  resourceFull: boolean,
-  resourceRecoverFunction: Function,
-  item: Item
-}
-
+  resource: string;
+  resourceFull: boolean;
+  resourceRecoverFunction: Function;
+  item: Item;
+};
 
 /**
  * Returns an object with meta-data pertaining to whether we can use an item on a target,
  * and which function to invoke when using the item, and the type of resource
  * the item affects.
- * Returns an object with whether the 
+ * Returns an object with whether the
  * @param member The recipient of the item use
  * @param item The item being used
  */
@@ -95,17 +91,17 @@ export const handleItemUse = (target: Combatant, item: Item): ItemUseObject => {
   let resourceRecoverFunction;
   switch (item.effect.type) {
     case SpellType.manaRecover:
-      resource = 'MP';
+      resource = "MP";
       resourceFull = target.currentMp >= target.getMaxMp();
       resourceRecoverFunction = target.recoverManaFor;
       break;
     case SpellType.restoration:
-      resource = 'HP';
+      resource = "HP";
       resourceFull = target.currentHp >= target.getMaxHp();
       resourceRecoverFunction = target.healFor;
       break;
     case SpellType.revive:
-      resource = '';
+      resource = "";
       resourceFull = target.currentHp >= target.getMaxHp();
       resourceRecoverFunction = target.revive;
       break;
@@ -116,6 +112,6 @@ export const handleItemUse = (target: Combatant, item: Item): ItemUseObject => {
     item,
     resource,
     resourceFull,
-    resourceRecoverFunction
-  }
-}
+    resourceRecoverFunction,
+  };
+};

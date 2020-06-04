@@ -99,6 +99,7 @@
         "description": "From the sphere room to the first floor.",
         "warpDestId": 18,
         "destinationLocationId": 3,
-        "placementFlags": [29, 30, 31]
+        "placementFlags": [29, 30, 31],
+        "event": 1
     }
 }

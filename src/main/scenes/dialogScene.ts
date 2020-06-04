@@ -2,6 +2,26 @@ export interface Dialog {
   content: string;
 }
 
+export const displayMessage = (
+  message: string[],
+  game: Phaser.Game,
+  scene: Phaser.Scenes.ScenePlugin
+): Promise<any> => {
+  return new Promise((resolve) => {
+    scene.setActive(false, scene.key);
+    game.scene.start("DialogScene", {
+      callingSceneKey: scene.key,
+      color: "dialog-white",
+      message,
+    });
+    scene.setActive(true, "DialogScene").bringToTop("DialogScene");
+    const dialog = game.scene.getScene("DialogScene");
+    dialog.events.on("close-dialog", () => {
+      resolve();
+    });
+  });
+};
+
 export class DialogScene extends Phaser.Scene {
   /**
    * Houses dialogs.
@@ -70,7 +90,7 @@ export class DialogScene extends Phaser.Scene {
     this.createDialogArray(this.messages);
     this.handleNextDialog();
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.bookmark = () => {
         resolve();
       };
@@ -100,7 +120,7 @@ export class DialogScene extends Phaser.Scene {
     } else {
       !this.silent &&
         this.sound.play("beep", {
-          volume: 0.1
+          volume: 0.1,
         });
       const toShow = this.dialogArray.shift();
 
@@ -110,14 +130,14 @@ export class DialogScene extends Phaser.Scene {
         fill: "#000000",
         wordWrap: {
           width: (this.dialog.width / 4.5) * 4,
-          useAdvancedWrap: true
-        }
+          useAdvancedWrap: true,
+        },
       });
       this.currentText.setScrollFactor(0);
     }
   }
   private setKeyboardListeners() {
-    this.spaceKey.on("down", event => {
+    this.spaceKey.on("down", (event) => {
       if (this.dialogVisible()) {
         this.handleNextDialog();
       }

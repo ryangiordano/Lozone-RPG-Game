@@ -165,19 +165,19 @@
         "name": "xiwan-item-switch",
         "description": "Placed the orb of xiwan into the palantyr",
         "type": 0,
-        "flagged": false
+        "flagged": true
     },
     "30": {
         "name": "neiku-item-switch",
         "description": "Placed the orb of neiku into the palantyr",
         "type": 0,
-        "flagged": false
+        "flagged": true
     },
     "31": {
         "name": "huashao-item-switch",
         "description": "Placed the orb of huashao into the palantyr",
         "type": 0,
-        "flagged": false
+        "flagged": true
     },
 
     "300": {

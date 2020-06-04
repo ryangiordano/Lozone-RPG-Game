@@ -1,0 +1,30 @@
+{
+  "1": {
+    "name": "Transition to ending",
+    "description": "The event that leads to the end of the game",
+    "timeline": [{
+        "type": "camera",
+        "async": true,
+        "direction": "y",
+        "distance": -500,
+        "dur": 5000
+      },
+      {
+        "type": "lighting",
+        "async": true,
+        "out": true,
+        "dur": 4000
+      },
+      {
+        "type": "dialog",
+        "async": false,
+        "content": ["Come, my xiao bao...", "...", "There's something I want to show you."]
+      },
+      {
+        "type": "scene-transition",
+        "async": false,
+        "sceneName": "CreditsScene"
+      }
+    ]
+  }
+}

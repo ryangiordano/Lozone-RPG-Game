@@ -3,18 +3,14 @@ import { State } from "../state/State";
 import { Interactive } from "../../components/entities/Interactive";
 import { NPC, BossMonster } from "../../components/entities/NPC";
 import { Directions, getObjectPropertyByName, hasProperty } from "../Utility";
-import {
-  Chest,
-  LockedDoor,
-  KeyItem,
-  EntityTypes,
-  WarpTrigger,
-  Spawn,
-  Warp,
-} from "../../components/entities/Entity";
 import { InteractivesController } from "../../data/controllers/InteractivesController";
 import { ItemSwitch } from "../../components/entities/ItemSwitch";
 import { WarpController } from "../../data/controllers/WarpController";
+import { EntityTypes } from "../../components/entities/Entity";
+import { Warp, WarpTrigger, Spawn } from "../../components/entities/Warp";
+import { Chest } from "../../components/entities/Chest";
+import { LockedDoor } from "../../components/entities/LockedDoor";
+import { KeyItem } from "../../components/entities/KeyItem";
 
 interface MapObject {}
 
@@ -158,6 +154,7 @@ export class MapObjectFactory {
     const properties = {
       flagId: flagId,
       type: EntityTypes.keyItem,
+      event: warpData.event,
     };
     if (warpData.placementFlags) {
       properties["placementFlags"] = warpData.placementFlags;

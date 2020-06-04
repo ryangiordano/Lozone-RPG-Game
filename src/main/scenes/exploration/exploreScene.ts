@@ -1,10 +1,4 @@
-import {
-  EntityTypes,
-  WarpTrigger,
-  Spawn,
-  Entity,
-  KeyItem,
-} from "../../components/entities/Entity";
+import { EntityTypes, Entity } from "../../components/entities/Entity";
 import { Cast } from "../../components/entities/Cast";
 import { Player } from "../../components/entities/Player";
 import { wait } from "../../utility/Utility";
@@ -12,13 +6,13 @@ import { State } from "../../utility/state/State";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { WarpUtility } from "../../utility/exploration/Warp";
 import { MapObjectFactory } from "../../utility/exploration/ObjectLoader";
-import { EffectsRepository } from "../../data/repositories/EffectRepository";
-import { textScaleUp, fadeInOur } from "../../utility/tweens/text";
+import { textScaleUp } from "../../utility/tweens/text";
 import { Item } from "../../components/entities/Item";
 import { sceneFadeIn, battleZoom } from "../camera";
 import { AudioScene } from "../audioScene";
-
-class EntityGroup extends Phaser.GameObjects.Group {}
+import { WarpTrigger, Spawn } from "../../components/entities/Warp";
+import { displayMessage } from "../dialogScene";
+import { EventsController } from "../../data/controllers/EventsController";
 
 export abstract class Explore extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap;
@@ -33,6 +27,7 @@ export abstract class Explore extends Phaser.Scene {
   public warpDestId: number = null;
   private warpUtility: WarpUtility;
   private mapObjectFactory: MapObjectFactory;
+  private eventsController: EventsController;
   constructor(key) {
     super({
       key: key || "Explore",
@@ -61,6 +56,7 @@ export abstract class Explore extends Phaser.Scene {
       this.warpDestId = warpDestId;
     }
     this.warpUtility = new WarpUtility(this);
+
     this.afterInit(data);
   }
 
@@ -94,16 +90,25 @@ export abstract class Explore extends Phaser.Scene {
     this.setColliders();
     this.setPlayer();
     this.setupCamera();
-    this.setEvents();
+    this.setEventsOn();
 
     this["updates"].addMultiple([this.player]);
-
     this.afterCreated();
+  }
+
+  async playEvent(id) {
+    return new Promise(async (resolve) => {
+      this.setEventsOff();
+      this.player.controllable.setDisabled(true);
+      this.eventsController = new EventsController(this.game);
+      await this.eventsController.playEvent(id, this);
+      resolve();
+    });
   }
 
   protected afterCreated() {}
 
-  protected setEvents() {
+  protected setEventsOn() {
     this.input.keyboard.on("keyup-Z", (event) => {
       if (this.player.isMoving) {
         return false;
@@ -114,6 +119,11 @@ export abstract class Explore extends Phaser.Scene {
     });
 
     this.events.on("item-acquired", this.acquiredItemCallback, this);
+  }
+
+  protected setEventsOff() {
+    this.input.keyboard.off("keyup-z");
+    this.events.off("item-acquired");
   }
 
   protected setGroups() {
@@ -136,24 +146,24 @@ export abstract class Explore extends Phaser.Scene {
   refreshInteractivesByFlag() {
     this.interactive.children.entries.forEach((child) => {
       const entity = <Entity>child;
-      const keyItem = <KeyItem>entity;
+      const sm = State.getInstance();
+
       if (
-        keyItem.entityType === EntityTypes.warp ||
-        keyItem.entityType === EntityTypes.keyItem
+        entity.entityType === EntityTypes.warp ||
+        entity.entityType === EntityTypes.keyItem
       ) {
         //TODO: Refactor all of this so all items that have placement flags use placementFlags
-        const sm = State.getInstance();
 
-        const placementFlags = keyItem.properties["placementFlag"]
-          ? [keyItem.properties["placementFlag"]]
-          : keyItem.properties["placementFlags"];
+        const placementFlags = entity.properties["placementFlag"]
+          ? [entity.properties["placementFlag"]]
+          : entity.properties["placementFlags"];
 
-        ((keyItem.setPlaced &&
-          keyItem.properties.hasOwnProperty("placementFlag")) ||
-          keyItem.properties.hasOwnProperty("placementFlags")) &&
-          keyItem.setPlaced(
+        ((entity.setPlaced &&
+          entity.properties.hasOwnProperty("placementFlag")) ||
+          entity.properties.hasOwnProperty("placementFlags")) &&
+          entity.setPlaced(
             sm.allAreFlagged(placementFlags) &&
-              !sm.isFlagged(keyItem.properties["flagId"])
+              !sm.isFlagged(entity.properties["flagId"])
           );
       }
     });
@@ -202,19 +212,27 @@ export abstract class Explore extends Phaser.Scene {
         if (cast.caster.entityType !== EntityTypes.player) return false;
         // TODO: Do a check to make sure the cast's castType === the entity's triggeringCastType
         if (interactive.entityType === EntityTypes.bossMonster) {
-          await this.displayMessage(interactive.getCurrentDialog());
+          await displayMessage(
+            interactive.getCurrentDialog(),
+            this.game,
+            this.scene
+          );
           this.startEncounter(interactive.encounterId, true);
           interactive.destroy();
           cast.destroy();
         }
 
         if (interactive.entityType === EntityTypes.interactive) {
-          await this.displayMessage(interactive.properties.message);
+          await displayMessage(
+            interactive.properties.message,
+            this.game,
+            this.scene
+          );
           cast.destroy();
         }
 
         if (interactive.entityType === EntityTypes.npc) {
-          this.displayMessage(interactive.getCurrentDialog());
+          displayMessage(interactive.getCurrentDialog(), this.game, this.scene);
           cast.destroy();
         }
 
@@ -248,9 +266,17 @@ export abstract class Explore extends Phaser.Scene {
           if (sm.playerHasItem(interactive.getKeyItemId())) {
             sm.consumeItem(interactive.getKeyItemId());
             interactive.activateSwitch();
-            await this.displayMessage(interactive.getActivateDialog());
+            await displayMessage(
+              interactive.getActivateDialog(),
+              this.game,
+              this.scene
+            );
           } else {
-            await this.displayMessage(interactive.getCurrentDialog());
+            await displayMessage(
+              interactive.getCurrentDialog(),
+              this.game,
+              this.scene
+            );
           }
         }
         this.refreshInteractivesByFlag();
@@ -264,14 +290,16 @@ export abstract class Explore extends Phaser.Scene {
       const keyItem = sm.getItemOnPlayer(interactive.unlockItemId);
       if (keyItem) {
         interactive.unlock();
-        await this.displayMessage([
-          `You unlock the chest with a ${keyItem.name}`,
-        ]);
+        await displayMessage(
+          [`You unlock the chest with a ${keyItem.name}`],
+          this.game,
+          this.scene
+        );
         sm.consumeItem(interactive.unlockItemId);
         await wait(300);
         interactive.openChest();
       } else {
-        this.displayMessage(["The chest is locked."]);
+        displayMessage(["The chest is locked."], this.game, this.scene);
       }
     } else {
       interactive.openChest();
@@ -284,16 +312,21 @@ export abstract class Explore extends Phaser.Scene {
     if (keyItem) {
       sm.setFlag(interactive.properties.id, true);
       interactive.unlock();
-      await this.displayMessage([interactive.unlockMessage]);
+      await displayMessage([interactive.unlockMessage], this.game, this.scene);
       return;
     }
-    await this.displayMessage([interactive.lockMessage]);
+    await displayMessage([interactive.lockMessage], this.game, this.scene);
   }
 
-  protected handleWarp(interactive) {
+  protected async handleWarp(interactive) {
     this.events.off("item-acquired", this.acquiredItemCallback);
-    const warp = this.warpUtility.getWarp(interactive.warpId);
-    this.warpUtility.warpTo(warp.warpDestId);
+
+    if (interactive.properties.event) {
+      this.playEvent(interactive.properties.event);
+    }else{
+      const warp = this.warpUtility.getWarp(interactive.warpId);
+      this.warpUtility.warpTo(warp.warpDestId);
+    }
   }
 
   protected setMapLayers() {
@@ -324,8 +357,7 @@ export abstract class Explore extends Phaser.Scene {
     // item float above here
     await this.animateItemAbove(item, { x: chestCoords.x, y: chestCoords.y });
 
-    await this.displayMessage([`Lo got ${item.name}`]);
-    await wait(300);
+    await displayMessage([`Lo got ${item.name}`], this.game, this.scene);
     this.player.controllable.setDisabled(false);
   }
 
@@ -344,26 +376,6 @@ export abstract class Explore extends Phaser.Scene {
         resolve();
       });
       tween.play();
-    });
-  }
-
-  displayMessage(message: string[]): Promise<any> {
-    return new Promise((resolve) => {
-      this.player.controllable.setDisabled(true);
-
-      this.scene.setActive(false, this.scene.key);
-      this.game.scene.start("DialogScene", {
-        callingSceneKey: this.scene.key,
-        color: "dialog-white",
-        message,
-      });
-      this.scene.setActive(true, "DialogScene").bringToTop("DialogScene");
-      const dialog = this.game.scene.getScene("DialogScene");
-      dialog.events.on("close-dialog", () => {
-        this.player.controllable.setDisabled(false);
-
-        resolve();
-      });
     });
   }
 

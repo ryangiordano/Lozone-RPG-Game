@@ -1,8 +1,8 @@
+import { WarpRepository } from "../repositories/WarpRepository";
 import {
   LocationData,
   LocationRepository,
 } from "../repositories/LocationRepository";
-import { WarpRepository } from "../repositories/WarpRepository";
 
 export interface Warp {
   id: number;
@@ -10,6 +10,7 @@ export interface Warp {
   warpDestId: number;
   destinationLocation: LocationData;
   placementFlags?: number[];
+  event?: number;
 }
 
 export class WarpController {
