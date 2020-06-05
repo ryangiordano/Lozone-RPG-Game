@@ -1,6 +1,6 @@
-import { EventBlock } from "../repositories/EventsRepository";
+import { EventBlock, WaitBlock } from "../repositories/EventsRepository";
 import { DialogScene, displayMessage } from "../../scenes/dialogScene";
-import { asyncForEach } from "../../utility/Utility";
+import { asyncForEach, wait } from "../../utility/Utility";
 import {
   CameraBlock,
   LightingBlock,
@@ -50,6 +50,8 @@ export class EventsController {
             return () => this.executeDialogBlock(block, scene);
           case "scene-transition":
             return () => this.executeTransitionBlock(block, scene);
+          case "wait":
+            return () => this.executeWaitBlock(block);
         }
       });
     });
@@ -65,10 +67,11 @@ export class EventsController {
     return new Promise((resolve) => {
       scene.cameras.main.stopFollow();
       scene.cameras.main.removeBounds();
+
       if (block.direction === "x") {
         scene.cameras.main.pan(
           block.distance,
-          scene.cameras.main.centerY,
+          scene.cameras.main.midPoint.y,
           block.dur,
           "Linear",
           false,
@@ -80,7 +83,7 @@ export class EventsController {
         );
       } else {
         scene.cameras.main.pan(
-          scene.cameras.main.centerX,
+          scene.cameras.main.midPoint.x,
           block.distance,
           block.dur,
           "Linear",
@@ -120,6 +123,12 @@ export class EventsController {
   private executeTransitionBlock(block: TransitionBlock, scene: Phaser.Scene) {
     return new Promise((resolve) => {
       scene.scene.start(block.sceneName);
+      resolve();
+    });
+  }
+  private executeWaitBlock(block: WaitBlock) {
+    return new Promise(async (resolve) => {
+      await wait(block.dur);
       resolve();
     });
   }

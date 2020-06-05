@@ -86,9 +86,9 @@ export class MenuScene extends Phaser.Scene {
       this.startPartyMenuScene({ type: PartyMenuTypes.statusCheck, entity: null })
     )
 
-    mainPanel.on("store-selected", () =>
-      this.startStoreScene()
-    );
+    // mainPanel.on("store-selected", () =>
+    //   this.startStoreScene()
+    // );
 
     mainPanel.on("debug-selected", () =>
       this.UI.showPanel(this.debugPanel).focusPanel(this.debugPanel)
@@ -255,6 +255,11 @@ export class MenuScene extends Phaser.Scene {
         this.scene.stop(this.callingSceneKey);
         const wp = new WarpUtility(this);
         wp.warpTo(10);
+      })
+      .addOption("Sphere Room", () => {
+        this.scene.stop(this.callingSceneKey);
+        const wp = new WarpUtility(this);
+        wp.warpTo(19);
       })
       .addOption("House", () => {
         this.scene.stop(this.callingSceneKey);

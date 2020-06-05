@@ -2,7 +2,8 @@ import { Repository } from "./Repository";
 export type EventBlock = CameraBlock &
   LightingBlock &
   DialogBlock &
-  TransitionBlock;
+  TransitionBlock &
+  WaitBlock;
 
 export interface EventLine {
   name: string;
@@ -10,7 +11,7 @@ export interface EventLine {
   timeline: EventBlock[];
 }
 
-type EventType = "camera" | "lighting" | "dialog" | "scene-transition";
+type EventType = "camera" | "lighting" | "dialog" | "scene-transition" | "wait";
 
 interface BaseEventBlock {
   /** Type of EventBlock */
@@ -52,6 +53,11 @@ export interface TransitionBlock extends BaseEventBlock {
   sceneName: string;
 }
 
+export interface WaitBlock extends BaseEventBlock {
+  type: "wait";
+  async: boolean;
+  dur: 5000;
+}
 export class EventLineRepository extends Repository<EventLine> {
   constructor(game: Phaser.Game) {
     const enemies = game.cache.json.get("events");

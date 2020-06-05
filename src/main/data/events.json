@@ -21,10 +21,16 @@
         "content": ["Come, my xiao bao...", "...", "There's something I want to show you."]
       },
       {
+        "type": "wait",
+        "async": false,
+        "dur": 4000
+      },
+      {
         "type": "scene-transition",
         "async": false,
         "sceneName": "CreditsScene"
       }
+
     ]
   }
 }

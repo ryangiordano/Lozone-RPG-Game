@@ -3,6 +3,7 @@ import { ScrollingElement } from "../../components/credits/ScrollingElement";
 import { makeFadeOut, makeFadeIn } from "../../utility/tweens/fade";
 import { getRandomCeil } from "../../utility/Utility";
 import { AudioScene } from "../audioScene";
+import { sceneFadeIn } from "../camera";
 
 export class CreditsScene extends Phaser.Scene {
   private sky: Phaser.GameObjects.Image;
@@ -184,14 +185,7 @@ export class CreditsScene extends Phaser.Scene {
     this.lo.setFrame(3);
   }
   init(data) {
-    //DEBUG
-    this.input.keyboard.on("keydown", (event) => {
-      if (event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC) {
-        this.sound.stopAll();
-        this.scene.start("House", { map: "room", tileset: "room-tiles" });
-      }
-    });
-    //DEBUG
+    sceneFadeIn(this.cameras.main);
   }
   setMountains(coords?: Coords) {
     const mountains = new ScrollingElement(

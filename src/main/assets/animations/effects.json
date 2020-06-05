@@ -10,6 +10,16 @@
             "frameRate": 30
         },
         {
+            "key": "cloud",
+            "frames": {
+                "typeOfGeneration": 1,
+                "frames": [0, 1, 2, 3],
+                "key": "cloud"
+            },
+            "repeat": 0,
+            "frameRate": 14
+        },
+        {
             "key": "heal-sparkle1",
             "frames": {
                 "typeOfGeneration": 1,

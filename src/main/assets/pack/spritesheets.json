@@ -56,6 +56,15 @@
       },
       {
         "type": "spritesheet",
+        "key": "cloud",
+        "url": "./src/main/assets/sprites/cloud.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
         "key": "computer",
         "url": "./src/main/assets/sprites/computer.png",
         "frameConfig": {
@@ -182,8 +191,8 @@
       },
       {
         "type": "spritesheet",
-        "key": "baby-slime",
-        "url": "./src/main/assets/sprites/monsters/baby-slime.png",
+        "key": "babyslime",
+        "url": "./src/main/assets/sprites/monsters/babyslime.png",
         "frameConfig": {
           "frameWidth": 128,
           "frameHeight": 128

@@ -311,7 +311,7 @@ export abstract class Explore extends Phaser.Scene {
     const keyItem = sm.getItemOnPlayer(interactive.unlockItemId);
     if (keyItem) {
       sm.setFlag(interactive.properties.id, true);
-      interactive.unlock();
+      await interactive.unlock();
       await displayMessage([interactive.unlockMessage], this.game, this.scene);
       return;
     }
@@ -323,7 +323,7 @@ export abstract class Explore extends Phaser.Scene {
 
     if (interactive.properties.event) {
       this.playEvent(interactive.properties.event);
-    }else{
+    } else {
       const warp = this.warpUtility.getWarp(interactive.warpId);
       this.warpUtility.warpTo(warp.warpDestId);
     }

@@ -121,7 +121,7 @@
   },
   "6": {
     "name": "baby slime",
-    "spriteKey": "baby-slime",
+    "spriteKey": "babyslime",
     "maxHp": 10,
     "maxMp": 10,
     "level": 3,
