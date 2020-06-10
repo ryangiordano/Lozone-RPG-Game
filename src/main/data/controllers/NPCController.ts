@@ -11,7 +11,6 @@ export class NPCController {
     }
     getNPCById(id: number): NPCData{
         const npc = this.npcRepository.getById(id);
-
         npc.dialog.map((dialog: NPCDialog) => {
             dialog.message = this.dialogRepository.getById(dialog.id).content;
             return dialog;

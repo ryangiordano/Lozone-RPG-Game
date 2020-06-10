@@ -149,35 +149,21 @@ export class MapObjectFactory {
 
   private createWarp(object, isWarpTile) {
     const warpId = getObjectPropertyByName("warpId", object.properties);
-    const flagId = getObjectPropertyByName("flagId", object.properties);
     const warpData = this.warpController.getWarpById(warpId);
-    const properties = {
-      flagId: flagId,
-      type: EntityTypes.keyItem,
-      event: warpData.event,
-    };
-    if (warpData.placementFlags) {
-      properties["placementFlags"] = warpData.placementFlags;
-    }
     const warpConfig = {
       scene: this.scene,
       x: object.x + 32,
       y: object.y + 32,
       warpId,
       key: null,
-      properties,
+      event: warpData.event,
+      placementFlags: warpData.placementFlags,
     };
-
-    const hasPlacementFlag = warpData.hasOwnProperty("placementFlags");
-    const notYetFlagggedToPlace = !this.stateManager.allAreFlagged(
-      warpData.placementFlags || []
-    );
-    const unPlaced = hasPlacementFlag && notYetFlagggedToPlace;
 
     const warp = isWarpTile
       ? new Warp(warpConfig)
       : new WarpTrigger(warpConfig);
-    warp.setPlaced(!unPlaced);
+
     return warp;
   }
 
@@ -211,17 +197,13 @@ export class MapObjectFactory {
 
   private createBossMonster(object) {
     const id = getObjectPropertyByName("npcId", object.properties);
-    const triggerBattleId = getObjectPropertyByName(
-      "triggerBattle",
-      object.properties
-    );
     const npc = this.stateManager.npcController.getNPCById(id);
     const npcObject = new BossMonster(
       {
         scene: this.scene,
         key: npc.spriteKey,
       },
-      triggerBattleId,
+      npc.encounterId,
       Directions.up,
       npc.dialog,
       npc.placement
@@ -289,37 +271,19 @@ export class MapObjectFactory {
 
   private createKeyItem(object) {
     const itemId = getObjectPropertyByName("itemId", object.properties);
-    const flagId = getObjectPropertyByName("flagId", object.properties);
     const item = this.stateManager.getItem(itemId);
+    const flagId = item.flagId;
+    const placementFlags = item.placementFlags;
 
-    const alreadyCollected = this.stateManager.isFlagged(flagId);
-    const hasPlacementFlag = hasProperty("placementFlag", object.properties);
-    const placementFlagId = getObjectPropertyByName(
-      "placementFlag",
-      object.properties
-    );
-    const notYetFlagggedToPlace = !this.stateManager.isFlagged(placementFlagId);
-    const unPlaced =
-      (hasPlacementFlag && notYetFlagggedToPlace) || alreadyCollected;
-
-    const properties = {
-      flagId: flagId,
-      itemId: itemId,
-      type: EntityTypes.keyItem,
-      spriteKey: item.spriteKey,
-      frame: item.frame,
-    };
-
-    if (placementFlagId) {
-      properties["placementFlag"] = placementFlagId;
-    }
-    const keyItem = new KeyItem({
+    return new KeyItem({
       scene: this.scene,
       x: object.x + 32,
       y: object.y + 32,
-      properties,
+      spriteKey: item.spriteKey,
+      frame: item.frame,
+      flagId,
+      itemId,
+      placementFlags,
     });
-    keyItem.setPlaced(!unPlaced);
-    return keyItem;
   }
 }

@@ -5,7 +5,8 @@ export interface NPCData {
     spriteKey: string,
     description: string,
     dialog: NPCDialog[],
-    placement: NPCPlacement[]
+    placement: NPCPlacement[],
+    encounterId: number;
 }
 
 export interface NPCDialog {

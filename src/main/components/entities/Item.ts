@@ -18,6 +18,8 @@ export interface ItemData {
   frame: number;
   category: string;
   sound: string;
+  flagId?: number;
+  placementFlags?: number[];
 }
 
 export class Item {
@@ -33,7 +35,9 @@ export class Item {
     public frame: number,
     public category: ItemCategory,
     public quantity: number = 1,
-    public sound: string
+    public sound: string,
+    public flagId?: number,
+    public placementFlags?: number[]
   ) {}
   public incrementQuantity() {
     if (this.quantity >= this.limit) {

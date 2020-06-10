@@ -3,12 +3,16 @@
 
 import { Entity, EntityTypes } from "./Entity";
 import { AudioScene } from "../../scenes/audioScene";
+import { State } from "../../utility/state/State";
+import { animateItemAbove } from "../../utility/AnimationEffects/item-collect";
+import { displayMessage } from "../../scenes/dialogScene";
+import { collectItem } from "./KeyItem";
 
 /**
  * Represents a chest on the overworld, able to be opened.
  */
 export class Chest extends Entity {
-  public properties: { type: string; id: number | string; message: string };
+  public properties: { type: string; id: number; message: string };
   public open: Boolean;
   public locked: Boolean;
   constructor({ scene, x, y, properties }, public unlockItemId: number) {
@@ -16,18 +20,22 @@ export class Chest extends Entity {
     this.properties = properties;
     this.entityType = EntityTypes.chest;
   }
-  public openChest() {
+  public async openChest() {
     if (!this.open) {
       this.setOpen();
       const audio = <AudioScene>this.scene.scene.get("Audio");
       audio.playSound("chest");
-      this.currentScene.events.emit("item-acquired", {
-        itemId: this.properties["itemId"],
-        flagId: this.properties["id"],
-        chestCoords: { x: this.x, y: this.y },
-      });
+      //TODO: Fix this so that it refers to class body variables and not properties
+      await collectItem(
+        this.properties["itemId"],
+        this.properties["id"],
+        this.scene,
+        this.x,
+        this.y
+      );
     }
   }
+
   public setOpen() {
     this.open = true;
     this.unlockItemId ? this.setFrame(5, false) : this.setFrame(1, false);

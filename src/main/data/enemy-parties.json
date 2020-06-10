@@ -431,29 +431,32 @@
     ]
   },
   "700": {
+    "flagId": 502,
     "entities": [{
       "entityId": 11,
       "position": {
         "x": 1,
-        "y": 1
+        "y": 0
       }
     }]
   },
   "701": {
+    "flagId": 504,
     "entities": [{
       "entityId": 12,
       "position": {
         "x": 1,
-        "y": 1
+        "y": 0
       }
     }]
   },
   "702": {
+    "flagId": 506,
     "entities": [{
       "entityId": 13,
       "position": {
         "x": 1,
-        "y": 1
+        "y": 0
       }
     }]
   }

@@ -1,21 +1,27 @@
 import { Entity, EntityTypes } from "./Entity";
+import { State } from "../../utility/state/State";
 
 /**
  * Carries data for warping to different maps.
  */
 export class WarpTrigger extends Entity {
   public warpId: number;
-  public properties: any;
-
-  constructor({ scene, x, y, warpId, key = null, properties }) {
+  public entityType = EntityTypes.warp;
+  public event;
+  public placementFlags;
+  constructor({ scene, x, y, warpId, key = null, event, placementFlags }) {
     super({ scene, x, y, key });
-    this.properties = properties;
-
+    this.event = event;
+    this.placementFlags = placementFlags;
     this.warpId = warpId;
     this.visible = false;
     this.setAlpha(1);
-    this.entityType = EntityTypes.warp;
     this.setCollideOnTileBelowFoot(false);
+
+    const sm = State.getInstance();
+    const notYetFlagggedToPlace = !sm.allAreFlagged(this.placementFlags || []);
+    const unPlaced = Boolean(this.placementFlags) && notYetFlagggedToPlace;
+    this.setPlaced(!unPlaced);
   }
   public setPlaced(placed: boolean) {
     this.setActive(placed);
@@ -24,8 +30,8 @@ export class WarpTrigger extends Entity {
 }
 
 export class Warp extends WarpTrigger {
-  constructor({ scene, x, y, warpId, properties }) {
-    super({ scene, x, y, warpId, key: "warp-tile", properties });
+  constructor({ scene, x, y, warpId, event, placementFlags }) {
+    super({ scene, x, y, warpId, key: "warp-tile", event, placementFlags });
     this.visible = true;
     this.anims.play("warp-tile");
   }

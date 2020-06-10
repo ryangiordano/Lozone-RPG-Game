@@ -1,7 +1,7 @@
 import { State } from "../../utility/state/State";
 import { Combat, BattleState } from "../../components/battle/Combat";
 import { EnemyController } from "../../data/controllers/EnemyController";
-import { EnemyParty } from "../../components/battle/Party";
+import { EnemyParty } from '../../components/battle/Party';
 import { AudioScene } from "../audioScene";
 import { sceneFadeIn, sceneFadeOut } from "../camera";
 

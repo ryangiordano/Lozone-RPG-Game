@@ -58,7 +58,7 @@
     "dexterity": 3,
     "wisdom": 2,
     "stamina": 5,
-    "strength":12,
+    "strength": 12,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
@@ -246,10 +246,9 @@
     "physicalResist": 100,
     "magicalResist": 1,
     "lootTable": [{
-        "rate": 0.2,
-        "itemId": 1
-      }
-    ],
+      "rate": 0.2,
+      "itemId": 1
+    }],
     "goldValue": 5,
     "experiencePoints": 1500
   },
@@ -267,13 +266,14 @@
     "physicalResist": 5,
     "magicalResist": 2,
     "lootTable": [{
-      "rate": 1,
-      "itemId": 7
-    },
-    {
-      "rate": 1,
-      "itemId": 16
-    }],
+        "rate": 1,
+        "itemId": 7
+      },
+      {
+        "rate": 1,
+        "itemId": 16
+      }
+    ],
     "goldValue": 500,
     "experiencePoints": 400,
     "flagsWhenDefeated": [502]
@@ -292,13 +292,14 @@
     "physicalResist": 2,
     "magicalResist": 5,
     "lootTable": [{
-      "rate": 1,
-      "itemId": 7
-    },
-    {
-      "rate": 1,
-      "itemId": 16
-    }],
+        "rate": 1,
+        "itemId": 7
+      },
+      {
+        "rate": 1,
+        "itemId": 16
+      }
+    ],
     "goldValue": 500,
     "experiencePoints": 600,
     "flagsWhenDefeated": [504]
@@ -317,13 +318,14 @@
     "physicalResist": 5,
     "magicalResist": 5,
     "lootTable": [{
-      "rate": 1,
-      "itemId": 7
-    },
-    {
-      "rate": 1,
-      "itemId": 16
-    }],
+        "rate": 1,
+        "itemId": 7
+      },
+      {
+        "rate": 1,
+        "itemId": 16
+      }
+    ],
     "goldValue": 800,
     "experiencePoints": 800,
     "flagsWhenDefeated": [506]

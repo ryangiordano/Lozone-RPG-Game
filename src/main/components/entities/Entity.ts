@@ -28,7 +28,11 @@ export class Entity extends Phaser.GameObjects.Sprite {
   protected currentScene: Phaser.Scene;
   protected currentTile: Phaser.Tilemaps.Tile;
   public entityType: EntityTypes;
-  public placementFlag: number;
+  public flagId;
+  public placementFlags: number[];
+  public hasPlacementFlags() {
+    return this.placementFlags !== undefined;
+  }
   public properties: { type?: string; id?: number | string } = {};
   constructor({ scene, x, y, key }) {
     super(scene, x, y, key);

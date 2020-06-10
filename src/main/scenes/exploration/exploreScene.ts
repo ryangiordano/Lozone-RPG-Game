@@ -13,6 +13,7 @@ import { AudioScene } from "../audioScene";
 import { WarpTrigger, Spawn } from "../../components/entities/Warp";
 import { displayMessage } from "../dialogScene";
 import { EventsController } from "../../data/controllers/EventsController";
+import { animateItemAbove } from "../../utility/AnimationEffects/item-collect";
 
 export abstract class Explore extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap;
@@ -117,13 +118,10 @@ export abstract class Explore extends Phaser.Scene {
       this.game.scene.start("MenuScene", { callingSceneKey: this.scene.key });
       this.scene.setActive(true, "MenuScene").bringToTop("MenuScene");
     });
-
-    this.events.on("item-acquired", this.acquiredItemCallback, this);
   }
 
   protected setEventsOff() {
     this.input.keyboard.off("keyup-z");
-    this.events.off("item-acquired");
   }
 
   protected setGroups() {
@@ -153,17 +151,11 @@ export abstract class Explore extends Phaser.Scene {
         entity.entityType === EntityTypes.keyItem
       ) {
         //TODO: Refactor all of this so all items that have placement flags use placementFlags
-
-        const placementFlags = entity.properties["placementFlag"]
-          ? [entity.properties["placementFlag"]]
-          : entity.properties["placementFlags"];
-
-        ((entity.setPlaced &&
-          entity.properties.hasOwnProperty("placementFlag")) ||
-          entity.properties.hasOwnProperty("placementFlags")) &&
+        entity.setPlaced &&
+          entity.hasPlacementFlags() &&
           entity.setPlaced(
-            sm.allAreFlagged(placementFlags) &&
-              !sm.isFlagged(entity.properties["flagId"])
+            sm.allAreFlagged(entity.placementFlags) &&
+              !sm.isFlagged(entity.flagId)
           );
       }
     });
@@ -205,11 +197,18 @@ export abstract class Explore extends Phaser.Scene {
       this.casts,
       this.interactive,
       async (cast: Cast, interactive: any) => {
+        const destroyCastAndRefresh = () => {
+          cast.destroy();
+          this.refreshInteractivesByFlag();
+        };
         // Ensures we're not touching ourselves.  Gross.
         if (cast.caster === interactive) return false;
+
         cast.emit("resolve", { castedOn: interactive, caster: cast.caster });
         // Ensures that only the player can trigger entities when querying.
         if (cast.caster.entityType !== EntityTypes.player) return false;
+
+        this.player.controllable.setDisabled(true);
         // TODO: Do a check to make sure the cast's castType === the entity's triggeringCastType
         if (interactive.entityType === EntityTypes.bossMonster) {
           await displayMessage(
@@ -219,7 +218,7 @@ export abstract class Explore extends Phaser.Scene {
           );
           this.startEncounter(interactive.encounterId, true);
           interactive.destroy();
-          cast.destroy();
+          destroyCastAndRefresh();
         }
 
         if (interactive.entityType === EntityTypes.interactive) {
@@ -228,39 +227,43 @@ export abstract class Explore extends Phaser.Scene {
             this.game,
             this.scene
           );
-          cast.destroy();
+          destroyCastAndRefresh();
         }
 
         if (interactive.entityType === EntityTypes.npc) {
           displayMessage(interactive.getCurrentDialog(), this.game, this.scene);
-          cast.destroy();
+          destroyCastAndRefresh();
         }
 
         if (interactive.entityType === EntityTypes.chest) {
           this.handleOpenChest(interactive);
-          cast.destroy();
+          destroyCastAndRefresh();
         }
 
         if (interactive.entityType === EntityTypes.keyItem) {
           if (interactive.active) {
+            this.refreshInteractivesByFlag();
             cast.destroy();
-            interactive.pickup();
+            await interactive.pickup();
           }
         }
 
         if (interactive.entityType === EntityTypes.door) {
           this.handleOpenDoor(interactive);
-          cast.destroy();
+          destroyCastAndRefresh();
         }
+
         if (interactive.entityType === EntityTypes.warp) {
           if (interactive.active) {
             this.handleWarp(interactive);
+            this.refreshInteractivesByFlag();
             cast.destroy();
           }
         }
 
         if (interactive.entityType === EntityTypes.itemSwitch) {
-          cast.destroy();
+          destroyCastAndRefresh();
+
           const sm = State.getInstance();
 
           if (sm.playerHasItem(interactive.getKeyItemId())) {
@@ -279,7 +282,7 @@ export abstract class Explore extends Phaser.Scene {
             );
           }
         }
-        this.refreshInteractivesByFlag();
+        this.player.controllable.setDisabled(false);
       }
     );
   }
@@ -319,8 +322,6 @@ export abstract class Explore extends Phaser.Scene {
   }
 
   protected async handleWarp(interactive) {
-    this.events.off("item-acquired", this.acquiredItemCallback);
-
     if (interactive.properties.event) {
       this.playEvent(interactive.properties.event);
     } else {
@@ -342,42 +343,7 @@ export abstract class Explore extends Phaser.Scene {
     this.foregroundLayer.setName("foreground");
   }
 
-  async acquiredItemCallback({ itemId, flagId, chestCoords }) {
-    const sm = State.getInstance();
-    const item = sm.addItemToContents(itemId);
-    sm.setFlag(flagId, true);
-    this.player.controllable.setDisabled(true);
-    const audio = <AudioScene>this.scene.get("Audio");
-    //TODO: Improve this
-    if (item.sound === "great-key-item-collect") {
-      audio.play(item.sound, true, false, 0.1);
-    } else {
-      audio.playSound(item.sound, 0.1);
-    }
-    // item float above here
-    await this.animateItemAbove(item, { x: chestCoords.x, y: chestCoords.y });
-
-    await displayMessage([`Lo got ${item.name}`], this.game, this.scene);
-    this.player.controllable.setDisabled(false);
-  }
-
-  async animateItemAbove(item: Item, coords: Coords) {
-    return new Promise((resolve) => {
-      const itemSprite = new Phaser.GameObjects.Sprite(
-        this,
-        coords.x,
-        coords.y,
-        item.spriteKey
-      );
-      itemSprite.setFrame(item.frame);
-      this.add.existing(itemSprite);
-      const tween = textScaleUp(itemSprite, 0, -80, this, () => {
-        itemSprite.destroy();
-        resolve();
-      });
-      tween.play();
-    });
-  }
+  async acquiredItemCallback({ itemId, flagId, chestCoords }) {}
 
   protected async startEncounter(
     enemyPartyId: number,
