@@ -10,8 +10,25 @@ import { GameOverScene } from "./scenes/gameOverScene";
 import { BootScene } from "./scenes/UI/bootScene";
 import { MenuScene } from "./scenes/UI/menuScene";
 import { DialogScene } from "./scenes/dialogScene";
-import { PartyMenuScene } from "./scenes/UI/partyMenuScene";
+import { PartyMenuScene } from "./scenes/UI/PartyMenu/PartyMenuScene";
 import { AudioScene } from "./scenes/audioScene";
+import { PartyItemUseScene } from "./scenes/UI/PartyMenu/PartyItemUse/PartyItemUseScene";
+import { PartyStatusScene } from "./scenes/UI/PartyMenu/PartyStatus/PartyStatusScene";
+import { PartySpellCastScene } from "./scenes/UI/PartyMenu/PartySpellCast/PartySpellCastScene";
+
+export type GameScenes =
+  | "BootScene"
+  | "House"
+  | "MenuScene"
+  | "Dungeon"
+  | "Battle"
+  | "PartyItemUseScene"
+  | "PartyStatusScene"
+  | "PartySpellCastScene"
+  | "StoreScene"
+  | "GameOverScene"
+  | "Audio";
+
 // main game configuration
 const config: GameConfig = {
   width: 640,
@@ -27,7 +44,9 @@ const config: GameConfig = {
     CreditsScene,
     CombatScene,
     DialogScene,
-    PartyMenuScene,
+    PartyItemUseScene,
+    PartyStatusScene,
+    PartySpellCastScene,
     StoreScene,
     GameOverScene,
     AudioScene,

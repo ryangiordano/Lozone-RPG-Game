@@ -13,22 +13,22 @@ export class MainPanel extends UIPanel {
   }
 
   setUp() {
-    this
-      .addOption("Items", () => {
-        this.emit("items-selected", PartyMenuTypes.itemUse);
-      })
+    this.addOption("Items", () => {
+      this.emit("items-selected", PartyMenuTypes.itemUse);
+    })
+
       .addOption("Key Items", () => {
         this.emit("key-items-selected");
+      })
+      .addOption("Magic", () => {
+        this.emit("magic-selected", PartyMenuTypes.spellCast);
       })
       .addOption("Status", () => {
         this.emit("party-selected", PartyMenuTypes.statusCheck);
       })
-      .addOption("Amazon", () => {
-        this.emit("store-selected");
-      })
       .addOption("Debug", () => {
         this.emit("debug-selected");
       })
-      .addOption("Cancel", () => this.emit('cancel-selected'));
+      .addOption("Cancel", () => this.emit("cancel-selected"));
   }
 }
