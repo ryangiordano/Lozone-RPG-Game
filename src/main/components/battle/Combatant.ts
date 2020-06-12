@@ -62,7 +62,7 @@ class EffectManager {
 export class Combatant {
   private buffs: Map<number, Buff>;
   private behaviors: Map<number, Behavior>;
-  private spells: Map<number, Spell>;
+  public spells: Map<number, Spell>;
   public currentHp: number;
   public currentMp: number;
   public status: Set<Status>;

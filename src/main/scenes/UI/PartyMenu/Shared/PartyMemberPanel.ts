@@ -4,6 +4,9 @@ import { PartyMember } from "../../../../components/battle/PartyMember";
 import { TextFactory } from "../../../../utility/TextFactory";
 import { Status } from "../../../../components/battle/CombatDataStructures";
 
+/**
+ * The Panel that shows Party Member name, sprite and HP/MP/XP bars
+ */
 export class PartyMemberPanel extends PanelContainer {
   private textFactory;
   private hpBar: Bar;

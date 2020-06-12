@@ -1,4 +1,4 @@
-import { UIPanel } from "../UI/PanelContainer";
+import { UIPanel } from "./../UI/UIPanel";
 import { PartyMenuTypes } from "../../scenes/UI/UIDataTypes";
 
 export class MainPanel extends UIPanel {

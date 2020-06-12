@@ -1,15 +1,17 @@
 import { UserInterface } from "../../components/UI/UserInterface";
 import { State } from "../../utility/state/State";
-import { UIPanel, PanelContainer } from "../../components/UI/PanelContainer";
+import { PanelContainer } from "../../components/UI/PanelContainer";
 import { Item, ItemCategory } from "../../components/entities/Item";
 import { KeyboardControl } from "../../components/UI/Keyboard";
-import { PartyMenuConfig, PartyMenuTypes } from "./UIDataTypes";
 import { TextFactory } from "../../utility/TextFactory";
 import { WarpUtility } from "../../utility/exploration/Warp";
 import { ItemPanel, ConfirmItemPanel } from "../../components/menu/ItemPanel";
 import { MainPanel } from "../../components/menu/MainMenuPanel";
 import { ShopPanel } from "../../components/menu/shop/ShopPanel";
 import { AudioScene } from "../audioScene";
+import { UIPanel } from "../../components/UI/UIPanel";
+import { GameScenes } from "../../game";
+import { startScene } from "../utility";
 
 export class MenuScene extends Phaser.Scene {
   private UI: UserInterface;
@@ -35,14 +37,10 @@ export class MenuScene extends Phaser.Scene {
       "dialog-white",
       new KeyboardControl(this)
     );
-    // DEBUG
-    this.state.addItemToContents(21);
-    this.state.addItemToContents(20);
-
     this.mainPanel = this.createAndSetUpMainPanel();
 
     this.itemPanel = this.createItemPanel();
-    this.itemConfirmPanel = this.createItemConfirmPanel();
+    this.itemConfirmPanel = this.createItemConfrmPanel();
     this.setUpItemPanels();
 
     this.keyItemPanel = this.createKeyItemPanel();
@@ -82,10 +80,6 @@ export class MenuScene extends Phaser.Scene {
     mainPanel.on("party-selected", () => this.startPartyStatusScene());
 
     mainPanel.on("magic-selected", () => this.startPartyMagicScene());
-
-    // mainPanel.on("store-selected", () =>
-    //   this.startStoreScene()
-    // );
 
     mainPanel.on("debug-selected", () =>
       this.UI.showPanel(this.debugPanel).focusPanel(this.debugPanel)
@@ -184,17 +178,7 @@ export class MenuScene extends Phaser.Scene {
     });
   }
 
-  private startPartyStatusScene() {
-    this.startPartyScene("PartyStatusScene");
-  }
-  private startPartyMagicScene() {
-    this.startPartyScene("PartySpellCastScene");
-  }
-  private startPartyItemScene(item) {
-    this.startPartyScene("PartyItemUseScene", { item });
-  }
-
-  private createItemConfirmPanel() {
+  private createItemConfrmPanel() {
     // Add item use confirmation panel.
     const itemConfirmPanel = new ConfirmItemPanel(
       { x: 3, y: 3 },
@@ -221,6 +205,16 @@ export class MenuScene extends Phaser.Scene {
         this.UI.closePanel(itemConfirmPanel);
       });
     return itemConfirmPanel;
+  }
+
+  private startPartyStatusScene() {
+    startScene("PartyStatusScene", this);
+  }
+  private startPartyMagicScene() {
+    startScene("PartySpellCastScene", this, {});
+  }
+  private startPartyItemScene(item) {
+    startScene("PartyItemUseScene", this, { entity: item });
   }
 
   // ===================================
@@ -318,10 +312,6 @@ export class MenuScene extends Phaser.Scene {
     });
   }
 
-  // private openPartyPanel(item) {
-  //   this.startPartyMenuScene({ type: PartyMenuTypes.itemUse, entity: item });
-  // }
-
   private startStoreScene() {
     const storeScene = this.scene.get("StoreScene");
     const scenePlugin = new Phaser.Scenes.ScenePlugin(storeScene);
@@ -343,31 +333,6 @@ export class MenuScene extends Phaser.Scene {
       this.UI.events.off("menu-select");
       this.UI.events.off("menu-traverse");
       this.closeMenuScene();
-    });
-  }
-
-  // private startPartyMenuScene(config: PartyMenuConfig) {
-  //   const partyMenuScene = this.scene.get("");
-  //   const scenePlugin = new Phaser.Scenes.ScenePlugin(partyMenuScene);
-  //   scenePlugin.bringToTop("");
-  //   scenePlugin.setActive(false, "MenuScene");
-  //   scenePlugin.start("", {
-  //     callingSceneKey: "MenuScene",
-  //     config,
-  //   });
-  // }
-
-  private startPartyScene(
-    sceneKey: "PartyItemUseScene" | "PartySpellCastScene" | "PartyStatusScene",
-    config?: any
-  ) {
-    const partyMenuScene = this.scene.get(sceneKey);
-    const scenePlugin = new Phaser.Scenes.ScenePlugin(partyMenuScene);
-    scenePlugin.bringToTop(sceneKey);
-    scenePlugin.setActive(false, "MenuScene");
-    scenePlugin.start("", {
-      callingSceneKey: "MenuScene",
-      config,
     });
   }
 }

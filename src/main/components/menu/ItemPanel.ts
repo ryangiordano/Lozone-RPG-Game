@@ -1,6 +1,6 @@
-import { UIPanel } from "../UI/PanelContainer";
 import { Item, ItemCategory } from "../entities/Item";
 import { TextFactory } from "../../utility/TextFactory";
+import { UIPanel } from "../UI/UIPanel";
 
 export class ConfirmItemPanel extends UIPanel {
   private itemData: Item;
@@ -41,39 +41,51 @@ export class ItemPanel extends UIPanel {
   }
 
   addOptionsViaData() {
-    this.items.forEach(item => {
+    this.items.forEach((item) => {
       const displayItem = item.category == this.itemCategory;
       const consumable = this.itemCategory == ItemCategory.consumable;
       if (displayItem) {
-        const quantity = item.quantity > 1 ? `x${item.quantity}` : '';
-        this.addOption(`${item.name} ${quantity}`, () => {
-          consumable && this.emit("item-selected", item);
-        }, () => {
-          this.emit("item-focused", item);
-        });
-
+        const quantity = item.quantity > 1 ? `x${item.quantity}` : "";
+        this.addOption(
+          `${item.name} ${quantity}`,
+          () => {
+            consumable && this.emit("item-selected", item);
+          },
+          () => {
+            this.emit("item-focused", item);
+          }
+        );
       }
     });
-    this.addOption("Cancel", () => {
-      this.emit("panel-close");
-    }, () => {
-      this.emit("item-focused", null);
-    });
+    this.addOption(
+      "Cancel",
+      () => {
+        this.emit("panel-close");
+      },
+      () => {
+        this.emit("item-focused", null);
+      }
+    );
   }
 
   public updateDisplay(item) {
-    const container = this.childPanels.get('item-detail');
-    container.clearPanelContainerByTypes(['Text', 'Sprite']);
+    const container = this.childPanels.get("item-detail");
+    container.clearPanelContainerByTypes(["Text", "Sprite"]);
     if (!item) return;
     const textFactory = new TextFactory(this.scene);
     const { description, frame, spriteKey } = item;
-    const textDescription = textFactory.createText(description, { x: 30, y: 90 }, '18px', {
-      wordWrap: {
-        width: (this.panel.width / 4.5) * 4,
-        useAdvancedWrap: true
+    const textDescription = textFactory.createText(
+      description,
+      { x: 30, y: 90 },
+      "18px",
+      {
+        wordWrap: {
+          width: (this.panel.width / 4.5) * 4,
+          useAdvancedWrap: true,
+        },
       }
-    })
-    const sprite = new Phaser.GameObjects.Sprite(this.scene, 50, 50, spriteKey)
+    );
+    const sprite = new Phaser.GameObjects.Sprite(this.scene, 50, 50, spriteKey);
     sprite.setFrame(frame);
 
     container.add(textDescription);
@@ -81,7 +93,7 @@ export class ItemPanel extends UIPanel {
   }
 
   public refreshPanel() {
-    this.list = this.list.filter(item => item.type !== "Text");
+    this.list = this.list.filter((item) => item.type !== "Text");
     this.options = [];
     this.addOptionsViaData();
   }

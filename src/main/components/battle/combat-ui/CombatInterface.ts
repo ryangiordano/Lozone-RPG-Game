@@ -8,7 +8,7 @@ import {
   Status,
 } from "../CombatDataStructures";
 import { PartyMember } from "../PartyMember";
-import { UIPanel, PanelContainer } from "../../UI/PanelContainer";
+import { PanelContainer } from "../../UI/PanelContainer";
 import { KeyboardControl } from "../../UI/Keyboard";
 import { State } from "../../../utility/state/State";
 import { CombatContainer } from "../combat-grid/CombatContainer";
@@ -18,6 +18,7 @@ import {
   TargetType,
   SpellType,
 } from "../../../data/repositories/SpellRepository";
+import { UIPanel } from "../../UI/UIPanel";
 
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory;

@@ -18,17 +18,9 @@ export class PartyItemUseMenuContainer extends PartyMenuContainer {
     coordinates: Coords,
     partyMembers: CombatEntity[],
     keyboardControl: KeyboardControl,
-    partyMenuType: PartyMenuTypes,
     entity: any
   ) {
-    super(
-      scene,
-      coordinates,
-      partyMembers,
-      keyboardControl,
-      partyMenuType,
-      entity
-    );
+    super(scene, coordinates, partyMembers, keyboardControl, entity);
   }
 
   protected setSpaceListener() {
@@ -79,5 +71,11 @@ export class PartyItemUseMenuContainer extends PartyMenuContainer {
       );
     }
     return;
+  }
+
+  protected focusMessage(focusedMember) {
+    this.partyMessagePanel.displayMessage(
+      `Use ${this.entity.name} on ${focusedMember.partyMember.name}?`
+    );
   }
 }

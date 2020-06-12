@@ -11,9 +11,7 @@ export class PartyItemUseScene extends Phaser.Scene {
   }
 
   public init(data) {
-    const config: PartyMenuConfig = data.config;
-    const { type, entity } = config;
-
+    const { entity } = data;
     //   Here we will spin up a container.
     // Fill it with party member panels
     this.callingSceneKey = data.callingSceneKey;
@@ -24,7 +22,6 @@ export class PartyItemUseScene extends Phaser.Scene {
       { x: 4 * 64, y: 0 },
       party,
       new KeyboardControl(this),
-      type,
       entity
     );
     this.partyMenuContainer.on("close-menu", () => {

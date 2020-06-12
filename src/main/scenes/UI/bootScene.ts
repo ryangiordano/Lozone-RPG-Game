@@ -52,7 +52,7 @@ export class BootScene extends Phaser.Scene {
         this.scene.start("Audio");
         this.scene.start("House", { map: "room", tileset: "room-tiles" });
 
-      }, 3000);
+      }, 1);
     });
 
     // When we get to the point  where we can save state to a JSON, this is where we'd load it in, flipping the proper flags.

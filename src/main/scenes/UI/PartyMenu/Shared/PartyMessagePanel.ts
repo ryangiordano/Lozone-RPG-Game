@@ -1,17 +1,13 @@
 import { PanelContainer } from "../../../../components/UI/PanelContainer";
-import { State } from "../../../../utility/state/State";
 import { PartyMember } from "../../../../components/battle/PartyMember";
 import { TextFactory } from "../../../../utility/TextFactory";
+import { MessagePanel } from "./MessagePanel";
 
-export class PartyMessagePanel extends PanelContainer {
-  private currentText: Phaser.GameObjects.Text;
-  /**
-   *
-   */
+export class PartyMessagePanel extends MessagePanel {
+  protected currentText: Phaser.GameObjects.Text;
   constructor(public scene, dimensions: Coords, position: Coords) {
-    super(dimensions, position, "dialog-white", scene);
+    super(scene, dimensions, position);
     this.show();
-    State.getInstance().addItemToContents(3);
     this.clearPanelContainerByType("Text");
   }
 

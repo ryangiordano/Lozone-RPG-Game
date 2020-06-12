@@ -1,34 +1,24 @@
 import { PartyMenuContainer } from "../Shared/PartyMenuContainer";
-import { CombatEntity } from "../../../../components/battle/CombatDataStructures";
+import {
+  CombatEntity,
+  Spell,
+} from "../../../../components/battle/CombatDataStructures";
 import {
   KeyboardControl,
   KeyboardControlKeys,
 } from "../../../../components/UI/Keyboard";
-import { PartyMenuTypes } from "../../UIDataTypes";
 import { PartyMember } from "../../../../components/battle/PartyMember";
-import { State } from "../../../../utility/state/State";
-import { handleItemUse } from "../../../../components/entities/Item";
 
 export class PartySpellCastMenuContainer extends PartyMenuContainer {
-  /**
-   *
-   */
   constructor(
     scene: Phaser.Scene,
     coordinates: Coords,
     partyMembers: CombatEntity[],
     keyboardControl: KeyboardControl,
-    partyMenuType: PartyMenuTypes,
-    entity: any
+    private spell: Spell,
+    private caster: PartyMember
   ) {
-    super(
-      scene,
-      coordinates,
-      partyMembers,
-      keyboardControl,
-      partyMenuType,
-      entity
-    );
+    super(scene, coordinates, partyMembers, keyboardControl);
   }
 
   protected setSpaceListener() {
@@ -36,48 +26,40 @@ export class PartySpellCastMenuContainer extends PartyMenuContainer {
       KeyboardControlKeys.SPACE,
       "party-menu-container",
       () => {
-        this.selectPartyMemberForItemUse();
+        this.selectPartyMemberToCastSpellOn();
       }
     );
   }
 
-  protected selectPartyMemberForItemUse() {
-    const panel = this.getCurrentlyFocusedPartyMemberPanel();
-    const partyMember: PartyMember = panel.partyMember;
-    // Item use class.  It'll handle MP/HP/other types of consumables.
-    const potency = this.entity.effectPotency * this.entity.effect.basePotency;
-    const state = State.getInstance();
-
-    // This isn't working TODO
-    if (!state.playerHasItem(this.entity.id)) {
-      this.partyMessagePanel.displayMessage(
-        `You have no ${this.entity.name} left!`
-      );
-      return;
-    }
-
-    const { resourceFull, resourceRecoverFunction, resource } = handleItemUse(
-      partyMember,
-      this.entity
-    );
-
-    if (!resourceFull) {
-      state.consumeItem(this.entity.id);
-
-      const recoveredFor = resourceRecoverFunction.call(partyMember, potency);
-
-      this.partyMessagePanel.displayMessage(
-        `Used ${this.entity.name} on ${partyMember.name}.  Recovered ${recoveredFor} ${resource}.`
-      );
-      panel.setHp(partyMember.currentHp);
-      panel.setMp(partyMember.currentMp);
-
-      this.playHealAnimation(panel, this.entity);
+  private selectPartyMemberToCastSpellOn() {
+    const targetPanel = this.getCurrentlyFocusedPartyMemberPanel();
+    const casterPanel = this.getPartyMemberPanelById(this.caster.id);
+    const castTarget: PartyMember = this.getFocusedPartyMember();
+    if (this.caster.currentMp - this.spell.manaCost < 0) {
+      this.partyMessagePanel.displayMessage("Not enough MP to cast!");
+    } else if (castTarget.currentHp === castTarget.getMaxHp()) {
+      this.partyMessagePanel.displayMessage("HP already full!");
     } else {
+      const results = this.caster.castSpell(this.spell, [castTarget]);
       this.partyMessagePanel.displayMessage(
-        `${partyMember.name} already has full ${resource}!`
+        `${castTarget.name} recovered ${results[0].resultingValue} HP.`
       );
+
+      targetPanel.setHp(results[0].target.currentHp);
+      targetPanel.setMp(results[0].target.currentMp);
+      casterPanel.setHp(results[0].executor.currentHp);
+      casterPanel.setMp(results[0].executor.currentMp);
+      this.spell.animationEffect.play(95, 55, this.scene, targetPanel);
     }
-    return;
+  }
+
+  private selectPartyMemberToReceiveSpellEffects() {}
+
+  protected selectPartyMemberForItemUse() {}
+
+  protected focusMessage(focusedMember) {
+    this.partyMessagePanel.displayMessage(
+      `Select from ${focusedMember.partyMember.name}'s spells.`
+    );
   }
 }

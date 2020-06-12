@@ -4,12 +4,15 @@ import {
   KeyboardControl,
   KeyboardControlKeys,
 } from "../../../../components/UI/Keyboard";
-import { PartyMenuTypes } from "../../UIDataTypes";
 import { PartyMemberPanel } from "./PartyMemberPanel";
 import { PartyMember } from "../../../../components/battle/PartyMember";
-import { State } from "../../../../utility/state/State";
-import { handleItemUse, Item } from "../../../../components/entities/Item";
+import { Item } from "../../../../components/entities/Item";
 
+/**
+ * The container that houses all panels for the party menu scenes
+ * sets up keybindings and renders the party member panels
+ * as well as the dialog box for actions taken in the party member panel.
+ */
 export class PartyMenuContainer extends Phaser.GameObjects.Container {
   public partyMemberPanels: any[][] = [];
   protected activeIndex: number[] = [0, 0];
@@ -20,8 +23,7 @@ export class PartyMenuContainer extends Phaser.GameObjects.Container {
     coordinates: Coords,
     partyMembers: CombatEntity[],
     protected keyboardControl: KeyboardControl,
-    protected partyMenuType: PartyMenuTypes,
-    protected entity: any
+    protected entity?: any
   ) {
     super(scene, coordinates.x, coordinates.y);
     this.partyMessagePanel = new PartyMessagePanel(
@@ -55,6 +57,12 @@ export class PartyMenuContainer extends Phaser.GameObjects.Container {
 
     this.focusActive();
   }
+
+  protected getFocusedPartyMember() {
+    const panel = this.getCurrentlyFocusedPartyMemberPanel();
+    return panel.partyMember;
+  }
+
   private setupKeyboard() {
     this.keyboardControl.on(
       KeyboardControlKeys.ESC,
@@ -85,25 +93,22 @@ export class PartyMenuContainer extends Phaser.GameObjects.Container {
   }
 
   protected setSpaceListener() {
-    throw new Error("Not yet implemented.");
+    // Implement in inheriting classes
   }
 
   private teardownKeyboard() {
     this.keyboardControl.off(KeyboardControlKeys.ESC, "party-menu-container");
   }
 
+  protected focusMessage(focusedMember) {
+    return this.partyMessagePanel.populateStatsPanel(focusedMember.partyMember);
+  }
+
   protected focusActive() {
     this.blurAll();
     const currentMember = this.getCurrentlyFocusedPartyMemberPanel();
     currentMember.focus();
-    if (this.partyMenuType === PartyMenuTypes.itemUse) {
-      this.partyMessagePanel.displayMessage(
-        `Use ${this.entity.name} on ${currentMember.partyMember.name}?`
-      );
-    }
-    if (this.partyMenuType === PartyMenuTypes.statusCheck) {
-      this.partyMessagePanel.populateStatsPanel(currentMember.partyMember);
-    }
+    this.focusMessage(currentMember);
   }
   protected blurAll() {
     this.partyMemberPanels.forEach((row) =>
@@ -114,6 +119,18 @@ export class PartyMenuContainer extends Phaser.GameObjects.Container {
   protected getCurrentlyFocusedPartyMemberPanel() {
     const i = this.activeIndex;
     return this.partyMemberPanels[i[0]][i[1]];
+  }
+
+  protected getPartyMemberPanelById(id: number) {
+    let result;
+    this.partyMemberPanels.forEach((row) =>
+      row.forEach((panel) => {
+        if (panel.partyMember.id === id) {
+          result = panel;
+        }
+      })
+    );
+    return result;
   }
 
   public focusNext() {
@@ -146,15 +163,6 @@ export class PartyMenuContainer extends Phaser.GameObjects.Container {
     const row = Math.max(0, i);
     this.activeIndex = [row, col];
     this.focusActive();
-  }
-
-  public selectPartyMemberForSpellCastChoose() {
-    const panel = this.getCurrentlyFocusedPartyMemberPanel();
-    const partyMember: PartyMember = panel.partyMember;
-    if (this.partyMenuType === PartyMenuTypes.spellCast) {
-      //TODO: Handle spell cast
-      console.log("Do sstuff");
-    }
   }
 
   protected playHealAnimation(panel, item: Item) {

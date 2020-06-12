@@ -1,39 +1,43 @@
-import { UIPanel, PanelContainer } from "./PanelContainer";
-import { KeyboardControl, KeyboardControlKeys } from './Keyboard';
-import { createRandom } from '../../utility/Utility';
-import { cursorHover } from '../../utility/tweens/text';
-import { TargetType, TargetArea } from '../../data/repositories/SpellRepository';
+import { PanelContainer } from "./PanelContainer";
+import { KeyboardControl, KeyboardControlKeys } from "./Keyboard";
+import { createRandom } from "../../utility/Utility";
+import { cursorHover } from "../../utility/tweens/text";
+import {
+  TargetType,
+  TargetArea,
+} from "../../data/repositories/SpellRepository";
+import { UIPanel } from "./UIPanel";
 
 export interface Traversible {
-  close: Function,
-  show: Function,
-  focus: Function
-  blur: Function,
-  focused: boolean
-  id: string,
-  handleClose: Function
+  close: Function;
+  show: Function;
+  focus: Function;
+  blur: Function;
+  focused: boolean;
+  id: string;
+  handleClose: Function;
 }
 
 export interface HasOptions {
-  addOption: Function,
-  removeOption: Function,
-  focusOption: Function,
-  focusNextOption: Function,
-  getFocusIndex: Function,
-  focusPreviousOption: Function,
-  getFocusedOption: Function,
-  selectFocusedOption: Function,
-  onKeyDown: Function
+  addOption: Function;
+  removeOption: Function;
+  focusOption: Function;
+  focusNextOption: Function;
+  getFocusIndex: Function;
+  focusPreviousOption: Function;
+  getFocusedOption: Function;
+  selectFocusedOption: Function;
+  onKeyDown: Function;
 }
 
 export interface Selectable {
-  focused: boolean,
-  disabled: boolean,
-  selectableData?: any,
-  selectCallback: Function,
-  focusCallback?: Function,
-  select: Function,
-  focus: Function
+  focused: boolean;
+  disabled: boolean;
+  selectableData?: any;
+  selectCallback: Function;
+  focusCallback?: Function;
+  select: Function;
+  focus: Function;
 }
 
 /**
@@ -43,10 +47,14 @@ export interface Selectable {
  */
 export class UserInterface extends Phaser.GameObjects.Container {
   private panelContainers: PanelContainer[] = [];
-  private keyboardKeys: KeyboardControlKeys[] = [KeyboardControlKeys.UP, KeyboardControlKeys.DOWN, KeyboardControlKeys.LEFT,
-  KeyboardControlKeys.RIGHT,
-  KeyboardControlKeys.ESC,
-  KeyboardControlKeys.SPACE];
+  private keyboardKeys: KeyboardControlKeys[] = [
+    KeyboardControlKeys.UP,
+    KeyboardControlKeys.DOWN,
+    KeyboardControlKeys.LEFT,
+    KeyboardControlKeys.RIGHT,
+    KeyboardControlKeys.ESC,
+    KeyboardControlKeys.SPACE,
+  ];
   private focusedPanel: UIPanel;
   private travelHistory: UIPanel[] = [];
   private keyboardMuted: boolean = false;
@@ -75,8 +83,6 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.removeKeyboardListeners();
     this.destroy();
   }
-
-
 
   public createUIPanel(
     dimensions: Coords,
@@ -113,13 +119,13 @@ export class UserInterface extends Phaser.GameObjects.Container {
   }
 
   public findFocusedPanel() {
-    return this.panelContainers.find(d => d.focused);
+    return this.panelContainers.find((d) => d.focused);
   }
   public focusPanel(toFocus: any) {
     toFocus.show();
     this.focusedPanel = toFocus;
 
-    this.panelContainers.forEach(panel => {
+    this.panelContainers.forEach((panel) => {
       if (panel.id === toFocus.id) {
         panel.focus();
       } else {
@@ -139,9 +145,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     this.travelHistory.pop();
     panel.close();
     if (this.travelHistory.length) {
-      this.focusPanel(
-        this.travelHistory[this.travelHistory.length - 1]
-      );
+      this.focusPanel(this.travelHistory[this.travelHistory.length - 1]);
     } else {
       this.scene.events.emit("close");
     }
@@ -153,7 +157,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
     eventName: string,
     callback: Function
   ) {
-    this.scene.input.keyboard.on(eventName, event => {
+    this.scene.input.keyboard.on(eventName, (event) => {
       if (this.focusedPanel.id === panel.id) {
         callback(event);
       }
@@ -166,11 +170,17 @@ export class UserInterface extends Phaser.GameObjects.Container {
 
   private setKeyboardListeners() {
     this.menuSceneKeyboardControl.setupKeyboardControl();
-    this.keyboardKeys.forEach(key => this.menuSceneKeyboardControl.on(key, "user-interface", () => this.focusedPanel.onKeyDown(key)));
+    this.keyboardKeys.forEach((key) =>
+      this.menuSceneKeyboardControl.on(key, "user-interface", () =>
+        this.focusedPanel.onKeyDown(key)
+      )
+    );
   }
 
   public removeKeyboardListeners() {
-    this.keyboardKeys.forEach(key => this.menuSceneKeyboardControl.off(key, "user-interface"))
+    this.keyboardKeys.forEach((key) =>
+      this.menuSceneKeyboardControl.off(key, "user-interface")
+    );
   }
 
   public traverseBackward() {
@@ -178,9 +188,7 @@ export class UserInterface extends Phaser.GameObjects.Container {
       const lastPanel = this.travelHistory.pop();
       lastPanel.close();
       if (this.travelHistory.length) {
-        this.focusPanel(
-          this.travelHistory[this.travelHistory.length - 1]
-        );
+        this.focusPanel(this.travelHistory[this.travelHistory.length - 1]);
       } else {
         this.closeUI();
       }
@@ -189,10 +197,11 @@ export class UserInterface extends Phaser.GameObjects.Container {
 }
 
 //TODO: Find a way to compose this class...All of these methods exist on other classes.  Don't want to make a really deep heirarchy.
-export class TraversibleObject extends Phaser.GameObjects.Container implements Traversible, HasOptions {
+export class TraversibleObject extends Phaser.GameObjects.Container
+  implements Traversible, HasOptions {
   public id: string = `Traversible-${createRandom(1000)}`;
   public focused: boolean = false;
-  private options: any[] = []
+  private options: any[] = [];
   public escapable: boolean = true;
   private targetingMode: TargetArea;
   constructor(scene, private onClose?: Function) {
@@ -218,12 +227,19 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
     this.focused = false;
   }
 
-
-  public addOption(optionData: any, selectCallback: Function, focusCallback?: Function): TraversibleObject {
-    const toAdd = new TraversibleListItem(selectCallback, focusCallback, optionData);
+  public addOption(
+    optionData: any,
+    selectCallback: Function,
+    focusCallback?: Function
+  ): TraversibleObject {
+    const toAdd = new TraversibleListItem(
+      selectCallback,
+      focusCallback,
+      optionData
+    );
     this.options.push(toAdd);
     return this;
-  };
+  }
 
   public focusOption(index: number) {
     this.options.forEach((option, i) => {
@@ -236,16 +252,13 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
     });
   }
 
-
   public setAllTarget() {
-    this.emit('all-chosen', this.options);
+    this.emit("all-chosen", this.options);
   }
 
   setTargetAll(set: boolean) {
     this.targetingMode = set ? TargetArea.all : TargetArea.single;
   }
-
-
 
   public focusNextOption() {
     const index = this.getFocusIndex();
@@ -254,8 +267,8 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
   }
 
   public getFocusIndex() {
-    const current = this.options.find(opt => opt.focused);
-    return this.options.findIndex(opt => opt === current);
+    const current = this.options.find((opt) => opt.focused);
+    return this.options.findIndex((opt) => opt === current);
   }
 
   public focusPreviousOption() {
@@ -265,7 +278,7 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
   }
 
   public getFocusedOption() {
-    const option = this.options.find(opt => opt.focused);
+    const option = this.options.find((opt) => opt.focused);
     if (option) {
       return option;
     }
@@ -273,7 +286,7 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
 
   public selectFocusedOption() {
     if (this.targetingMode === TargetArea.all) {
-      return this.emit('all-chosen');
+      return this.emit("all-chosen");
     }
     const toSelect = this.getFocusedOption();
     if (toSelect && !toSelect.disabled) {
@@ -285,7 +298,7 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
   }
 
   public handleClose() {
-    this.onClose && this.onClose()
+    this.onClose && this.onClose();
   }
 
   public onKeyDown(key: KeyboardControlKeys) {
@@ -299,23 +312,24 @@ export class TraversibleObject extends Phaser.GameObjects.Container implements T
         this.focusNextOption();
         break;
       case KeyboardControlKeys.SPACE:
-        this.selectFocusedOption()
+        this.selectFocusedOption();
         break;
       case KeyboardControlKeys.ESC:
-        this.emit('escape')
+        this.emit("escape");
         break;
     }
   }
 }
 
-
 export class TraversibleListItem implements Selectable {
   public focused: boolean = false;
   public disabled: boolean;
 
-  constructor(public selectCallback, public focusCallback, public selectableData?: any) {
-
-  }
+  constructor(
+    public selectCallback,
+    public focusCallback,
+    public selectableData?: any
+  ) {}
   public select() {
     if (!this.disabled) {
       this.selectCallback(this.selectableData);
@@ -327,5 +341,4 @@ export class TraversibleListItem implements Selectable {
       this.focusCallback(this.selectableData);
     }
   }
-
 }
