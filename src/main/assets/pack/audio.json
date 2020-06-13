@@ -33,17 +33,12 @@
       {
         "type": "audio",
         "key": "hit",
-        "url": "./src/main/assets/sounds/hit.wav"
+        "url": "./src/main/assets/sounds/hit.mp3"
       },
       {
         "type": "audio",
         "key": "heal",
         "url": "./src/main/assets/sounds/heal.wav"
-      },
-      {
-        "type": "audio",
-        "key": "dead",
-        "url": "./src/main/assets/sounds/dead.wav"
       },
       {
         "type": "audio",
@@ -153,12 +148,17 @@
       {
         "type": "audio",
         "key": "faint",
-        "url": "./src/main/assets/sounds/faint.mp3"
+        "url": "./src/main/assets/sounds/faint.wav"
       },
       {
         "type": "audio",
         "key": "coin",
         "url": "./src/main/assets/sounds/coin.wav"
+      },
+      {
+        "type": "audio",
+        "key": "critical-hit",
+        "url": "./src/main/assets/sounds/critical-hit.mp3"
       }
     ]
   }

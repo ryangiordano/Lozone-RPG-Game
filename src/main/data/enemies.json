@@ -137,14 +137,14 @@
   "7": {
     "name": "poop machine",
     "spriteKey": "poop-machine",
-    "maxHp": 100,
+    "maxHp": 60,
     "maxMp": 10,
     "level": 4,
     "intellect": 2,
     "dexterity": 8,
     "wisdom": 2,
     "stamina": 3,
-    "strength": 10,
+    "strength": 12,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{

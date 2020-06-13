@@ -35,16 +35,16 @@ export abstract class Explore extends Phaser.Scene {
     });
   }
 
-  gbFadeIn(callback = null) {
-    const alpha = this.cameras.main.alpha;
-    const camera = this.cameras.main;
-    if (alpha < 1) {
-      setTimeout(() => {
-        camera.alpha = alpha + 0.25;
-        this.gbFadeIn(callback);
-      }, 150);
-    }
-  }
+  // gbFadeIn(callback = null) {
+  //   const alpha = this.cameras.main.alpha;
+  //   const camera = this.cameras.main;
+  //   if (alpha < 1) {
+  //     setTimeout(() => {
+  //       camera.alpha = alpha + 0.25;
+  //       this.gbFadeIn(callback);
+  //     }, 150);
+  //   }
+  // }
 
   async init(data) {
     sceneFadeIn(this.cameras.main);

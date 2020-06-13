@@ -47,7 +47,7 @@
                 "key": "critical-hit"
             },
             "repeat": 0,
-            "frameRate": 20
+            "frameRate": 17
         },
         {
             "key": "flame",

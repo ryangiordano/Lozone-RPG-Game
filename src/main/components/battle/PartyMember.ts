@@ -69,10 +69,6 @@ export class PartyMember extends Combatant {
     return this.modified('dexterity');
   }
 
-  public getCritChance() {
-    return this.modified('dexterity') * .01;
-  }
-
   public getStrength() {
     return this.modified('strength')
   }

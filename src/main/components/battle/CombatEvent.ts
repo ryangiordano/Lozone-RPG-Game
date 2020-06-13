@@ -2,21 +2,20 @@ import { Combatant } from "./Combatant";
 import {
   CombatActionTypes,
   CombatResult,
-  Orientation
+  Orientation,
 } from "./CombatDataStructures";
 import { TextFactory } from "../../utility/TextFactory";
 import { textScaleUp, slowScaleUp } from "../../utility/tweens/text";
 import {
   characterAttack,
-  characterDamage
+  characterDamage,
 } from "../../utility/tweens/character";
-import { Item, handleItemUse } from '../entities/Item';
+import { Item, handleItemUse } from "../entities/Item";
 import { State } from "../../utility/state/State";
 import { SpellController } from "../../data/controllers/SpellController";
-import { EffectsRepository } from '../../data/repositories/EffectRepository';
-import { Spell } from './CombatDataStructures';
+import { EffectsRepository } from "../../data/repositories/EffectRepository";
+import { Spell } from "./CombatDataStructures";
 import { SpellType } from "../../data/repositories/SpellRepository";
-
 
 //TODO: Refactor this to take care of less stuff.  It does too much;
 /**
@@ -32,14 +31,14 @@ export class CombatEvent {
     public targets: Combatant[],
     public type: CombatActionTypes,
     protected orientation: Orientation,
-    protected scene: Phaser.Scene,
+    protected scene: Phaser.Scene
   ) {
     this.textFactory = new TextFactory(scene);
     this.effectsRepository = new EffectsRepository(this.scene.game);
   }
 
   public async executeAction(): Promise<CombatResult[]> {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       const executor = this.executor;
       const targets = this.confirmTargets();
       let results;
@@ -58,15 +57,17 @@ export class CombatEvent {
   }
 
   protected async handleDefend(executor: Combatant): Promise<any> {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       executor.defendSelf();
-      const results: CombatResult[] = [{
-        actionType: CombatActionTypes.defend,
-        executor,
-        target: executor,
-        resultingValue: 0,
-        targetDown: false
-      }];
+      const results: CombatResult[] = [
+        {
+          actionType: CombatActionTypes.defend,
+          executor,
+          target: executor,
+          resultingValue: 0,
+          targetDown: false,
+        },
+      ];
       const text = this.createCombatText("^", this.executor);
       await this.playFadeUp(text);
       results[0].message = [`${this.executor.name} is defending.`];
@@ -78,22 +79,31 @@ export class CombatEvent {
     executor: Combatant,
     targets: Combatant[]
   ): Promise<any> {
-    return new Promise(async resolve => {
-      const modifier = this.orientation === Orientation.left ? 1 : -1;
+    return new Promise(async (resolve) => {
+      const distanceModifier = this.orientation === Orientation.left ? 1 : -1;
       const results: CombatResult[] = executor.attackTarget(targets);
-      await this.playMemberAttack(executor.getSprite(), modifier * 25);
-      await Promise.all(targets.map(t => this.playCombatantTakeDamage(t.getSprite())));
-      const texts = results.map(r => this.createCombatText(r.resultingValue.toString(), r.target));
-      await Promise.all(texts.map(t => this.playCombatText(t)));
-      results.forEach(r => {
-        r.message = [`${executor.name} attacks ${r.target.name} for ${r.resultingValue}`,
-        `${r.target.name} has ${r.target.currentHp} HP out of ${r.target.getMaxHp()} left.`];
+      await this.playMemberAttack(executor.getSprite(), distanceModifier * 25);
+      await Promise.all(
+        results.map((t) =>
+          this.playCombatantTakeDamage(t.target.getSprite(), t.critical)
+        )
+      );
+      const texts = results.map((r) =>
+        this.createCombatText(r.resultingValue.toString(), r.target, r.critical ? "#E2DF21": "#ffffff", r.critical ? 80:  60)
+      );
+      await Promise.all(texts.map((t) => this.playCombatText(t)));
+      results.forEach((r) => {
+        r.message = [
+          `${executor.name} attacks ${r.target.name} for ${r.resultingValue}`,
+          `${r.target.name} has ${
+            r.target.currentHp
+          } HP out of ${r.target.getMaxHp()} left.`,
+        ];
         return r;
       });
       return resolve(results);
     });
   }
-
 
   protected returnFailedAction(
     executor: Combatant,
@@ -105,14 +115,15 @@ export class CombatEvent {
   protected createCombatText(
     value: string,
     combatant: Combatant,
-    color: string = "#ffffff"
+    color: string = "#ffffff",
+    size: number = 60
   ): Phaser.GameObjects.Text {
     const sprite = combatant.getSprite();
     const container = combatant.getSprite().parentContainer;
     const valueText = this.textFactory.createText(
       value,
       { x: sprite.x, y: sprite.y },
-      "60px",
+      `${size}px`,
       { fill: color }
     );
 
@@ -123,7 +134,7 @@ export class CombatEvent {
   }
 
   public playCombatText(textObject): Promise<any> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const tween = textScaleUp(textObject, 0, -80, this.scene, () => {
         textObject.destroy();
         resolve();
@@ -134,11 +145,11 @@ export class CombatEvent {
 
   /**
    * Plays the animation for attacking
-   * @param partyMember 
-   * @param distance 
+   * @param partyMember
+   * @param distance
    */
   public playMemberAttack(partyMember, distance): Promise<any> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const tween = characterAttack(
         partyMember,
         distance,
@@ -152,20 +163,27 @@ export class CombatEvent {
     });
   }
 
-  playCombatantTakeDamage(combatant: Phaser.GameObjects.Sprite): Promise<any> {
-    return new Promise(resolve => {
+  playCombatantTakeDamage(
+    combatant: Phaser.GameObjects.Sprite,
+    isCritical?: boolean
+  ): Promise<any> {
+    return new Promise((resolve) => {
       const tween = characterDamage(combatant, 0.0, this.scene, () => {
         resolve();
       });
       tween.play();
-      const hitEffect = this.effectsRepository.getById(3);
-      hitEffect.play(combatant.x, combatant.y, this.scene, combatant.parentContainer);
-
+      const hitEffect = isCritical ? this.effectsRepository.getById(8): this.effectsRepository.getById(3);
+      hitEffect.play(
+        combatant.x,
+        combatant.y,
+        this.scene,
+        combatant.parentContainer
+      );
     });
   }
 
   playFadeUp(sprite): Promise<any> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const tween = slowScaleUp(sprite, this.scene, () => {
         resolve();
       });
@@ -176,17 +194,19 @@ export class CombatEvent {
   protected confirmTargets(targetOverride = false): Combatant[] {
     if (this.targets.length > 1) {
       // Multiple targets
-      this.targets = this.targets.filter(t => t.currentHp > 0)
+      this.targets = this.targets.filter((t) => t.currentHp > 0);
     } else {
       // Single target
-      if(targetOverride && this.targets[0]){
+      if (targetOverride && this.targets[0]) {
         this.targets = [this.targets[0]];
         return this.targets;
       }
       if (this.targets[0] && this.targets[0].currentHp <= 0) {
         const nextTargetable = this.targets[0]
           .getParty()
-          .members.find(potentialTarget => potentialTarget.entity.currentHp > 0);
+          .members.find(
+            (potentialTarget) => potentialTarget.entity.currentHp > 0
+          );
         if (nextTargetable) {
           this.targets = [nextTargetable.entity];
         }
@@ -201,7 +221,6 @@ export class CombatEvent {
   }
 }
 
-
 export class SpellCastEvent extends CombatEvent {
   /**
    * Handles the case when a player chooses to use a spell.
@@ -212,29 +231,34 @@ export class SpellCastEvent extends CombatEvent {
     type: CombatActionTypes,
     orientation: Orientation,
     scene: Phaser.Scene,
-    private spell: Spell,
+    private spell: Spell
   ) {
-    super(executor, targets, type, orientation, scene)
+    super(executor, targets, type, orientation, scene);
   }
   /**
    * Handles the case when a spell is cast.
-   * @param executor 
-   * @param target 
+   * @param executor
+   * @param target
    */
-  protected async handleSpellCast(executor: Combatant, targets: Combatant[]): Promise<any> {
-    return new Promise(async resolve => {
+  protected async handleSpellCast(
+    executor: Combatant,
+    targets: Combatant[]
+  ): Promise<any> {
+    return new Promise(async (resolve) => {
       //TODO: Handle offensive or assistive magic here;
       // Handle mana check.  Lower mana here, NOT in executor.castSpell.  Otherwise, we use mana on every iteration.
-
 
       const results: CombatResult[] = executor.castSpell(this.spell, targets);
 
       // If there were any failures
-      const allFailed = results.reduce((acc, r) => acc = r.actionType === CombatActionTypes.failure, false)
+      const allFailed = results.reduce(
+        (acc, r) => (acc = r.actionType === CombatActionTypes.failure),
+        false
+      );
       if (allFailed) {
-        results.forEach(r => {
+        results.forEach((r) => {
           const message = [
-            `${executor.name} failed to cast ${this.spell.name}`
+            `${executor.name} failed to cast ${this.spell.name}`,
           ];
           r.message = message;
         });
@@ -242,17 +266,25 @@ export class SpellCastEvent extends CombatEvent {
       }
 
       if (this.spell.primaryAnimationEffect) {
-        await this.spell.primaryAnimationEffect.play(0, 0, this.scene, targets[0].getSprite().parentContainer);
+        await this.spell.primaryAnimationEffect.play(
+          0,
+          0,
+          this.scene,
+          targets[0].getSprite().parentContainer
+        );
       }
 
-      await Promise.all(results.map(r => {
-        const targetSprite = r.target.getSprite();
-        return this.spell.animationEffect.play(
-          targetSprite.x,
-          targetSprite.y,
-          this.scene,
-          targetSprite.parentContainer)
-      }));
+      await Promise.all(
+        results.map((r) => {
+          const targetSprite = r.target.getSprite();
+          return this.spell.animationEffect.play(
+            targetSprite.x,
+            targetSprite.y,
+            this.scene,
+            targetSprite.parentContainer
+          );
+        })
+      );
       let color;
       switch (this.spell.type) {
         case SpellType.restoration:
@@ -267,17 +299,17 @@ export class SpellCastEvent extends CombatEvent {
         default:
           color = "#ffffff";
       }
-      const texts = results.map(r => this.createCombatText(
-        r.resultingValue.toString(),
-        r.target,
-        color
-      ));
+      const texts = results.map((r) =>
+        this.createCombatText(r.resultingValue.toString(), r.target, color)
+      );
 
-      await Promise.all(texts.map(t => this.playCombatText(t)));
-      results.forEach(r => {
+      await Promise.all(texts.map((t) => this.playCombatText(t)));
+      results.forEach((r) => {
         const message = [
           `${executor.name} uses the ${this.spell.name} on ${r.target.name}.  ${r.target.name} is healed for ${r.resultingValue} HP`,
-          `${r.target.name} has ${r.target.currentHp} HP out of ${r.target.getMaxHp()} left.`
+          `${r.target.name} has ${
+            r.target.currentHp
+          } HP out of ${r.target.getMaxHp()} left.`,
         ];
         r.message = message;
       });
@@ -286,12 +318,10 @@ export class SpellCastEvent extends CombatEvent {
     });
   }
 
-  protected async handleMultiSpellCast(executor: Combatant, ) {
-
-  }
+  protected async handleMultiSpellCast(executor: Combatant) {}
 
   public async executeAction(): Promise<CombatResult[]> {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       const executor = this.executor;
       const targets = this.confirmTargets();
       let results;
@@ -314,42 +344,49 @@ export class UseItemEvent extends CombatEvent {
     type: CombatActionTypes,
     orientation: Orientation,
     scene: Phaser.Scene,
-    private item: Item,
+    private item: Item
   ) {
-    super(executor, targets, type, orientation, scene)
+    super(executor, targets, type, orientation, scene);
   }
 
   /**
    * Handles the case when an item is used.
-   * @param executor 
-   * @param target 
+   * @param executor
+   * @param target
    */
-  protected async handleUseItem(executor: Combatant, targets: Combatant[]): Promise<any> {
-    return new Promise(async resolve => {
+  protected async handleUseItem(
+    executor: Combatant,
+    targets: Combatant[]
+  ): Promise<any> {
+    return new Promise(async (resolve) => {
       const results: CombatResult[] = targets[0].applyItem(this.item);
 
-      await Promise.all(targets.map(async t => {
-        const targetSprite = t.getSprite();
-        await this.item.effect.animationEffect.play(targetSprite.x, targetSprite.y, this.scene, targetSprite.parentContainer);
-      }));
+      await Promise.all(
+        targets.map(async (t) => {
+          const targetSprite = t.getSprite();
+          await this.item.effect.animationEffect.play(
+            targetSprite.x,
+            targetSprite.y,
+            this.scene,
+            targetSprite.parentContainer
+          );
+        })
+      );
 
       const { resource } = handleItemUse(targets[0], this.item);
 
-      const texts = results.map(r => this.createCombatText(
-        r.resultingValue.toString(),
-        r.target,
-        "#92e8a2"
-      ));
+      const texts = results.map((r) =>
+        this.createCombatText(r.resultingValue.toString(), r.target, "#92e8a2")
+      );
 
-      await Promise.all(texts.map(t => this.playCombatText(t)));
+      await Promise.all(texts.map((t) => this.playCombatText(t)));
 
-      results.forEach(r => {
+      results.forEach((r) => {
         const message = [
-          `${executor.name} uses the ${this.item.name} on ${r.target.name}.  ${r.target.name} restores ${r.resultingValue} ${resource}`
+          `${executor.name} uses the ${this.item.name} on ${r.target.name}.  ${r.target.name} restores ${r.resultingValue} ${resource}`,
         ];
         r.message = message;
-
-      })
+      });
 
       State.getInstance().consumeItem(this.item.id);
       return resolve(results);
@@ -357,7 +394,7 @@ export class UseItemEvent extends CombatEvent {
   }
 
   public async executeAction(): Promise<CombatResult[]> {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       const executor = this.executor;
       const targetOverride = this.item.effect.type === SpellType.revive;
       const targets = this.confirmTargets(targetOverride);
@@ -372,5 +409,4 @@ export class UseItemEvent extends CombatEvent {
       return resolve(results);
     });
   }
-
 }

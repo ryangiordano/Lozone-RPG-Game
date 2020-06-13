@@ -1,3 +1,4 @@
+import { createRandom, getRandomInt } from "./../../utility/Utility";
 import {
   IBuff,
   Behavior,
@@ -179,16 +180,28 @@ export class Combatant {
   removeSpell(spellId) {
     this.spells.delete(spellId);
   }
+
+  private rollForAttackCrit = (): boolean => {
+    const randomNumber = createRandom(100)();
+    const critChance = this.getCritChance();
+    return randomNumber < critChance;
+  };
   attackTarget(targets: Combatant[]): CombatResult[] {
-    const potency = this.getAttackPower();
+    let potency = this.getAttackPower();
+    const isCrit = this.rollForAttackCrit();
+    if (isCrit) {
+      potency = Math.round(potency * 1.7);
+    }
+    const adjustedPotency = getRandomInt(potency - 1.5, potency + 1.5);
     return targets.map((t) => {
-      const damageDone = t.receivePhysicalDamage(potency);
+      const damageDone = t.receivePhysicalDamage(adjustedPotency);
       return {
         actionType: CombatActionTypes.attack,
         executor: this,
         target: t,
         resultingValue: damageDone,
         targetDown: t.currentHp === 0,
+        critical: isCrit,
       };
     });
   }
@@ -294,7 +307,7 @@ export class Combatant {
   }
 
   public getCritChance() {
-    return this.dexterity * 0.01;
+    return this.dexterity * this.levelModifier() * 0.7;
   }
   public getModifierValue() {}
   // Ad a defense up buff that lasts one turn to yourself.

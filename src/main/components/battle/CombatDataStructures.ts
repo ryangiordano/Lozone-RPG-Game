@@ -91,6 +91,7 @@ export interface CombatResult {
   resultingValue: number;
   targetDown?: boolean;
   message?: string[];
+  critical?:boolean;
 }
 export enum CombatActionTypes {
   attack,
