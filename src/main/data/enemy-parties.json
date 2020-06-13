@@ -356,27 +356,6 @@
           "x": 0,
           "y": 2
         }
-      },
-      {
-        "entityId": 8,
-        "position": {
-          "x": 2,
-          "y": 1
-        }
-      },
-      {
-        "entityId": 8,
-        "position": {
-          "x": 2,
-          "y": 0
-        }
-      },
-      {
-        "entityId": 8,
-        "position": {
-          "x": 2,
-          "y": 2
-        }
       }
     ]
   },

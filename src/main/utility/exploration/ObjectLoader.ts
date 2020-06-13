@@ -211,22 +211,27 @@ export class MapObjectFactory {
     return npcObject;
   }
 
+  /** todo: Move the metadata to a chests.json file */
   private createChest(object) {
     const itemId = getObjectPropertyByName("itemId", object.properties);
     const flagId = getObjectPropertyByName("flagId", object.properties);
     const locked = getObjectPropertyByName("locked", object.properties);
+    const unlockItemId = getObjectPropertyByName(
+      "unlockItemId",
+      object.properties
+    );
     const chest = new Chest(
       {
         scene: this.scene,
         x: object.x + 32,
         y: object.y + 32,
         properties: {
-          id: flagId,
-          itemId: itemId,
+          flagId,
+          itemId,
           type: EntityTypes.chest,
         },
       },
-      locked && 6
+      locked && unlockItemId
     );
     if (this.stateManager.isFlagged(flagId)) {
       chest.setOpen();

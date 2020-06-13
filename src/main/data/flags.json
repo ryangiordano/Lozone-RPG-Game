@@ -162,22 +162,10 @@
         "flagged": false
     },
     "29": {
-        "name": "xiwan-item-switch",
-        "description": "Placed the orb of xiwan into the palantyr",
+        "name": "locked chest",
+        "description": "Locked chest on the first floor dungeon",
         "type": 0,
-        "flagged": true
-    },
-    "30": {
-        "name": "neiku-item-switch",
-        "description": "Placed the orb of neiku into the palantyr",
-        "type": 0,
-        "flagged": true
-    },
-    "31": {
-        "name": "huashao-item-switch",
-        "description": "Placed the orb of huashao into the palantyr",
-        "type": 0,
-        "flagged": true
+        "flagged": false
     },
 
     "300": {
@@ -186,6 +174,25 @@
         "type": 0,
         "flagged": false
     },
+    "301": {
+        "name": "xiwan-item-switch",
+        "description": "Placed the orb of xiwan into the palantyr",
+        "type": 0,
+        "flagged": false
+    },
+    "302": {
+        "name": "neiku-item-switch",
+        "description": "Placed the orb of neiku into the palantyr",
+        "type": 0,
+        "flagged": false
+    },
+    "303": {
+        "name": "huashao-item-switch",
+        "description": "Placed the orb of huashao into the palantyr",
+        "type": 0,
+        "flagged": false
+    },
+
     "500": {
         "name": "pick up catshape key",
         "description": "Flag for picking up the catshape key",

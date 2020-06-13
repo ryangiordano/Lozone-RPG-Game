@@ -1,6 +1,6 @@
 {
   "1": {
-    "name": "snake",
+    "name": "python",
     "spriteKey": "snake",
     "maxHp": 40,
     "maxMp": 10,
@@ -9,7 +9,7 @@
     "dexterity": 10,
     "wisdom": 2,
     "stamina": 3,
-    "strength": 4,
+    "strength": 12,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
@@ -82,17 +82,9 @@
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
-        "rate": 0.2,
-        "itemId": 1
-      }, {
-        "rate": 1,
-        "itemId": 6
-      },
-      {
-        "rate": 1,
-        "itemId": 7
-      }
-    ],
+      "rate": 0.2,
+      "itemId": 1
+    }],
     "goldValue": 44,
     "experiencePoints": 40
   },
@@ -147,12 +139,12 @@
     "spriteKey": "poop-machine",
     "maxHp": 100,
     "maxMp": 10,
-    "level": 3,
+    "level": 4,
     "intellect": 2,
     "dexterity": 8,
     "wisdom": 2,
     "stamina": 3,
-    "strength": 12,
+    "strength": 10,
     "physicalResist": 1,
     "magicalResist": 1,
     "lootTable": [{
@@ -192,7 +184,7 @@
     "experiencePoints": 20
   },
   "9": {
-    "name": "gold-drop",
+    "name": "gold-poopie",
     "spriteKey": "gold-drop",
     "maxHp": 10,
     "maxMp": 10,
@@ -233,7 +225,7 @@
     "experiencePoints": 15
   },
   "10": {
-    "name": "silver-drop",
+    "name": "silver-poopie",
     "spriteKey": "silver-drop",
     "maxHp": 10,
     "maxMp": 10,

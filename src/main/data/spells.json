@@ -20,7 +20,7 @@
     "primaryAnimationEffect":null,
     "animationEffect": 1,
     "description": "Heals for a decent amount.",
-    "basePotency": 20,
+    "basePotency": 10,
     "type":0,
     "manaCost": 20,
     "targetType": {
@@ -35,7 +35,7 @@
     "primaryAnimationEffect":null,
     "animationEffect": 1,
     "description": "Heals for a significant amount.",
-    "basePotency": 30,
+    "basePotency": 15,
     "type":0,
     "manaCost": 50,
     "targetType": {
@@ -52,7 +52,7 @@
     "description": "Does a small amount of damage",
     "basePotency": 10,
     "type":1,
-    "manaCost": 5,
+    "manaCost": 10,
     "targetType": {
       "targeting": 1,
       "targetArea": 0
@@ -67,7 +67,7 @@
     "description": "Does a small amount of damage to all enemies",
     "basePotency": 7,
     "type":1,
-    "manaCost": 13,
+    "manaCost": 30,
     "targetType": {
       "targeting": 1,
       "targetArea": 1

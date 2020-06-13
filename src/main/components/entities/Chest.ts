@@ -28,7 +28,7 @@ export class Chest extends Entity {
       //TODO: Fix this so that it refers to class body variables and not properties
       await collectItem(
         this.properties["itemId"],
-        this.properties["id"],
+        this.properties["flagId"],
         this.scene,
         this.x,
         this.y
