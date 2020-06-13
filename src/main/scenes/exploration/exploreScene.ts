@@ -209,6 +209,7 @@ export abstract class Explore extends Phaser.Scene {
         if (cast.caster.entityType !== EntityTypes.player) return false;
 
         this.player.controllable.setDisabled(true);
+        this.input.keyboard.resetKeys();
         // TODO: Do a check to make sure the cast's castType === the entity's triggeringCastType
         if (interactive.entityType === EntityTypes.bossMonster) {
           await displayMessage(
