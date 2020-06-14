@@ -40,19 +40,22 @@ export class PartyItemUseMenuContainer extends PartyMenuContainer {
     const potency = this.entity.effectPotency * this.entity.effect.basePotency;
     const state = State.getInstance();
 
-    // This isn't working TODO
     if (!state.playerHasItem(this.entity.id)) {
       this.partyMessagePanel.displayMessage(
         `You have no ${this.entity.name} left!`
       );
       return;
     }
-
-    const { resourceFull, resourceRecoverFunction, resource } = handleItemUse(
-      partyMember,
-      this.entity
-    );
-
+    const {
+      resourceFull,
+      resourceRecoverFunction,
+      resource,
+      error,
+    } = handleItemUse(partyMember, this.entity);
+    if (error) {
+      this.partyMessagePanel.displayMessage(error.message);
+      return;
+    }
     if (!resourceFull) {
       state.consumeItem(this.entity.id);
 
@@ -70,7 +73,6 @@ export class PartyItemUseMenuContainer extends PartyMenuContainer {
         `${partyMember.name} already has full ${resource}!`
       );
     }
-    return;
   }
 
   protected focusMessage(focusedMember) {

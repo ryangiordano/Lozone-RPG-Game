@@ -1,4 +1,4 @@
-import { Spell } from "../battle/CombatDataStructures";
+import { Spell, Status } from "../battle/CombatDataStructures";
 import { Combatant } from "../battle/Combatant";
 import { SpellType } from "../../data/repositories/SpellRepository";
 
@@ -74,11 +74,17 @@ export class Item {
   }
 }
 
+type ItemUseError = {
+  message?: string;
+  valid?: boolean;
+};
+
 type ItemUseObject = {
   resource: string;
   resourceFull: boolean;
   resourceRecoverFunction: Function;
   item: Item;
+  error?: ItemUseError;
 };
 
 /**
@@ -93,13 +99,24 @@ export const handleItemUse = (target: Combatant, item: Item): ItemUseObject => {
   let resource;
   let resourceFull;
   let resourceRecoverFunction;
+  let error;
   switch (item.effect.type) {
     case SpellType.manaRecover:
+      if (target.status.has(Status.fainted)) {
+        error = {
+          message: `${target.name} is fainted.`,
+        };
+      }
       resource = "MP";
       resourceFull = target.currentMp >= target.getMaxMp();
       resourceRecoverFunction = target.recoverManaFor;
       break;
     case SpellType.restoration:
+      if (target.status.has(Status.fainted)) {
+        error = {
+          message: `${target.name} is fainted.`,
+        };
+      }
       resource = "HP";
       resourceFull = target.currentHp >= target.getMaxHp();
       resourceRecoverFunction = target.healFor;
@@ -117,5 +134,6 @@ export const handleItemUse = (target: Combatant, item: Item): ItemUseObject => {
     resource,
     resourceFull,
     resourceRecoverFunction,
+    error,
   };
 };
