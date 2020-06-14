@@ -60,7 +60,7 @@ export class MenuScene extends Phaser.Scene {
   // ===================================
   private createAndSetUpMainPanel() {
     const mainPanel = new MainPanel(
-      { x: 4, y: 6 },
+      { x: 4, y: 3 },
       { x: 0, y: 0 },
       "dialog-white",
       this
@@ -125,6 +125,37 @@ export class MenuScene extends Phaser.Scene {
     });
     return itemPanel;
   }
+
+  // private createTreasurePanel(){
+  //   const itemPanel = new ItemPanel(
+  //     { x: 6, y: 6 },
+  //     { x: 4, y: 0 },
+  //     "dialog-white",
+  //     this,
+  //     this.state.getTreasureOnPlayer(),
+  //     ItemCategory.consumable
+  //   );
+
+  //   this.UI.addPanel(itemPanel);
+
+  //   itemPanel.on("item-focused", (item) => {
+  //     itemPanel.updateDisplay(item);
+  //   });
+
+  //   const itemDetailPanel = new PanelContainer(
+  //     { x: 6, y: 3 },
+  //     { x: 4, y: 6 },
+  //     "dialog-white",
+  //     this
+  //   );
+  //   itemPanel.addChildPanel("item-detail", itemDetailPanel);
+  //   itemPanel.on("panel-close", () => {
+  //     this.UI.closePanel(itemPanel);
+  //   });
+  //   return itemPanel;
+  // }
+
+
 
   private createKeyItemPanel() {
     const keyItemPanel = new ItemPanel(

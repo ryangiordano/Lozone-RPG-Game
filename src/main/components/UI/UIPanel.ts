@@ -25,12 +25,73 @@ export class UIPanel extends PanelContainer implements HasOptions {
     return 1;
   }
 
+  private optionsPerPage() {
+    if (this.options.length) {
+      return Math.ceil(this.panel.height / this.options[0].height);
+    }
+    return 1;
+  }
+
+  private buildPages() {
+    return this.options.reduce((acc, p) => {
+      if (
+        acc.length <= 0 ||
+        acc[acc.length - 1].length >= this.optionsPerPage()
+      ) {
+        acc.push([p]);
+      } else {
+        acc[acc.length - 1].push(p);
+      }
+      return acc;
+    }, []);
+  }
+  private pages: DialogListItem[][];
+  private currentPageIndex: number = 0;
+  private renderPage() {
+    let toAdd = this.pages[this.currentPageIndex];
+    let lastPlacement = 20;
+    toAdd.forEach((o, i) => {
+      o.y = i > 0 ? lastPlacement + 40 : lastPlacement;
+      lastPlacement = o.y;
+      this.add(o);
+    });
+  }
+  private getcurrentPage() {
+    return this.pages[this.currentPageIndex];
+  }
+  private showNextPage() {
+    this.currentPageIndex = Math.min(
+      this.currentPageIndex + 1,
+      this.pages.length - 1
+    );
+    this.setVisibilityByCurrentPage();
+    this.renderPage();
+    this.focusOption(0);
+    this.setCaret();
+  }
+  private showPreviousPage() {
+    this.currentPageIndex = Math.max(this.currentPageIndex - 1, 0);
+    this.setVisibilityByCurrentPage();
+    this.renderPage();
+    this.focusOption(this.getcurrentPage().length - 1);
+    this.setCaret();
+  }
+
+  private setVisibilityByCurrentPage() {
+    this.pages.forEach((p, i) => {
+      p.forEach((x) => x.setVisible(i === this.currentPageIndex));
+    });
+  }
+
   public show() {
     this.createCaret();
+    this.pages = this.buildPages();
+    this.setVisibilityByCurrentPage();
+
     this.setCaret();
     this.bringToTop(this.caret);
     this.visible = true;
-    this.readjustOptionsForWindow();
+    this.renderPage();
     this.showChildren();
     this.focusOption(0);
   }
@@ -108,12 +169,9 @@ export class UIPanel extends PanelContainer implements HasOptions {
   }
 
   public focusOption(index: number) {
-    this.options.forEach((option, i) => {
+    this.getcurrentPage().forEach((option, i) => {
       if (i === index) {
         this.focusedIndex = i;
-        if (this.options.length > this.getNumberOfVisibleOptions()) {
-          this.readjustOptionsForWindow();
-        }
         option.focused = true;
         option.focus();
       } else {
@@ -122,26 +180,43 @@ export class UIPanel extends PanelContainer implements HasOptions {
     });
     this.setCaret();
   }
+  public getFocusIndex() {
+    const current = this.getcurrentPage().find((opt) => opt.focused);
+    return this.getcurrentPage().findIndex((opt) => opt === current);
+  }
 
   public focusNextOption() {
     const index = this.getFocusIndex();
-    const toFocus = index >= this.options.length - 1 ? 0 : index + 1;
-    this.focusOption(toFocus);
-  }
+    /** If we're at the bottom of the list */
+    if (index + 1 > this.getcurrentPage().length - 1) {
+      /** If we're on the last page, do nothing */
+      if (this.currentPageIndex === this.pages.length - 1) {
+        return;
+      }
+      return this.showNextPage();
+    }
 
-  public getFocusIndex() {
-    const current = this.options.find((opt) => opt.focused);
-    return this.options.findIndex((opt) => opt === current);
+    const toFocus =
+      index >= this.getcurrentPage().length - 1 ? index : index + 1;
+    this.focusOption(toFocus);
   }
 
   public focusPreviousOption() {
     const index = this.getFocusIndex();
-    const toFocus = index <= 0 ? this.options.length - 1 : index - 1;
+    /**If we're at the top of the list */
+    if (index - 1 < 0) {
+      /** If we're on the first page, do nothing */
+      if (this.currentPageIndex === 0) {
+        return;
+      }
+      return this.showPreviousPage();
+    }
+    const toFocus = index <= 0 ? this.getcurrentPage().length - 1 : index - 1;
     this.focusOption(toFocus);
   }
 
   public getFocusedOption() {
-    const option = this.options.find((opt) => opt.focused);
+    const option = this.getcurrentPage().find((opt) => opt.focused);
     if (option) {
       return option;
     }
