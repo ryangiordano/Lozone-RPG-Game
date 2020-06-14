@@ -11,13 +11,6 @@
         "entityId": 1,
         "position": {
           "x": 0,
-          "y": 1
-        }
-      },
-      {
-        "entityId": 1,
-        "position": {
-          "x": 0,
           "y": 2
         }
       },
