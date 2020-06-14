@@ -167,7 +167,12 @@
         "type": 0,
         "flagged": false
     },
-
+    "30": {
+        "name": "test switch",
+        "description": "Test switch in the house",
+        "type": 0,
+        "flagged": true
+    },
     "300": {
         "name": "party",
         "description": "Ryan joins the party",

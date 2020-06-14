@@ -11,7 +11,7 @@
     "category": "item-switch",
     "sound": "chest",
     "color": "0x6DA6C9",
-    "invalidDialogId": 38,
+    "defaultDialogId": 38,
     "activateDialogId": 39,
     "validDialogId": 40
   },
@@ -26,7 +26,7 @@
     "category": "item-switch",
     "sound": "chest",
     "color": "0xBC5D5D",
-    "invalidDialogId": 38,
+    "defaultDialogId": 38,
     "activateDialogId": 39,
     "validDialogId": 40
   },
@@ -41,7 +41,7 @@
     "category": "item-switch",
     "sound": "chest",
     "color": "0x8EC96D",
-    "invalidDialogId": 38,
+    "defaultDialogId": 38,
     "activateDialogId": 39,
     "validDialogId": 40
 

@@ -11,6 +11,8 @@ import { Warp, WarpTrigger, Spawn } from "../../components/entities/Warp";
 import { Chest } from "../../components/entities/Chest";
 import { LockedDoor } from "../../components/entities/LockedDoor";
 import { KeyItem } from "../../components/entities/KeyItem";
+import { Block } from "../../components/entities/Block";
+import { Switcher } from "../../components/entities/Switchable";
 
 interface MapObject {}
 
@@ -55,6 +57,16 @@ export class MapObjectFactory {
       if (object.type === "interactive-object") {
         const interactive = this.createInteractiveObject(object);
         exploreData.interactives.push(interactive);
+      }
+
+      if (object.type === "block") {
+        const block = this.createBlock(object);
+        exploreData.interactives.push(block);
+      }
+
+      if (object.type === "switch") {
+        const switchObject = this.createSwitch(object);
+        exploreData.interactives.push(switchObject);
       }
 
       // ===================================
@@ -145,6 +157,35 @@ export class MapObjectFactory {
         interactiveObject
       );
     }
+  }
+
+  /** Multi-use switches that flip flag state */
+  private createSwitch(object) {
+    const flagId = getObjectPropertyByName("flagId", object.properties);
+
+    return new Switcher(
+      {
+        scene: this.scene,
+        x: object.x + 32,
+        y: object.y + 32,
+      },
+      flagId
+    );
+  }
+
+  /** Blocks that change position depending on flag state */
+  private createBlock(object) {
+    const flagId = getObjectPropertyByName("flagId", object.properties);
+    const erect = this.stateManager.allAreFlagged([flagId]);
+    return new Block(
+      {
+        scene: this.scene,
+        x: object.x + 32,
+        y: object.y + 32,
+      },
+      flagId,
+      erect
+    );
   }
 
   private createWarp(object, isWarpTile) {
@@ -259,12 +300,8 @@ export class MapObjectFactory {
           scene: this.scene,
           x: object.x + 32,
           y: object.y + 32,
-          map: this.scene.map,
-          properties: {
-            id: flagId,
-            type: EntityTypes.door,
-          },
         },
+        flagId,
         keyItem || 7,
         lockMessage || object.lockMessage,
         unlockMessage || object.unlockMessage

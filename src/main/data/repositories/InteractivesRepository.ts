@@ -14,7 +14,7 @@ export interface InteractiveDTO {
   sound: string;
   color: string;
   flagId: number;
-  invalidDialogId: number;
+  defaultDialogId: number;
   activateDialogId: number;
   validDialogId: number;
 }

@@ -7,13 +7,13 @@ import { EffectsRepository } from "../../data/repositories/EffectRepository";
  */
 export class LockedDoor extends Entity {
   constructor(
-    { scene, x, y, map, properties },
+    { scene, x, y },
+    public flagId: number,
     public unlockItemId: number,
     public lockMessage = `It's locked tight.`,
     public unlockMessage = `The door clicks open!`
   ) {
     super({ scene, x, y, key: "door" });
-    this.properties = properties;
     this.entityType = EntityTypes.door;
   }
   public unlock() {

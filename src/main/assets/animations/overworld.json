@@ -1,12 +1,32 @@
 {
   "anims": [{
-    "key": "warp-tile",
-    "frames": {
-      "typeOfGeneration": 1,
-      "frames": [0, 1, 2, 1],
-      "key": "warp-tile"
+      "key": "warp-tile",
+      "frames": {
+        "typeOfGeneration": 1,
+        "frames": [0, 1, 2, 1],
+        "key": "warp-tile"
+      },
+      "repeat": -1,
+      "frameRate": 9
+    }, {
+      "key": "block-down",
+      "frames": {
+        "typeOfGeneration": 1,
+        "frames": [0, 1, 2, 3, 4],
+        "key": "block"
+      },
+      "repeat": 0,
+      "frameRate":20
     },
-    "repeat": -1,
-    "frameRate": 9
-  }]
+    {
+      "key": "block-up",
+      "frames": {
+        "typeOfGeneration": 1,
+        "frames": [4, 3, 2, 1, 0],
+        "key": "block"
+      },
+      "repeat": 0,
+      "frameRate":20
+    }
+  ]
 }

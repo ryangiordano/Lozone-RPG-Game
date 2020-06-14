@@ -898,6 +898,108 @@
                  "width":64,
                  "x":1920,
                  "y":2304
+                }, 
+                {
+                 "height":64,
+                 "id":87,
+                 "name":"test-switch",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":30
+                        }],
+                 "rotation":0,
+                 "type":"switch",
+                 "visible":true,
+                 "width":64,
+                 "x":1152,
+                 "y":1152
+                }, 
+                {
+                 "height":64,
+                 "id":88,
+                 "name":"test-block",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":30
+                        }],
+                 "rotation":0,
+                 "type":"block",
+                 "visible":true,
+                 "width":64,
+                 "x":1024,
+                 "y":896
+                }, 
+                {
+                 "height":64,
+                 "id":89,
+                 "name":"test-block",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":30
+                        }],
+                 "rotation":0,
+                 "type":"block",
+                 "visible":true,
+                 "width":64,
+                 "x":1024,
+                 "y":832
+                }, 
+                {
+                 "height":64,
+                 "id":92,
+                 "name":"test-block",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":30
+                        }],
+                 "rotation":0,
+                 "type":"block",
+                 "visible":true,
+                 "width":64,
+                 "x":1088,
+                 "y":960
+                }, 
+                {
+                 "height":64,
+                 "id":93,
+                 "name":"test-block",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":30
+                        }],
+                 "rotation":0,
+                 "type":"block",
+                 "visible":true,
+                 "width":64,
+                 "x":1152,
+                 "y":960
+                }, 
+                {
+                 "height":64,
+                 "id":94,
+                 "name":"test-block",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":30
+                        }],
+                 "rotation":0,
+                 "type":"block",
+                 "visible":true,
+                 "width":64,
+                 "x":1024,
+                 "y":960
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -906,7 +1008,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":87,
+ "nextobjectid":95,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",

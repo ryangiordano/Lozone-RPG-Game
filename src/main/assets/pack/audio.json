@@ -159,6 +159,16 @@
         "type": "audio",
         "key": "critical-hit",
         "url": "./src/main/assets/sounds/critical-hit.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "erect",
+        "url": "./src/main/assets/sounds/erect.wav"
+      },
+      {
+        "type": "audio",
+        "key": "flaccid",
+        "url": "./src/main/assets/sounds/flaccid.wav"
       }
     ]
   }

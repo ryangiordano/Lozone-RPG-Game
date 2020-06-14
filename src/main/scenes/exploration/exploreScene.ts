@@ -146,6 +146,13 @@ export abstract class Explore extends Phaser.Scene {
       const entity = <Entity>child;
       const sm = State.getInstance();
 
+      //TODO: We need to clean up this code and make it more in line with OO principles.
+      if (entity.entityType === EntityTypes.block) {
+        const erect = sm.allAreFlagged([entity.flagId]);
+        entity["setErect"](erect);
+        return;
+      }
+
       if (
         entity.entityType === EntityTypes.warp ||
         entity.entityType === EntityTypes.keyItem
@@ -203,6 +210,10 @@ export abstract class Explore extends Phaser.Scene {
         };
         // Ensures we're not touching ourselves.  Gross.
         if (cast.caster === interactive) return false;
+        if (interactive.entityType === EntityTypes.block) {
+          cast.destroy();
+          return;
+        }
 
         cast.emit("resolve", { castedOn: interactive, caster: cast.caster });
         // Ensures that only the player can trigger entities when querying.
@@ -283,6 +294,11 @@ export abstract class Explore extends Phaser.Scene {
             );
           }
         }
+
+        if (interactive.entityType === EntityTypes.switch) {
+          interactive.flip();
+          destroyCastAndRefresh();
+        }
         this.player.controllable.setDisabled(false);
       }
     );
@@ -314,7 +330,7 @@ export abstract class Explore extends Phaser.Scene {
     const sm = State.getInstance();
     const keyItem = sm.getItemOnPlayer(interactive.unlockItemId);
     if (keyItem) {
-      sm.setFlag(interactive.properties.id, true);
+      sm.setFlag(interactive.flagId, true);
       await interactive.unlock();
       await displayMessage([interactive.unlockMessage], this.game, this.scene);
       return;

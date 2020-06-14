@@ -1,7 +1,5 @@
-import { State } from "../../utility/state/State";
 import { createThrottle } from "../../utility/Utility";
 import { Cast, CastType, CastData } from "./Cast";
-import { AudioScene } from "../../scenes/audioScene";
 
 export enum EntityTypes {
   npc,
@@ -15,6 +13,8 @@ export enum EntityTypes {
   door,
   player,
   itemSwitch,
+  switch,
+  block
 }
 
 /**

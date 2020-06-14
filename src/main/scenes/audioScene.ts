@@ -8,6 +8,7 @@ interface BGMObject {
 export abstract class AudioScene extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap;
   private bgm: any[] = [];
+  private sounds: any[] = [];
   constructor(key) {
     super({
       key: key || "Audio",
@@ -82,10 +83,19 @@ export abstract class AudioScene extends Phaser.Scene {
     return bgm && bgm.music.isPlaying;
   }
 
-  init(data) {
-    // Specify the tileset you want to use based on the data passed to the scene.
-  }
+  init(data) {}
+
   playSound(soundName: string, volume = 0.3) {
-    this.sound.play(soundName, { volume });
+    const s = this.sounds.find((s) => s.key === soundName);
+    if (s) {
+      if (!s.sound.isPlaying) {
+        s.sound.play(null, { volume });
+      }
+    } else {
+      const newSound = this.sound.add(soundName, { volume });
+      this.sounds.push({ key: soundName, sound: newSound });
+
+      newSound.play(null, { volume });
+    }
   }
 }

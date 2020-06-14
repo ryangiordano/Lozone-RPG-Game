@@ -26,7 +26,7 @@ export interface Interactive {
   /** The flag to be flipped when the item is activated */
   flagId: number;
   /** The dialog to display when the switch is inactive */
-  invalidDialog: Dialog;
+  defaultDialog: Dialog;
   /** The dialog to display when the switch is activated */
   activateDialog: Dialog;
   /** The dialog to display when the switch is active */
@@ -41,19 +41,19 @@ export class InteractivesController {
   }
   private buildInterative(interactiveDTO: InteractiveDTO): Interactive {
     const {
-      invalidDialogId,
+      defaultDialogId,
       activateDialogId,
       validDialogId,
       ...restInteractive
     } = interactiveDTO;
     const i: Interactive = {
       ...restInteractive,
-      invalidDialog: null,
+      defaultDialog: null,
       activateDialog: null,
       validDialog: null,
     };
-    i.invalidDialog = this.dialogRepository.getDialogById(
-      interactiveDTO.invalidDialogId
+    i.defaultDialog = this.dialogRepository.getDialogById(
+      interactiveDTO.defaultDialogId
     );
     i.activateDialog = this.dialogRepository.getDialogById(
       interactiveDTO.activateDialogId

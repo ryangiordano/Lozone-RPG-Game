@@ -121,5 +121,26 @@
         ],
         "encounterId": 702
 
+    },
+    "5": {
+        "name": "Dave",
+        "spriteKey": "dave",
+        "description": "It's just dave.",
+        "interaction": [{
+            "id": 1,
+            "flags": []
+
+        }],
+        "dialog": [{
+            "id": 41,
+            "flags": [],
+            "default": true
+        }],
+        "placement": [{
+            "x": 576,
+            "y": 384,
+            "default": true,
+            "flags": []
+        }]
     }
 }
