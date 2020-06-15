@@ -307,7 +307,7 @@ export class Combatant {
   }
 
   public getCritChance() {
-    return this.dexterity * this.levelModifier() * 0.7;
+    return Math.min(this.dexterity * this.levelModifier() * 0.7, 33);
   }
   public getModifierValue() {}
   // Ad a defense up buff that lasts one turn to yourself.

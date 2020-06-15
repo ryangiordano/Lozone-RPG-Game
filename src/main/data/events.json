@@ -18,7 +18,7 @@
       {
         "type": "dialog",
         "async": false,
-        "content": ["Come, my xiao bao...", "...", "There's something I want to show you."]
+        "content": ["...", "I love you more than anything.", "Come, my xiao bao...", "there's something I want to show you."]
       },
       {
         "type": "wait",

@@ -325,8 +325,8 @@ export abstract class Explore extends Phaser.Scene {
   }
 
   protected async handleWarp(interactive) {
-    if (interactive.properties.event) {
-      this.playEvent(interactive.properties.event);
+    if (interactive.event) {
+      this.playEvent(interactive.event);
     } else {
       const warp = this.warpUtility.getWarp(interactive.warpId);
       this.warpUtility.warpTo(warp.warpDestId);

@@ -10,5 +10,23 @@
     "description": "red circuit for the first dungeon",
     "flagId": 33,
     "color": "0xEC7171"
+  },
+  "3": {
+    "name": "yellow circuit first dungeon",
+    "description": "yellow circuit for the first dungeon",
+    "flagId": 51,
+    "color": "0xD6D252"
+  },
+  "4": {
+    "name": "purple circuit first dungeon",
+    "description": "purple circuit for the first dungeon",
+    "flagId": 52,
+    "color": "0xD9A2EF"
+  },
+  "5": {
+    "name": "green circuit first dungeon",
+    "description": "green circuit for the first dungeon",
+    "flagId": 53,
+    "color": "0x8EC96D"
   }
 }

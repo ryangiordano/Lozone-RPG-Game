@@ -25,14 +25,14 @@
         "name": "Dungeon_1_2",
         "scene": "Dungeon",
         "tileset": "dungeon",
-        "map": "dungeon_1",
+        "map": "dungeon_2",
         "enemyPartyIds": [3, 7, 8, 4, 9, 6]
     },
     "6": {
         "name": "Dungeon_boss_chambers",
         "scene": "Dungeon",
         "tileset": "dungeon",
-        "map": "dungeon_1",
+        "map": "dungeon_2",
         "enemyPartyIds": null
     }
 }

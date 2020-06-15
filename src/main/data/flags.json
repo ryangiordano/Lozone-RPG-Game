@@ -209,6 +209,108 @@
         "type": 0,
         "flagged": false
     },
+    "37": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "38": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "39": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "40": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "41": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "42": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "43": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "44": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "45": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "46": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "47": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "48": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "49": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "50": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "51": {
+        "name": "circuit",
+        "description": "Flag for yellow circuits",
+        "type": 0,
+        "flagged": true
+    },
+    "52": {
+        "name": "circuit",
+        "description": "Flag for purple circuits",
+        "type": 0,
+        "flagged": true
+    },
+    "53": {
+        "name": "circuit",
+        "description": "Flag for green circuits",
+        "type": 0,
+        "flagged": true
+    },
     "300": {
         "name": "party",
         "description": "Ryan joins the party",
