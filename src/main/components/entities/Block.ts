@@ -1,18 +1,30 @@
+import { CircuitController } from "./../../data/controllers/CircuitController";
 import { EntityTypes } from "./Entity";
 import { Interactive } from "../../data/controllers/InteractivesController";
 import { State } from "../../utility/state/State";
 import { Switchable } from "./Switchable";
 import { AudioScene } from "../../scenes/audioScene";
+import { Circuit } from "../../data/repositories/CircuitRepository";
 
 /**
  * An block with a blocking state and a passthrough state
  */
 export class Block extends Switchable {
-  constructor({ scene, x, y }, flagId, public erect: boolean = false) {
-    super({ scene, x, y }, flagId, "block", 0, 4, ["A happy lil block!"]);
+  constructor(
+    { scene, x, y },
+    public erect: boolean = false,
+    private circuit: Circuit
+  ) {
+    super({ scene, x, y }, null, "block", 0, 4, ["A happy lil block!"]);
     this.entityType = EntityTypes.block;
+    this.setTint(circuit.color);
     this.setFrame(erect ? this.activeFrame : this.inactiveFrame);
     this.setCollideOnTileBelowFoot(erect);
+  }
+
+  public circuitIsActive() {
+    const cc = new CircuitController(this.scene.game);
+    return cc.circuitIsActive(this.circuit.id);
   }
 
   setRetracted() {

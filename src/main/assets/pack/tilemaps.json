@@ -15,6 +15,11 @@
         "type": "tilemapTiledJSON",
         "key": "dungeon_1",
         "url": "./src/main/assets/maps/dungeons/dungeon_1/dungeon_1.json"
+      },
+      {
+        "type": "tilemapTiledJSON",
+        "key": "dungeon_2",
+        "url": "./src/main/assets/maps/dungeons/dungeon_1/dungeon_2.json"
       }
     ]
   }

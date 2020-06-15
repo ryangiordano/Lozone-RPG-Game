@@ -6,14 +6,11 @@ import { State } from "../../utility/state/State";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { WarpUtility } from "../../utility/exploration/Warp";
 import { MapObjectFactory } from "../../utility/exploration/ObjectLoader";
-import { textScaleUp } from "../../utility/tweens/text";
-import { Item } from "../../components/entities/Item";
 import { sceneFadeIn, battleZoom } from "../camera";
 import { AudioScene } from "../audioScene";
 import { WarpTrigger, Spawn } from "../../components/entities/Warp";
 import { displayMessage } from "../dialogScene";
 import { EventsController } from "../../data/controllers/EventsController";
-import { animateItemAbove } from "../../utility/AnimationEffects/item-collect";
 
 export abstract class Explore extends Phaser.Scene {
   public map: Phaser.Tilemaps.Tilemap;
@@ -34,17 +31,6 @@ export abstract class Explore extends Phaser.Scene {
       key: key || "Explore",
     });
   }
-
-  // gbFadeIn(callback = null) {
-  //   const alpha = this.cameras.main.alpha;
-  //   const camera = this.cameras.main;
-  //   if (alpha < 1) {
-  //     setTimeout(() => {
-  //       camera.alpha = alpha + 0.25;
-  //       this.gbFadeIn(callback);
-  //     }, 150);
-  //   }
-  // }
 
   async init(data) {
     sceneFadeIn(this.cameras.main);
@@ -148,7 +134,7 @@ export abstract class Explore extends Phaser.Scene {
 
       //TODO: We need to clean up this code and make it more in line with OO principles.
       if (entity.entityType === EntityTypes.block) {
-        const erect = sm.allAreFlagged([entity.flagId]);
+        const erect = entity["circuitIsActive"]();
         entity["setErect"](erect);
         return;
       }
@@ -356,6 +342,8 @@ export abstract class Explore extends Phaser.Scene {
       "foreground",
       this.tileset
     );
+    console.log(this.backgroundLayer);
+    console.log(this.foregroundLayer);
     this.backgroundLayer.setName("background");
     this.foregroundLayer.setName("foreground");
   }

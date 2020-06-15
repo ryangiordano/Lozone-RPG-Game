@@ -13,6 +13,7 @@ import { LockedDoor } from "../../components/entities/LockedDoor";
 import { KeyItem } from "../../components/entities/KeyItem";
 import { Block } from "../../components/entities/Block";
 import { Switcher } from "../../components/entities/Switchable";
+import { CircuitController } from "../../data/controllers/CircuitController";
 
 interface MapObject {}
 
@@ -161,30 +162,33 @@ export class MapObjectFactory {
 
   /** Multi-use switches that flip flag state */
   private createSwitch(object) {
-    const flagId = getObjectPropertyByName("flagId", object.properties);
-
+    const circuitId = getObjectPropertyByName("circuitId", object.properties);
+    const cc = new CircuitController(this.scene.game);
+    const circuit = cc.getCircuitById(circuitId);
     return new Switcher(
       {
         scene: this.scene,
         x: object.x + 32,
         y: object.y + 32,
       },
-      flagId
+      circuit
     );
   }
 
   /** Blocks that change position depending on flag state */
   private createBlock(object) {
-    const flagId = getObjectPropertyByName("flagId", object.properties);
-    const erect = this.stateManager.allAreFlagged([flagId]);
+    const circuitId = getObjectPropertyByName("circuitId", object.properties);
+    const cc = new CircuitController(this.scene.game);
+    const circuit = cc.getCircuitById(circuitId);
+    const erect = cc.circuitIsActive(circuit.id);
     return new Block(
       {
         scene: this.scene,
         x: object.x + 32,
         y: object.y + 32,
       },
-      flagId,
-      erect
+      erect,
+      circuit
     );
   }
 

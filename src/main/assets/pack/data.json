@@ -69,6 +69,11 @@
         "type": "json",
         "key": "events",
         "url": "./src/main/data/events.json"
+      },
+      {
+        "type": "json",
+        "key": "circuits",
+        "url": "./src/main/data/circuits.json"
       }
     ]
   }

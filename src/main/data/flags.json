@@ -168,10 +168,46 @@
         "flagged": false
     },
     "30": {
-        "name": "test switch",
-        "description": "Test switch in the house",
+        "name": "Blue circuit",
+        "description": "Flag signifying whether the blue circuit has power",
         "type": 0,
         "flagged": true
+    },
+    "31": {
+        "name": "chest",
+        "description": "Chest that contains a key for unlocking a regular door",
+        "type": 0,
+        "flagged": false
+    },
+    "32": {
+        "name": "chest",
+        "description": "Chest that contains a golden key",
+        "type": 0,
+        "flagged": false
+    },
+    "33": {
+        "name": "Red circuit",
+        "description": "Flag signifying whether the red circuit has power",
+        "type": 0,
+        "flagged": true
+    },
+    "34": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "35": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "36": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
     },
     "300": {
         "name": "party",

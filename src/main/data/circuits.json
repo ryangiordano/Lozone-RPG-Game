@@ -1,0 +1,14 @@
+{
+  "1": {
+    "name": "blue circuit first dungeon",
+    "description": "Blue circuit for the first dungeon",
+    "flagId": 30,
+    "color": "0x99CCFF"
+  },
+  "2": {
+    "name": "red circuit first dungeon",
+    "description": "red circuit for the first dungeon",
+    "flagId": 33,
+    "color": "0xEC7171"
+  }
+}
