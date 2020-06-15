@@ -342,8 +342,6 @@ export abstract class Explore extends Phaser.Scene {
       "foreground",
       this.tileset
     );
-    console.log(this.backgroundLayer);
-    console.log(this.foregroundLayer);
     this.backgroundLayer.setName("background");
     this.foregroundLayer.setName("foreground");
   }
