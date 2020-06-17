@@ -1,0 +1,289 @@
+{
+  "1-e": {
+    "name": "Sword",
+    "description": "A longsword.",
+    "spellId": null,
+    "characters": [],
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 0,
+    "category": "equipment",
+    "slot": "weapon",
+    "equipmentType": "sword",
+    "classes": [1, 5, 6],
+    "modifiers": [{
+      "stat": "STR",
+      "amount": 2
+    }],
+    "value": 50,
+    "sound": "item-collect"
+  },
+  "2-e": {
+    "name": "Bronze Sword",
+    "description": "A bronze longsword.",
+    "spellId": null,
+    "characters": [],
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 1,
+    "category": "equipment",
+    "slot": "weapon",
+    "equipmentType": "sword",
+    "classes": [1, 5, 6],
+    "modifiers": [{
+      "stat": "STR",
+      "amount": 5
+    }],
+    "value": 150,
+    "sound": "item-collect"
+  },
+  "3-e": {
+    "name": "Dagger",
+    "description": "A dagger.",
+    "spellId": null,
+    "characters": [],
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 2,
+    "category": "equipment",
+    "slot": "weapon",
+    "equipmentType": "dagger",
+    "classes": [1, 2, 5, 6],
+    "modifiers": [{
+      "stat": "STR",
+      "amount": 1
+    }, {
+      "stat": "DEX",
+      "amount": 2
+    }],
+    "value": 25,
+    "sound": "item-collect"
+  },
+  "4-e": {
+    "name": "Bronze Dagger",
+    "description": "A bronze dagger.",
+    "spellId": null,
+    "characters": [],
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 3,
+    "category": "equipment",
+    "slot": "weapon",
+    "equipmentType": "dagger",
+    "classes": [1, 2, 5, 6],
+    "modifiers": [{
+      "stat": "STR",
+      "amount": 2
+    }, {
+      "stat": "DEX",
+      "amount": 5
+    }],
+    "value": 125,
+    "sound": "item-collect"
+  },
+  "5-e": {
+    "name": "Cat Claws",
+    "description": "Claws of a cat.",
+    "spellId": null,
+    "characters": [],
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 4,
+    "category": "equipment",
+    "slot": "weapon",
+    "equipmentType": "claws",
+    "classes": [1, 5, 6],
+    "modifiers": [{
+      "stat": "STR",
+      "amount": 1
+    }, {
+      "stat": "DEX",
+      "amount": 2
+    }],
+    "value": 55,
+    "sound": "item-collect"
+  },
+  "6-e": {
+    "name": "Bronze Cat Claws",
+    "description": "Claws of a bronze cat.",
+    "spellId": null,
+    "characters": [],
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 5,
+    "category": "equipment",
+    "slot": "weapon",
+    "equipmentType": "claws",
+    "classes": [1, 5, 6],
+    "modifiers": [{
+      "stat": "STR",
+      "amount": 1
+    }, {
+      "stat": "DEX",
+      "amount": 2
+    }],
+    "value": 125,
+    "sound": "item-collect"
+  },
+  "7-e": {
+    "name": "Hearing Aids",
+    "description": "Devices that aid in hearing.",
+    "spellId": null,
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 6,
+    "flagId": 501,
+    "category": "equipment",
+    "slot": "accessory",
+    "equipmentType": "accessory",
+    "classes": [],
+    "characters": [1],
+    "modifiers": [{
+      "stat": "STA",
+      "amount": 1
+    }, {
+      "stat": "DEX",
+      "amount": 2
+    }, {
+      "stat": "HP",
+      "amount": 10
+    }],
+    "value": 125,
+    "sound": "key-item-collect"
+  },
+  "8-e": {
+    "name": "Fancy Hearing Aids",
+    "description": "Devices that aid in hearing, fancily.",
+    "spellId": null,
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 7,
+    "category": "equipment",
+    "slot": "accessory",
+    "equipmentType": "accessory",
+    "classes": [],
+    "characters": [1],
+    "modifiers": [{
+      "stat": "STA",
+      "amount": 3
+    }, {
+      "stat": "DEX",
+      "amount": 4
+    }, {
+      "stat": "HP",
+      "amount": 50
+    }],
+    "value": 325,
+    "sound": "item-collect"
+  },
+  "9-e": {
+    "name": "Shades",
+    "description": "Really cool sunglasses.",
+    "spellId": null,
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 8,
+    "category": "equipment",
+    "slot": "accessory",
+    "equipmentType": "accessory",
+    "classes": [],
+    "characters": [4],
+    "modifiers": [{
+      "stat": "STA",
+      "amount": 3
+    }, {
+      "stat": "STR",
+      "amount": 2
+    }, {
+      "stat": "HP",
+      "amount": 10
+    }, {
+      "stat": "MP",
+      "amount": 10
+    }],
+    "value": 125,
+    "sound": "key-item-collect"
+  },
+  "10-e": {
+    "name": "Daruma Shades",
+    "description": "Shades worn by the legendary hero, Daruma.",
+    "spellId": null,
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 9,
+    "category": "equipment",
+    "slot": "accessory",
+    "equipmentType": "accessory",
+    "classes": [],
+    "characters": [4],
+    "modifiers": [{
+      "stat": "STA",
+      "amount": 6
+    }, {
+      "stat": "STR",
+      "amount": 4
+    }, {
+      "stat": "HP",
+      "amount": 25
+    }, {
+      "stat": "MP",
+      "amount": 25
+    }],
+    "value": 325,
+    "sound": "item-collect"
+  },
+  "11-e": {
+    "name": "Tin Armor",
+    "description": "Armor made from twice-folded tin-foil.",
+    "spellId": null,
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 10,
+    "category": "equipment",
+    "slot": "chest",
+    "equipmentType": "armor",
+    "classes": [1, 4, 5, 6],
+    "characters": [],
+    "modifiers": [{
+      "PRES": 3
+    }],
+    "value": 15,
+    "sound": "item-collect"
+  },
+  "12-e": {
+    "name": "Bronze Armor",
+    "description": "Armor made from bronze.",
+    "spellId": null,
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 11,
+    "category": "equipment",
+    "slot": "chest",
+    "equipmentType": "armor",
+    "classes": [1, 4, 5, 6],
+    "characters": [],
+    "modifiers": [{
+      "PRES": 6
+    }],
+    "value": 35,
+    "sound": "item-collect"
+  },
+  "13-e": {
+    "name": "Leather Armor",
+    "description": "Armor made from leather.",
+    "spellId": null,
+    "effectPotency": null,
+    "spriteKey": "equipment",
+    "frame": 12,
+    "category": "equipment",
+    "slot": "chest",
+    "equipmentType": "armor",
+    "classes": [],
+    "characters": [],
+    "modifiers": [{
+      "PRES": 1
+    }],
+    "value": 35,
+    "sound": "item-collect"
+  }
+}

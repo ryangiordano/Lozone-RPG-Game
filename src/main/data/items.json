@@ -42,7 +42,7 @@
     "category": "keyItem",
     "value": null,
     "sound": "key-item-collect",
-    "flagId":501
+    "flagId": 501
   },
   "5": {
     "name": "Cat-Shape Key",
@@ -54,7 +54,7 @@
     "category": "keyItem",
     "value": null,
     "sound": "key-item-collect",
-    "flagId":500,
+    "flagId": 500,
     "placementFlags": [501]
   },
   "6": {
@@ -144,7 +144,7 @@
     "category": "keyItem",
     "value": null,
     "sound": "great-key-item-collect",
-    "flagId":503,
+    "flagId": 503,
     "placementFlags": [502]
   },
   "14": {
@@ -157,7 +157,7 @@
     "category": "keyItem",
     "value": null,
     "sound": "great-key-item-collect",
-    "flagId":505,
+    "flagId": 505,
     "placementFlags": [504]
   },
   "15": {
@@ -170,7 +170,7 @@
     "category": "keyItem",
     "value": null,
     "sound": "great-key-item-collect",
-    "flagId":507,
+    "flagId": 507,
     "placementFlags": [506]
   },
   "16": {
@@ -239,5 +239,4 @@
     "value": 100,
     "sound": "item-collect"
   }
-
 }
