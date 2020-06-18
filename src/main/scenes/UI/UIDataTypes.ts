@@ -1,6 +1,6 @@
 import { Effect } from '../../components/battle/CombatDataStructures';
 import { Combatant } from '../../components/battle/Combatant';
-import { Item } from '../../components/entities/Item';
+import { Item } from '../../components/entities/Items/Item';
 export enum PartyMenuTypes {
     itemUse,
     statusCheck,

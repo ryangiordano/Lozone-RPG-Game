@@ -10,7 +10,7 @@ import {
   characterAttack,
   characterDamage,
 } from "../../utility/tweens/character";
-import { Item, handleItemUse } from "../entities/Item";
+import { Item, handleItemUse } from "../entities/Items/Item";
 import { State } from "../../utility/state/State";
 import { SpellController } from "../../data/controllers/SpellController";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";

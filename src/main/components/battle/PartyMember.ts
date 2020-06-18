@@ -1,5 +1,6 @@
 import { Combatant } from "./Combatant";
 import { CombatantType, Spell, Status } from "./CombatDataStructures";
+import { Equipment, EquipmentSlot } from "../entities/Items/Equipment";
 
 export class PartyMember extends Combatant {
   constructor(
@@ -19,7 +20,8 @@ export class PartyMember extends Combatant {
     public combatClass: CombatClass,
     public currentExperience,
     public toNextLevel,
-    spells?) {
+    spells?
+  ) {
     super(
       id,
       name,
@@ -34,7 +36,8 @@ export class PartyMember extends Combatant {
       stamina,
       physicalResist,
       magicalResist,
-      spells);
+      spells
+    );
     this.type = CombatantType.partyMember;
     this.initializeStatus();
   }
@@ -42,6 +45,47 @@ export class PartyMember extends Combatant {
   private experienceCurve: number = 1.2;
   public setExperienceCurve(newCurve) {
     this.experienceCurve = newCurve;
+  }
+
+  private equipment = {
+    [EquipmentSlot.chest]: null,
+    [EquipmentSlot.weapon]: null,
+    [EquipmentSlot.accessory]: null,
+  };
+
+  public equip(equipment: Equipment) {
+    const slot = equipment.getSlot();
+    /** If there are classes or characters specified, make sure this
+     * party member meets the requirements.
+     */
+    const canEquip =
+      Boolean(
+        equipment.getClasses().length
+          ? equipment.getClasses().find((c) => c === this.combatClass.id)
+          : true
+      ) &&
+      Boolean(
+        equipment.getCharacters().length
+          ? equipment.getCharacters().find((c) => c === this.id)
+          : true
+      );
+    if (canEquip) {
+      let unequippedItem;
+
+      if (this.equipment[slot]) {
+        unequippedItem = { ...this.equipment[slot] };
+      }
+      this.equipment[slot] = equipment;
+      return {
+        successful: true,
+        unequippedItem,
+      };
+    } else {
+      return {
+        successful: false,
+        reason: "Cannot equip",
+      };
+    }
   }
 
   public levelUp() {
@@ -54,38 +98,38 @@ export class PartyMember extends Combatant {
 
   public getAttackPower() {
     //TODO: Factor in equipment as well, and factor in a modifier.
-    return this.modified('strength');
+    return this.modified("strength");
   }
 
   public getMagicPower() {
-    return this.modified('intellect');
+    return this.modified("intellect");
   }
 
   public getDefensePower() {
-    return this.modified('stamina');
+    return this.modified("stamina");
   }
 
   public getSpeed() {
-    return this.modified('dexterity');
+    return this.modified("dexterity");
   }
 
   public getStrength() {
-    return this.modified('strength')
+    return this.modified("strength");
   }
 
   public getStamina() {
-    return this.modified('stamina')
+    return this.modified("stamina");
   }
   public getDexterity() {
-    return this.modified('dexterity')
+    return this.modified("dexterity");
   }
 
   public getIntellect() {
-    return this.modified('intellect')
+    return this.modified("intellect");
   }
 
   public getWisdom() {
-    return this.modified('wisdom')
+    return this.modified("wisdom");
   }
 
   /**
@@ -104,9 +148,11 @@ export class PartyMember extends Combatant {
    */
   private modified(baseStat) {
     if (!this[baseStat]) {
-      throw new Error(`Base state ${baseStat} does not exist on ${this.name}`)
+      throw new Error(`Base state ${baseStat} does not exist on ${this.name}`);
     }
-    return Math.floor(this[baseStat] * this.combatClass[baseStat] * this.levelModifier());
+    return Math.floor(
+      this[baseStat] * this.combatClass[baseStat] * this.levelModifier()
+    );
   }
 
   setCurrentHp(currentHp) {
@@ -127,7 +173,7 @@ export class PartyMember extends Combatant {
   public gainExperience(experiencePoints: number) {
     let leveledUp = false;
     const total = this.currentExperience + experiencePoints;
-    const overFlow = total - (this.toNextLevel * this.level);
+    const overFlow = total - this.toNextLevel * this.level;
     while (total > this.getExperienceToNextLevel()) {
       this.levelUp();
       leveledUp = true;
@@ -149,35 +195,35 @@ export class PartyMember extends Combatant {
     this.clearStatus();
     this.addStatusCondition(Status.fainted);
     this.faint();
-    this.effectManager.addEffect(6)
+    this.effectManager.addEffect(6);
   }
 
-  revive(){
+  revive() {
     this.removeStatusCondition(Status.fainted);
     this.setCurrentHp(1);
     this.standUp();
-    this.effectManager.removeEffect(6)
-    return "Revived!"
+    this.effectManager.removeEffect(6);
+    return "Revived!";
   }
 }
 
 export interface ClassSpell {
-  requiredLevel: number,
-  classModifier: number,
-  spell: Spell
+  requiredLevel: number;
+  classModifier: number;
+  spell: Spell;
 }
 
 export interface CombatClass {
-  name: string,
-  id: number,
-  maxHp: number
-  maxMp: number
-  intellect: number
-  dexterity: number
-  wisdom: number
-  stamina: number
-  strength: number
-  physicalResist: number
-  magicalResist: number,
-  spells: ClassSpell[]
+  name: string;
+  id: number;
+  maxHp: number;
+  maxMp: number;
+  intellect: number;
+  dexterity: number;
+  wisdom: number;
+  stamina: number;
+  strength: number;
+  physicalResist: number;
+  magicalResist: number;
+  spells: ClassSpell[];
 }

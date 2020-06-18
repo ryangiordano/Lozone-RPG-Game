@@ -10,7 +10,7 @@ import { EntityTypes } from "../../components/entities/Entity";
 import { Warp, WarpTrigger, Spawn } from "../../components/entities/Warp";
 import { Chest } from "../../components/entities/Chest";
 import { LockedDoor } from "../../components/entities/LockedDoor";
-import { KeyItem } from "../../components/entities/KeyItem";
+import { KeyItem } from "../../components/entities/Items/KeyItem";
 import { Block } from "../../components/entities/Block";
 import { Switcher } from "../../components/entities/Switchable";
 import { CircuitController } from "../../data/controllers/CircuitController";

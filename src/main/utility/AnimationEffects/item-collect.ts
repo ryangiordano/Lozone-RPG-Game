@@ -1,4 +1,4 @@
-import { Item } from "../../components/entities/Item";
+import { Item } from "../../components/entities/Items/Item";
 import { textScaleUp } from "../tweens/text";
 
 export const animateItemAbove = (

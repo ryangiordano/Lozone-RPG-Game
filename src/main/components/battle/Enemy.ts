@@ -1,5 +1,5 @@
 import { Combatant } from "./Combatant";
-import { Item } from "../entities/Item";
+import { Item } from "../entities/Items/Item";
 import { CombatantType } from "./CombatDataStructures";
 
 export class Enemy extends Combatant {

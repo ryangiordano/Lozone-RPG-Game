@@ -12,8 +12,8 @@
     "equipmentType": "sword",
     "classes": [1, 5, 6],
     "modifiers": [{
-      "stat": "STR",
-      "amount": 2
+      "modifierStatType": 0,
+      "modifierPotency": 5
     }],
     "value": 50,
     "sound": "item-collect"
@@ -31,8 +31,8 @@
     "equipmentType": "sword",
     "classes": [1, 5, 6],
     "modifiers": [{
-      "stat": "STR",
-      "amount": 5
+      "modifierStatType": 0,
+      "modifierPotency": 5
     }],
     "value": 150,
     "sound": "item-collect"
@@ -50,11 +50,11 @@
     "equipmentType": "dagger",
     "classes": [1, 2, 5, 6],
     "modifiers": [{
-      "stat": "STR",
-      "amount": 1
+      "modifierStatType": 0,
+      "modifierPotency": 1
     }, {
-      "stat": "DEX",
-      "amount": 2
+      "modifierStatType": 5,
+      "modifierPotency": 2
     }],
     "value": 25,
     "sound": "item-collect"
@@ -72,11 +72,11 @@
     "equipmentType": "dagger",
     "classes": [1, 2, 5, 6],
     "modifiers": [{
-      "stat": "STR",
-      "amount": 2
+      "modifierStatType": 0,
+      "modifierPotency": 2
     }, {
-      "stat": "DEX",
-      "amount": 5
+      "modifierStatType": 5,
+      "modifierPotency": 5
     }],
     "value": 125,
     "sound": "item-collect"
@@ -94,11 +94,14 @@
     "equipmentType": "claws",
     "classes": [1, 5, 6],
     "modifiers": [{
-      "stat": "STR",
-      "amount": 1
+      "modifierStatType": 0,
+      "modifierPotency": 1
     }, {
-      "stat": "DEX",
-      "amount": 2
+      "modifierStatType": 5,
+      "modifierPotency": 1
+    }, {
+      "modifierStatType": 2,
+      "modifierPotency": 1
     }],
     "value": 55,
     "sound": "item-collect"
@@ -116,12 +119,17 @@
     "equipmentType": "claws",
     "classes": [1, 5, 6],
     "modifiers": [{
-      "stat": "STR",
-      "amount": 1
-    }, {
-      "stat": "DEX",
-      "amount": 2
-    }],
+        "modifierStatType": 0,
+        "modifierPotency": 2
+      }, {
+        "modifierStatType": 5,
+        "modifierPotency": 3
+      },
+      {
+        "modifierStatType": 2,
+        "modifierPotency": 2
+      }
+    ],
     "value": 125,
     "sound": "item-collect"
   },
@@ -139,14 +147,14 @@
     "classes": [],
     "characters": [1],
     "modifiers": [{
-      "stat": "STA",
-      "amount": 1
+      "modifierStatType": 1,
+      "modifierPotency": 1
     }, {
-      "stat": "DEX",
-      "amount": 2
+      "modifierStatType": 5,
+      "modifierPotency": 2
     }, {
-      "stat": "HP",
-      "amount": 10
+      "modifierStatType": 6,
+      "modifierPotency": 10
     }],
     "value": 125,
     "sound": "key-item-collect"
@@ -164,14 +172,14 @@
     "classes": [],
     "characters": [1],
     "modifiers": [{
-      "stat": "STA",
-      "amount": 3
+      "modifierStatType": 1,
+      "modifierPotency": 3
     }, {
-      "stat": "DEX",
-      "amount": 4
+      "modifierStatType": 5,
+      "modifierPotency": 4
     }, {
-      "stat": "HP",
-      "amount": 50
+      "modifierStatType": 6,
+      "modifierPotency": 50
     }],
     "value": 325,
     "sound": "item-collect"
@@ -189,17 +197,17 @@
     "classes": [],
     "characters": [4],
     "modifiers": [{
-      "stat": "STA",
+      "modifierStatType": 1,
       "amount": 3
     }, {
-      "stat": "STR",
-      "amount": 2
+      "modifierStatType": 0,
+      "modifierPotency": 2
     }, {
-      "stat": "HP",
-      "amount": 10
+      "modifierStatType": 6,
+      "modifierPotency": 10
     }, {
-      "stat": "MP",
-      "amount": 10
+      "modifierStatType": 7,
+      "modifierPotency": 10
     }],
     "value": 125,
     "sound": "key-item-collect"
@@ -217,17 +225,17 @@
     "classes": [],
     "characters": [4],
     "modifiers": [{
-      "stat": "STA",
-      "amount": 6
+      "modifierStatType": 1,
+      "modifierPotency": 6
     }, {
-      "stat": "STR",
-      "amount": 4
+      "modifierStatType": 0,
+      "modifierPotency": 4
     }, {
-      "stat": "HP",
-      "amount": 25
+      "modifierStatType": 6,
+      "modifierPotency": 25
     }, {
-      "stat": "MP",
-      "amount": 25
+      "modifierStatType": 7,
+      "modifierPotency": 25
     }],
     "value": 325,
     "sound": "item-collect"
@@ -245,7 +253,8 @@
     "classes": [1, 4, 5, 6],
     "characters": [],
     "modifiers": [{
-      "PRES": 3
+      "modifierStatType": 8,
+      "modifierPotency": 3
     }],
     "value": 15,
     "sound": "item-collect"
@@ -263,7 +272,8 @@
     "classes": [1, 4, 5, 6],
     "characters": [],
     "modifiers": [{
-      "PRES": 6
+      "modifierStatType": 8,
+      "modifierPotency": 6
     }],
     "value": 35,
     "sound": "item-collect"
@@ -281,7 +291,8 @@
     "classes": [],
     "characters": [],
     "modifiers": [{
-      "PRES": 1
+      "modifierStatType": 8,
+      "modifierPotency": 1
     }],
     "value": 35,
     "sound": "item-collect"

@@ -12,7 +12,7 @@ import {
 import { getUID, Directions } from "../../utility/Utility";
 import { Defend } from "./Actions";
 import { Buff } from "./Buff";
-import { Item, handleItemUse } from "../entities/Item";
+import { Item, handleItemUse } from "../entities/Items/Item";
 import { SpellType } from "../../data/repositories/SpellRepository";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
 

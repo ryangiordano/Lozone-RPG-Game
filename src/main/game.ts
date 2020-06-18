@@ -16,6 +16,7 @@ import { PartyItemUseScene } from "./scenes/UI/PartyMenu/PartyItemUse/PartyItemU
 import { PartyStatusScene } from "./scenes/UI/PartyMenu/PartyStatus/PartyStatusScene";
 import { PartySpellCastScene } from "./scenes/UI/PartyMenu/PartySpellCast/PartySpellCastScene";
 import { PartySpellSelectScene } from "./scenes/UI/PartyMenu/PartySpellCast/PartySpellSelectScene";
+import { PartyEquipScene } from "./scenes/UI/PartyMenu/PartyEquip/PartyEquipScene";
 
 export type GameScenes =
   | "BootScene"
@@ -27,6 +28,7 @@ export type GameScenes =
   | "PartyStatusScene"
   | "PartySpellCastScene"
   | "PartySpellSelectScene"
+  | "PartyEquipScene"
   | "StoreScene"
   | "GameOverScene"
   | "Audio";
@@ -50,6 +52,7 @@ const config: GameConfig = {
     PartyStatusScene,
     PartySpellCastScene,
     PartySpellSelectScene,
+    PartyEquipScene,
     StoreScene,
     GameOverScene,
     AudioScene,

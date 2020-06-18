@@ -1,25 +1,11 @@
-import { Spell, Status } from "../battle/CombatDataStructures";
-import { Combatant } from "../battle/Combatant";
-import { SpellType } from "../../data/repositories/SpellRepository";
+import { Spell, Status } from "../../battle/CombatDataStructures";
+import { Combatant } from "../../battle/Combatant";
+import { SpellType } from "../../../data/repositories/SpellRepository";
 
 export enum ItemCategory {
   consumable,
   keyItem,
   equipment,
-}
-
-export interface ItemData {
-  id: number | string;
-  name: string;
-  description: string;
-  spellId: number;
-  effectPotency: number;
-  spriteKey: string;
-  frame: number;
-  category: string;
-  sound: string;
-  flagId?: number;
-  placementFlags?: number[];
 }
 
 export class Item {

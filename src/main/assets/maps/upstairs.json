@@ -298,7 +298,7 @@
                 {
                  "height":64,
                  "id":27,
-                 "name":"chest",
+                 "name":"chest 2",
                  "properties":[
                         {
                          "name":"flagId",
@@ -320,7 +320,7 @@
                 {
                  "height":64,
                  "id":29,
-                 "name":"chest",
+                 "name":"chest 4",
                  "properties":[
                         {
                          "name":"flagId",
@@ -342,7 +342,7 @@
                 {
                  "height":64,
                  "id":30,
-                 "name":"chest",
+                 "name":"chest 3",
                  "properties":[
                         {
                          "name":"flagId",
@@ -468,7 +468,7 @@
  "nextlayerid":8,
  "nextobjectid":35,
  "orientation":"orthogonal",
-"renderorder":"right-down",
+ "renderorder":"right-down",
  "tiledversion":"1.2.3",
  "tileheight":64,
  "tilesets":[

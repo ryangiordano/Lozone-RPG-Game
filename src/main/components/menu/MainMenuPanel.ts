@@ -16,13 +16,16 @@ export class MainPanel extends UIPanel {
     this.addOption("Items", () => {
       this.emit("items-selected", PartyMenuTypes.itemUse);
     })
-
-      .addOption("Key Items", () => {
-        this.emit("key-items-selected");
+      .addOption("Equipment", () => {
+        this.emit("equipment-selected", PartyMenuTypes.itemEquip);
       })
       .addOption("Magic", () => {
         this.emit("magic-selected", PartyMenuTypes.spellCast);
       })
+      .addOption("Key Items", () => {
+        this.emit("key-items-selected");
+      })
+
       .addOption("Status", () => {
         this.emit("party-selected", PartyMenuTypes.statusCheck);
       })

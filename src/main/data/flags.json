@@ -311,6 +311,18 @@
         "type": 0,
         "flagged": true
     },
+    "54": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
+    "55": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
     "300": {
         "name": "party",
         "description": "Ryan joins the party",

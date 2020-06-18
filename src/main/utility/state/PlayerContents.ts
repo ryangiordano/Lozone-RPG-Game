@@ -1,4 +1,4 @@
-import { Item, ItemCategory } from '../../components/entities/Item';
+import { Item, ItemCategory } from '../../components/entities/Items/Item';
 export class PlayerContents {
   private contents: Item[] = [];
   private coins: number = 0;
@@ -43,6 +43,7 @@ export class PlayerContents {
     return this.contents.find(item => item.id === id);
   }
   getItemsOnPlayer(): Item[] {
+    console.log(this.contents)
     return this.contents;
   }
   getItemsOnPlayerByCategory(category: ItemCategory): Item[] {

@@ -6,7 +6,7 @@ import { HeroParty } from "../../components/battle/Party";
 import { FlagController } from "../../data/controllers/FlagController";
 import { NPCController } from "../../data/controllers/NPCController";
 import { PartyController } from "../../data/controllers/PartyController";
-import { ItemCategory } from "../../components/entities/Item";
+import { ItemCategory } from "../../components/entities/Items/Item";
 import SpecialEffects from "./SpecialEffects";
 
 export class State {

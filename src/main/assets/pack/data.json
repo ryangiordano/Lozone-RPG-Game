@@ -74,6 +74,11 @@
         "type": "json",
         "key": "circuits",
         "url": "./src/main/data/circuits.json"
+      },
+      {
+        "type": "json",
+        "key": "equipment",
+        "url": "./src/main/data/equipment.json"
       }
     ]
   }

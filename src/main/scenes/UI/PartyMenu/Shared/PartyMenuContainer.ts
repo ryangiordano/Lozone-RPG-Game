@@ -6,7 +6,7 @@ import {
 } from "../../../../components/UI/Keyboard";
 import { PartyMemberPanel } from "./PartyMemberPanel";
 import { PartyMember } from "../../../../components/battle/PartyMember";
-import { Item } from "../../../../components/entities/Item";
+import { Item } from "../../../../components/entities/Items/Item";
 
 /**
  * The container that houses all panels for the party menu scenes

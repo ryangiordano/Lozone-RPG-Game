@@ -4,10 +4,9 @@ import {
   KeyboardControl,
   KeyboardControlKeys,
 } from "../../../../components/UI/Keyboard";
-import { PartyMenuTypes } from "../../UIDataTypes";
 import { PartyMember } from "../../../../components/battle/PartyMember";
 import { State } from "../../../../utility/state/State";
-import { handleItemUse } from "../../../../components/entities/Item";
+import { handleItemUse } from "../../../../components/entities/Items/Item";
 
 export class PartyItemUseMenuContainer extends PartyMenuContainer {
   /**

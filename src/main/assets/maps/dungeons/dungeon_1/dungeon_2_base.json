@@ -34,7 +34,7 @@
                 {
                  "height":64,
                  "id":86,
-                 "name":"chest",
+                 "name":"chest 13",
                  "properties":[
                         {
                          "name":"flagId",
@@ -56,7 +56,7 @@
                 {
                  "height":64,
                  "id":87,
-                 "name":"chest",
+                 "name":"chest 14",
                  "properties":[
                         {
                          "name":"flagId",
@@ -95,7 +95,7 @@
                 {
                  "height":64,
                  "id":90,
-                 "name":"chest",
+                 "name":"chest 7",
                  "properties":[
                         {
                          "name":"flagId",
@@ -117,7 +117,7 @@
                 {
                  "height":64,
                  "id":91,
-                 "name":"chest",
+                 "name":"chest 19",
                  "properties":[
                         {
                          "name":"flagId",
@@ -139,7 +139,7 @@
                 {
                  "height":64,
                  "id":92,
-                 "name":"chest",
+                 "name":"chest 20",
                  "properties":[
                         {
                          "name":"flagId",
@@ -161,7 +161,7 @@
                 {
                  "height":64,
                  "id":93,
-                 "name":"chest",
+                 "name":"chest 9",
                  "properties":[
                         {
                          "name":"flagId",
@@ -183,7 +183,7 @@
                 {
                  "height":64,
                  "id":94,
-                 "name":"chest",
+                 "name":"chest 10",
                  "properties":[
                         {
                          "name":"flagId",
@@ -205,7 +205,7 @@
                 {
                  "height":64,
                  "id":95,
-                 "name":"chest",
+                 "name":"chest 11",
                  "properties":[
                         {
                          "name":"flagId",
@@ -227,7 +227,7 @@
                 {
                  "height":64,
                  "id":96,
-                 "name":"locked chest with diamond ring",
+                 "name":"chest 29",
                  "properties":[
                         {
                          "name":"flagId",
@@ -259,7 +259,7 @@
                 {
                  "height":64,
                  "id":97,
-                 "name":"chest",
+                 "name":"chest 6",
                  "properties":[
                         {
                          "name":"flagId",
@@ -281,7 +281,7 @@
                 {
                  "height":64,
                  "id":98,
-                 "name":"chest",
+                 "name":"chest 21",
                  "properties":[
                         {
                          "name":"flagId",
@@ -303,7 +303,7 @@
                 {
                  "height":64,
                  "id":99,
-                 "name":"chest with silver key",
+                 "name":"chest 31",
                  "properties":[
                         {
                          "name":"flagId",
@@ -461,7 +461,7 @@
                 {
                  "height":64,
                  "id":108,
-                 "name":"chest",
+                 "name":"chest 22",
                  "properties":[
                         {
                          "name":"flagId",
@@ -483,7 +483,7 @@
                 {
                  "height":64,
                  "id":110,
-                 "name":"chest with gold key",
+                 "name":"chest 32",
                  "properties":[
                         {
                          "name":"flagId",
@@ -678,7 +678,7 @@
                 {
                  "height":64,
                  "id":120,
-                 "name":"chest",
+                 "name":"chest 34",
                  "properties":[
                         {
                          "name":"flagId",
@@ -700,7 +700,7 @@
                 {
                  "height":64,
                  "id":121,
-                 "name":"chest",
+                 "name":"chest 35",
                  "properties":[
                         {
                          "name":"flagId",
@@ -722,7 +722,7 @@
                 {
                  "height":64,
                  "id":122,
-                 "name":"chest",
+                 "name":"chest 36",
                  "properties":[
                         {
                          "name":"flagId",
@@ -939,7 +939,7 @@
                 {
                  "height":64,
                  "id":133,
-                 "name":"chest",
+                 "name":"chest 7",
                  "properties":[
                         {
                          "name":"flagId",
@@ -961,7 +961,7 @@
                 {
                  "height":64,
                  "id":134,
-                 "name":"chest",
+                 "name":"chest 19",
                  "properties":[
                         {
                          "name":"flagId",
@@ -977,13 +977,13 @@
                  "type":"chest",
                  "visible":true,
                  "width":64,
-                 "x":3120,
-                 "y":5004
+                 "x":3136,
+                 "y":4992
                 }, 
                 {
                  "height":64,
                  "id":135,
-                 "name":"chest",
+                 "name":"chest 20",
                  "properties":[
                         {
                          "name":"flagId",
@@ -1005,7 +1005,7 @@
                 {
                  "height":64,
                  "id":136,
-                 "name":"chest",
+                 "name":"chest 9",
                  "properties":[
                         {
                          "name":"flagId",
@@ -1027,12 +1027,12 @@
                 {
                  "height":64,
                  "id":137,
-                 "name":"chest",
+                 "name":"chest 5",
                  "properties":[
                         {
                          "name":"flagId",
                          "type":"int",
-                         "value":10
+                         "value":5
                         }, 
                         {
                          "name":"itemId",
@@ -1049,7 +1049,7 @@
                 {
                  "height":64,
                  "id":138,
-                 "name":"chest",
+                 "name":"chest 11",
                  "properties":[
                         {
                          "name":"flagId",
@@ -1071,7 +1071,7 @@
                 {
                  "height":64,
                  "id":139,
-                 "name":"chest",
+                 "name":"chest 29",
                  "properties":[
                         {
                          "name":"flagId",
@@ -1103,7 +1103,7 @@
                 {
                  "height":64,
                  "id":140,
-                 "name":"chest",
+                 "name":"chest 6",
                  "properties":[
                         {
                          "name":"flagId",
@@ -1125,7 +1125,7 @@
                 {
                  "height":64,
                  "id":141,
-                 "name":"chest",
+                 "name":"chest 21",
                  "properties":[
                         {
                          "name":"flagId",
@@ -1147,7 +1147,7 @@
                 {
                  "height":64,
                  "id":142,
-                 "name":"chest",
+                 "name":"chest 22",
                  "properties":[
                         {
                          "name":"flagId",
@@ -1274,7 +1274,7 @@
                 {
                  "height":64,
                  "id":148,
-                 "name":"chest",
+                 "name":"chest 13",
                  "properties":[
                         {
                          "name":"flagId",
@@ -1296,7 +1296,7 @@
                 {
                  "height":64,
                  "id":149,
-                 "name":"chest",
+                 "name":"chest 14",
                  "properties":[
                         {
                          "name":"flagId",

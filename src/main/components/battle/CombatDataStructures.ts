@@ -1,5 +1,5 @@
 import { Combatant } from "./Combatant";
-import { Enemy } from './Enemy';
+import { Enemy } from "./Enemy";
 import { SpellType, TargetType } from "../../data/repositories/SpellRepository";
 
 /*
@@ -12,22 +12,21 @@ export interface IBuff {
   name: string;
 }
 
-
 export enum CombatantType {
   partyMember,
   enemy,
-  boss
+  boss,
 }
 export enum Orientation {
   left,
-  right
+  right,
 }
 export enum Status {
   sleep,
   paralyzed,
   blinded,
   confused,
-  fainted
+  fainted,
 }
 export enum ModifierStatType {
   strength,
@@ -37,28 +36,28 @@ export enum ModifierStatType {
   wisdom,
   dexterity,
   hp,
-  mp
+  mp,
+  physicalResistance,
+  magicalResistance
 }
 export interface Modifier {
-  id: number;
-  name: string;
   modifierStatType: ModifierStatType;
   modifierPotency: number;
-  particle: number;
-  frame: number;
+  particle?: number;
+  frame?: number;
 }
 
 export interface Spell {
-  id: number,
-  name: string,
-  primaryAnimationEffect: Effect
-  animationEffect: Effect
-  description: string,
-  basePotency: number,
-  type: SpellType,
-  manaCost: number,
-  targetType: TargetType,
-  status: any[] //TODO: Implement later;
+  id: number;
+  name: string;
+  primaryAnimationEffect: Effect;
+  animationEffect: Effect;
+  description: string;
+  basePotency: number;
+  type: SpellType;
+  manaCost: number;
+  targetType: TargetType;
+  status: any[]; //TODO: Implement later;
 }
 
 export interface Behavior {
@@ -68,16 +67,15 @@ export interface Behavior {
 }
 export interface Effect {
   id: number;
-  name:string,
-  play: Function
+  name: string;
+  play: Function;
   // For use with items and spells.
   //TODO: implement a db for this
 }
 
-
 export interface CombatEntity {
-  entity: Combatant,
-  position: Coords
+  entity: Combatant;
+  position: Coords;
 }
 
 export interface IEntityParty {
@@ -91,7 +89,7 @@ export interface CombatResult {
   resultingValue: number;
   targetDown?: boolean;
   message?: string[];
-  critical?:boolean;
+  critical?: boolean;
 }
 export enum CombatActionTypes {
   attack,
@@ -99,7 +97,7 @@ export enum CombatActionTypes {
   defend,
   castSpell,
   useItem,
-  failure
+  failure,
 }
 
 export interface CombatAction {

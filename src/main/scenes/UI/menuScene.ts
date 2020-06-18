@@ -1,11 +1,15 @@
 import { UserInterface } from "../../components/UI/UserInterface";
 import { State } from "../../utility/state/State";
 import { PanelContainer } from "../../components/UI/PanelContainer";
-import { Item, ItemCategory } from "../../components/entities/Item";
+import { Item, ItemCategory } from "../../components/entities/Items/Item";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { TextFactory } from "../../utility/TextFactory";
 import { WarpUtility } from "../../utility/exploration/Warp";
-import { ItemPanel, ConfirmItemPanel } from "../../components/menu/ItemPanel";
+import {
+  ItemPanel,
+  ConfirmItemPanel,
+  EquipmentPanel,
+} from "../../components/menu/ItemPanel";
 import { MainPanel } from "../../components/menu/MainMenuPanel";
 import { ShopPanel } from "../../components/menu/shop/ShopPanel";
 import { AudioScene } from "../audioScene";
@@ -19,7 +23,9 @@ export class MenuScene extends Phaser.Scene {
   private state: State = State.getInstance();
   private mainPanel: UIPanel;
   private itemPanel: ItemPanel;
-  private shopPanel: ShopPanel;
+  private equipmentPanel: ItemPanel;
+  private equipConfirmPanel: ConfirmItemPanel;
+
   private debugPanel: UIPanel;
   private keyItemPanel: ItemPanel;
   private coinPanel: PanelContainer;
@@ -42,6 +48,10 @@ export class MenuScene extends Phaser.Scene {
     this.itemPanel = this.createItemPanel();
     this.itemConfirmPanel = this.createItemConfrmPanel();
     this.setUpItemPanels();
+
+    this.equipmentPanel = this.createEquipmentPanel();
+    this.equipConfirmPanel = this.createEquipConfirmPanel();
+    this.setUpEquipmentPanels();
 
     this.keyItemPanel = this.createKeyItemPanel();
 
@@ -70,6 +80,11 @@ export class MenuScene extends Phaser.Scene {
     mainPanel.on("items-selected", () => {
       this.itemPanel.refreshPanel();
       this.UI.showPanel(this.itemPanel).focusPanel(this.itemPanel);
+    });
+
+    mainPanel.on("equipment-selected", () => {
+      this.equipmentPanel.refreshPanel();
+      this.UI.showPanel(this.equipmentPanel).focusPanel(this.equipmentPanel);
     });
 
     mainPanel.on("key-items-selected", () => {
@@ -126,36 +141,36 @@ export class MenuScene extends Phaser.Scene {
     return itemPanel;
   }
 
-  // private createTreasurePanel(){
-  //   const itemPanel = new ItemPanel(
-  //     { x: 6, y: 6 },
-  //     { x: 4, y: 0 },
-  //     "dialog-white",
-  //     this,
-  //     this.state.getTreasureOnPlayer(),
-  //     ItemCategory.consumable
-  //   );
+  private createEquipmentPanel() {
+    const equipmentPanel = new EquipmentPanel(
+      { x: 6, y: 6 },
+      { x: 4, y: 0 },
+      "dialog-white",
+      this,
+      this.state.getItemsOnPlayer(),
+      ItemCategory.equipment
+    );
 
-  //   this.UI.addPanel(itemPanel);
+    this.UI.addPanel(equipmentPanel);
+    equipmentPanel.on("item-selected", (item) => {
+      equipmentPanel.emit("show-and-focus-confirm-panel", item);
+    });
+    equipmentPanel.on("item-focused", (item) => {
+      equipmentPanel.updateDisplay(item);
+    });
 
-  //   itemPanel.on("item-focused", (item) => {
-  //     itemPanel.updateDisplay(item);
-  //   });
-
-  //   const itemDetailPanel = new PanelContainer(
-  //     { x: 6, y: 3 },
-  //     { x: 4, y: 6 },
-  //     "dialog-white",
-  //     this
-  //   );
-  //   itemPanel.addChildPanel("item-detail", itemDetailPanel);
-  //   itemPanel.on("panel-close", () => {
-  //     this.UI.closePanel(itemPanel);
-  //   });
-  //   return itemPanel;
-  // }
-
-
+    const itemDetailPanel = new PanelContainer(
+      { x: 6, y: 3 },
+      { x: 4, y: 6 },
+      "dialog-white",
+      this
+    );
+    equipmentPanel.addChildPanel("item-detail", itemDetailPanel);
+    equipmentPanel.on("panel-close", () => {
+      this.UI.closePanel(equipmentPanel);
+    });
+    return equipmentPanel;
+  }
 
   private createKeyItemPanel() {
     const keyItemPanel = new ItemPanel(
@@ -209,6 +224,28 @@ export class MenuScene extends Phaser.Scene {
     });
   }
 
+  private setUpEquipmentPanels() {
+    this.equipmentPanel.on("show-and-focus-confirm-panel", (item) => {
+      this.UI.showPanel(this.equipConfirmPanel);
+
+      this.UI.focusPanel(this.equipConfirmPanel);
+
+      this.equipConfirmPanel.setPanelData(item);
+    });
+
+    this.equipConfirmPanel.on("refresh-items", () =>
+      this.equipmentPanel.refreshPanel()
+    );
+
+    this.equipConfirmPanel.on("equip-item", (item) => {
+      this.UI.closePanel(this.equipConfirmPanel);
+      this.UI.closePanel(this.equipmentPanel);
+      // Reset the cursor
+      // open the party panel
+      this.startPartyEquipScene(item);
+    });
+  }
+
   private createItemConfrmPanel() {
     // Add item use confirmation panel.
     const itemConfirmPanel = new ConfirmItemPanel(
@@ -238,6 +275,28 @@ export class MenuScene extends Phaser.Scene {
     return itemConfirmPanel;
   }
 
+  private createEquipConfirmPanel() {
+    // Add item use confirmation panel.
+    const equipConfirmPanel = new ConfirmItemPanel(
+      { x: 3, y: 3 },
+      { x: 7, y: 6 },
+      "dialog-white",
+      this
+    );
+
+    this.UI.addPanel(equipConfirmPanel);
+    // Add option for confirmation
+    equipConfirmPanel
+      .addOption("Equip", () => {
+        const equipment = equipConfirmPanel.getPanelData();
+        equipConfirmPanel.emit("equip-item", equipment);
+      })
+      .addOption("Cancel", () => {
+        this.UI.closePanel(equipConfirmPanel);
+      });
+    return equipConfirmPanel;
+  }
+
   private startPartyStatusScene() {
     startScene("PartyStatusScene", this);
   }
@@ -246,6 +305,10 @@ export class MenuScene extends Phaser.Scene {
   }
   private startPartyItemScene(item) {
     startScene("PartyItemUseScene", this, { entity: item });
+  }
+
+  private startPartyEquipScene(item) {
+    startScene("PartyEquipScene", this, { entity: item });
   }
 
   // ===================================

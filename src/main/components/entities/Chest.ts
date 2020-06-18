@@ -6,7 +6,7 @@ import { AudioScene } from "../../scenes/audioScene";
 import { State } from "../../utility/state/State";
 import { animateItemAbove } from "../../utility/AnimationEffects/item-collect";
 import { displayMessage } from "../../scenes/dialogScene";
-import { collectItem } from "./KeyItem";
+import { collectItem } from "./Items/KeyItem";
 
 /**
  * Represents a chest on the overworld, able to be opened.

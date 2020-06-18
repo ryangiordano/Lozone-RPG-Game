@@ -1,8 +1,8 @@
-import { Entity, EntityTypes } from "./Entity";
-import { State } from "../../utility/state/State";
-import { AudioScene } from "../../scenes/audioScene";
-import { animateItemAbove } from "../../utility/AnimationEffects/item-collect";
-import { displayMessage } from "../../scenes/dialogScene";
+import { Entity, EntityTypes } from "../Entity";
+import { State } from "../../../utility/state/State";
+import { AudioScene } from "../../../scenes/audioScene";
+import { animateItemAbove } from "../../../utility/AnimationEffects/item-collect";
+import { displayMessage } from "../../../scenes/dialogScene";
 
 /**
  *  Represents unique key items able to be picked up on the overworld.
