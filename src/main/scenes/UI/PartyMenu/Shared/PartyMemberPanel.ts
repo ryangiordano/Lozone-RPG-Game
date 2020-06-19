@@ -152,16 +152,17 @@ export class PartyMemberPanel extends PanelContainer {
   }
 
   public setAccessorySlot(equipment: Equipment) {
-    this.armorSlot.setEquipment(equipment);
+    this.accessorySlot.setEquipment(equipment);
   }
 
   public setArmorSlot(equipment: Equipment) {
-    this.accessorySlot.setEquipment(equipment);
+    this.armorSlot.setEquipment(equipment);
   }
 
   public setHp(newValue: number) {
     this.hpBar.setCurrentValue(newValue);
   }
+
   public setMp(newValue: number) {
     this.mpBar.setCurrentValue(newValue);
   }

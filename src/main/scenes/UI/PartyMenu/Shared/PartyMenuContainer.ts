@@ -14,7 +14,7 @@ import { Item } from "../../../../components/entities/Items/Item";
  * as well as the dialog box for actions taken in the party member panel.
  */
 export class PartyMenuContainer extends Phaser.GameObjects.Container {
-  public partyMemberPanels: any[][] = [];
+  public partyMemberPanels: PartyMemberPanel[][] = [];
   protected activeIndex: number[] = [0, 0];
   protected partyMessagePanel: PartyMessagePanel;
 
@@ -116,7 +116,7 @@ export class PartyMenuContainer extends Phaser.GameObjects.Container {
     );
   }
 
-  protected getCurrentlyFocusedPartyMemberPanel() {
+  protected getCurrentlyFocusedPartyMemberPanel(): PartyMemberPanel {
     const i = this.activeIndex;
     return this.partyMemberPanels[i[0]][i[1]];
   }

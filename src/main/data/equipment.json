@@ -92,7 +92,7 @@
     "category": "equipment",
     "slot": "weapon",
     "equipmentType": "claws",
-    "classes": [1, 5, 6],
+    "classes": [2],
     "modifiers": [{
       "modifierStatType": 0,
       "modifierPotency": 1
@@ -117,7 +117,7 @@
     "category": "equipment",
     "slot": "weapon",
     "equipmentType": "claws",
-    "classes": [1, 5, 6],
+    "classes": [2],
     "modifiers": [{
         "modifierStatType": 0,
         "modifierPotency": 2

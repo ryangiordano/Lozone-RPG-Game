@@ -1,7 +1,7 @@
 import { UserInterface } from "../../components/UI/UserInterface";
 import { State } from "../../utility/state/State";
 import { PanelContainer } from "../../components/UI/PanelContainer";
-import { Item, ItemCategory } from "../../components/entities/Items/Item";
+import { ItemCategory } from "../../components/entities/Items/Item";
 import { KeyboardControl } from "../../components/UI/Keyboard";
 import { TextFactory } from "../../utility/TextFactory";
 import { WarpUtility } from "../../utility/exploration/Warp";
@@ -11,10 +11,8 @@ import {
   EquipmentPanel,
 } from "../../components/menu/ItemPanel";
 import { MainPanel } from "../../components/menu/MainMenuPanel";
-import { ShopPanel } from "../../components/menu/shop/ShopPanel";
 import { AudioScene } from "../audioScene";
 import { UIPanel } from "../../components/UI/UIPanel";
-import { GameScenes } from "../../game";
 import { startScene } from "../utility";
 
 export class MenuScene extends Phaser.Scene {
@@ -38,6 +36,7 @@ export class MenuScene extends Phaser.Scene {
     this.input.keyboard.resetKeys();
 
     this.callingSceneKey = data.callingSceneKey;
+
     this.UI = new UserInterface(
       this,
       "dialog-white",
@@ -65,6 +64,21 @@ export class MenuScene extends Phaser.Scene {
     this.sound.play("menu-open", { volume: 0.1 });
   }
 
+  public openEquipmentMenu() {
+    this.equipmentPanel.refreshPanel();
+    this.UI.showPanel(this.equipmentPanel).focusPanel(this.equipmentPanel);
+  }
+
+  public openItemMenu() {
+    this.itemPanel.refreshPanel();
+    this.UI.showPanel(this.itemPanel).focusPanel(this.itemPanel);
+  }
+
+  public openKeyItemMenu() {
+    this.keyItemPanel.refreshPanel();
+    this.UI.showPanel(this.keyItemPanel).focusPanel(this.keyItemPanel);
+  }
+
   // ===================================
   // Main Panel
   // ===================================
@@ -78,18 +92,15 @@ export class MenuScene extends Phaser.Scene {
     mainPanel.setUp();
     this.UI.addPanel(mainPanel);
     mainPanel.on("items-selected", () => {
-      this.itemPanel.refreshPanel();
-      this.UI.showPanel(this.itemPanel).focusPanel(this.itemPanel);
+      this.openItemMenu();
     });
 
     mainPanel.on("equipment-selected", () => {
-      this.equipmentPanel.refreshPanel();
-      this.UI.showPanel(this.equipmentPanel).focusPanel(this.equipmentPanel);
+      this.openEquipmentMenu();
     });
 
     mainPanel.on("key-items-selected", () => {
-      this.keyItemPanel.refreshPanel();
-      this.UI.showPanel(this.keyItemPanel).focusPanel(this.keyItemPanel);
+      this.openKeyItemMenu();
     });
 
     mainPanel.on("party-selected", () => this.startPartyStatusScene());

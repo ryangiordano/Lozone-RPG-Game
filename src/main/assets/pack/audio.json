@@ -169,6 +169,11 @@
         "type": "audio",
         "key": "flaccid",
         "url": "./src/main/assets/sounds/flaccid.wav"
+      },
+      {
+        "type": "audio",
+        "key": "defense",
+        "url": "./src/main/assets/sounds/defense.mp3"
       }
     ]
   }

@@ -1,5 +1,6 @@
 import { EquipmentSlot } from "./../entities/Items/Equipment";
 import { Equipment } from "../entities/Items/Equipment";
+import { AudioScene } from "../../scenes/audioScene";
 
 export default class EquipmentSlotUI extends Phaser.GameObjects.Container {
   private slot: Phaser.GameObjects.Rectangle;

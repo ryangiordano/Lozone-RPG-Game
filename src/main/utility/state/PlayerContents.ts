@@ -1,14 +1,13 @@
-import { Item, ItemCategory } from '../../components/entities/Items/Item';
+import { Item, ItemCategory } from "../../components/entities/Items/Item";
 export class PlayerContents {
   private contents: Item[] = [];
   private coins: number = 0;
-  constructor() { }
+  constructor() {}
   addItemToContents(itemToAdd: Item) {
     const itemInInventory = this.getItemOnPlayer(itemToAdd.id);
     if (itemInInventory) {
       itemInInventory.incrementQuantity();
     } else {
-
       this.contents.push(itemToAdd);
     }
   }
@@ -22,13 +21,14 @@ export class PlayerContents {
     this.coins = Math.max(0, this.coins - amount);
   }
   removeItemFromContents(itemToRemove: Item): boolean {
-    const toRemoveIdx = this.contents.findIndex(item => item.id === itemToRemove.id);
+    const toRemoveIdx = this.contents.findIndex(
+      (item) => item.id === itemToRemove.id
+    );
     const toRemove = this.contents[toRemoveIdx];
     if (toRemove) {
       if (toRemove.quantity <= 1) {
         this.contents.splice(toRemoveIdx, 1);
-      }
-      else {
+      } else {
         toRemove.decrementQuantity();
       }
       toRemove.setIntendToUse(-1);
@@ -40,13 +40,12 @@ export class PlayerContents {
     this.removeItemFromContents(item);
   }
   getItemOnPlayer(id: number | string): Item {
-    return this.contents.find(item => item.id === id);
+    return this.contents.find((item) => item.id === id);
   }
   getItemsOnPlayer(): Item[] {
-    console.log(this.contents)
     return this.contents;
   }
   getItemsOnPlayerByCategory(category: ItemCategory): Item[] {
-    return this.contents.filter(item => item.category === category);
+    return this.contents.filter((item) => item.category === category);
   }
 }

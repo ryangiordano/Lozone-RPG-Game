@@ -1,3 +1,4 @@
+import { MenuScene } from "./../../menuScene";
 import { State } from "../../../../utility/state/State";
 import { KeyboardControl } from "../../../../components/UI/Keyboard";
 import { GameScenes } from "../../../../game";
@@ -24,7 +25,10 @@ export class PartyEquipScene extends Phaser.Scene {
     );
 
     this.partyMenuContainer.on("close-menu", () => {
+      const menu = <MenuScene>this.scene.get("MenuScene");
       this.scene.setActive(true, "MenuScene");
+      menu.openEquipmentMenu();
+
       this.scene.stop();
     });
   }

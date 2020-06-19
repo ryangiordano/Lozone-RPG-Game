@@ -11,7 +11,6 @@ import { ItemRepository } from "../repositories/ItemRepository";
 import { Item, ItemCategory } from "../../components/entities/Items/Item";
 import { SpellController } from "./SpellController";
 import { Equipment } from "../../components/entities/Items/Equipment";
-import { ModifierStatType } from "../../components/battle/CombatDataStructures";
 
 export class ItemController {
   private itemRepository: ItemRepository;
