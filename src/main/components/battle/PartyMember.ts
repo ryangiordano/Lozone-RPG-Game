@@ -53,6 +53,10 @@ export class PartyMember extends Combatant {
     [EquipmentSlot.accessory]: null,
   };
 
+  public getEquipment(){
+    return this.equipment;
+  }
+
   public equip(equipment: Equipment) {
     const slot = equipment.getSlot();
     /** If there are classes or characters specified, make sure this

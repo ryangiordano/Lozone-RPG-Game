@@ -323,6 +323,12 @@
         "type": 0,
         "flagged": false
     },
+    "56": {
+        "name": "chest",
+        "description": "Some random chest",
+        "type": 0,
+        "flagged": false
+    },
     "300": {
         "name": "party",
         "description": "Ryan joins the party",

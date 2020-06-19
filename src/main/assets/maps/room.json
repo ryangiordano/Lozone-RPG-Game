@@ -457,6 +457,28 @@
                 {
                  "height":64,
                  "id":43,
+                 "name":"chest 56",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":56
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"string",
+                         "value":"7-e"
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":64,
+                 "x":576,
+                 "y":128
+                }, 
+                {
+                 "height":64,
+                 "id":44,
                  "name":"chest 55",
                  "properties":[
                         {
@@ -483,7 +505,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":44,
+ "nextobjectid":45,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.2.3",
