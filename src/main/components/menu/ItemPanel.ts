@@ -105,14 +105,13 @@ export class EquipmentPanel extends ItemPanel {
   /** Create text for stats to populate the item panel */
   private createStats(item: Equipment): string {
     return [
-      { statText: "STR", modifierStatType: ModifierStatType.strength },
-      { statText: "STA", modifierStatType: ModifierStatType.stamina },
-      { statText: "SPD", modifierStatType: ModifierStatType.speed },
-      { statText: "INT", modifierStatType: ModifierStatType.intellect },
-      { statText: "WIS", modifierStatType: ModifierStatType.wisdom },
-      { statText: "DEX", modifierStatType: ModifierStatType.dexterity },
-      { statText: "HP", modifierStatType: ModifierStatType.hp },
-      { statText: "mp", modifierStatType: ModifierStatType.mp },
+      { statText: "STR", modifierStatType: "strength" },
+      { statText: "STA", modifierStatType: "stamina" },
+      { statText: "INT", modifierStatType: "intellect" },
+      { statText: "WIS", modifierStatType: "wisdom" },
+      { statText: "DEX", modifierStatType: "dexterity" },
+      { statText: "HP", modifierStatType: "hp" },
+      { statText: "MP", modifierStatType: "mp" },
       {
         statText: "PRES",
         modifierStatType: ModifierStatType.physicalResistance,

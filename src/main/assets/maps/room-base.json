@@ -361,8 +361,8 @@
                         }, 
                         {
                          "name":"itemId",
-                         "type":"int",
-                         "value":4
+                         "type":"string",
+                         "value":"7-e"
                         }],
                  "rotation":0,
                  "type":"key-item",
@@ -431,28 +431,6 @@
                  "width":64,
                  "x":384,
                  "y":192
-                }, 
-                {
-                 "height":64,
-                 "id":44,
-                 "name":"chest 54",
-                 "properties":[
-                        {
-                         "name":"flagId",
-                         "type":"int",
-                         "value":54
-                        }, 
-                        {
-                         "name":"itemId",
-                         "type":"string",
-                         "value":"5-e"
-                        }],
-                 "rotation":0,
-                 "type":"chest",
-                 "visible":true,
-                 "width":64,
-                 "x":576,
-                 "y":256
                 }],
          "opacity":1,
          "type":"objectgroup",

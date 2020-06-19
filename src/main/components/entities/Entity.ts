@@ -14,7 +14,7 @@ export enum EntityTypes {
   player,
   itemSwitch,
   switch,
-  block
+  block,
 }
 
 /**

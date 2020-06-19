@@ -1,11 +1,11 @@
-{ "columns":8,
+{ "columns":9,
  "image":"room.png",
  "imageheight":576,
- "imagewidth":512,
+ "imagewidth":576,
  "margin":0,
  "name":"room",
  "spacing":0,
- "tilecount":72,
+ "tilecount":81,
  "tiledversion":"1.2.3",
  "tileheight":64,
  "tiles":[
@@ -23,11 +23,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -66,11 +61,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -78,11 +68,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -94,11 +79,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -106,11 +86,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -131,11 +106,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -152,11 +122,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -177,11 +142,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -198,11 +158,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -223,11 +178,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -235,11 +185,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -251,11 +196,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -265,11 +205,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -277,11 +212,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -302,11 +232,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -314,11 +239,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -330,11 +250,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -342,11 +257,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -365,11 +275,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -399,11 +304,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -411,11 +311,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -436,11 +331,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -448,11 +338,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -464,11 +349,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -476,11 +356,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -492,11 +367,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -504,11 +374,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -520,11 +385,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -532,11 +392,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -548,11 +403,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -560,11 +410,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -576,11 +421,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -588,11 +428,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -604,11 +439,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -616,11 +446,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -659,11 +484,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -671,11 +491,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -687,11 +502,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -699,11 +509,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -715,11 +520,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -727,11 +527,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -743,11 +538,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -757,11 +547,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -769,11 +554,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -794,11 +574,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -806,11 +581,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -822,11 +592,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -836,11 +601,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -848,11 +608,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]

@@ -53,3 +53,48 @@ export class Block extends Switchable {
     }
   }
 }
+
+export class PitBlock extends Switchable {
+  constructor(
+    { scene, x, y },
+    public erect: boolean = false,
+    private circuit: Circuit
+  ) {
+    super({ scene, x, y }, null, "pit-block", 3, 0, ["A happy lil pit block!"]);
+    this.entityType = EntityTypes.block;
+    this.setTint(circuit.color);
+    this.setFrame(erect ? this.activeFrame : this.inactiveFrame);
+    this.setCollideOnTileBelowFoot(!erect);
+  }
+
+  public circuitIsActive() {
+    const cc = new CircuitController(this.scene.game);
+    return cc.circuitIsActive(this.circuit.id);
+  }
+
+  setRetracted() {
+    this.erect = false;
+    this.anims.play("pit-block-down");
+    this.setCollideOnTileBelowFoot(true);
+  }
+  setErected() {
+    this.erect = true;
+    this.anims.play("pit-block-up");
+    this.setCollideOnTileBelowFoot(false);
+  }
+
+  setErect(on: boolean) {
+    const audio = <AudioScene>this.scene.scene.get("Audio");
+    if (on) {
+      if (!this.erect) {
+        this.setErected();
+        audio.playSound("erect", 0.1);
+      }
+    } else {
+      if (this.erect) {
+        this.setRetracted();
+        audio.playSound("flaccid", 0.1);
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@ import { Warp, WarpTrigger, Spawn } from "../../components/entities/Warp";
 import { Chest } from "../../components/entities/Chest";
 import { LockedDoor } from "../../components/entities/LockedDoor";
 import { KeyItem } from "../../components/entities/Items/KeyItem";
-import { Block } from "../../components/entities/Block";
+import { Block, PitBlock } from "../../components/entities/Block";
 import { Switcher } from "../../components/entities/Switchable";
 import { CircuitController } from "../../data/controllers/CircuitController";
 
@@ -62,6 +62,11 @@ export class MapObjectFactory {
 
       if (object.type === "block") {
         const block = this.createBlock(object);
+        exploreData.interactives.push(block);
+      }
+
+      if (object.type === "pit-block") {
+        const block = this.createPitBlock(object);
         exploreData.interactives.push(block);
       }
 
@@ -182,6 +187,23 @@ export class MapObjectFactory {
     const circuit = cc.getCircuitById(circuitId);
     const erect = cc.circuitIsActive(circuit.id);
     return new Block(
+      {
+        scene: this.scene,
+        x: object.x + 32,
+        y: object.y + 32,
+      },
+      erect,
+      circuit
+    );
+  }
+
+  /** Pit Blocks that change position depending on flag state */
+  private createPitBlock(object) {
+    const circuitId = getObjectPropertyByName("circuitId", object.properties);
+    const cc = new CircuitController(this.scene.game);
+    const circuit = cc.getCircuitById(circuitId);
+    const erect = cc.circuitIsActive(circuit.id);
+    return new PitBlock(
       {
         scene: this.scene,
         x: object.x + 32,

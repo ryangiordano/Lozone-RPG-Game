@@ -12,7 +12,7 @@
     "equipmentType": "sword",
     "classes": [1, 5, 6],
     "modifiers": [{
-      "modifierStatType": 0,
+      "modifierStatType": "strength",
       "modifierPotency": 5
     }],
     "value": 50,
@@ -31,7 +31,7 @@
     "equipmentType": "sword",
     "classes": [1, 5, 6],
     "modifiers": [{
-      "modifierStatType": 0,
+      "modifierStatType": "strength",
       "modifierPotency": 5
     }],
     "value": 150,
@@ -50,10 +50,10 @@
     "equipmentType": "dagger",
     "classes": [1, 2, 5, 6],
     "modifiers": [{
-      "modifierStatType": 0,
+      "modifierStatType": "strength",
       "modifierPotency": 1
     }, {
-      "modifierStatType": 5,
+      "modifierStatType": "dexterity",
       "modifierPotency": 2
     }],
     "value": 25,
@@ -72,10 +72,10 @@
     "equipmentType": "dagger",
     "classes": [1, 2, 5, 6],
     "modifiers": [{
-      "modifierStatType": 0,
+      "modifierStatType": "strength",
       "modifierPotency": 2
     }, {
-      "modifierStatType": 5,
+      "modifierStatType": "dexterity",
       "modifierPotency": 5
     }],
     "value": 125,
@@ -94,13 +94,13 @@
     "equipmentType": "claws",
     "classes": [2],
     "modifiers": [{
-      "modifierStatType": 0,
+      "modifierStatType": "strength",
       "modifierPotency": 1
     }, {
-      "modifierStatType": 5,
+      "modifierStatType": "dexterity",
       "modifierPotency": 1
     }, {
-      "modifierStatType": 2,
+      "modifierStatType": "speed",
       "modifierPotency": 1
     }],
     "value": 55,
@@ -119,14 +119,14 @@
     "equipmentType": "claws",
     "classes": [2],
     "modifiers": [{
-        "modifierStatType": 0,
+        "modifierStatType": "strength",
         "modifierPotency": 2
       }, {
-        "modifierStatType": 5,
+        "modifierStatType": "dexterity",
         "modifierPotency": 3
       },
       {
-        "modifierStatType": 2,
+        "modifierStatType": "speed",
         "modifierPotency": 2
       }
     ],
@@ -147,13 +147,13 @@
     "classes": [],
     "characters": [1],
     "modifiers": [{
-      "modifierStatType": 1,
+      "modifierStatType": "stamina",
       "modifierPotency": 1
     }, {
-      "modifierStatType": 5,
+      "modifierStatType": "dexterity",
       "modifierPotency": 2
     }, {
-      "modifierStatType": 6,
+      "modifierStatType": "hp",
       "modifierPotency": 10
     }],
     "value": 125,
@@ -172,13 +172,13 @@
     "classes": [],
     "characters": [1],
     "modifiers": [{
-      "modifierStatType": 1,
+      "modifierStatType": "stamina",
       "modifierPotency": 3
     }, {
-      "modifierStatType": 5,
+      "modifierStatType": "dexterity",
       "modifierPotency": 4
     }, {
-      "modifierStatType": 6,
+      "modifierStatType": "hp",
       "modifierPotency": 50
     }],
     "value": 325,
@@ -197,16 +197,16 @@
     "classes": [],
     "characters": [4],
     "modifiers": [{
-      "modifierStatType": 1,
+      "modifierStatType": "stamina",
       "amount": 3
     }, {
-      "modifierStatType": 0,
+      "modifierStatType": "strength",
       "modifierPotency": 2
     }, {
-      "modifierStatType": 6,
+      "modifierStatType": "hp",
       "modifierPotency": 10
     }, {
-      "modifierStatType": 7,
+      "modifierStatType": "mp",
       "modifierPotency": 10
     }],
     "value": 125,
@@ -225,16 +225,16 @@
     "classes": [],
     "characters": [4],
     "modifiers": [{
-      "modifierStatType": 1,
+      "modifierStatType": "stamina",
       "modifierPotency": 6
     }, {
-      "modifierStatType": 0,
+      "modifierStatType": "strength",
       "modifierPotency": 4
     }, {
-      "modifierStatType": 6,
+      "modifierStatType": "hp",
       "modifierPotency": 25
     }, {
-      "modifierStatType": 7,
+      "modifierStatType": "mp",
       "modifierPotency": 25
     }],
     "value": 325,
@@ -253,7 +253,7 @@
     "classes": [1, 4, 5, 6],
     "characters": [],
     "modifiers": [{
-      "modifierStatType": 8,
+      "modifierStatType": "physicalResist",
       "modifierPotency": 3
     }],
     "value": 15,
@@ -272,7 +272,7 @@
     "classes": [1, 4, 5, 6],
     "characters": [],
     "modifiers": [{
-      "modifierStatType": 8,
+      "modifierStatType": "physicalResist",
       "modifierPotency": 6
     }],
     "value": 35,
@@ -291,7 +291,7 @@
     "classes": [],
     "characters": [],
     "modifiers": [{
-      "modifierStatType": 8,
+      "modifierStatType": "physicalResist",
       "modifierPotency": 1
     }],
     "value": 35,

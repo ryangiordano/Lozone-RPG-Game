@@ -84,7 +84,7 @@ export class MenuScene extends Phaser.Scene {
   // ===================================
   private createAndSetUpMainPanel() {
     const mainPanel = new MainPanel(
-      { x: 4, y: 6 },
+      { x: 4, y: 4 },
       { x: 0, y: 0 },
       "dialog-white",
       this
@@ -359,7 +359,7 @@ export class MenuScene extends Phaser.Scene {
       .addOption("Dungeon One", () => {
         this.scene.stop(this.callingSceneKey);
         const wp = new WarpUtility(this);
-        wp.warpTo(6);
+        wp.warpTo(4);
       })
       .addOption("Dungeon Two", () => {
         this.scene.stop(this.callingSceneKey);

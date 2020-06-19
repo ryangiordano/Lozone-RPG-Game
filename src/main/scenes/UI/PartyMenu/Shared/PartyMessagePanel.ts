@@ -61,7 +61,17 @@ export class PartyMessagePanel extends MessagePanel {
       { x: 285, y: 85 },
       "20px"
     );
-    this.add([name, level, hp, mp, str, sta, dex, int, wis]);
+    const pres = tf.createText(
+      `PRES: ${member.getDefensePower()}`,
+      { x: 20, y: 110 },
+      "20px"
+    );
+    const mres = tf.createText(
+      `MRES: ${member.getMagicResist()}`,
+      { x: 20, y: 135 },
+      "20px"
+    );
+    this.add([name, level, hp, mp, str, sta, dex, int, wis, pres, mres]);
   }
   /**
    * Function that results after the message scene is done doing its thing.

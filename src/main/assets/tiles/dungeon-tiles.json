@@ -1,11 +1,11 @@
 { "columns":5,
  "image":"dungeon.png",
- "imageheight":320,
+ "imageheight":448,
  "imagewidth":320,
  "margin":0,
  "name":"dungeon-tiles",
  "spacing":0,
- "tilecount":25,
+ "tilecount":35,
  "tiledversion":"1.2.3",
  "tileheight":64,
  "tiles":[
@@ -14,11 +14,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -30,11 +25,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -42,11 +32,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -58,11 +43,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -70,11 +50,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -86,11 +61,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -98,11 +68,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -114,11 +79,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -126,11 +86,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -142,11 +97,6 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
-                {
-                 "name":"wall",
-                 "type":"bool",
-                 "value":true
                 }]
         }, 
         {
@@ -154,11 +104,6 @@
          "properties":[
                 {
                  "name":"collide",
-                 "type":"bool",
-                 "value":true
-                }, 
-                {
-                 "name":"wall",
                  "type":"bool",
                  "value":true
                 }]
@@ -170,9 +115,85 @@
                  "name":"collide",
                  "type":"bool",
                  "value":true
-                }, 
+                }]
+        }, 
+        {
+         "id":24,
+         "properties":[
                 {
-                 "name":"wall",
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":25,
+         "properties":[
+                {
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":26,
+         "properties":[
+                {
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":27,
+         "properties":[
+                {
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":28,
+         "properties":[
+                {
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":29,
+         "properties":[
+                {
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":30,
+         "properties":[
+                {
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":31,
+         "properties":[
+                {
+                 "name":"collide",
+                 "type":"bool",
+                 "value":true
+                }]
+        }, 
+        {
+         "id":32,
+         "properties":[
+                {
+                 "name":"collide",
                  "type":"bool",
                  "value":true
                 }]

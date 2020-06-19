@@ -297,72 +297,6 @@
                 }, 
                 {
                  "height":64,
-                 "id":27,
-                 "name":"chest 2",
-                 "properties":[
-                        {
-                         "name":"flagId",
-                         "type":"int",
-                         "value":2
-                        }, 
-                        {
-                         "name":"itemId",
-                         "type":"int",
-                         "value":1
-                        }],
-                 "rotation":0,
-                 "type":"chest",
-                 "visible":true,
-                 "width":64,
-                 "x":320,
-                 "y":192
-                }, 
-                {
-                 "height":64,
-                 "id":29,
-                 "name":"chest 4",
-                 "properties":[
-                        {
-                         "name":"flagId",
-                         "type":"int",
-                         "value":4
-                        }, 
-                        {
-                         "name":"itemId",
-                         "type":"int",
-                         "value":2
-                        }],
-                 "rotation":0,
-                 "type":"chest",
-                 "visible":true,
-                 "width":64,
-                 "x":256,
-                 "y":256
-                }, 
-                {
-                 "height":64,
-                 "id":30,
-                 "name":"chest 3",
-                 "properties":[
-                        {
-                         "name":"flagId",
-                         "type":"int",
-                         "value":3
-                        }, 
-                        {
-                         "name":"itemId",
-                         "type":"int",
-                         "value":20
-                        }],
-                 "rotation":0,
-                 "type":"chest",
-                 "visible":true,
-                 "width":64,
-                 "x":192,
-                 "y":192
-                }, 
-                {
-                 "height":64,
                  "id":31,
                  "name":"cat-shape-key",
                  "properties":[
@@ -458,6 +392,72 @@
                  "width":64,
                  "x":512,
                  "y":320
+                }, 
+                {
+                 "height":64,
+                 "id":35,
+                 "name":"chest 54",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":54
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"string",
+                         "value":"5-e"
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":64,
+                 "x":256,
+                 "y":192
+                }, 
+                {
+                 "height":64,
+                 "id":36,
+                 "name":"chest 56",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":56
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"string",
+                         "value":"1"
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":64,
+                 "x":320,
+                 "y":192
+                }, 
+                {
+                 "height":64,
+                 "id":37,
+                 "name":"chest 55",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":55
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"string",
+                         "value":"13-e"
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":64,
+                 "x":192,
+                 "y":192
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -466,7 +466,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":35,
+ "nextobjectid":38,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",

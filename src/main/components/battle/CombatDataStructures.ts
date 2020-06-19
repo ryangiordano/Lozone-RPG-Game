@@ -1,3 +1,4 @@
+import { BaseStat } from './PartyMember';
 import { Combatant } from "./Combatant";
 import { Enemy } from "./Enemy";
 import { SpellType, TargetType } from "../../data/repositories/SpellRepository";
@@ -41,7 +42,7 @@ export enum ModifierStatType {
   magicalResistance
 }
 export interface Modifier {
-  modifierStatType: ModifierStatType;
+  modifierStatType: BaseStat;
   modifierPotency: number;
   particle?: number;
   frame?: number;

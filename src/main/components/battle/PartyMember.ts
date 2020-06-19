@@ -2,6 +2,18 @@ import { Combatant } from "./Combatant";
 import { CombatantType, Spell, Status } from "./CombatDataStructures";
 import { Equipment, EquipmentSlot } from "../entities/Items/Equipment";
 
+export type BaseStat =
+  | "strength"
+  | "wisdom"
+  | "intellect"
+  | "dexterity"
+  | "stamina"
+  | "hp"
+  | "mp"
+  | "speed"
+  | "physicalResist"
+  | "magicalResist";
+
 export class PartyMember extends Combatant {
   constructor(
     id,
@@ -47,13 +59,17 @@ export class PartyMember extends Combatant {
     this.experienceCurve = newCurve;
   }
 
-  private equipment = {
+  private equipment: {
+    [EquipmentSlot.chest]: Equipment;
+    [EquipmentSlot.weapon]: Equipment;
+    [EquipmentSlot.accessory]: Equipment;
+  } = {
     [EquipmentSlot.chest]: null,
     [EquipmentSlot.weapon]: null,
     [EquipmentSlot.accessory]: null,
   };
 
-  public getEquipment(){
+  public getEquipment() {
     return this.equipment;
   }
 
@@ -110,11 +126,15 @@ export class PartyMember extends Combatant {
   }
 
   public getDefensePower() {
-    return this.modified("stamina");
+    return this.modified("stamina") + this.equipmentModifier("physicalResist");
+  }
+
+  public getMagicResist() {
+    return this.equipmentModifier("magicalResist") + this.modified("wisdom");
   }
 
   public getSpeed() {
-    return this.modified("dexterity");
+    return this.modified("dexterity") + this.equipmentModifier("speed");
   }
 
   public getStrength() {
@@ -140,23 +160,48 @@ export class PartyMember extends Combatant {
    * These are getters for maxHp and maxMp, which represent the base values.
    */
   public getMaxHp() {
-    return Math.floor((1 + this.getStamina() / 10) * this.maxHp);
+    return (
+      Math.floor((1 + this.getStamina() / 10) * this.maxHp) +
+      this.equipmentModifier("hp")
+    );
   }
 
   public getMaxMp() {
-    return Math.floor((1 + this.getWisdom() / 10) * this.maxMp);
+    return (
+      Math.floor((1 + this.getWisdom() / 10) * this.maxMp) +
+      this.equipmentModifier("mp")
+    );
   }
 
   /**
    * the modified getters take the party member's class into consideration
    */
-  private modified(baseStat) {
+  private modified(baseStat: BaseStat) {
     if (!this[baseStat]) {
       throw new Error(`Base state ${baseStat} does not exist on ${this.name}`);
     }
+
     return Math.floor(
-      this[baseStat] * this.combatClass[baseStat] * this.levelModifier()
+      this[baseStat] * this.combatClass[baseStat] * this.levelModifier() +
+        this.equipmentModifier(baseStat)
     );
+  }
+
+  /** Add the potency granted by equipped item to stats */
+  private equipmentModifier(baseStat: BaseStat) {
+    let statBoost = 0;
+    for (const e in this.equipment) {
+      statBoost += this.equipment[e]
+        ? this.equipment[e].getModifiers().reduce((acc, m) => {
+            if (m.modifierStatType === baseStat) {
+              acc += m.modifierPotency;
+            }
+            return acc;
+          }, 0)
+        : 0;
+    }
+
+    return statBoost;
   }
 
   setCurrentHp(currentHp) {

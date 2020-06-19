@@ -16,7 +16,7 @@
         "key": "block"
       },
       "repeat": 0,
-      "frameRate":20
+      "frameRate": 20
     },
     {
       "key": "block-up",
@@ -26,7 +26,27 @@
         "key": "block"
       },
       "repeat": 0,
-      "frameRate":20
+      "frameRate": 20
+    },
+    {
+      "key": "pit-block-up",
+      "frames": {
+        "typeOfGeneration": 1,
+        "frames": [0, 1, 2, 3],
+        "key": "pit-block"
+      },
+      "repeat": 0,
+      "frameRate": 20
+    },
+    {
+      "key": "pit-block-down",
+      "frames": {
+        "typeOfGeneration": 1,
+        "frames": [3, 2, 1, 0],
+        "key": "pit-block"
+      },
+      "repeat": 0,
+      "frameRate": 20
     }
   ]
 }

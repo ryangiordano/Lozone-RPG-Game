@@ -329,6 +329,12 @@
         "type": 0,
         "flagged": false
     },
+    "57": {
+        "name": "circuit",
+        "description": "Flag for pink circuits",
+        "type": 0,
+        "flagged": true
+    },
     "300": {
         "name": "party",
         "description": "Ryan joins the party",

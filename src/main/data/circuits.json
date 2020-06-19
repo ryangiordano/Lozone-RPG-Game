@@ -28,5 +28,11 @@
     "description": "green circuit for the first dungeon",
     "flagId": 53,
     "color": "0x8EC96D"
+  },
+  "6": {
+    "name": "pink circuit first dungeon",
+    "description": "pink circuit for the first dungeon",
+    "flagId": 57,
+    "color": "0xFBABFB"
   }
 }
