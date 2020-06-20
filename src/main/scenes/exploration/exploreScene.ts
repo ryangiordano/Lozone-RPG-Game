@@ -89,6 +89,8 @@ export abstract class Explore extends Phaser.Scene {
       this.player.controllable.setDisabled(true);
       this.eventsController = new EventsController(this.game);
       await this.eventsController.playEvent(id, this);
+      console.log("And done")
+      this.setEventsOn();
       resolve();
     });
   }
@@ -220,11 +222,17 @@ export abstract class Explore extends Phaser.Scene {
         }
 
         if (interactive.entityType === EntityTypes.interactive) {
-          await displayMessage(
-            interactive.properties.message,
-            this.game,
-            this.scene
-          );
+          if (interactive.message) {
+            await displayMessage(
+              interactive.message.content,
+              this.game,
+              this.scene
+            );
+          }
+          if (interactive.event) {
+            await this.playEvent(interactive.event);
+          }
+
           destroyCastAndRefresh();
         }
 

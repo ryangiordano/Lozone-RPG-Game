@@ -132,16 +132,13 @@ export class MapObjectFactory {
 
   private createInteractive(object) {
     const id = getObjectPropertyByName("dialogId", object.properties);
-    const message = this.stateManager.dialogController.getDialogById(id);
+    const eventId = getObjectPropertyByName("eventId", object.properties);
     return new Interactive({
       scene: this.scene,
       x: object.x + 32,
       y: object.y + 32,
-      properties: {
-        type: object.type,
-        id: object.id,
-        message: message && message.content,
-      },
+      message: id && this.stateManager.dialogController.getDialogById(id),
+      eventId: eventId,
     });
   }
 

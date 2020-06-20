@@ -55,28 +55,6 @@
                 }, 
                 {
                  "height":64,
-                 "id":87,
-                 "name":"chest 14",
-                 "properties":[
-                        {
-                         "name":"flagId",
-                         "type":"int",
-                         "value":14
-                        }, 
-                        {
-                         "name":"itemId",
-                         "type":"int",
-                         "value":20
-                        }],
-                 "rotation":0,
-                 "type":"chest",
-                 "visible":true,
-                 "width":64,
-                 "x":576,
-                 "y":5568
-                }, 
-                {
-                 "height":64,
                  "id":88,
                  "name":"exit",
                  "properties":[
@@ -91,28 +69,6 @@
                  "width":64,
                  "x":384,
                  "y":5376
-                }, 
-                {
-                 "height":64,
-                 "id":90,
-                 "name":"chest 7",
-                 "properties":[
-                        {
-                         "name":"flagId",
-                         "type":"int",
-                         "value":7
-                        }, 
-                        {
-                         "name":"itemId",
-                         "type":"int",
-                         "value":19
-                        }],
-                 "rotation":0,
-                 "type":"chest",
-                 "visible":true,
-                 "width":64,
-                 "x":256,
-                 "y":4288
                 }, 
                 {
                  "height":64,
@@ -255,50 +211,6 @@
                  "width":64,
                  "x":4224,
                  "y":3520
-                }, 
-                {
-                 "height":64,
-                 "id":97,
-                 "name":"chest 6",
-                 "properties":[
-                        {
-                         "name":"flagId",
-                         "type":"int",
-                         "value":6
-                        }, 
-                        {
-                         "name":"itemId",
-                         "type":"int",
-                         "value":1
-                        }],
-                 "rotation":0,
-                 "type":"chest",
-                 "visible":true,
-                 "width":64,
-                 "x":3328,
-                 "y":4352
-                }, 
-                {
-                 "height":64,
-                 "id":98,
-                 "name":"chest 21",
-                 "properties":[
-                        {
-                         "name":"flagId",
-                         "type":"int",
-                         "value":21
-                        }, 
-                        {
-                         "name":"itemId",
-                         "type":"int",
-                         "value":10
-                        }],
-                 "rotation":0,
-                 "type":"chest",
-                 "visible":true,
-                 "width":64,
-                 "x":3776,
-                 "y":4288
                 }, 
                 {
                  "height":64,
@@ -1021,8 +933,8 @@
                  "type":"chest",
                  "visible":true,
                  "width":64,
-                 "x":3456,
-                 "y":4928
+                 "x":3840,
+                 "y":4288
                 }, 
                 {
                  "height":64,
@@ -1133,28 +1045,6 @@
                  "width":64,
                  "x":1920,
                  "y":5568
-                }, 
-                {
-                 "height":64,
-                 "id":142,
-                 "name":"chest 22",
-                 "properties":[
-                        {
-                         "name":"flagId",
-                         "type":"int",
-                         "value":22
-                        }, 
-                        {
-                         "name":"itemId",
-                         "type":"int",
-                         "value":1
-                        }],
-                 "rotation":0,
-                 "type":"chest",
-                 "visible":true,
-                 "width":64,
-                 "x":3072,
-                 "y":5312
                 }, 
                 {
                  "height":64,
@@ -1302,8 +1192,8 @@
                  "type":"chest",
                  "visible":true,
                  "width":64,
-                 "x":3200,
-                 "y":4608
+                 "x":3264,
+                 "y":4352
                 }, 
                 {
                  "height":64,
@@ -1343,28 +1233,6 @@
                  "width":64,
                  "x":3136,
                  "y":2368
-                }, 
-                {
-                 "height":64,
-                 "id":152,
-                 "name":"chest 1",
-                 "properties":[
-                        {
-                         "name":"flagId",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"itemId",
-                         "type":"int",
-                         "value":1
-                        }],
-                 "rotation":0,
-                 "type":"chest",
-                 "visible":true,
-                 "width":64,
-                 "x":3008,
-                 "y":1472
                 }, 
                 {
                  "height":64,
@@ -1814,8 +1682,8 @@
                  "type":"chest",
                  "visible":true,
                  "width":64,
-                 "x":1792,
-                 "y":1728
+                 "x":3200,
+                 "y":1792
                 }, 
                 {
                  "height":64,
@@ -1963,8 +1831,8 @@
                  "type":"chest",
                  "visible":true,
                  "width":64,
-                 "x":512,
-                 "y":5312
+                 "x":192,
+                 "y":5568
                 }, 
                 {
                  "height":64,
@@ -2007,8 +1875,8 @@
                  "type":"chest",
                  "visible":true,
                  "width":64,
-                 "x":192,
-                 "y":5568
+                 "x":256,
+                 "y":4352
                 }, 
                 {
                  "height":64,
@@ -2706,6 +2574,28 @@
                  "width":64,
                  "x":2304,
                  "y":5504
+                }, 
+                {
+                 "height":64,
+                 "id":232,
+                 "name":"chest 14",
+                 "properties":[
+                        {
+                         "name":"flagId",
+                         "type":"int",
+                         "value":14
+                        }, 
+                        {
+                         "name":"itemId",
+                         "type":"int",
+                         "value":20
+                        }],
+                 "rotation":0,
+                 "type":"chest",
+                 "visible":true,
+                 "width":64,
+                 "x":3008,
+                 "y":1472
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2714,7 +2604,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":232,
+ "nextobjectid":233,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",

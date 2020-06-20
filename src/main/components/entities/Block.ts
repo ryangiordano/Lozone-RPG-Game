@@ -54,6 +54,7 @@ export class Block extends Switchable {
   }
 }
 
+/**A block that allows for passage over pits */
 export class PitBlock extends Switchable {
   constructor(
     { scene, x, y },

@@ -29,7 +29,7 @@
     "experiencePoints": 30
   },
   "2": {
-    "name": "bugbat",
+    "name": "buttshape-dano",
     "spriteKey": "bat",
     "maxHp": 20,
     "maxMp": 10,
@@ -49,7 +49,7 @@
     "experiencePoints": 10
   },
   "3": {
-    "name": "orc",
+    "name": "hui guo rou",
     "spriteKey": "orc",
     "maxHp": 60,
     "maxMp": 10,
@@ -69,7 +69,7 @@
     "experiencePoints": 50
   },
   "4": {
-    "name": "slime",
+    "name": "spoiled yogurt",
     "spriteKey": "slime",
     "maxHp": 40,
     "maxMp": 10,
@@ -89,7 +89,7 @@
     "experiencePoints": 40
   },
   "5": {
-    "name": "eggception",
+    "name": "egger",
     "spriteKey": "egg",
     "maxHp": 100,
     "maxMp": 10,
@@ -112,7 +112,7 @@
     "experiencePoints": 70
   },
   "6": {
-    "name": "baby slime",
+    "name": "baby spoiled yogurt",
     "spriteKey": "babyslime",
     "maxHp": 10,
     "maxMp": 10,
@@ -249,7 +249,7 @@
     "spriteKey": "laundromancer",
     "maxHp": 200,
     "maxMp": 200,
-    "level": 8,
+    "level": 12,
     "intellect": 15,
     "dexterity": 5,
     "wisdom": 15,
@@ -267,7 +267,7 @@
       }
     ],
     "goldValue": 500,
-    "experiencePoints": 400,
+    "experiencePoints": 100,
     "flagsWhenDefeated": [502]
   },
   "12": {
@@ -275,7 +275,7 @@
     "spriteKey": "wanmonster",
     "maxHp": 300,
     "maxMp": 200,
-    "level": 11,
+    "level": 16,
     "intellect": 20,
     "dexterity": 5,
     "wisdom": 15,
@@ -293,7 +293,7 @@
       }
     ],
     "goldValue": 500,
-    "experiencePoints": 600,
+    "experiencePoints": 120,
     "flagsWhenDefeated": [504]
   },
   "13": {
@@ -301,7 +301,7 @@
     "spriteKey": "cosmoknight",
     "maxHp": 500,
     "maxMp": 200,
-    "level": 15,
+    "level": 20,
     "intellect": 20,
     "dexterity": 5,
     "wisdom": 15,
@@ -319,7 +319,7 @@
       }
     ],
     "goldValue": 800,
-    "experiencePoints": 800,
+    "experiencePoints": 150,
     "flagsWhenDefeated": [506]
   }
 }

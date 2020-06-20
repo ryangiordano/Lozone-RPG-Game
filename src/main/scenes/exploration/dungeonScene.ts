@@ -7,7 +7,7 @@ export class DungeonScene extends Explore {
   private enemyPartyIds: number[] = [];
   private music: string = "dungeon";
   private hasRandomEncounter = () => {
-    const randomNumber = createRandom(30);
+    const randomNumber = createRandom(50);
     return randomNumber() === 10;
   };
   constructor() {
@@ -25,7 +25,7 @@ export class DungeonScene extends Explore {
   public afterCreated() {
     this.player.on("finished-movement", () => {
       const r = this.hasRandomEncounter();
-      if (false && this.enemyPartyIds) {
+      if (r && this.enemyPartyIds) {
         this.startEncounter(this.chooseEnemyAtRandom());
       }
     });

@@ -1,9 +1,12 @@
 import { Repository } from "./Repository";
-export type EventBlock = CameraBlock &
-  LightingBlock &
-  DialogBlock &
-  TransitionBlock &
-  WaitBlock;
+export type EventBlock =
+  | CameraBlock
+  | LightingBlock
+  | DialogBlock
+  | TransitionBlock
+  | WaitBlock
+  | AudioBlock
+  | RecoveryBlock;
 
 export interface EventLine {
   name: string;
@@ -11,7 +14,14 @@ export interface EventLine {
   timeline: EventBlock[];
 }
 
-type EventType = "camera" | "lighting" | "dialog" | "scene-transition" | "wait";
+type EventType =
+  | "camera"
+  | "lighting"
+  | "dialog"
+  | "scene-transition"
+  | "wait"
+  | "audio"
+  | "recovery";
 
 interface BaseEventBlock {
   /** Type of EventBlock */
@@ -27,7 +37,7 @@ export interface CameraBlock extends BaseEventBlock {
   /** Distance for the camera to move in pixels */
   distance: number;
   /** The amount of time the movement should take in milliseconds */
-  dur: 5000;
+  dur: number;
 }
 
 export interface LightingBlock extends BaseEventBlock {
@@ -36,7 +46,7 @@ export interface LightingBlock extends BaseEventBlock {
   /** The color of the lighting fade */
   out: boolean;
   /** The amount of time the lighting block should take to finish in milliseconds */
-  dur: 5000;
+  dur: number;
 }
 
 export interface DialogBlock extends BaseEventBlock {
@@ -56,8 +66,21 @@ export interface TransitionBlock extends BaseEventBlock {
 export interface WaitBlock extends BaseEventBlock {
   type: "wait";
   async: boolean;
-  dur: 5000;
+  dur: number;
 }
+
+export interface AudioBlock extends BaseEventBlock {
+  type: "audio";
+  async: boolean;
+  action: "play" | "pause" | "stop";
+  title?: string;
+}
+
+export interface RecoveryBlock extends BaseEventBlock {
+  type: "recovery";
+  async: boolean;
+}
+
 export class EventLineRepository extends Repository<EventLine> {
   constructor(game: Phaser.Game) {
     const enemies = game.cache.json.get("events");

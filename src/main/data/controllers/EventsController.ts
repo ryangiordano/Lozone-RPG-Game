@@ -1,6 +1,13 @@
-import { EventBlock, WaitBlock } from "../repositories/EventsRepository";
+import { State } from "./../../utility/state/State";
+import {
+  EventBlock,
+  WaitBlock,
+  RecoveryBlock,
+  AudioBlock,
+} from "../repositories/EventsRepository";
 import { DialogScene, displayMessage } from "../../scenes/dialogScene";
 import { asyncForEach, wait } from "../../utility/Utility";
+import { AudioScene } from "../../scenes/audioScene";
 import {
   CameraBlock,
   LightingBlock,
@@ -25,20 +32,24 @@ export class EventsController {
     return new Promise(async (resolve) => {
       const event = this.getEventById(id);
       await this.startPlaying(event, scene);
+      console.log("And done");
       resolve();
     });
   }
 
   private startPlaying(event: EventLine, scene: Phaser.Scene) {
     // Chunk the events depending on if they're async
-    const chunked: EventBlock[][] = event.timeline.reduce((acc, e, i) => {
-      if (e.async) {
-        acc.length ? acc[acc.length - 1].push(e) : acc.push([e]);
-      } else {
-        acc.push([e]);
-      }
-      return acc;
-    }, []);
+    const chunked: EventBlock[][] = event.timeline.reduce(
+      (acc, e: EventBlock, i) => {
+        if (e.async) {
+          acc.length ? acc[acc.length - 1].push(e) : acc.push([e]);
+        } else {
+          acc.push([e]);
+        }
+        return acc;
+      },
+      []
+    );
     const potentials = chunked.map((c: EventBlock[]) => {
       return c.map((block: EventBlock) => {
         switch (block.type) {
@@ -52,6 +63,10 @@ export class EventsController {
             return () => this.executeTransitionBlock(block, scene);
           case "wait":
             return () => this.executeWaitBlock(block);
+          case "audio":
+            return () => this.executeAudioBlock(block);
+          case "recovery":
+            return () => this.executeRecoveryBlock(block);
         }
       });
     });
@@ -129,6 +144,33 @@ export class EventsController {
   private executeWaitBlock(block: WaitBlock) {
     return new Promise(async (resolve) => {
       await wait(block.dur);
+      resolve();
+    });
+  }
+  private executeRecoveryBlock(_block: RecoveryBlock) {
+    return new Promise(async (resolve) => {
+      const sm = State.getInstance();
+      sm.getCurrentParty().fullHeal();
+      const audio = <AudioScene>this.game.scene.getScene("Audio");
+      audio.playSound("rest");
+      await wait(5000);
+      resolve();
+    });
+  }
+  private executeAudioBlock(block: AudioBlock) {
+    return new Promise(async (resolve) => {
+      const audio = <AudioScene>this.game.scene.getScene("Audio");
+      switch (block.action) {
+        case "pause":
+          audio.stop();
+          break;
+        case "play":
+          audio.play(block.title);
+          break;
+        case "stop":
+          audio.stop();
+          break;
+      }
       resolve();
     });
   }

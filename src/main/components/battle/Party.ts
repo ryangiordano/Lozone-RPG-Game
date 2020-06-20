@@ -23,13 +23,12 @@ export class PlacementManager {
   emptyAt(coords: Coords): boolean {
     return this.placementGrid.emptyAt(coords);
   }
-
 }
 
 export type Placement = {
-  id: number,
-  position: Coords
-}
+  id: number;
+  position: Coords;
+};
 
 export class HeroParty {
   private partyController: PartyController;
@@ -39,11 +38,13 @@ export class HeroParty {
   constructor(combatEntities: CombatEntity[], game: Phaser.Game) {
     this.partyController = new PartyController(game);
     combatEntities.forEach((entity) => this.addMember(entity));
-    this.members.forEach(member => member.entity.setParty(this));
+    this.members.forEach((member) => member.entity.setParty(this));
   }
-  addMember(entity:CombatEntity) {
-
-    if (entity && !this.members.find(member => member.entity.id === entity.entity.id)) {
+  addMember(entity: CombatEntity) {
+    if (
+      entity &&
+      !this.members.find((member) => member.entity.id === entity.entity.id)
+    ) {
       this.members.push(entity);
       return true;
     }
@@ -53,6 +54,13 @@ export class HeroParty {
     return this.members;
   }
 
+  fullHeal() {
+    this.members.forEach((m) => {
+      m.entity.currentHp = m.entity.getMaxHp();
+      m.entity.currentMp = m.entity.getMaxMp();
+      m.entity.status = new Set();
+    });
+  }
 }
 
 export class EnemyParty {
@@ -62,7 +70,7 @@ export class EnemyParty {
     this.enemyController = new EnemyController(game);
     const enemyParty = this.enemyController.getEnemyPartyById(enemyPartyId);
     enemyParty.entities.forEach((enemy) => this.addEnemy(enemy));
-    this.members.forEach(member => member.entity.setParty(this));
+    this.members.forEach((member) => member.entity.setParty(this));
   }
   addEnemy(enemy: CombatEntity) {
     this.members.push(enemy);
@@ -73,4 +81,3 @@ export class EnemyParty {
     return this.members;
   }
 }
-

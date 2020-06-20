@@ -32,7 +32,7 @@
     "classes": [1, 5, 6],
     "modifiers": [{
       "modifierStatType": "strength",
-      "modifierPotency": 5
+      "modifierPotency": 10
     }],
     "value": 150,
     "sound": "item-collect"
@@ -51,10 +51,10 @@
     "classes": [1, 2, 5, 6],
     "modifiers": [{
       "modifierStatType": "strength",
-      "modifierPotency": 1
+      "modifierPotency": 3
     }, {
       "modifierStatType": "dexterity",
-      "modifierPotency": 2
+      "modifierPotency": 4
     }],
     "value": 25,
     "sound": "item-collect"
@@ -73,10 +73,10 @@
     "classes": [1, 2, 5, 6],
     "modifiers": [{
       "modifierStatType": "strength",
-      "modifierPotency": 2
+      "modifierPotency": 5
     }, {
       "modifierStatType": "dexterity",
-      "modifierPotency": 5
+      "modifierPotency": 8
     }],
     "value": 125,
     "sound": "item-collect"
@@ -95,13 +95,13 @@
     "classes": [2],
     "modifiers": [{
       "modifierStatType": "strength",
-      "modifierPotency": 1
+      "modifierPotency": 3
     }, {
       "modifierStatType": "dexterity",
-      "modifierPotency": 1
+      "modifierPotency": 3
     }, {
       "modifierStatType": "speed",
-      "modifierPotency": 1
+      "modifierPotency": 2
     }],
     "value": 55,
     "sound": "item-collect"
@@ -120,14 +120,14 @@
     "classes": [2],
     "modifiers": [{
         "modifierStatType": "strength",
-        "modifierPotency": 2
+        "modifierPotency": 4
       }, {
         "modifierStatType": "dexterity",
-        "modifierPotency": 3
+        "modifierPotency": 6
       },
       {
         "modifierStatType": "speed",
-        "modifierPotency": 2
+        "modifierPotency": 4
       }
     ],
     "value": 125,
@@ -148,10 +148,10 @@
     "characters": [1],
     "modifiers": [{
       "modifierStatType": "stamina",
-      "modifierPotency": 1
+      "modifierPotency": 3
     }, {
       "modifierStatType": "dexterity",
-      "modifierPotency": 2
+      "modifierPotency": 4
     }, {
       "modifierStatType": "hp",
       "modifierPotency": 10
@@ -173,10 +173,10 @@
     "characters": [1],
     "modifiers": [{
       "modifierStatType": "stamina",
-      "modifierPotency": 3
+      "modifierPotency": 6
     }, {
       "modifierStatType": "dexterity",
-      "modifierPotency": 4
+      "modifierPotency": 8
     }, {
       "modifierStatType": "hp",
       "modifierPotency": 50
@@ -198,10 +198,10 @@
     "characters": [4],
     "modifiers": [{
       "modifierStatType": "stamina",
-      "amount": 3
+      "modifierPotency": 6
     }, {
       "modifierStatType": "strength",
-      "modifierPotency": 2
+      "modifierPotency": 5
     }, {
       "modifierStatType": "hp",
       "modifierPotency": 10
@@ -226,10 +226,10 @@
     "characters": [4],
     "modifiers": [{
       "modifierStatType": "stamina",
-      "modifierPotency": 6
+      "modifierPotency": 10
     }, {
       "modifierStatType": "strength",
-      "modifierPotency": 4
+      "modifierPotency": 10
     }, {
       "modifierStatType": "hp",
       "modifierPotency": 25
@@ -254,7 +254,7 @@
     "characters": [],
     "modifiers": [{
       "modifierStatType": "physicalResist",
-      "modifierPotency": 3
+      "modifierPotency": 6
     }],
     "value": 15,
     "sound": "item-collect"
@@ -273,7 +273,7 @@
     "characters": [],
     "modifiers": [{
       "modifierStatType": "physicalResist",
-      "modifierPotency": 6
+      "modifierPotency": 10
     }],
     "value": 35,
     "sound": "item-collect"
@@ -292,7 +292,7 @@
     "characters": [],
     "modifiers": [{
       "modifierStatType": "physicalResist",
-      "modifierPotency": 1
+      "modifierPotency": 4
     }],
     "value": 35,
     "sound": "item-collect"
