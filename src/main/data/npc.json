@@ -2,6 +2,7 @@
     "1": {
         "name": "Ryan",
         "spriteKey": "ryan",
+        "facing": 0,
         "description": "This is the npc that lives in `room`.  He's hacking away at the computer.  He's part of a small quest-line to get Lo's hearing aids and USB.",
         "interaction": [{
             "id": 1,
@@ -126,6 +127,7 @@
         "name": "Dave",
         "spriteKey": "dave",
         "description": "It's just dave.",
+        "facing": 1,
         "interaction": [{
             "id": 1,
             "flags": []

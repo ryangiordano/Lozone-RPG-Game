@@ -10,7 +10,8 @@ export class NPC extends Moveable {
     { scene, key },
     facing?: Directions,
     protected dialog?: NPCDialog[],
-    protected placement?: NPCPlacement[]
+    protected placement?: NPCPlacement[],
+    public eventId?: number
   ) {
     super({ scene, x: 0, y: 0, key });
 

@@ -90,11 +90,6 @@
                          "name":"dialogId",
                          "type":"int",
                          "value":2
-                        }, 
-                        {
-                         "name":"interactive",
-                         "type":"bool",
-                         "value":true
                         }],
                  "rotation":0,
                  "type":"interactive",
@@ -394,9 +389,9 @@
                  "name":"dave",
                  "properties":[
                         {
-                         "name":"flagId",
+                         "name":"eventId",
                          "type":"int",
-                         "value":300
+                         "value":3
                         }, 
                         {
                          "name":"npcId",

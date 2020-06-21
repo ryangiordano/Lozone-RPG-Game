@@ -389,9 +389,9 @@
                  "name":"dave",
                  "properties":[
                         {
-                         "name":"flagId",
+                         "name":"eventId",
                          "type":"int",
-                         "value":300
+                         "value":3
                         }, 
                         {
                          "name":"npcId",

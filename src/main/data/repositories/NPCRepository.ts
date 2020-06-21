@@ -7,6 +7,7 @@ export interface NPCData {
     dialog: NPCDialog[],
     placement: NPCPlacement[],
     encounterId: number;
+    facing?:number;
 }
 
 export interface NPCDialog {

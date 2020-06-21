@@ -5,7 +5,6 @@ import { CreditsScene } from "./scenes/credits/creditsScene";
 import { HouseScene } from "./scenes/exploration/houseScene";
 import { DungeonScene } from "./scenes/exploration/dungeonScene";
 import { CombatScene } from "./scenes/combat/combatScene";
-import { StoreScene } from "./scenes/store/storeScene";
 import { GameOverScene } from "./scenes/gameOverScene";
 import { BootScene } from "./scenes/UI/bootScene";
 import { MenuScene } from "./scenes/UI/menuScene";
@@ -17,6 +16,7 @@ import { PartyStatusScene } from "./scenes/UI/PartyMenu/PartyStatus/PartyStatusS
 import { PartySpellCastScene } from "./scenes/UI/PartyMenu/PartySpellCast/PartySpellCastScene";
 import { PartySpellSelectScene } from "./scenes/UI/PartyMenu/PartySpellCast/PartySpellSelectScene";
 import { PartyEquipScene } from "./scenes/UI/PartyMenu/PartyEquip/PartyEquipScene";
+import { ShopScene } from './scenes/shopScene';
 
 export type GameScenes =
   | "BootScene"
@@ -31,6 +31,7 @@ export type GameScenes =
   | "PartyEquipScene"
   | "StoreScene"
   | "GameOverScene"
+  | "ShopScene"
   | "Audio";
 
 // main game configuration
@@ -53,9 +54,9 @@ const config: GameConfig = {
     PartySpellCastScene,
     PartySpellSelectScene,
     PartyEquipScene,
-    StoreScene,
     GameOverScene,
     AudioScene,
+    ShopScene,
   ],
   input: {
     keyboard: true,

@@ -81,10 +81,6 @@
     "name": "Shop",
     "description": "Talking to Dave will launch the shop scene",
     "timeline": [{
-      "type": "dialog",
-      "async": false,
-      "content": ["Ya?"]
-    }, {
       "type": "scene-transition",
       "async": false,
       "sceneName": "ShopScene"

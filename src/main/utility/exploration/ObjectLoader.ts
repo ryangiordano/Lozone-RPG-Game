@@ -246,15 +246,17 @@ export class MapObjectFactory {
 
   private createNpc(object) {
     const id = getObjectPropertyByName("npcId", object.properties);
+    const eventId = getObjectPropertyByName("eventId", object.properties);
     const npc = this.stateManager.npcController.getNPCById(id);
     const npcObject = new NPC(
       {
         scene: this.scene,
         key: npc.spriteKey,
       },
-      Directions.up,
+      npc.facing !== undefined ? npc.facing : Directions.up,
       npc.dialog,
-      npc.placement
+      npc.placement,
+      eventId
     );
     return npcObject;
   }
