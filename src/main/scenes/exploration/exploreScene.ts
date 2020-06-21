@@ -89,13 +89,12 @@ export abstract class Explore extends Phaser.Scene {
       this.player.controllable.setDisabled(true);
       this.eventsController = new EventsController(this.game);
       await this.eventsController.playEvent(id, this);
-      console.log("And done");
       this.setEventsOn();
       resolve();
     });
   }
 
-  protected afterCreated() {}
+  protected afterCreated() { }
 
   protected setEventsOn() {
     this.input.keyboard.on("keyup-Z", (event) => {
@@ -150,7 +149,7 @@ export abstract class Explore extends Phaser.Scene {
           entity.hasPlacementFlags() &&
           entity.setPlaced(
             sm.allAreFlagged(entity.placementFlags) &&
-              !sm.isFlagged(entity.flagId)
+            !sm.isFlagged(entity.flagId)
           );
       }
     });
@@ -237,13 +236,12 @@ export abstract class Explore extends Phaser.Scene {
         }
 
         if (interactive.entityType === EntityTypes.npc) {
-          console.log("???")
           await displayMessage(
             interactive.getCurrentDialog(),
             this.game,
             this.scene
           );
-          if (interactive.event) {
+          if (interactive.eventId) {
             await this.playEvent(interactive.eventId);
           }
 
@@ -364,7 +362,7 @@ export abstract class Explore extends Phaser.Scene {
     this.foregroundLayer.setName("foreground");
   }
 
-  async acquiredItemCallback({ itemId, flagId, chestCoords }) {}
+  async acquiredItemCallback({ itemId, flagId, chestCoords }) { }
 
   protected async startEncounter(
     enemyPartyId: number,

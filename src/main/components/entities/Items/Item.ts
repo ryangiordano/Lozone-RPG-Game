@@ -6,6 +6,7 @@ export enum ItemCategory {
   consumable,
   keyItem,
   equipment,
+  loot
 }
 
 export class Item {
@@ -23,8 +24,9 @@ export class Item {
     public quantity: number = 1,
     public sound: string,
     public flagId?: number,
-    public placementFlags?: number[]
-  ) {}
+    public placementFlags?: number[],
+    public value?: number
+  ) { }
   public incrementQuantity() {
     if (this.quantity >= this.limit) {
       this.quantity = this.quantity;

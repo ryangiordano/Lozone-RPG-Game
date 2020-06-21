@@ -14,22 +14,23 @@ import { MainPanel } from "../../components/menu/MainMenuPanel";
 import { AudioScene } from "../audioScene";
 import { UIPanel } from "../../components/UI/UIPanel";
 import { startScene } from "../utility";
+import CoinPanel from "../../components/menu/CoinPanel";
 
 export class MenuScene extends Phaser.Scene {
-  private UI: UserInterface;
-  private callingSceneKey: string;
-  private state: State = State.getInstance();
-  private mainPanel: UIPanel;
-  private itemPanel: ItemPanel;
-  private equipmentPanel: ItemPanel;
-  private equipConfirmPanel: ConfirmItemPanel;
+  protected UI: UserInterface;
+  protected callingSceneKey: string;
+  protected state: State = State.getInstance();
+  protected mainPanel: UIPanel;
+  protected itemPanel: ItemPanel;
+  protected equipmentPanel: ItemPanel;
+  protected equipConfirmPanel: ConfirmItemPanel;
 
-  private debugPanel: UIPanel;
-  private keyItemPanel: ItemPanel;
-  private coinPanel: PanelContainer;
-  private itemConfirmPanel: ConfirmItemPanel;
-  constructor() {
-    super({ key: "MenuScene" });
+  protected debugPanel: UIPanel;
+  protected keyItemPanel: ItemPanel;
+  protected coinPanel: CoinPanel;
+  protected itemConfirmPanel: ConfirmItemPanel;
+  constructor(config) {
+    super({ key: config ? config.key : "MenuScene" });
   }
 
   init(data) {
@@ -82,7 +83,7 @@ export class MenuScene extends Phaser.Scene {
   // ===================================
   // Main Panel
   // ===================================
-  private createAndSetUpMainPanel() {
+  protected createAndSetUpMainPanel() {
     const mainPanel = new MainPanel(
       { x: 4, y: 4 },
       { x: 0, y: 0 },
@@ -119,7 +120,7 @@ export class MenuScene extends Phaser.Scene {
   // ===================================
   // Item Panels
   // ===================================
-  private createItemPanel() {
+  protected createItemPanel() {
     const itemPanel = new ItemPanel(
       { x: 6, y: 6 },
       { x: 4, y: 0 },
@@ -152,7 +153,7 @@ export class MenuScene extends Phaser.Scene {
     return itemPanel;
   }
 
-  private createEquipmentPanel() {
+  protected createEquipmentPanel() {
     const equipmentPanel = new EquipmentPanel(
       { x: 6, y: 6 },
       { x: 4, y: 0 },
@@ -183,7 +184,7 @@ export class MenuScene extends Phaser.Scene {
     return equipmentPanel;
   }
 
-  private createKeyItemPanel() {
+  protected createKeyItemPanel() {
     const keyItemPanel = new ItemPanel(
       { x: 6, y: 6 },
       { x: 4, y: 0 },
@@ -213,7 +214,7 @@ export class MenuScene extends Phaser.Scene {
     return keyItemPanel;
   }
 
-  private setUpItemPanels() {
+  protected setUpItemPanels() {
     this.itemPanel.on("show-and-focus-confirm-panel", (item) => {
       this.UI.showPanel(this.itemConfirmPanel);
 
@@ -235,7 +236,7 @@ export class MenuScene extends Phaser.Scene {
     });
   }
 
-  private setUpEquipmentPanels() {
+  protected setUpEquipmentPanels() {
     this.equipmentPanel.on("show-and-focus-confirm-panel", (item) => {
       this.UI.showPanel(this.equipConfirmPanel);
 
@@ -257,7 +258,7 @@ export class MenuScene extends Phaser.Scene {
     });
   }
 
-  private createItemConfrmPanel() {
+  protected createItemConfrmPanel() {
     // Add item use confirmation panel.
     const itemConfirmPanel = new ConfirmItemPanel(
       { x: 3, y: 3 },
@@ -286,7 +287,7 @@ export class MenuScene extends Phaser.Scene {
     return itemConfirmPanel;
   }
 
-  private createEquipConfirmPanel() {
+  protected createEquipConfirmPanel() {
     // Add item use confirmation panel.
     const equipConfirmPanel = new ConfirmItemPanel(
       { x: 3, y: 3 },
@@ -308,53 +309,32 @@ export class MenuScene extends Phaser.Scene {
     return equipConfirmPanel;
   }
 
-  private startPartyStatusScene() {
+  protected startPartyStatusScene() {
     startScene("PartyStatusScene", this);
   }
-  private startPartyMagicScene() {
+  protected startPartyMagicScene() {
     startScene("PartySpellCastScene", this, {});
   }
-  private startPartyItemScene(item) {
+  protected startPartyItemScene(item) {
     startScene("PartyItemUseScene", this, { entity: item });
   }
 
-  private startPartyEquipScene(item) {
+  protected startPartyEquipScene(item) {
     startScene("PartyEquipScene", this, { entity: item });
   }
 
   // ===================================
   // Coin Panel
   // ===================================
-  private createCoinPanel() {
-    this.coinPanel = new PanelContainer(
-      { x: 4, y: 1 },
-      { x: 0, y: 8 },
-      "dialog-white",
-      this
-    );
-    this.coinPanel.show();
-    const coin = this.add.sprite(25, 32, "coin");
-    coin.setScale(0.5, 0.5);
-    this.coinPanel.add(coin);
-    this.anims.create({
-      key: "spin",
-      frames: this.anims.generateFrameNumbers("coin", { frames: [0, 1, 2, 1] }),
-      frameRate: 10,
-      repeat: -1,
-    });
-    const th = new TextFactory(this);
-    const coinAmount = th.createText(
-      State.getInstance().playerContents.getCoins().toString(),
-      { x: 50, y: 10 }
-    );
-    this.coinPanel.add(coinAmount);
-    coin.anims.play("spin");
+  protected createCoinPanel() {
+    this.coinPanel = new CoinPanel({ x: 0, y: 8 }, this);
+    this.coinPanel.init();
   }
 
   // ===================================
   // Debug Panel
   // ===================================
-  private createDebugPanel() {
+  protected createDebugPanel() {
     const dungeonPanel = this.UI.createUIPanel({ x: 6, y: 9 }, { x: 4, y: 0 })
       .addOption("Dungeon One", () => {
         this.scene.stop(this.callingSceneKey);
@@ -402,7 +382,7 @@ export class MenuScene extends Phaser.Scene {
     return dungeonPanel;
   }
 
-  private setEventListeners() {
+  protected setEventListeners() {
     this.UI.initialize();
     this.UI.events.on("menu-traverse", () =>
       this.sound.play("menu-tick", { volume: 0.1 })
@@ -417,7 +397,7 @@ export class MenuScene extends Phaser.Scene {
     });
   }
 
-  private startStoreScene() {
+  protected startStoreScene() {
     const storeScene = this.scene.get("StoreScene");
     const scenePlugin = new Phaser.Scenes.ScenePlugin(storeScene);
     scenePlugin.bringToTop("StoreScene");
@@ -427,13 +407,13 @@ export class MenuScene extends Phaser.Scene {
     });
   }
 
-  private closeMenuScene() {
+  protected closeMenuScene() {
     this.sound.play("menu-close", { volume: 0.1 });
     this.scene.setActive(true, this.callingSceneKey);
     this.scene.stop();
   }
 
-  private setKeyboardEventListeners() {
+  protected setKeyboardEventListeners() {
     this.input.keyboard.on("keyup-Z", (event) => {
       this.UI.events.off("menu-select");
       this.UI.events.off("menu-traverse");

@@ -32,8 +32,8 @@ export class ItemPanel extends UIPanel {
     pos: Coords,
     spriteKey: string,
     scene: Phaser.Scene,
-    private items: Item[],
-    private itemCategory: ItemCategory
+    protected items: Item[],
+    protected itemCategory: ItemCategory
   ) {
     super(dimensions, pos, spriteKey, scene);
     this.addOptionsViaData();

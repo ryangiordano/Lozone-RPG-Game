@@ -18,6 +18,7 @@ import {
   EventLineRepository,
   EventLine,
 } from "../repositories/EventsRepository";
+import { startScene } from "../../scenes/utility";
 
 export class EventsController {
   private eventLineRepository: EventLineRepository;
@@ -32,7 +33,6 @@ export class EventsController {
     return new Promise(async (resolve) => {
       const event = this.getEventById(id);
       await this.startPlaying(event, scene);
-      console.log("And done");
       resolve();
     });
   }
@@ -137,7 +137,7 @@ export class EventsController {
   }
   private executeTransitionBlock(block: TransitionBlock, scene: Phaser.Scene) {
     return new Promise((resolve) => {
-      scene.scene.start(block.sceneName);
+      startScene(block.sceneName, scene, block.data);
       resolve();
     });
   }

@@ -2,7 +2,8 @@
   "1": {
     "name": "Transition to ending",
     "description": "The event that leads to the end of the game",
-    "timeline": [{
+    "timeline": [
+      {
         "type": "camera",
         "async": true,
         "direction": "y",
@@ -18,7 +19,12 @@
       {
         "type": "dialog",
         "async": false,
-        "content": ["...", "I love you more than anything.", "Come, my xiao bao...", "there's something I want to show you."]
+        "content": [
+          "...",
+          "I love you more than anything.",
+          "Come, my xiao bao...",
+          "there's something I want to show you."
+        ]
       },
       {
         "type": "wait",
@@ -30,13 +36,13 @@
         "async": false,
         "sceneName": "CreditsScene"
       }
-
     ]
   },
   "2": {
     "name": "Recovery at the bedside",
     "description": "This event refills your characters hp and mana",
-    "timeline": [{
+    "timeline": [
+      {
         "type": "audio",
         "async": true,
         "action": "pause"
@@ -50,7 +56,9 @@
       {
         "type": "dialog",
         "async": false,
-        "content": ["I'm going to fall asleep with my computer open..."]
+        "content": [
+          "I'm going to fall asleep with my computer open..."
+        ]
       },
       {
         "type": "recovery",
@@ -66,7 +74,9 @@
       {
         "type": "dialog",
         "async": false,
-        "content": ["Did I fall asleep with my computer open?"]
+        "content": [
+          "Did I fall asleep with my computer open?"
+        ]
       },
       {
         "type": "audio",
@@ -76,14 +86,18 @@
       }
     ]
   },
-
   "3": {
     "name": "Shop",
     "description": "Talking to Dave will launch the shop scene",
-    "timeline": [{
-      "type": "scene-transition",
-      "async": false,
-      "sceneName": "ShopScene"
-    }]
+    "timeline": [
+      {
+        "type": "scene-transition",
+        "async": false,
+        "sceneName": "ShopScene",
+        "data": {
+          "inventoryId": 1
+        }
+      }
+    ]
   }
 }

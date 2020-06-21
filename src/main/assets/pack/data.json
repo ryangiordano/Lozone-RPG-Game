@@ -79,6 +79,11 @@
         "type": "json",
         "key": "equipment",
         "url": "./src/main/data/equipment.json"
+      },
+      {
+        "type": "json",
+        "key": "shop-inventory",
+        "url": "./src/main/data/shop-inventory.json"
       }
     ]
   }

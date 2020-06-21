@@ -3,6 +3,7 @@ import { UserInterface } from "../UI/UserInterface";
 import { KeyboardControl } from "../UI/Keyboard";
 import { UIPanel } from "../UI/UIPanel";
 
+//** Currently not used */
 export class StoreInterfaceBuilder {
   private spriteKey = "dialog-blue";
   constructor(private scene) {}

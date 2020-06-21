@@ -1,4 +1,5 @@
 import { Repository } from "./Repository";
+import { GameScenes } from "../../game";
 export type EventBlock =
   | CameraBlock
   | LightingBlock
@@ -60,7 +61,8 @@ export interface TransitionBlock extends BaseEventBlock {
   type: "scene-transition";
   async: boolean;
   /** The name of the scene to transition to */
-  sceneName: string;
+  sceneName: GameScenes;
+  data?: object;
 }
 
 export interface WaitBlock extends BaseEventBlock {

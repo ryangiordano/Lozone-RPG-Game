@@ -15,7 +15,7 @@
       "modifierStatType": "strength",
       "modifierPotency": 5
     }],
-    "value": 50,
+    "value": 150,
     "sound": "item-collect"
   },
   "2-e": {
@@ -34,7 +34,7 @@
       "modifierStatType": "strength",
       "modifierPotency": 10
     }],
-    "value": 150,
+    "value": 250,
     "sound": "item-collect"
   },
   "3-e": {
@@ -56,7 +56,7 @@
       "modifierStatType": "dexterity",
       "modifierPotency": 4
     }],
-    "value": 25,
+    "value": 125,
     "sound": "item-collect"
   },
   "4-e": {
@@ -78,7 +78,7 @@
       "modifierStatType": "dexterity",
       "modifierPotency": 8
     }],
-    "value": 125,
+    "value": 225,
     "sound": "item-collect"
   },
   "5-e": {
@@ -103,7 +103,7 @@
       "modifierStatType": "speed",
       "modifierPotency": 2
     }],
-    "value": 55,
+    "value": 155,
     "sound": "item-collect"
   },
   "6-e": {
@@ -130,7 +130,7 @@
         "modifierPotency": 4
       }
     ],
-    "value": 125,
+    "value": 225,
     "sound": "item-collect"
   },
   "7-e": {
@@ -256,7 +256,7 @@
       "modifierStatType": "physicalResist",
       "modifierPotency": 6
     }],
-    "value": 15,
+    "value": 175,
     "sound": "item-collect"
   },
   "12-e": {
@@ -275,7 +275,7 @@
       "modifierStatType": "physicalResist",
       "modifierPotency": 10
     }],
-    "value": 35,
+    "value": 235,
     "sound": "item-collect"
   },
   "13-e": {
@@ -294,7 +294,7 @@
       "modifierStatType": "physicalResist",
       "modifierPotency": 4
     }],
-    "value": 35,
+    "value": 135,
     "sound": "item-collect"
   }
 }

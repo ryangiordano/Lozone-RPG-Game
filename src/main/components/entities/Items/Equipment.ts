@@ -34,7 +34,8 @@ export class Equipment extends Item {
     private equipmentType: EquipmentType,
     private classes: number[],
     private characters: number[],
-    private modifiers: Modifier[]
+    private modifiers: Modifier[],
+    public value?: number
   ) {
     super(
       id,
