@@ -2,13 +2,12 @@ import { UserInterface } from "./../components/UI/UserInterface";
 import { KeyboardControl } from "../components/UI/Keyboard";
 import { ShopPanel } from "../components/shop/ShopPanel";
 import { UIPanel } from "../components/UI/UIPanel";
-import { ConfirmItemPanel, ItemPanel } from "../components/menu/ItemPanel";
-import { ItemCategory, Item } from "../components/entities/Items/Item";
-import { TextFactory } from "../utility/TextFactory";
+import { ConfirmItemPanel } from "../components/menu/ItemPanel";
+import { Item } from "../components/entities/Items/Item";
 import { MenuScene } from "./UI/menuScene";
 import { ItemController } from "../data/controllers/ItemController";
 import { PanelContainer } from "../components/UI/PanelContainer";
-import { BuyItemPanel } from "../components/shop/BuyItemPanel";
+import { ShopItemPanel } from "../components/shop/ShopItemPanel";
 import { State } from "../utility/state/State";
 import { displayMessage } from "./dialogScene";
 
@@ -76,7 +75,7 @@ export class ShopScene extends MenuScene {
 
   private createAndSetUpBuyPanel() {
     const shopInventory = this.itemController.getShopInventory(this.inventoryId)
-    const buyPanel = new BuyItemPanel(
+    const buyPanel = new ShopItemPanel(
       { x: 6, y: 6 },
       { x: 4, y: 0 },
       "dialog-blue",
@@ -107,7 +106,40 @@ export class ShopScene extends MenuScene {
 
     return buyPanel;
   }
+  private createAndSetUpSellPanel() {
+    const sm = State.getInstance();
+    const items = sm.getItemsOnPlayer();
+    const buyPanel = new ShopItemPanel(
+      { x: 6, y: 6 },
+      { x: 4, y: 0 },
+      "dialog-blue",
+      this,
+      items,
+      null
+    );
+    this.UI.addPanel(buyPanel);
 
+    buyPanel.on('item-selected', (item: Item) => {
+      this.sellItem(item)
+    })
+
+    buyPanel.on('item-focused', (item: Item) => {
+      buyPanel.updateDisplay(item);
+    })
+
+    const itemDetailPanel = new PanelContainer(
+      { x: 6, y: 3 },
+      { x: 4, y: 6 },
+      "dialog-blue",
+      this
+    );
+    buyPanel.addChildPanel("item-detail", itemDetailPanel);
+    buyPanel.on("panel-close", () => {
+      this.UI.closePanel(buyPanel);
+    });
+
+    return buyPanel;
+  }
   private async purchaseItem(item: Item) {
     const sm = State.getInstance()
     const currentCoins = sm.playerContents.getCoins();
@@ -120,17 +152,18 @@ export class ShopScene extends MenuScene {
     this.coinPanel.updateCoins(sm.playerContents.getCoins())
   }
 
-  private createAndSetUpSellPanel() {
-    const sellPanel = new ShopPanel(
-      { x: 4, y: 3 },
-      { x: 0, y: 0 },
-      "dialog-blue",
-      this
-    );
-    sellPanel.setUp();
-    this.UI.addPanel(sellPanel);
-
-    return sellPanel;
+  private async sellItem(item: Item) {
+    const sm = State.getInstance()
+    const itemsOnPlayer = sm.getItemsOnPlayer();
+    const currentCoins = sm.playerContents.getCoins();
+    if (!sm.playerHasItem(item.id)) {
+      await displayMessage([`No ${item.name} to sell!`], this.game, this.scene);
+      return;
+    }
+    sm.playerContents.addCoins(item.value);
+    sm.playerContents.removeItemFromContents(item);
+    this.sellPanel.refreshPanel()
+    this.coinPanel.updateCoins(sm.playerContents.getCoins())
   }
 
 }

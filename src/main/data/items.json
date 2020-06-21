@@ -225,7 +225,7 @@
     "spriteKey": "items",
     "frame": 17,
     "category": "consumable",
-    "value": 10,
+    "value": 50,
     "sound": "item-collect"
   },
   "21": {

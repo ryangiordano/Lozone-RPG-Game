@@ -2,8 +2,7 @@ import { ItemPanel } from "../menu/ItemPanel";
 import { Item, ItemCategory } from "../entities/Items/Item";
 import { TextFactory } from "../../utility/TextFactory";
 
-//Todo: A lot of this panel can be refactored
-export class BuyItemPanel extends ItemPanel {
+export class ShopItemPanel extends ItemPanel {
     constructor(
         dimensions: Coords,
         pos: Coords,
