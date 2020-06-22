@@ -50,6 +50,7 @@ export class ShopScene extends MenuScene {
 
     this.shopPanel.on("sell-selected", () => {
       this.UI.showPanel(this.sellPanel).focusPanel(this.sellPanel);
+      this.sellPanel.refreshPanel()
     });
 
     this.shopPanel.on("close-selected", () => {
@@ -168,7 +169,6 @@ export class ShopScene extends MenuScene {
     }
     sm.playerContents.addCoins(item.value);
     sm.playerContents.removeItemFromContents(item);
-    this.sellPanel.refreshPanel();
     this.sellPanel.rebuild(sm.playerContents.getItemsOnPlayer());
     this.coinPanel.updateCoins(sm.playerContents.getCoins());
   }

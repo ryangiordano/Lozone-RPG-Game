@@ -93,7 +93,16 @@ export class UIPanel extends PanelContainer implements HasOptions {
     this.visible = true;
     this.renderPage();
     this.showChildren();
-    this.focusOption(0);
+    this.focusOption(this.getLastFocused());
+  }
+
+  private lastFocused: number = 0;
+
+  private getLastFocused() {
+    return this.lastFocused > this.options.length - 1 ? this.options.length - 1 : this.lastFocused
+  }
+  private setLastFocused(index: number) {
+    this.lastFocused = index;
   }
 
   public close() {
@@ -152,6 +161,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
         option.focused = false;
       }
     });
+    this.setLastFocused(index);
     this.setCaret();
   }
   public getFocusIndex() {

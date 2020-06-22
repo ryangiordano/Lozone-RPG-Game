@@ -95,25 +95,12 @@ export class ItemPanel extends UIPanel {
   }
 
   public refreshPanel() {
-    console.log("refreshing")
     this.destroyCaret();
-    this.visible = false;
-    this.handleClose();
-    this.hideChildren();
-    this.createCaret();
-    this.pages = this.buildPages();
-    this.setVisibilityByCurrentPage();
-
-    this.setCaret();
-    this.bringToTop(this.caret);
-    this.visible = true;
-    this.renderPage();
-    this.showChildren();
-    this.focusOption(0);
-
     this.list = this.list.filter((item) => item.type !== "Text");
     this.options = [];
     this.addOptionsViaData();
+    
+    this.show();
   }
 }
 
