@@ -15,8 +15,8 @@ export class ShopScene extends MenuScene {
   protected shopPanel: ShopPanel;
   protected UI: UserInterface;
   protected callingSceneKey: string;
-  protected buyPanel: UIPanel;
-  protected sellPanel: UIPanel;
+  protected buyPanel: ShopItemPanel;
+  protected sellPanel: ShopItemPanel;
   protected confirmPanel: ConfirmItemPanel;
   private itemController: ItemController;
   private inventoryId: number;
@@ -27,8 +27,13 @@ export class ShopScene extends MenuScene {
   }
 
   init(data) {
+
+    const sm = State.getInstance();
+    sm.addItemToContents(19)
+    sm.addItemToContents(20)
+    sm.addItemToContents(21)
     this.inventoryId = data.inventoryId;
-    this.itemController = new ItemController(this.game)
+    this.itemController = new ItemController(this.game);
     this.input.keyboard.resetKeys();
 
     this.callingSceneKey = data.callingSceneKey;
@@ -38,13 +43,13 @@ export class ShopScene extends MenuScene {
     this.shopPanel = this.createAndSetUpShopPanel();
 
     this.buyPanel = this.createAndSetUpBuyPanel();
-    this.sellPanel = this.createAndSetUpSellPanel()
+    this.sellPanel = this.createAndSetUpSellPanel();
     this.shopPanel.on("buy-selected", () => {
-      this.UI.showPanel(this.buyPanel).focusPanel(this.buyPanel)
+      this.UI.showPanel(this.buyPanel).focusPanel(this.buyPanel);
     });
 
     this.shopPanel.on("sell-selected", () => {
-      this.UI.showPanel(this.sellPanel).focusPanel(this.sellPanel)
+      this.UI.showPanel(this.sellPanel).focusPanel(this.sellPanel);
     });
 
     this.shopPanel.on("close-selected", () => {
@@ -55,8 +60,7 @@ export class ShopScene extends MenuScene {
 
     this.setEventListeners();
 
-
-    this.UI.showPanel(this.shopPanel).focusPanel(this.shopPanel)
+    this.UI.showPanel(this.shopPanel).focusPanel(this.shopPanel);
     this.sound.play("menu-open", { volume: 0.1 });
   }
 
@@ -74,7 +78,9 @@ export class ShopScene extends MenuScene {
   }
 
   private createAndSetUpBuyPanel() {
-    const shopInventory = this.itemController.getShopInventory(this.inventoryId)
+    const shopInventory = this.itemController.getShopInventory(
+      this.inventoryId
+    );
     const buyPanel = new ShopItemPanel(
       { x: 6, y: 6 },
       { x: 4, y: 0 },
@@ -85,13 +91,13 @@ export class ShopScene extends MenuScene {
     );
     this.UI.addPanel(buyPanel);
 
-    buyPanel.on('item-selected', (item: Item) => {
-      this.purchaseItem(item)
-    })
+    buyPanel.on("item-selected", (item: Item) => {
+      this.purchaseItem(item);
+    });
 
-    buyPanel.on('item-focused', (item: Item) => {
+    buyPanel.on("item-focused", (item: Item) => {
       buyPanel.updateDisplay(item);
-    })
+    });
 
     const itemDetailPanel = new PanelContainer(
       { x: 6, y: 3 },
@@ -119,13 +125,13 @@ export class ShopScene extends MenuScene {
     );
     this.UI.addPanel(buyPanel);
 
-    buyPanel.on('item-selected', (item: Item) => {
-      this.sellItem(item)
-    })
+    buyPanel.on("item-selected", (item: Item) => {
+      this.sellItem(item);
+    });
 
-    buyPanel.on('item-focused', (item: Item) => {
+    buyPanel.on("item-focused", (item: Item) => {
       buyPanel.updateDisplay(item);
-    })
+    });
 
     const itemDetailPanel = new PanelContainer(
       { x: 6, y: 3 },
@@ -141,7 +147,7 @@ export class ShopScene extends MenuScene {
     return buyPanel;
   }
   private async purchaseItem(item: Item) {
-    const sm = State.getInstance()
+    const sm = State.getInstance();
     const currentCoins = sm.playerContents.getCoins();
     if (item.value > currentCoins) {
       await displayMessage(["Not enough coins!"], this.game, this.scene);
@@ -149,11 +155,11 @@ export class ShopScene extends MenuScene {
     }
     sm.playerContents.removeCoins(item.value);
     sm.playerContents.addItemToContents(item);
-    this.coinPanel.updateCoins(sm.playerContents.getCoins())
+    this.coinPanel.updateCoins(sm.playerContents.getCoins());
   }
 
   private async sellItem(item: Item) {
-    const sm = State.getInstance()
+    const sm = State.getInstance();
     const itemsOnPlayer = sm.getItemsOnPlayer();
     const currentCoins = sm.playerContents.getCoins();
     if (!sm.playerHasItem(item.id)) {
@@ -162,8 +168,8 @@ export class ShopScene extends MenuScene {
     }
     sm.playerContents.addCoins(item.value);
     sm.playerContents.removeItemFromContents(item);
-    this.sellPanel.refreshPanel()
-    this.coinPanel.updateCoins(sm.playerContents.getCoins())
+    this.sellPanel.refreshPanel();
+    this.sellPanel.rebuild(sm.playerContents.getItemsOnPlayer());
+    this.coinPanel.updateCoins(sm.playerContents.getCoins());
   }
-
 }

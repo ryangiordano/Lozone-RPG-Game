@@ -4,9 +4,9 @@ import { HasOptions } from "./UserInterface";
 import { KeyboardControlKeys } from "./Keyboard";
 
 export class UIPanel extends PanelContainer implements HasOptions {
-  private caret: Phaser.GameObjects.Text;
+  protected caret: Phaser.GameObjects.Text;
   public options: any[] = [];
-  private focusedIndex: number = 0;
+  protected focusedIndex: number = 0;
 
   constructor(
     dimensions: Coords,
@@ -18,21 +18,21 @@ export class UIPanel extends PanelContainer implements HasOptions {
   ) {
     super(dimensions, pos, spriteKey, scene, id);
   }
-  private getNumberOfVisibleOptions() {
+  protected getNumberOfVisibleOptions() {
     if (this.options.length) {
       return Math.floor(this.panel.height / this.options[0].height);
     }
     return 1;
   }
 
-  private optionsPerPage() {
+  protected optionsPerPage() {
     if (this.options.length) {
       return Math.ceil(this.panel.height / this.options[0].height);
     }
     return 1;
   }
 
-  private buildPages() {
+  protected buildPages() {
     return this.options.reduce((acc, p) => {
       if (
         acc.length <= 0 ||
@@ -45,9 +45,9 @@ export class UIPanel extends PanelContainer implements HasOptions {
       return acc;
     }, []);
   }
-  private pages: DialogListItem[][];
-  private currentPageIndex: number = 0;
-  private renderPage() {
+  protected pages: DialogListItem[][];
+  protected currentPageIndex: number = 0;
+  protected renderPage() {
     let toAdd = this.pages[this.currentPageIndex];
     let lastPlacement = 20;
     toAdd.forEach((o, i) => {
@@ -56,10 +56,10 @@ export class UIPanel extends PanelContainer implements HasOptions {
       this.add(o);
     });
   }
-  private getcurrentPage() {
+  protected getcurrentPage() {
     return this.pages[this.currentPageIndex];
   }
-  private showNextPage() {
+  protected showNextPage() {
     this.currentPageIndex = Math.min(
       this.currentPageIndex + 1,
       this.pages.length - 1
@@ -69,7 +69,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
     this.focusOption(0);
     this.setCaret();
   }
-  private showPreviousPage() {
+  protected showPreviousPage() {
     this.currentPageIndex = Math.max(this.currentPageIndex - 1, 0);
     this.setVisibilityByCurrentPage();
     this.renderPage();
@@ -77,7 +77,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
     this.setCaret();
   }
 
-  private setVisibilityByCurrentPage() {
+  protected setVisibilityByCurrentPage() {
     this.pages.forEach((p, i) => {
       p.forEach((x) => x.setVisible(i === this.currentPageIndex));
     });
@@ -103,7 +103,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
     this.hideChildren();
   }
 
-  private destroyCaret() {
+  protected destroyCaret() {
     this.caret && this.caret.destroy(true);
     delete this.caret;
   }
@@ -113,11 +113,6 @@ export class UIPanel extends PanelContainer implements HasOptions {
     selectCallback: Function,
     focusCallback?: Function
   ): UIPanel {
-    const lastItem = <Phaser.GameObjects.Text>(
-      this.options[this.options.length - 1]
-    );
-    // const x = 0;
-    // const y = lastItem ? lastItem.y + 40 : 20;
     const toAdd = new DialogListItem(
       this.scene,
       0,
@@ -132,33 +127,12 @@ export class UIPanel extends PanelContainer implements HasOptions {
       focusCallback
     );
     toAdd.setPadding(30, 0, 0, 0);
+    this.bringToTop(toAdd);
     this.options.push(toAdd);
     return this;
   }
 
-  public readjustOptionsForWindow() {
-    const startWindow = 0;
-    const endWindow = startWindow + this.getNumberOfVisibleOptions();
-    const options = [...this.options];
-    this.resetOptions();
-    //TODO: Items that fit to window turned off for now.
-    // If there is aneough space to show all options, skip this behavior.
-    let toAdd = options;
-    if (options.length >= this.getNumberOfVisibleOptions()) {
-      toAdd = options.filter((o, i) => {
-        return i >= startWindow && i <= endWindow;
-      });
-    }
-    // const toAdd = options;
 
-    let lastPlacement = 20;
-    toAdd.forEach((o, i) => {
-      o.y = i > 0 ? lastPlacement + 40 : lastPlacement;
-      lastPlacement = o.y;
-      this.add(o);
-    });
-    this.options = options;
-  }
 
   resetOptions() {
     this.remove(this.options);
@@ -229,7 +203,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
     }
   }
 
-  private createCaret() {
+  protected createCaret() {
     if (this.caret) {
       return;
     }
@@ -243,7 +217,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
     this.caret.type = "Cursor";
   }
 
-  private setCaret() {
+  protected setCaret() {
     const focusedOption = this.getFocusedOption();
     if (this.caret && focusedOption) {
       this.caret.x = focusedOption.x + 5;
