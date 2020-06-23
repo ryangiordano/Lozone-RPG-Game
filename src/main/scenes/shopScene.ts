@@ -10,6 +10,7 @@ import { PanelContainer } from "../components/UI/PanelContainer";
 import { ShopItemPanel } from "../components/shop/ShopItemPanel";
 import { State } from "../utility/state/State";
 import { displayMessage } from "./dialogScene";
+import { AudioScene } from "./audioScene";
 
 export class ShopScene extends MenuScene {
   protected shopPanel: ShopPanel;
@@ -27,11 +28,10 @@ export class ShopScene extends MenuScene {
   }
 
   init(data) {
-
     const sm = State.getInstance();
-    sm.addItemToContents(19)
-    sm.addItemToContents(20)
-    sm.addItemToContents(21)
+    sm.addItemToContents(19);
+    sm.addItemToContents(20);
+    sm.addItemToContents(21);
     this.inventoryId = data.inventoryId;
     this.itemController = new ItemController(this.game);
     this.input.keyboard.resetKeys();
@@ -50,7 +50,7 @@ export class ShopScene extends MenuScene {
 
     this.shopPanel.on("sell-selected", () => {
       this.UI.showPanel(this.sellPanel).focusPanel(this.sellPanel);
-      this.sellPanel.refreshPanel()
+      this.sellPanel.refreshPanel();
     });
 
     this.shopPanel.on("close-selected", () => {
@@ -154,6 +154,8 @@ export class ShopScene extends MenuScene {
       await displayMessage(["Not enough coins!"], this.game, this.scene);
       return;
     }
+    const audio = <AudioScene>this.scene.get("Audio");
+    audio.playSound("coin", 0.1, true);
     sm.playerContents.removeCoins(item.value);
     sm.playerContents.addItemToContents(item);
     this.coinPanel.updateCoins(sm.playerContents.getCoins());
@@ -161,12 +163,12 @@ export class ShopScene extends MenuScene {
 
   private async sellItem(item: Item) {
     const sm = State.getInstance();
-    const itemsOnPlayer = sm.getItemsOnPlayer();
-    const currentCoins = sm.playerContents.getCoins();
     if (!sm.playerHasItem(item.id)) {
       await displayMessage([`No ${item.name} to sell!`], this.game, this.scene);
       return;
     }
+    const audio = <AudioScene>this.scene.get("Audio");
+    audio.playSound("coin", 0.1, true);
     sm.playerContents.addCoins(item.value);
     sm.playerContents.removeItemFromContents(item);
     this.sellPanel.rebuild(sm.playerContents.getItemsOnPlayer());

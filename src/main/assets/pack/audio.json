@@ -7,6 +7,11 @@
       },
       {
         "type": "audio",
+        "key": "purchase",
+        "url": "./src/main/assets/sounds/purchase.wav"
+      },
+      {
+        "type": "audio",
         "key": "credits",
         "url": "./src/main/assets/music/credits.mp3"
       },

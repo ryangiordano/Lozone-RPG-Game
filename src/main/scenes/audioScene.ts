@@ -85,10 +85,10 @@ export abstract class AudioScene extends Phaser.Scene {
 
   init(data) {}
 
-  playSound(soundName: string, volume = 0.3) {
+  playSound(soundName: string, volume = 0.3, forcePlay: boolean = false) {
     const s = this.sounds.find((s) => s.key === soundName);
     if (s) {
-      if (!s.sound.isPlaying) {
+      if (forcePlay || !s.sound.isPlaying) {
         s.sound.play(null, { volume });
       }
     } else {
