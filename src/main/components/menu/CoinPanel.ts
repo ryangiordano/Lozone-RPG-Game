@@ -21,7 +21,8 @@ export default class CoinPanel extends PanelContainer {
       frameRate: 10,
       repeat: -1,
     });
-    this.updateCoins(State.getInstance().playerContents.getCoins());
+    this.currentCoins = State.getInstance().playerContents.getCoins();
+    this._updateCoins(this.currentCoins);
     coin.anims.play("spin");
   }
 

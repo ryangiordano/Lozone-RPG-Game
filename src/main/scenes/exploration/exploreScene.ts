@@ -108,7 +108,7 @@ export abstract class Explore extends Phaser.Scene {
   }
 
   protected setEventsOff() {
-    this.input.keyboard.off("keyup-z");
+    this.input.keyboard.off("keyup-Z");
   }
 
   protected setGroups() {

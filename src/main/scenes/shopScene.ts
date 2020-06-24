@@ -28,13 +28,14 @@ export class ShopScene extends MenuScene {
   }
 
   init(data) {
+    this.input.keyboard.resetKeys();
+
     const sm = State.getInstance();
     sm.addItemToContents(19);
     sm.addItemToContents(20);
     sm.addItemToContents(21);
     this.inventoryId = data.inventoryId;
     this.itemController = new ItemController(this.game);
-    this.input.keyboard.resetKeys();
 
     this.callingSceneKey = data.callingSceneKey;
 
@@ -148,6 +149,8 @@ export class ShopScene extends MenuScene {
     return buyPanel;
   }
   private async purchaseItem(item: Item) {
+    this.input.keyboard.resetKeys();
+
     const sm = State.getInstance();
     const currentCoins = sm.playerContents.getCoins();
     if (item.value > currentCoins) {
@@ -162,6 +165,7 @@ export class ShopScene extends MenuScene {
   }
 
   private async sellItem(item: Item) {
+    this.input.keyboard.resetKeys();
     const sm = State.getInstance();
     if (!sm.playerHasItem(item.id)) {
       await displayMessage([`No ${item.name} to sell!`], this.game, this.scene);

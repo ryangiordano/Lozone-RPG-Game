@@ -408,6 +408,7 @@ export class MenuScene extends Phaser.Scene {
   }
 
   protected closeMenuScene() {
+    this.removeKeyboardEventListeners();
     this.sound.play("menu-close", { volume: 0.1 });
     this.scene.setActive(true, this.callingSceneKey);
     this.scene.stop();
@@ -415,9 +416,14 @@ export class MenuScene extends Phaser.Scene {
 
   protected setKeyboardEventListeners() {
     this.input.keyboard.on("keyup-Z", (event) => {
-      this.UI.events.off("menu-select");
-      this.UI.events.off("menu-traverse");
       this.closeMenuScene();
     });
+  }
+
+  protected removeKeyboardEventListeners() {
+    this.UI.events.off("menu-select");
+    this.UI.events.off("menu-traverse");
+    this.events.off("close");
+    this.input.keyboard.off("keyup-Z");
   }
 }
