@@ -234,6 +234,8 @@ export class Combat {
    */
   private async startLoop() {
     if (!this.combatEvents.length && this.enemies.length) {
+      this.partyMembers.forEach((e) => e.entity.tickBuffs());
+      this.enemies.forEach((e) => e.entity.tickBuffs());
       // Send control back to user for next round of inputs.
       this.displayInputControlsForCurrentPartyMember();
       return false;
@@ -277,6 +279,7 @@ export class Combat {
         return this.resolveTargetDeaths(target);
       })
     );
+
     this.startLoop();
   }
 

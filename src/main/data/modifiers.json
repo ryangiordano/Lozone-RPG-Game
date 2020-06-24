@@ -1,18 +1,32 @@
 {
-  "0": {
+  "1": {
     "name": "Defense Up",
     "description": "Increases physical resistance",
-    "modifierStateType": 1,
-    "modifierPotency": 10,
-    "particle": 1,
-    "frame": 1
+    "modifierStatType": "physicalResist",
+    "modifierPotency": 10
   },
-  "1": {
+  "2": {
     "name": "Attack Up",
     "description": "Increases attack power",
-    "modifierStateType": 1,
-    "modifierPotency": 10,
-    "particle": 1,
-    "frame": 1
+    "modifierStatType": "strength",
+    "modifierPotency": 10
+  },
+  "3": {
+    "name": "Defense Down",
+    "description": "Decrease physical resistance",
+    "modifierStatType": "physicalResist",
+    "modifierPotency": -10
+  },
+  "4": {
+    "name": "Attack Down",
+    "description": "Decrease attack power",
+    "modifierStatType": "strength",
+    "modifierPotency": -10
+  },
+  "5": {
+    "name": "Dex Up",
+    "description": "Increase dexterity",
+    "modifierStatType": "dexterity",
+    "modifierPotency": 10
   }
 }

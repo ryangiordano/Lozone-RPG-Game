@@ -84,6 +84,16 @@
         "type": "json",
         "key": "shop-inventory",
         "url": "./src/main/data/shop-inventory.json"
+      },
+      {
+        "type": "json",
+        "key": "buffs",
+        "url": "./src/main/data/buffs.json"
+      },
+      {
+        "type": "json",
+        "key": "modifiers",
+        "url": "./src/main/data/modifiers.json"
       }
     ]
   }

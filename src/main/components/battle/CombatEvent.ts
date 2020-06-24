@@ -68,8 +68,9 @@ export class CombatEvent {
           targetDown: false,
         },
       ];
-      const text = this.createCombatText("^", this.executor);
-      await this.playFadeUp(text);
+      //TODO: Play effect here for defending
+      // const text = this.createCombatText("^", this.executor);
+      // await this.playFadeUp(text);
       results[0].message = [`${this.executor.name} is defending.`];
       return resolve(results);
     });

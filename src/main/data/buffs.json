@@ -1,14 +1,55 @@
 {
-    "0":{
-        "modifiers": [0],
+    "1": {
+        "modifiers": [1],
         "name": "Defended",
         "duration": 1,
-        "description": "Increases defense power for one turn"
+        "description": "Increases defense power for one turn",
+        "icon": "status",
+        "frame": 0,
+        "effect": 1,
+        "color": "0xD6D252"
+
     },
-    "1":{
-        "modifiers": [1],
+    "2": {
+        "modifiers": [2],
         "name": "Bold",
         "duration": 3,
-        "description": "Increases attack power for three turns"
+        "description": "Increases attack power for three turns",
+        "icon": "status",
+        "frame": 1,
+        "effect": 1,
+        "color": "0xD6D252"
+
+    },
+    "3": {
+        "modifiers": [3],
+        "name": "Expose",
+        "duration": 3,
+        "description": "Decreases defense power for three turns",
+        "icon": "status",
+        "frame": 2,
+        "effect": 1,
+        "color": "0xD6D252"
+    },
+    "4": {
+        "modifiers": [4],
+        "name": "Enfeeble",
+        "duration": 3,
+        "description": "Decreases defense power for three turns",
+        "icon": "status",
+        "frame": 1,
+        "effect": 1,
+        "color": "0xD6D252"
+    },
+    "5": {
+        "modifiers": [2, 5],
+        "name": "Cat Magic",
+        "duration": 3,
+        "description": "Raises dexterity and strength for three turns",
+        "icon": "status",
+        "frame": 1,
+        "effect": 1,
+        "color": "0xD6D252"
+
     }
 }

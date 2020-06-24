@@ -126,7 +126,11 @@ export class PartyMember extends Combatant {
   }
 
   public getDefensePower() {
-    return this.modified("stamina") + this.equipmentModifier("physicalResist");
+    return (
+      this.modified("stamina") +
+      this.equipmentModifier("physicalResist") +
+      this.buffValue("physicalResist")
+    );
   }
 
   public getMagicResist() {

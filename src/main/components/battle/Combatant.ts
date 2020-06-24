@@ -15,6 +15,8 @@ import { Buff } from "./Buff";
 import { Item, handleItemUse } from "../entities/Items/Item";
 import { SpellType } from "../../data/repositories/SpellRepository";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
+import { CombatInfluencerController } from "../../data/controllers/CombatInfluencerController";
+import { BaseStat } from "./PartyMember";
 
 interface PersistentAffect {
   id: number;
@@ -61,7 +63,7 @@ class EffectManager {
 }
 
 export class Combatant {
-  private buffs: Map<number, Buff>;
+  private buffs: Buff[];
   private behaviors: Map<number, Behavior>;
   public spells: Map<number, Spell>;
   public currentHp: number;
@@ -70,6 +72,8 @@ export class Combatant {
   public type: CombatantType;
   protected sprite: Phaser.GameObjects.Sprite;
   protected effectManager: EffectManager;
+  protected combatInfluencerController: CombatInfluencerController;
+
   public uid: string = getUID();
   protected currentParty;
   private direction: Directions;
@@ -90,7 +94,7 @@ export class Combatant {
     spells?: Spell[]
   ) {
     this.status = new Set<Status>();
-    this.buffs = new Map<number, Buff>();
+    this.buffs = [];
     this.spells = new Map<number, Spell>();
     if (spells) {
       spells.forEach(this.addSpell);
@@ -100,6 +104,9 @@ export class Combatant {
     this.direction = direction;
     this.sprite = new Phaser.GameObjects.Sprite(scene, 0, 0, this.spriteKey);
     this.effectManager = new EffectManager(scene, this.sprite);
+    this.combatInfluencerController = new CombatInfluencerController(
+      scene.game
+    );
     this.sprite.setOrigin(0.5, 0.5);
     this.sprite.setAlpha(1);
     this.standUp();
@@ -141,11 +148,7 @@ export class Combatant {
     statusArray.forEach((status) => {
       this.status.add(status);
     });
-    buffArray.forEach((buff) => {
-      if (!this.buffs.has(buff.id)) {
-        this.buffs.set(buff.id, buff);
-      }
-    });
+    this.buffs = [...buffArray];
   }
 
   setCurrentHp(currentHp) {
@@ -292,7 +295,9 @@ export class Combatant {
     return this.intellect * this.levelModifier();
   }
   public getDefensePower() {
-    return this.stamina * this.levelModifier();
+    return (
+      this.stamina * this.levelModifier() + this.buffValue("physicalResist")
+    );
   }
 
   public getMagicResist() {
@@ -314,6 +319,32 @@ export class Combatant {
   public defendSelf() {
     //TODO: Implement defending self
     // this.buffs.set()
+    const defenseBuff = this.combatInfluencerController.getBuff(1);
+    if (!this.buffs.find((b) => b.id === defenseBuff.id)) {
+      this.buffs.push(defenseBuff);
+    }
+  }
+
+  public tickBuffs() {
+    this.buffs = this.buffs.filter((b) => {
+      b.duration--;
+      return b.duration;
+    });
+  }
+
+  /** The cumulative potency granted by buffs for a given stat */
+  protected buffValue(baseStat: BaseStat) {
+    const v = this.buffs.reduce((acc, b) => {
+      const modifierValue = b.modifiers.reduce((a, m) => {
+        if (m.modifierStatType === baseStat) {
+          a += m.modifierPotency;
+        }
+        return a;
+      }, 0);
+      acc += modifierValue;
+      return acc;
+    }, 0);
+    return v;
   }
 
   protected levelModifier() {
