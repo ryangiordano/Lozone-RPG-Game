@@ -187,7 +187,8 @@ export class PartyMember extends Combatant {
 
     return Math.floor(
       this[baseStat] * this.combatClass[baseStat] * this.levelModifier() +
-        this.equipmentModifier(baseStat)
+        this.equipmentModifier(baseStat) +
+        this.buffValue(baseStat)
     );
   }
 

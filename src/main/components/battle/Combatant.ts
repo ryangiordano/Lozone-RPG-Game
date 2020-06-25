@@ -10,7 +10,6 @@ import {
   Effect,
 } from "./CombatDataStructures";
 import { getUID, Directions } from "../../utility/Utility";
-import { Defend } from "./Actions";
 import { Buff } from "./Buff";
 import { Item, handleItemUse } from "../entities/Items/Item";
 import { SpellType } from "../../data/repositories/SpellRepository";
@@ -224,6 +223,9 @@ export class Combatant {
           case SpellType.restoration:
             resultingValue = t.healFor(potency);
             break;
+          case SpellType.status:
+            spell.appliedBuffs.map((b) => t.addBuff(b));
+            break;
           default:
             console.error(`SpellType not supported: ${spell.type}`);
         }
@@ -315,14 +317,22 @@ export class Combatant {
     return Math.min(this.dexterity * this.levelModifier() * 0.7, 33);
   }
   public getModifierValue() {}
-  // Ad a defense up buff that lasts one turn to yourself.
+
+  /**Add a defense up buff that lasts one turn to yourself. */
   public defendSelf() {
-    //TODO: Implement defending self
-    // this.buffs.set()
     const defenseBuff = this.combatInfluencerController.getBuff(1);
-    if (!this.buffs.find((b) => b.id === defenseBuff.id)) {
-      this.buffs.push(defenseBuff);
+    this.addBuff(defenseBuff);
+  }
+
+  /** Apply a copy of the buff found on the spell being cast
+   * If we don't do this, a reference to the same buff will be passed,
+   * and a bug occurs where they'll share the same duration will occur.
+   */
+  public addBuff(buff: Buff) {
+    if (!this.buffs.find((b) => b.id === buff.id)) {
+      this.buffs.push({ ...buff });
     }
+    return {};
   }
 
   public tickBuffs() {

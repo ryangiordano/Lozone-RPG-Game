@@ -23,7 +23,11 @@
         "strength": 1.6,
         "physicalResist": 1.2,
         "magicalResist": 1.2,
-        "spells": []
+        "spells": [{
+            "requiredLevel": 1,
+            "classModifier": 1,
+            "spell": 13
+        }]
     },
     "3": {
         "name": "Bunmage",

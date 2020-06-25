@@ -2,11 +2,11 @@
   "1": {
     "id": 1,
     "name": "Lesser Heal",
-    "primaryAnimationEffect":null,
+    "primaryAnimationEffect": null,
     "animationEffect": 1,
     "description": "Heals for a small amount.",
     "basePotency": 10,
-    "type":0,
+    "type": 0,
     "manaCost": 5,
     "targetType": {
       "targeting": 0,
@@ -17,11 +17,11 @@
   "2": {
     "id": 2,
     "name": "Heal",
-    "primaryAnimationEffect":null,
+    "primaryAnimationEffect": null,
     "animationEffect": 1,
     "description": "Heals for a decent amount.",
     "basePotency": 10,
-    "type":0,
+    "type": 0,
     "manaCost": 20,
     "targetType": {
       "targeting": 0,
@@ -32,60 +32,15 @@
   "3": {
     "id": 3,
     "name": "Greater Heal",
-    "primaryAnimationEffect":null,
+    "primaryAnimationEffect": null,
     "animationEffect": 1,
     "description": "Heals for a significant amount.",
     "basePotency": 15,
-    "type":0,
+    "type": 0,
     "manaCost": 50,
     "targetType": {
       "targeting": 0,
       "targetArea": 0
-    },
-    "status": []
-  },
-  "10": {
-    "id": 10,
-    "name": "Flame",
-    "primaryAnimationEffect":null,
-    "animationEffect": 2,
-    "description": "Does a small amount of damage",
-    "basePotency": 10,
-    "type":1,
-    "manaCost": 10,
-    "targetType": {
-      "targeting": 1,
-      "targetArea": 0
-    },
-    "status": []
-  },
-  "11": {
-    "id": 11,
-    "name": "Flame All",
-    "primaryAnimationEffect":4,
-    "animationEffect": 2,
-    "description": "Does a small amount of damage to all enemies",
-    "basePotency": 7,
-    "type":1,
-    "manaCost": 30,
-    "targetType": {
-      "targeting": 1,
-      "targetArea": 1
-    },
-    "status": []
-  },
-  "12": {
-    "id": 12,
-    "name": "Debug Nuke",
-    "primaryAnimationEffect":4,
-    "animationEffect": 2,
-    "description": "Fuck game logic.",
-    "basePotency": 100,
-    "type":1,
-    "manaCost": 13,
-    "targetType": {
-      "targeting": 1,
-      "targetArea": 1
     },
     "status": []
   },
@@ -96,7 +51,7 @@
     "animationEffect": 1,
     "description": "Restore some MP.",
     "basePotency": 10,
-    "type":3,
+    "type": 3,
     "manaCost": 0,
     "targetType": {
       "targeting": 0,
@@ -111,12 +66,73 @@
     "animationEffect": 1,
     "description": "Revive a fallen friend.",
     "basePotency": 10,
-    "type":4,
+    "type": 4,
     "manaCost": 20,
     "targetType": {
       "targeting": 0,
       "targetArea": 0
     },
+    "status": []
+  },
+  "10": {
+    "id": 10,
+    "name": "Flame",
+    "primaryAnimationEffect": null,
+    "animationEffect": 2,
+    "description": "Does a small amount of damage",
+    "basePotency": 10,
+    "type": 1,
+    "manaCost": 10,
+    "targetType": {
+      "targeting": 1,
+      "targetArea": 0
+    },
+    "status": []
+  },
+  "11": {
+    "id": 11,
+    "name": "Flame All",
+    "primaryAnimationEffect": 4,
+    "animationEffect": 2,
+    "description": "Does a small amount of damage to all enemies",
+    "basePotency": 7,
+    "type": 1,
+    "manaCost": 30,
+    "targetType": {
+      "targeting": 1,
+      "targetArea": 1
+    },
+    "status": []
+  },
+  "12": {
+    "id": 12,
+    "name": "Debug Nuke",
+    "primaryAnimationEffect": 4,
+    "animationEffect": 2,
+    "description": "Fuck game logic.",
+    "basePotency": 100,
+    "type": 1,
+    "manaCost": 13,
+    "targetType": {
+      "targeting": 1,
+      "targetArea": 1
+    },
+    "status": []
+  },
+  "13": {
+    "id": 5,
+    "name": "Cat Magic",
+    "primaryAnimationEffect": null,
+    "animationEffect": 1,
+    "description": "Increase strength and ",
+    "basePotency": 10,
+    "type": 2,
+    "manaCost": 5,
+    "targetType": {
+      "targeting": 0,
+      "targetArea": 0
+    },
+    "appliedBuffs": [5],
     "status": []
   }
 }

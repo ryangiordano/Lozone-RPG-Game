@@ -90,7 +90,12 @@ export class CombatEvent {
         )
       );
       const texts = results.map((r) =>
-        this.createCombatText(r.resultingValue.toString(), r.target, r.critical ? "#E2DF21": "#ffffff", r.critical ? 80:  60)
+        this.createCombatText(
+          r.resultingValue.toString(),
+          r.target,
+          r.critical ? "#E2DF21" : "#ffffff",
+          r.critical ? 80 : 60
+        )
       );
       await Promise.all(texts.map((t) => this.playCombatText(t)));
       results.forEach((r) => {
@@ -173,7 +178,9 @@ export class CombatEvent {
         resolve();
       });
       tween.play();
-      const hitEffect = isCritical ? this.effectsRepository.getById(8): this.effectsRepository.getById(3);
+      const hitEffect = isCritical
+        ? this.effectsRepository.getById(8)
+        : this.effectsRepository.getById(3);
       hitEffect.play(
         combatant.x,
         combatant.y,
@@ -266,6 +273,7 @@ export class SpellCastEvent extends CombatEvent {
         return resolve(results);
       }
 
+      /** Play main animation */
       if (this.spell.primaryAnimationEffect) {
         await this.spell.primaryAnimationEffect.play(
           0,
@@ -275,6 +283,7 @@ export class SpellCastEvent extends CombatEvent {
         );
       }
 
+      /** Play individual animations on each affected*/
       await Promise.all(
         results.map((r) => {
           const targetSprite = r.target.getSprite();
@@ -300,9 +309,14 @@ export class SpellCastEvent extends CombatEvent {
         default:
           color = "#ffffff";
       }
-      const texts = results.map((r) =>
-        this.createCombatText(r.resultingValue.toString(), r.target, color)
-      );
+      const texts = results.reduce((acc, r) => {
+        if (r.resultingValue) {
+          acc.push(
+            this.createCombatText(r.resultingValue.toString(), r.target, color)
+          );
+        }
+        return acc;
+      }, []);
 
       await Promise.all(texts.map((t) => this.playCombatText(t)));
       results.forEach((r) => {

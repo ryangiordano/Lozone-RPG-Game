@@ -1,4 +1,5 @@
-import { BaseStat } from './PartyMember';
+import { Buff } from "./Buff";
+import { BaseStat } from "./PartyMember";
 import { Combatant } from "./Combatant";
 import { Enemy } from "./Enemy";
 import { SpellType, TargetType } from "../../data/repositories/SpellRepository";
@@ -39,7 +40,7 @@ export enum ModifierStatType {
   hp,
   mp,
   physicalResistance,
-  magicalResistance
+  magicalResistance,
 }
 export interface Modifier {
   modifierStatType: BaseStat;
@@ -59,6 +60,7 @@ export interface Spell {
   manaCost: number;
   targetType: TargetType;
   status: any[]; //TODO: Implement later;
+  appliedBuffs?: Buff[];
 }
 
 export interface Behavior {

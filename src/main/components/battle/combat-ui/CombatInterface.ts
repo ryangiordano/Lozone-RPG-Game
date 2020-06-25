@@ -314,26 +314,24 @@ export class CombatInterface extends UserInterface {
         this.spellPanel.addOption(classSpell.spell.name, () => {
           this.spellPanel.close();
 
-          if (classSpell.spell.type === SpellType.attack) {
-            this.showPanel(this.enemyTraversible).focusPanel(
-              this.enemyTraversible
-            );
-            this.handleTraversibleTargeting(
-              this.enemyTraversible,
-              this.enemyCombatContainer,
-              CombatActionTypes.castSpell,
-              classSpell.spell.targetType,
-              classSpell
-            );
-          }
-
-          if (classSpell.spell.type === SpellType.restoration) {
+          if (classSpell.spell.targetType.targeting === Targeting.ally) {
             this.showPanel(this.partyTraversible).focusPanel(
               this.partyTraversible
             );
             this.handleTraversibleTargeting(
               this.partyTraversible,
               this.partyCombatContainer,
+              CombatActionTypes.castSpell,
+              classSpell.spell.targetType,
+              classSpell
+            );
+          } else {
+            this.showPanel(this.enemyTraversible).focusPanel(
+              this.enemyTraversible
+            );
+            this.handleTraversibleTargeting(
+              this.enemyTraversible,
+              this.enemyCombatContainer,
               CombatActionTypes.castSpell,
               classSpell.spell.targetType,
               classSpell
