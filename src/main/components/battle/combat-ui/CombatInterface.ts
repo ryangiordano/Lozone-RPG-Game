@@ -1,6 +1,6 @@
 import { UserInterface, TraversibleObject } from "../../UI/UserInterface";
 import { TextFactory } from "../../../utility/TextFactory";
-import { CombatEvent, UseItemEvent, SpellCastEvent } from "../CombatEvent";
+import { CombatEvent } from "../combat-events/CombatEvent";
 import {
   Orientation,
   CombatActionTypes,
@@ -19,6 +19,8 @@ import {
   SpellType,
 } from "../../../data/repositories/SpellRepository";
 import { UIPanel } from "../../UI/UIPanel";
+import { SpellCastEvent } from "../combat-events/SpellCastEvent";
+import { UseItemEvent } from "../combat-events/UseItemEvent";
 
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory;

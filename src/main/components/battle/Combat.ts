@@ -4,13 +4,6 @@ import {
   textScaleUp,
 } from "./../../utility/tweens/text";
 import { Combatant } from "./Combatant";
-import {
-  CombatActionTypes,
-  CombatantType,
-  Orientation,
-  Status,
-  LootCrate,
-} from "./CombatDataStructures";
 import { CombatContainer } from "./combat-grid/CombatContainer";
 import {
   getRandomFloor,
@@ -19,14 +12,24 @@ import {
   asyncForEach,
 } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
-import { CombatEvent } from "./CombatEvent";
+import { CombatEvent } from "./combat-events/CombatEvent";
 import { CombatInterface } from "./combat-ui/CombatInterface";
 import { State } from "../../utility/state/State";
 import { Enemy } from "./Enemy";
-import { CombatEntity, CombatAction } from "./CombatDataStructures";
+import {
+  CombatEntity,
+  Orientation,
+  CombatActionTypes,
+  CombatantType,
+  Status,
+  LootCrate,
+} from "./CombatDataStructures";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
 import { TextFactory } from "../../utility/TextFactory";
 import { AudioScene } from "../../scenes/audioScene";
+import { WHITE } from "../../utility/Constants";
+import { EnchantmentResolveType } from "../../data/repositories/CombatInfluencerRepository";
+import { PostTurnEnchantment } from "./combat-events/BuffEvents";
 
 export interface BattleState {
   flagsToFlip: number[];
@@ -229,17 +232,67 @@ export class Combat {
     return partyMember;
   }
 
+  private resolveEnchantments(enchantmentResolveType: EnchantmentResolveType) {
+    this.partyMembers.forEach((p) => {
+      if (p.entity.status.has(Status.fainted)) {
+        return;
+      }
+      const buffs = p.entity.getBuffs();
+      buffs.forEach((b) => {
+        b.enchantments.forEach(async (e) => {
+          if (e.type === enchantmentResolveType) {
+            const pte = new PostTurnEnchantment(
+              p.entity,
+              e,
+              Orientation.left,
+              this.scene
+            );
+            await pte.executeAction();
+          }
+        });
+      });
+    });
+    this.enemies.forEach((en) => {
+      const buffs = en.entity.getBuffs();
+      buffs.forEach((b) => {
+        b.enchantments.forEach(async (e) => {
+          if (e.type === enchantmentResolveType) {
+            const pte = new PostTurnEnchantment(
+              en.entity,
+              e,
+              Orientation.left,
+              this.scene
+            );
+            await pte.executeAction();
+          }
+        });
+      });
+    });
+    this.updateCombatGrids();
+  }
+
   /**
    * Resolve target actions.
    */
   private async startLoop() {
+    //TODO: This can be cleaned up and polished.  A little bit of repeated code here
+    /** The end of the loop */
     if (!this.combatEvents.length && this.enemies.length) {
-      this.partyMembers.forEach((e) => e.entity.tickBuffs());
+      this.resolveEnchantments(EnchantmentResolveType.postTurn);
+      await this.resolveTargetDeaths(this.enemies.map((e) => e.entity));
+      /** If enemies happen to die by enchantments */
+      if (!this.enemies.length) {
+        return this.handleBattleEnd();
+      }
+
+      this.partyMembers.forEach((p) => p.entity.tickBuffs());
       this.enemies.forEach((e) => e.entity.tickBuffs());
+
       // Send control back to user for next round of inputs.
       this.displayInputControlsForCurrentPartyMember();
       return false;
     }
+    /** No more enemies left */
     if (this.enemies.length <= 0) {
       return this.handleBattleEnd();
     }
@@ -270,15 +323,9 @@ export class Combat {
     // await asyncForEach(results, async (r) => {
     //   const target = r.target;
     //   await wait(250);
-    //   return this.resolveTargetDeaths(target);
+    //   return this.resolveTargetDeath(target);
     // });
-    await Promise.all(
-      results.map(async (r, i) => {
-        const target = r.target;
-        await wait(150 * i);
-        return this.resolveTargetDeaths(target);
-      })
-    );
+    await this.resolveTargetDeaths(results.map((r) => r.target));
 
     this.startLoop();
   }
@@ -310,7 +357,7 @@ export class Combat {
    * Play death animations and sounds, reward coins and experience and items
    * @param target
    */
-  private async resolveTargetDeaths(target) {
+  private async resolveTargetDeath(target) {
     return new Promise(async (resolve) => {
       if (target && target.currentHp === 0) {
         if (target.type === CombatantType.enemy) {
@@ -364,6 +411,15 @@ export class Combat {
     });
   }
 
+  private async resolveTargetDeaths(targets: Combatant[]) {
+    await Promise.all(
+      targets.map(async (t, i) => {
+        await wait(150 * i);
+        return this.resolveTargetDeath(t);
+      })
+    );
+  }
+
   private async lootEnemy(target: any, container: any) {
     const tf = new TextFactory(this.scene);
     const sprite = target.getSprite();
@@ -374,7 +430,7 @@ export class Combat {
     // ===================================
     // const coinScaleUp = () => {
     //   const coinText = tf.createText(`${target.goldValue} coins`, { x: sprite.x, y: sprite.y }, '32px', {
-    //     fill: '#ffffff'
+    //     fill: WHITE
     //   });
     //   this.scene.sound.play('coin', { volume: .4 })
 
@@ -411,7 +467,7 @@ export class Combat {
         { x: sprite.x, y: sprite.y },
         "32px",
         {
-          fill: "#ffffff",
+          fill: WHITE,
         }
       );
       container.add(experienceText);

@@ -7,7 +7,8 @@
         "icon": "status",
         "frame": 0,
         "effect": 1,
-        "color": "0xD6D252"
+        "color": "0xD6D252",
+        "enchantments": []
 
     },
     "2": {
@@ -18,7 +19,8 @@
         "icon": "status",
         "frame": 1,
         "effect": 1,
-        "color": "0xD6D252"
+        "color": "0xD6D252",
+        "enchantments": []
 
     },
     "3": {
@@ -29,7 +31,8 @@
         "icon": "status",
         "frame": 2,
         "effect": 1,
-        "color": "0xD6D252"
+        "color": "0xD6D252",
+        "enchantments": []
     },
     "4": {
         "modifiers": [4],
@@ -39,7 +42,8 @@
         "icon": "status",
         "frame": 1,
         "effect": 1,
-        "color": "0xD6D252"
+        "color": "0xD6D252",
+        "enchantments": []
     },
     "5": {
         "modifiers": [2, 5],
@@ -49,7 +53,32 @@
         "icon": "status",
         "frame": 1,
         "effect": 1,
-        "color": "0xD6D252"
+        "color": "0xD6D252",
+        "enchantments": []
+
+    },
+    "6": {
+        "modifiers": [],
+        "name": "Weak Poison",
+        "duration": 10,
+        "description": "Applies a weak poison",
+        "icon": "status",
+        "frame": 1,
+        "effect": 1,
+        "color": "0xD6D252",
+        "enchantments": [1]
+
+    },
+    "7": {
+        "modifiers": [],
+        "name": "Chu chu'd",
+        "duration": 10,
+        "description": "Regenerate small amount of health",
+        "icon": "status",
+        "frame": 1,
+        "effect": 1,
+        "color": "0xD6D252",
+        "enchantments": [2]
 
     }
 }

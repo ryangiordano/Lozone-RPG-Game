@@ -1,5 +1,6 @@
 import { AnimationHelper } from "../../utility/tweens/animation-helper";
 import { State } from "../../utility/state/State";
+import { BLACK } from "../../utility/Constants";
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
@@ -45,13 +46,12 @@ export class BootScene extends Phaser.Scene {
       this.add.text(210, 310, "Catshape Daruma®", {
         fontFamily: "pixel",
         fontSize: "20px",
-        fill: "#000000",
+        fill: BLACK,
         fontWeight: "bold",
       });
       setTimeout(() => {
         this.scene.start("Audio");
         this.scene.start("House", { map: "room", tileset: "room-tiles" });
-
       }, 1);
     });
 

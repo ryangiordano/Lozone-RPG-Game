@@ -1,7 +1,7 @@
 import { Entity, EntityTypes } from "../Entity";
 import { State } from "../../../utility/state/State";
 import { AudioScene } from "../../../scenes/audioScene";
-import { animateItemAbove } from "../../../utility/AnimationEffects/item-collect";
+import { animateItemAbove } from "../../effect-animations/item-collect";
 import { displayMessage } from "../../../scenes/dialogScene";
 
 /**

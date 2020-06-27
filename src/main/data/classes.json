@@ -24,10 +24,16 @@
         "physicalResist": 1.2,
         "magicalResist": 1.2,
         "spells": [{
-            "requiredLevel": 1,
-            "classModifier": 1,
-            "spell": 13
-        }]
+                "requiredLevel": 1,
+                "classModifier": 1,
+                "spell": 13
+            },
+            {
+                "requiredLevel": 1,
+                "classModifier": 1,
+                "spell": 14
+            }
+        ]
     },
     "3": {
         "name": "Bunmage",
@@ -133,6 +139,11 @@
                 "requiredLevel": 1,
                 "classModifier": 1,
                 "spell": 10
+            },
+            {
+                "requiredLevel": 1,
+                "classModifier": 1,
+                "spell": 15
             },
             {
                 "requiredLevel": 3,

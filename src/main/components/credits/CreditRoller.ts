@@ -1,3 +1,4 @@
+import { BLACK } from "../../utility/Constants";
 export class CreditRoller extends Phaser.GameObjects.Container {
   /**
    * Takes in an array of  credit objects.
@@ -131,7 +132,7 @@ export class CreditRoller extends Phaser.GameObjects.Container {
           {
             fontFamily: "pixel",
             fontSize: "32px",
-            fill: "#383838",
+            fill: BLACK,
             align: "center",
             padding: 32,
             wordWrap: {
@@ -165,7 +166,7 @@ export class CreditRoller extends Phaser.GameObjects.Container {
             padding: 8,
             fontFamily: "pixel",
             fontSize: "20px",
-            fill: "#383838",
+            fill: BLACK,
           }
         )
       );

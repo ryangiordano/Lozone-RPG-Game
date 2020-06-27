@@ -2,6 +2,7 @@ import { PanelContainer } from "../../../../components/UI/PanelContainer";
 import { PartyMember } from "../../../../components/battle/PartyMember";
 import { TextFactory } from "../../../../utility/TextFactory";
 import { MessagePanel } from "./MessagePanel";
+import { BLACK } from "../../../../utility/Constants";
 
 export class PartyMessagePanel extends MessagePanel {
   protected currentText: Phaser.GameObjects.Text;
@@ -86,7 +87,7 @@ export class PartyMessagePanel extends MessagePanel {
       {
         fontFamily: "pixel",
         fontSize: "32px",
-        fill: "#000000",
+        fill: BLACK,
         wordWrap: {
           width: (this.panel.width / 4.5) * 4,
           useAdvancedWrap: true,

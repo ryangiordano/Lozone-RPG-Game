@@ -1,4 +1,5 @@
 import { EffectsRepository } from "../repositories/EffectRepository";
+import { EnchantmentRepository } from "../repositories/CombatInfluencerRepository";
 import {
   BuffRepository,
   ModifierRepository,
@@ -7,6 +8,7 @@ export class CombatInfluencerController {
   private buffRepository: BuffRepository;
   private modifierRepository: ModifierRepository;
   private effectsRepository: EffectsRepository;
+  private enchantmentRepository: EnchantmentRepository;
   /**
    * Returns buffs which hold arrays of modifiers.
    */
@@ -14,6 +16,7 @@ export class CombatInfluencerController {
     this.buffRepository = new BuffRepository(game);
     this.effectsRepository = new EffectsRepository(game);
     this.modifierRepository = new ModifierRepository(game);
+    this.enchantmentRepository = new EnchantmentRepository(game);
   }
   getBuff(id: number) {
     const buff = this.buffRepository.getById(id);
@@ -21,6 +24,9 @@ export class CombatInfluencerController {
       ...buff,
       effect: this.effectsRepository.getById(buff.effect),
       modifiers: buff.modifiers.map((m) => this.modifierRepository.getById(m)),
+      enchantments: buff.enchantments
+        ? buff.enchantments.map((e) => this.enchantmentRepository.getById(e))
+        : [],
     };
     return mappedBuff;
   }

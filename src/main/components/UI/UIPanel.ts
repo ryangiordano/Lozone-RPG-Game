@@ -2,6 +2,7 @@ import { DialogListItem } from "./DialogListItem";
 import { PanelContainer } from "./PanelContainer";
 import { HasOptions } from "./UserInterface";
 import { KeyboardControlKeys } from "./Keyboard";
+import { BLACK } from "../../utility/Constants";
 
 export class UIPanel extends PanelContainer implements HasOptions {
   protected caret: Phaser.GameObjects.Text;
@@ -99,7 +100,9 @@ export class UIPanel extends PanelContainer implements HasOptions {
   private lastFocused: number = 0;
 
   private getLastFocused() {
-    return this.lastFocused > this.options.length - 1 ? this.options.length - 1 : this.lastFocused
+    return this.lastFocused > this.options.length - 1
+      ? this.options.length - 1
+      : this.lastFocused;
   }
   private setLastFocused(index: number) {
     this.lastFocused = index;
@@ -130,7 +133,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
       {
         fontFamily: "pixel",
         fontSize: "32px",
-        fill: "#000000",
+        fill: BLACK,
       },
       selectCallback,
       focusCallback
@@ -140,8 +143,6 @@ export class UIPanel extends PanelContainer implements HasOptions {
     this.options.push(toAdd);
     return this;
   }
-
-
 
   resetOptions() {
     this.remove(this.options);
@@ -220,7 +221,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
     this.caret = this.scene.add.text(-100, -100, ">", {
       fontFamily: "pixel",
       fontSize: "32px",
-      fill: "#000000",
+      fill: BLACK,
     });
     this.add(this.caret);
     //TODO: Refactor to create a correct cursor object

@@ -1,4 +1,5 @@
 import { Modifier, IBuff, Effect } from "./CombatDataStructures";
+import { Enchantment } from "../../data/repositories/CombatInfluencerRepository";
 
 export class Buff implements IBuff {
   constructor(
@@ -10,6 +11,7 @@ export class Buff implements IBuff {
     public icon: string = "status",
     public frame: number,
     public effect: Effect,
-    public color: number
+    public color: number,
+    public enchantments: Enchantment[]
   ) {}
 }

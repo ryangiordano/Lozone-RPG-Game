@@ -1,6 +1,6 @@
 import { Repository } from "./Repository";
 import { Effect } from "../../components/battle/CombatDataStructures";
-import { effectDatabase } from "../../utility/AnimationEffects/index";
+import { effectDatabase } from "../effects";
 
 export class EffectsRepository extends Repository<Effect> {
   constructor(game: Phaser.Game) {

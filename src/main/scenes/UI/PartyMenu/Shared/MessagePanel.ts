@@ -1,4 +1,5 @@
 import { PanelContainer } from "../../../../components/UI/PanelContainer";
+import { BLACK } from "../../../../utility/Constants";
 
 export class MessagePanel extends PanelContainer {
   protected currentText: Phaser.GameObjects.Text;
@@ -20,7 +21,7 @@ export class MessagePanel extends PanelContainer {
       {
         fontFamily: "pixel",
         fontSize: `${size}px`,
-        fill: "#000000",
+        fill: BLACK,
         wordWrap: {
           width: (this.panel.width / 4.5) * 4,
           useAdvancedWrap: true,

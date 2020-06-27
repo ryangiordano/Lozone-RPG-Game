@@ -1,3 +1,5 @@
+import { BLACK } from "./Constants";
+
 interface WordWrapProps {
   /**
    * Width of the text box
@@ -43,8 +45,8 @@ export class TextFactory {
       {
         fontSize,
         fontFamily: "pixel",
-        fill: "#000000",
-        ...config
+        fill: BLACK,
+        ...config,
       }
     );
   }

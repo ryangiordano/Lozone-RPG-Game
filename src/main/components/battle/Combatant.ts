@@ -252,6 +252,10 @@ export class Combatant {
     return combatResults;
   }
 
+  getBuffs() {
+    return this.buffs;
+  }
+
   applyItem(item: Item): CombatResult[] {
     const potency = item.effectPotency * item.effect.basePotency;
     const { resourceRecoverFunction } = handleItemUse(this, item);

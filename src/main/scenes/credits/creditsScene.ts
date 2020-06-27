@@ -4,6 +4,7 @@ import { makeFadeOut, makeFadeIn } from "../../utility/tweens/fade";
 import { getRandomCeil } from "../../utility/Utility";
 import { AudioScene } from "../audioScene";
 import { sceneFadeIn } from "../camera";
+import { BLACK } from "../../utility/Constants";
 
 export class CreditsScene extends Phaser.Scene {
   private sky: Phaser.GameObjects.Image;
@@ -103,7 +104,7 @@ export class CreditsScene extends Phaser.Scene {
     const coming = this.add.text(100, -200, "Coming December 2019", {
       fontFamily: "pixel",
       fontSize: "32px",
-      fill: "#000000",
+      fill: BLACK,
       align: "center",
       padding: 2,
       wordWrap: {
@@ -118,7 +119,7 @@ export class CreditsScene extends Phaser.Scene {
       {
         fontFamily: "pixel",
         fontSize: "32px",
-        fill: "#000000",
+        fill: BLACK,
         align: "center",
         padding: 2,
         wordWrap: {

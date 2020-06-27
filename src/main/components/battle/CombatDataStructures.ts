@@ -101,6 +101,7 @@ export enum CombatActionTypes {
   castSpell,
   useItem,
   failure,
+  enchantment
 }
 
 export interface CombatAction {

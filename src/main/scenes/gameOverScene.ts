@@ -1,8 +1,9 @@
 import { TextFactory } from "../utility/TextFactory";
 import { textFadeIn } from "../utility/tweens/text";
+import { WHITE } from "../utility/Constants";
 import {
   KeyboardControl,
-  KeyboardControlKeys
+  KeyboardControlKeys,
 } from "../components/UI/Keyboard";
 export interface Dialog {
   content: string;
@@ -36,27 +37,23 @@ export class GameOverScene extends Phaser.Scene {
       "Game Over",
       { x: 0, y: 0 },
       "64px",
-      { fill: "#ffffff" }
+      { fill: WHITE }
     );
     this.add.existing(gameOverText);
-    textFadeIn(gameOverText, 0, 2000, this, () => {
-    }).play();
+    textFadeIn(gameOverText, 0, 2000, this, () => {}).play();
 
     const returnHomeText = textFactory.createText(
       "Return Home",
       { x: 0, y: 50 },
       "16px",
-      { fill: "#ffffff" }
+      { fill: WHITE }
     );
 
     textFadeIn(returnHomeText, 5000, 2000, this, () => {
       this.setKeyboardListeners();
     }).play();
 
-    this.add.container(midX, midY, [
-      gameOverText,
-      returnHomeText
-    ]);
+    this.add.container(midX, midY, [gameOverText, returnHomeText]);
     this.keyboardControl.setupKeyboardControl();
   }
 

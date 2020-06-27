@@ -1,5 +1,5 @@
-import { Item } from "../../components/entities/Items/Item";
-import { textScaleUp } from "../tweens/text";
+import { Item } from "../entities/Items/Item";
+import { textScaleUp } from "../../utility/tweens/text";
 
 export const animateItemAbove = (
   item: Item,

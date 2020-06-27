@@ -124,7 +124,7 @@
     "name": "Cat Magic",
     "primaryAnimationEffect": null,
     "animationEffect": 1,
-    "description": "Increase strength and ",
+    "description": "Increase strength and dexterity",
     "basePotency": 10,
     "type": 2,
     "manaCost": 5,
@@ -133,6 +133,38 @@
       "targetArea": 0
     },
     "appliedBuffs": [5],
+    "status": []
+  },
+  "14": {
+    "id": 5,
+    "name": "Cat Poison",
+    "primaryAnimationEffect": null,
+    "animationEffect": 1,
+    "description": "Poisons the target",
+    "basePotency": 10,
+    "type": 2,
+    "manaCost": 5,
+    "targetType": {
+      "targeting": 1,
+      "targetArea": 0
+    },
+    "appliedBuffs": [6],
+    "status": []
+  },
+  "15": {
+    "id": 5,
+    "name": "Chu chus",
+    "primaryAnimationEffect": null,
+    "animationEffect": 1,
+    "description": "Casts regen on the target",
+    "basePotency": 10,
+    "type": 2,
+    "manaCost": 5,
+    "targetType": {
+      "targeting": 0,
+      "targetArea": 0
+    },
+    "appliedBuffs": [7],
     "status": []
   }
 }

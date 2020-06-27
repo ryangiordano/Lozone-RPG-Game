@@ -1,3 +1,5 @@
+import { BLACK } from "../utility/Constants";
+
 export interface Dialog {
   content: string;
 }
@@ -66,7 +68,7 @@ export class DialogScene extends Phaser.Scene {
 
     // We need to get the number of chars that can reasonably fit on a line.  Since we're only coding for one screen size
     // We can make a reasonable guess and go off of that. // 130 is a reasonable guess.
-    messages.forEach(message => {
+    messages.forEach((message) => {
       const textArray = message.split("");
 
       while (textArray.length) {
@@ -127,7 +129,7 @@ export class DialogScene extends Phaser.Scene {
       this.currentText = this.add.text(4 * 4, 99 * 4, toShow, {
         fontFamily: "pixel",
         fontSize: "32px",
-        fill: "#000000",
+        fill: BLACK,
         wordWrap: {
           width: (this.dialog.width / 4.5) * 4,
           useAdvancedWrap: true,

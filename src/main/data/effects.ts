@@ -1,9 +1,13 @@
-import { lesserHeal } from "./lesser-heal";
-import { hitEffect, deathEffect, criticalHitEffect } from './hit-effect';
-import { flame } from "./flame";
-import { explosion } from "./explosion";
-import { fainted } from "./fainted";
-import { cloud } from "./cloud";
+import { lesserHeal } from "../components/effect-animations/lesser-heal";
+import { flame } from "../components/effect-animations/flame";
+import {
+  hitEffect,
+  deathEffect,
+  criticalHitEffect,
+} from "../components/effect-animations/hit-effect";
+import { explosion } from "../components/effect-animations/explosion";
+import { fainted } from "../components/effect-animations/fainted";
+import { cloud } from "../components/effect-animations/cloud";
 
 export const effectDatabase = {
   "1": {

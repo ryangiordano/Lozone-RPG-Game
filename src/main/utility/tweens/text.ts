@@ -26,14 +26,10 @@ const scaleFadeIn = (target, distance = -80, duration = 100) =>
     .scaleX(0.1, 1)
     .getConfig();
 
-const boing = target =>
-  builder
-    .createTween(target, 50, 0)
-    .setYoyo()
-    .toY(20)
-    .getConfig();
+const boing = (target) =>
+  builder.createTween(target, 50, 0).setYoyo().toY(20).getConfig();
 
-const hover = target =>
+const hover = (target) =>
   builder
     .createTween(target, 300, 0)
     .toY(20)
@@ -41,21 +37,15 @@ const hover = target =>
     .setRepeat(-1)
     .getConfig();
 
-const fadeOut = target =>
-  builder
-    .createTween(target, 300, 500)
-    .fadeOut()
-    .getConfig();
+const fadeOut = (target) =>
+  builder.createTween(target, 300, 500).fadeOut().getConfig();
 
 const fadeIn = (target, duration) =>
-  builder
-    .createTween(target, 300, 500)
-    .fadeIn(duration)
-    .getConfig();
+  builder.createTween(target, 300, 500).fadeIn(duration).getConfig();
 
 export const slowScaleUp = (target, scene, onComplete) => {
   const timeline = scene.tweens.createTimeline({
-    targets: target
+    targets: target,
   });
   timeline.add(scaleFadeIn(target, -40, 300));
   timeline.add(fadeOut(target));
@@ -65,7 +55,7 @@ export const slowScaleUp = (target, scene, onComplete) => {
 
 export const scaleUpDown = (target, scene, onComplete) => {
   const timeline = scene.tweens.createTimeline({
-    targets: target
+    targets: target,
   });
   timeline.add(scaleUp(target, 100));
   timeline.add(scaleDown(target, 70));
@@ -84,13 +74,26 @@ export const textScaleUp = (
     targets: target,
     ease: "Linear",
     loop: false,
-    delay
+    delay,
   });
   timeline.add(scaleFadeIn(target, height));
   timeline.add(boing(target));
   timeline.add(fadeOut(target));
   timeline.setCallback("onComplete", onComplete);
   return timeline;
+};
+
+export const playCombatText = (
+  textObject: Phaser.GameObjects.Text,
+  scene: Phaser.Scene
+): Promise<any> => {
+  return new Promise((resolve) => {
+    const tween = textScaleUp(textObject, 0, -80, scene, () => {
+      textObject.destroy();
+      resolve();
+    });
+    tween.play();
+  });
 };
 
 export const textFadeIn = (
@@ -104,7 +107,7 @@ export const textFadeIn = (
     targets: target,
     ease: "Linear",
     loop: false,
-    delay
+    delay,
   });
   timeline.add(fadeIn(target, duration));
   timeline.setCallback("onComplete", onComplete);
@@ -115,7 +118,7 @@ export const cursorHover = (target, delay, scene: Phaser.Scene, onComplete) => {
   const timeline = scene.tweens.createTimeline({
     targets: target,
     ease: "Linear",
-    delay
+    delay,
   });
 
   timeline.add(boing(target));
@@ -127,7 +130,7 @@ export const fadeInOur = (target, delay, scene: Phaser.Scene, onComplete) => {
   const timeline = scene.tweens.createTimeline({
     targets: target,
     ease: "Linear",
-    delay
+    delay,
   });
 
   timeline.add(boing(target));

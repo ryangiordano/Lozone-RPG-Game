@@ -16,7 +16,8 @@ import { PartyStatusScene } from "./scenes/UI/PartyMenu/PartyStatus/PartyStatusS
 import { PartySpellCastScene } from "./scenes/UI/PartyMenu/PartySpellCast/PartySpellCastScene";
 import { PartySpellSelectScene } from "./scenes/UI/PartyMenu/PartySpellCast/PartySpellSelectScene";
 import { PartyEquipScene } from "./scenes/UI/PartyMenu/PartyEquip/PartyEquipScene";
-import { ShopScene } from './scenes/shopScene';
+import { ShopScene } from "./scenes/shopScene";
+import { BLACK } from "./utility/Constants";
 
 export type GameScenes =
   | "BootScene"
@@ -67,7 +68,7 @@ const config: GameConfig = {
       { key: "updatePlugin", plugin: PhaserUpdatePlugin, mapping: "updates" },
     ],
   },
-  backgroundColor: "#383838",
+  backgroundColor: BLACK,
   physics: {
     default: "arcade",
     render: { pixelArt: true, antialias: false },

@@ -3,6 +3,7 @@ import { Spell } from "../../../../components/battle/CombatDataStructures";
 
 import { SpellType } from "../../../../data/repositories/SpellRepository";
 import { TextFactory } from "../../../../utility/TextFactory";
+import { BLACK } from "../../../../utility/Constants";
 export class SpellListPanel extends UIPanel {
   private currentText: Phaser.GameObjects.Text;
 
@@ -77,7 +78,7 @@ export class SpellListPanel extends UIPanel {
       {
         fontFamily: "pixel",
         fontSize: `${fontSize}px`,
-        fill: "#000000",
+        fill: BLACK,
         wordWrap: {
           width: (this.panel.width / 4.5) * 4,
           useAdvancedWrap: true,
