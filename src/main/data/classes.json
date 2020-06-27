@@ -138,7 +138,7 @@
         "spells": [{
                 "requiredLevel": 1,
                 "classModifier": 1,
-                "spell": 10
+                "spell": 16
             },
             {
                 "requiredLevel": 1,

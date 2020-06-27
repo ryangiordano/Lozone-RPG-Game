@@ -1,6 +1,5 @@
 import {
   scaleUpDown,
-  slowScaleUp,
   textScaleUp,
 } from "./../../utility/tweens/text";
 import { Combatant } from "./Combatant";
@@ -9,7 +8,6 @@ import {
   getRandomFloor,
   Directions,
   wait,
-  asyncForEach,
 } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./combat-events/CombatEvent";
@@ -29,7 +27,7 @@ import { TextFactory } from "../../utility/TextFactory";
 import { AudioScene } from "../../scenes/audioScene";
 import { WHITE } from "../../utility/Constants";
 import { EnchantmentResolveType } from "../../data/repositories/CombatInfluencerRepository";
-import { PostTurnEnchantment } from "./combat-events/BuffEvents";
+import { PostTurnEnchantment, PostAttackEnchantment } from "./combat-events/BuffEvents";
 
 export interface BattleState {
   flagsToFlip: number[];
@@ -232,7 +230,7 @@ export class Combat {
     return partyMember;
   }
 
-  private resolveEnchantments(enchantmentResolveType: EnchantmentResolveType) {
+  private resolvePostTurnEnchantments() {
     this.partyMembers.forEach((p) => {
       if (p.entity.status.has(Status.fainted)) {
         return;
@@ -240,7 +238,7 @@ export class Combat {
       const buffs = p.entity.getBuffs();
       buffs.forEach((b) => {
         b.enchantments.forEach(async (e) => {
-          if (e.type === enchantmentResolveType) {
+          if (e.type === EnchantmentResolveType.postTurn) {
             const pte = new PostTurnEnchantment(
               p.entity,
               e,
@@ -256,7 +254,7 @@ export class Combat {
       const buffs = en.entity.getBuffs();
       buffs.forEach((b) => {
         b.enchantments.forEach(async (e) => {
-          if (e.type === enchantmentResolveType) {
+          if (e.type === EnchantmentResolveType.postTurn) {
             const pte = new PostTurnEnchantment(
               en.entity,
               e,
@@ -271,6 +269,17 @@ export class Combat {
     this.updateCombatGrids();
   }
 
+  private resolvePostAttackEnchantments(enchanted: Combatant, target: Combatant) {
+    enchanted.getBuffs().forEach(b => {
+      b.enchantments.forEach(async e => {
+        if (e.type === EnchantmentResolveType.postAttack) {
+          const pae = new PostAttackEnchantment(enchanted, target, e, enchanted.getOrientation(), this.scene)
+          await pae.executeAction();
+        }
+      })
+    })
+  }
+
   /**
    * Resolve target actions.
    */
@@ -278,7 +287,7 @@ export class Combat {
     //TODO: This can be cleaned up and polished.  A little bit of repeated code here
     /** The end of the loop */
     if (!this.combatEvents.length && this.enemies.length) {
-      this.resolveEnchantments(EnchantmentResolveType.postTurn);
+      this.resolvePostTurnEnchantments();
       await this.resolveTargetDeaths(this.enemies.map((e) => e.entity));
       /** If enemies happen to die by enchantments */
       if (!this.enemies.length) {
@@ -298,7 +307,12 @@ export class Combat {
     }
 
     const combatEvent = this.combatEvents.pop();
-    let results = await combatEvent.executeAction();
+    const results = await combatEvent.executeAction();
+    results.map(r => {
+      if (r.actionType === CombatActionTypes.attack) {
+        this.resolvePostAttackEnchantments(r.executor, r.target)
+      }
+    })
     this.updateCombatGrids();
 
     // Handle failures
@@ -533,7 +547,7 @@ export class Combat {
     return Object.keys(itemObjects).map(
       (key) =>
         `Received ${itemObjects[key].amount} ${itemObjects[key].name}${
-          itemObjects[key].amount > 1 ? "s" : ""
+        itemObjects[key].amount > 1 ? "s" : ""
         }. `
     );
   }

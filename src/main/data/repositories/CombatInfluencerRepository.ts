@@ -30,7 +30,7 @@ export interface Enchantment {
   name: string;
   description: string;
   type: EnchantmentResolveType;
-  applyEnchantment: (enchanted: Combatant) => EnchantmentResult;
+  applyEnchantment: (enchanted: Combatant, target?: Combatant) => EnchantmentResult;
 }
 
 export enum EnchantmentResolveType {
@@ -44,6 +44,4 @@ export class EnchantmentRepository extends Repository<Enchantment> {
     const enchantments = enchantmentDatabase;
     super(enchantments);
   }
-  /** Get an enchantment from the database and allow the consumer to execute it */
-  makeEnchantment() {}
 }

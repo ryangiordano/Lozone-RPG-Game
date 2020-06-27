@@ -8,6 +8,7 @@ import {
   CombatResult,
   CombatantType,
   Effect,
+  Orientation,
 } from "./CombatDataStructures";
 import { getUID, Directions } from "../../utility/Utility";
 import { Buff } from "./Buff";
@@ -109,6 +110,14 @@ export class Combatant {
     this.sprite.setOrigin(0.5, 0.5);
     this.sprite.setAlpha(1);
     this.standUp();
+  }
+
+  getDirection() {
+    return this.direction;
+  }
+
+  getOrientation() {
+    return this.direction === Directions.left ? Orientation.left : Orientation.right
   }
   standUp() {
     if (this.direction === Directions.right) {
@@ -320,7 +329,7 @@ export class Combatant {
   public getCritChance() {
     return Math.min(this.dexterity * this.levelModifier() * 0.7, 33);
   }
-  public getModifierValue() {}
+  public getModifierValue() { }
 
   /**Add a defense up buff that lasts one turn to yourself. */
   public defendSelf() {
