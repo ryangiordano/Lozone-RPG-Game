@@ -270,7 +270,7 @@ export class Combat {
   }
 
   private resolvePostAttackEnchantments(enchanted: Combatant, target: Combatant) {
-    enchanted.getBuffs().forEach(b => {
+    enchanted && enchanted.getBuffs().forEach(b => {
       b.enchantments.forEach(async e => {
         if (e.type === EnchantmentResolveType.postAttack) {
           const pae = new PostAttackEnchantment(enchanted, target, e, enchanted.getOrientation(), this.scene)

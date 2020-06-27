@@ -187,7 +187,7 @@
     "entities": [{
         "entityId": 1,
         "position": {
-          "x": 1,
+          "x": 2,
           "y": 0
         }
       },
@@ -201,8 +201,8 @@
       {
         "entityId": 3,
         "position": {
-          "x": 1,
-          "y": 1
+          "x": 2,
+          "y": 2
         }
       },
       {
@@ -215,7 +215,7 @@
       {
         "entityId": 5,
         "position": {
-          "x": 2,
+          "x": 1,
           "y": 1
         }
       }

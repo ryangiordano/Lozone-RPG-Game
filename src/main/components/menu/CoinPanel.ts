@@ -4,7 +4,6 @@ import { State } from "../../utility/state/State";
 
 export default class CoinPanel extends PanelContainer {
   private currentCoins = 0;
-  private queue = [];
   constructor(pos, scene) {
     super({ x: 4, y: 1 }, pos, "dialog-white", scene);
   }
