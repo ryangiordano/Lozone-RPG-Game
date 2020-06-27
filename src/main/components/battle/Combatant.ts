@@ -238,17 +238,25 @@ export class Combatant {
           default:
             console.error(`SpellType not supported: ${spell.type}`);
         }
+
+        let m = `${spell.message}`;
+        m = m.replace('%t', t.name)
+        m = m.replace('%e', this.name);
+        m = m.replace('%v', resultingValue);
+
         return {
           actionType: CombatActionTypes.castSpell,
           executor: this,
           target: t,
           resultingValue: resultingValue,
           targetDown: t.currentHp === 0,
+          message: [m]
         };
       });
 
       return combatResults;
     }
+    /**Can't cast a spell for some reason */
     combatResults = targets.map((t) => {
       return {
         actionType: CombatActionTypes.failure,

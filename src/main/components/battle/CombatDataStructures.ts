@@ -61,6 +61,7 @@ export interface Spell {
   targetType: TargetType;
   status: any[]; //TODO: Implement later;
   appliedBuffs?: Buff[];
+  message?: string;
 }
 
 export interface Behavior {

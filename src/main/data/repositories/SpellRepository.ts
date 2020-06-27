@@ -39,6 +39,7 @@ export type SpellData = {
   targetType: TargetType;
   status: any[]; //TODO: Implement later;
   appliedBuffs?: number[];
+  message?: string;
 };
 
 export class SpellRepository extends Repository<SpellData> {

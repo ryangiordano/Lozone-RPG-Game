@@ -9,6 +9,7 @@ import {
 import { SpellType } from "../../../data/repositories/SpellRepository";
 import { playCombatText } from "../../../utility/tweens/text";
 import { GREEN, WHITE, BLUE } from "../../../utility/Constants";
+import { displayMessage } from "../../../scenes/dialogScene";
 
 export class SpellCastEvent extends CombatEvent {
   /**
@@ -76,6 +77,7 @@ export class SpellCastEvent extends CombatEvent {
           );
         })
       );
+      
       let color;
       switch (this.spell.type) {
         case SpellType.restoration:
@@ -100,21 +102,17 @@ export class SpellCastEvent extends CombatEvent {
       }, []);
 
       await Promise.all(texts.map((t) => playCombatText(t, this.scene)));
-      results.forEach((r) => {
-        const message = [
-          `${executor.name} uses the ${this.spell.name} on ${r.target.name}.  ${r.target.name} is healed for ${r.resultingValue} HP`,
-          `${r.target.name} has ${
-            r.target.currentHp
-          } HP out of ${r.target.getMaxHp()} left.`,
-        ];
-        r.message = message;
+      results.forEach(async (r) => {
+        if (r.message) {
+          await displayMessage(r.message, this.scene.game, this.scene.scene);
+        }
       });
 
       return resolve(results);
     });
   }
 
-  protected async handleMultiSpellCast(executor: Combatant) {}
+  protected async handleMultiSpellCast(executor: Combatant) { }
 
   public async executeAction(): Promise<CombatResult[]> {
     return new Promise(async (resolve) => {
