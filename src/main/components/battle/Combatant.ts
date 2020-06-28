@@ -375,6 +375,10 @@ export class Combatant {
     return messagesToDisplay
   }
 
+  public clearNonPersistentBuffs() {
+    this.buffs = this.buffs.filter(b => b.persists)
+  }
+
   /** The cumulative potency granted by buffs for a given stat */
   protected buffValue(baseStat: BaseStat) {
     const v = this.buffs.reduce((acc, b) => {

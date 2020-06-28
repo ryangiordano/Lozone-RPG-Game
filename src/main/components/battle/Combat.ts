@@ -354,8 +354,14 @@ export class Combat {
     this.startLoop();
   }
 
+  private clearNonPersistentBuffs() {
+    this.enemies.forEach(e => e.entity.clearNonPersistentBuffs())
+    this.partyMembers.forEach(e => e.entity.clearNonPersistentBuffs())
+  }
+
   private async handleBattleEnd() {
     const audio = <AudioScene>this.scene.scene.get("Audio");
+    this.clearNonPersistentBuffs();
     audio.stop(this.scene["music"]);
     audio.playSound("victory");
 
