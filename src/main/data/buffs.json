@@ -8,6 +8,8 @@
         "frame": 0,
         "effect": 1,
         "color": "0xD6D252",
+        "persists": false,
+        "dissipateMessage": "%e's defense returns to normal.",
         "enchantments": []
 
     },
@@ -20,6 +22,8 @@
         "frame": 1,
         "effect": 1,
         "color": "0xD6D252",
+        "persists": false,
+        "dissipateMessage": "%e's attack returns to normal.",
         "enchantments": []
 
     },
@@ -32,6 +36,8 @@
         "frame": 2,
         "effect": 1,
         "color": "0xD6D252",
+        "persists": false,
+        "dissipateMessage": "%e's defense returns to normal.",
         "enchantments": []
     },
     "4": {
@@ -43,6 +49,8 @@
         "frame": 1,
         "effect": 1,
         "color": "0xD6D252",
+        "persists": false,
+        "dissipateMessage": "%e's attack returns to normal.",
         "enchantments": []
     },
     "5": {
@@ -54,6 +62,8 @@
         "frame": 1,
         "effect": 1,
         "color": "0xD6D252",
+        "persists": false,
+        "dissipateMessage": "%e feels the cat-shape magic leave their bones.",
         "enchantments": []
 
     },
@@ -66,6 +76,8 @@
         "frame": 1,
         "effect": 1,
         "color": "0xD6D252",
+        "persists": true,
+        "dissipateMessage": "%e feels the poison leave their body.",
         "enchantments": [1]
 
     },
@@ -78,6 +90,8 @@
         "frame": 1,
         "effect": 1,
         "color": "0xD6D252",
+        "persists": false,
+        "dissipateMessage": "%e no longer feels chuchu'd.",
         "enchantments": [2]
 
     },
@@ -90,6 +104,8 @@
         "frame": 1,
         "effect": 1,
         "color": "0xD6D252",
+        "persists": false,
+        "dissipateMessage": "The flames disappear from %e's weapon.",
         "enchantments": [3]
 
     }

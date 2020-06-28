@@ -17,6 +17,7 @@ import { SpellType } from "../../data/repositories/SpellRepository";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
 import { CombatInfluencerController } from "../../data/controllers/CombatInfluencerController";
 import { BaseStat } from "./PartyMember";
+import { displayMessage } from "../../scenes/dialogScene";
 
 interface PersistentAffect {
   id: number;
@@ -345,22 +346,33 @@ export class Combatant {
     this.addBuff(defenseBuff);
   }
 
-  /** Apply a copy of the buff found on the spell being cast
-   * If we don't do this, a reference to the same buff will be passed,
-   * and a bug occurs where they'll share the same duration will occur.
+  /** 
+   * Apply buff to character.  If the buff exists, refresh.
    */
   public addBuff(buff: Buff) {
-    if (!this.buffs.find((b) => b.id === buff.id)) {
+    const existingBuff = this.buffs.find((b) => b.id === buff.id)
+    // Refresh existing
+    if (existingBuff) {
+      existingBuff.duration = buff.duration;
+    } else {
+      // Apply copy of buff, not reference from database
       this.buffs.push({ ...buff });
+
     }
-    return {};
   }
 
-  public tickBuffs() {
-    this.buffs = this.buffs.filter((b) => {
+  public tickBuffs(): string[][] {
+    const messagesToDisplay = [];
+    this.buffs = this.buffs.filter(async (b) => {
       b.duration--;
+      if (!b.duration) {
+        let parsedMessage = b.dissipateMessage;
+        parsedMessage = parsedMessage.replace("%e", this.name)
+        messagesToDisplay.push([parsedMessage])
+      }
       return b.duration;
     });
+    return messagesToDisplay
   }
 
   /** The cumulative potency granted by buffs for a given stat */

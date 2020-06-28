@@ -28,6 +28,7 @@ import { AudioScene } from "../../scenes/audioScene";
 import { WHITE } from "../../utility/Constants";
 import { EnchantmentResolveType } from "../../data/repositories/CombatInfluencerRepository";
 import { PostTurnEnchantment, PostAttackEnchantment } from "./combat-events/BuffEvents";
+import { displayMessage } from "../../scenes/dialogScene";
 
 export interface BattleState {
   flagsToFlip: number[];
@@ -294,8 +295,17 @@ export class Combat {
         return this.handleBattleEnd();
       }
 
-      this.partyMembers.forEach((p) => p.entity.tickBuffs());
-      this.enemies.forEach((e) => e.entity.tickBuffs());
+      const partyBuffDissipateMessages = this.partyMembers.reduce((acc, p) => {
+        acc.push(...p.entity.tickBuffs());
+        return acc;
+      }, []);
+      const enemyBuffDissipateMessages = this.enemies.reduce((acc, p) => {
+        acc.push(...p.entity.tickBuffs());
+        return acc;
+      }, []);
+      [...partyBuffDissipateMessages, ...enemyBuffDissipateMessages].forEach(async m => {
+        await displayMessage(m, this.scene.game, this.scene.scene)
+      })
 
       // Send control back to user for next round of inputs.
       this.displayInputControlsForCurrentPartyMember();

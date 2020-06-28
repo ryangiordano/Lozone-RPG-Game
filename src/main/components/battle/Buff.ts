@@ -12,6 +12,8 @@ export class Buff implements IBuff {
     public frame: number,
     public effect: Effect,
     public color: number,
+    public persists: boolean,
+    public dissipateMessage: string,
     public enchantments: Enchantment[]
-  ) {}
+  ) { }
 }
