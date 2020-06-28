@@ -13,7 +13,7 @@
     "classes": [1, 5, 6],
     "modifiers": [{
       "modifierStatType": "strength",
-      "modifierPotency": 5
+      "modifierPotency": 2
     }],
     "value": 150,
     "sound": "item-collect"
@@ -32,7 +32,7 @@
     "classes": [1, 5, 6],
     "modifiers": [{
       "modifierStatType": "strength",
-      "modifierPotency": 10
+      "modifierPotency": 4
     }],
     "value": 250,
     "sound": "item-collect"
@@ -51,10 +51,10 @@
     "classes": [1, 2, 5, 6],
     "modifiers": [{
       "modifierStatType": "strength",
-      "modifierPotency": 3
+      "modifierPotency": 1
     }, {
       "modifierStatType": "dexterity",
-      "modifierPotency": 4
+      "modifierPotency": 2
     }],
     "value": 125,
     "sound": "item-collect"
@@ -73,10 +73,10 @@
     "classes": [1, 2, 5, 6],
     "modifiers": [{
       "modifierStatType": "strength",
-      "modifierPotency": 5
+      "modifierPotency": 2
     }, {
       "modifierStatType": "dexterity",
-      "modifierPotency": 8
+      "modifierPotency": 4
     }],
     "value": 225,
     "sound": "item-collect"
@@ -95,10 +95,10 @@
     "classes": [2],
     "modifiers": [{
       "modifierStatType": "strength",
-      "modifierPotency": 3
+      "modifierPotency": 2
     }, {
       "modifierStatType": "dexterity",
-      "modifierPotency": 3
+      "modifierPotency": 2
     }, {
       "modifierStatType": "speed",
       "modifierPotency": 2
@@ -120,10 +120,10 @@
     "classes": [2],
     "modifiers": [{
         "modifierStatType": "strength",
-        "modifierPotency": 4
+        "modifierPotency": 3
       }, {
         "modifierStatType": "dexterity",
-        "modifierPotency": 6
+        "modifierPotency": 4
       },
       {
         "modifierStatType": "speed",

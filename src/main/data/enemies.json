@@ -254,7 +254,7 @@
     "dexterity": 5,
     "wisdom": 15,
     "stamina": 15,
-    "strength": 15,
+    "strength": 20,
     "physicalResist": 5,
     "magicalResist": 2,
     "lootTable": [{
@@ -280,7 +280,7 @@
     "dexterity": 5,
     "wisdom": 15,
     "stamina": 15,
-    "strength": 17,
+    "strength": 20,
     "physicalResist": 2,
     "magicalResist": 5,
     "lootTable": [{
@@ -306,9 +306,9 @@
     "dexterity": 5,
     "wisdom": 15,
     "stamina": 20,
-    "strength": 20,
+    "strength": 24,
     "physicalResist": 5,
-    "magicalResist": 5,
+    "magicalResist": 0,
     "lootTable": [{
         "rate": 1,
         "itemId": 7
