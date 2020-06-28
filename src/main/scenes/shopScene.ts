@@ -31,9 +31,6 @@ export class ShopScene extends MenuScene {
     this.input.keyboard.resetKeys();
 
     const sm = State.getInstance();
-    sm.addItemToContents(19);
-    sm.addItemToContents(20);
-    sm.addItemToContents(21);
     this.inventoryId = data.inventoryId;
     this.itemController = new ItemController(this.game);
 
