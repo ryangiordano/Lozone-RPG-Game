@@ -75,7 +75,7 @@
     "maxMp": 10,
     "level": 5,
     "intellect": 2,
-    "dexterity": 10,
+    "dexterity": 3,
     "wisdom": 2,
     "stamina": 6,
     "strength": 12,
@@ -118,7 +118,7 @@
     "maxMp": 10,
     "level": 3,
     "intellect": 2,
-    "dexterity": 4,
+    "dexterity": 2,
     "wisdom": 2,
     "stamina": 3,
     "strength": 8,
@@ -255,8 +255,8 @@
     "wisdom": 15,
     "stamina": 15,
     "strength": 20,
-    "physicalResist": 5,
-    "magicalResist": 2,
+    "physicalResist": 1,
+    "magicalResist": 1,
     "lootTable": [{
         "rate": 1,
         "itemId": 7
@@ -281,8 +281,8 @@
     "wisdom": 15,
     "stamina": 15,
     "strength": 20,
-    "physicalResist": 2,
-    "magicalResist": 5,
+    "physicalResist": 1,
+    "magicalResist": 1,
     "lootTable": [{
         "rate": 1,
         "itemId": 7
@@ -307,7 +307,7 @@
     "wisdom": 15,
     "stamina": 20,
     "strength": 24,
-    "physicalResist": 5,
+    "physicalResist": 2,
     "magicalResist": 0,
     "lootTable": [{
         "rate": 1,

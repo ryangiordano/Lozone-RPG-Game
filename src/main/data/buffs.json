@@ -9,7 +9,7 @@
         "effect": 1,
         "color": "0xD6D252",
         "persists": false,
-        "dissipateMessage": "%e's defense returns to normal.",
+        "dissipateMessage": null,
         "enchantments": []
 
     },

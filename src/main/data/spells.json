@@ -122,7 +122,7 @@
   "13": {
     "name": "Cat Magic",
     "primaryAnimationEffect": null,
-    "animationEffect": 1,
+    "animationEffect": 10,
     "description": "Increase strength and dexterity",
     "message": "%t is invigorated by cat-shape magics.",
     "basePotency": 10,
@@ -140,7 +140,7 @@
   "14": {
     "name": "Cat Poison",
     "primaryAnimationEffect": null,
-    "animationEffect": 1,
+    "animationEffect": 9,
     "description": "Poisons the target",
     "message": "%t has been poisoned.",
     "basePotency": 10,
@@ -176,7 +176,7 @@
   "16": {
     "name": "Fireblade",
     "primaryAnimationEffect": null,
-    "animationEffect": 1,
+    "animationEffect": 11,
     "description": "Sets your blade on fire!",
     "message": "%t's weapon is surrounded in flickering flames.",
     "basePotency": 10,

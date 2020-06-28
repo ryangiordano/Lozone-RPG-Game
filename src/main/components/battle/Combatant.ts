@@ -118,7 +118,9 @@ export class Combatant {
   }
 
   getOrientation() {
-    return this.direction === Directions.left ? Orientation.left : Orientation.right
+    return this.direction === Directions.left
+      ? Orientation.left
+      : Orientation.right;
   }
   standUp() {
     if (this.direction === Directions.right) {
@@ -241,9 +243,9 @@ export class Combatant {
         }
 
         let m = `${spell.message}`;
-        m = m.replace('%t', t.name)
-        m = m.replace('%e', this.name);
-        m = m.replace('%v', resultingValue);
+        m = m.replace("%t", t.name);
+        m = m.replace("%e", this.name);
+        m = m.replace("%v", resultingValue);
 
         return {
           actionType: CombatActionTypes.castSpell,
@@ -251,7 +253,7 @@ export class Combatant {
           target: t,
           resultingValue: resultingValue,
           targetDown: t.currentHp === 0,
-          message: [m]
+          message: [m],
         };
       });
 
@@ -336,9 +338,9 @@ export class Combatant {
   }
 
   public getCritChance() {
-    return Math.min(this.dexterity * this.levelModifier() * 0.7, 33);
+    return Math.min(this.dexterity * this.levelModifier() * 0.3, 33);
   }
-  public getModifierValue() { }
+  public getModifierValue() {}
 
   /**Add a defense up buff that lasts one turn to yourself. */
   public defendSelf() {
@@ -346,18 +348,17 @@ export class Combatant {
     this.addBuff(defenseBuff);
   }
 
-  /** 
+  /**
    * Apply buff to character.  If the buff exists, refresh.
    */
   public addBuff(buff: Buff) {
-    const existingBuff = this.buffs.find((b) => b.id === buff.id)
+    const existingBuff = this.buffs.find((b) => b.id === buff.id);
     // Refresh existing
     if (existingBuff) {
       existingBuff.duration = buff.duration;
     } else {
       // Apply copy of buff, not reference from database
       this.buffs.push({ ...buff });
-
     }
   }
 
@@ -366,17 +367,19 @@ export class Combatant {
     this.buffs = this.buffs.filter(async (b) => {
       b.duration--;
       if (!b.duration) {
-        let parsedMessage = b.dissipateMessage;
-        parsedMessage = parsedMessage.replace("%e", this.name)
-        messagesToDisplay.push([parsedMessage])
+        if (b.dissipateMessage) {
+          let parsedMessage = b.dissipateMessage;
+          parsedMessage = parsedMessage.replace("%e", this.name);
+          messagesToDisplay.push([parsedMessage]);
+        }
       }
       return b.duration;
     });
-    return messagesToDisplay
+    return messagesToDisplay;
   }
 
   public clearNonPersistentBuffs() {
-    this.buffs = this.buffs.filter(b => b.persists)
+    this.buffs = this.buffs.filter((b) => b.persists);
   }
 
   /** The cumulative potency granted by buffs for a given stat */

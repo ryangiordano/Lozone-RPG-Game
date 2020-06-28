@@ -1,6 +1,6 @@
 import { AnimationHelper } from "../../utility/tweens/animation-helper";
 import { State } from "../../utility/state/State";
-import { BLACK } from "../../utility/Constants";
+import { BLACK, ORANGE } from '../../utility/Constants';
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
@@ -49,6 +49,7 @@ export class BootScene extends Phaser.Scene {
         fill: BLACK,
         fontWeight: "bold",
       });
+
       setTimeout(() => {
         this.scene.start("Audio");
         this.scene.start("House", { map: "room", tileset: "room-tiles" });
@@ -101,6 +102,12 @@ export class BootScene extends Phaser.Scene {
       "./src/main/assets/pack/tilemaps.json",
       "preload_tilemaps"
     );
+
+    // this.load.atlas(
+    //   "preload_spritesheets",
+    //   "./src/main/assets/pack/spritesheets.json",
+    //   "preload_spritesheets"
+    // );
     this.load.pack("preload", "./src/main/assets/pack.json", "preload");
   }
   private createLoadingGraphics(): void {

@@ -184,6 +184,21 @@
         "type": "audio",
         "key": "rest",
         "url": "./src/main/assets/sounds/rest.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "spell-cast",
+        "url": "./src/main/assets/sounds/spell-cast.wav"
+      },
+      {
+        "type": "audio",
+        "key": "poison",
+        "url": "./src/main/assets/sounds/poison.wav"
+      },
+      {
+        "type": "audio",
+        "key": "power-up",
+        "url": "./src/main/assets/sounds/power-up.wav"
       }
     ]
   }

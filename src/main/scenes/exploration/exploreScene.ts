@@ -33,6 +33,7 @@ export abstract class Explore extends Phaser.Scene {
   }
 
   async init(data) {
+
     sceneFadeIn(this.cameras.main);
 
     // Specify the tileset you want to use based on the data passed to the scene.
@@ -49,6 +50,8 @@ export abstract class Explore extends Phaser.Scene {
 
   protected abstract afterInit(data);
   preload(): void {
+    // this.load.atlas('tiny-particle', 'assets/particles/tiny-particle.png', 'assets/particles/tiny-particle.json');
+
     // TODO: Gather these into a map
     this.sound.add("bump");
     this.sound.add("beep");
@@ -94,7 +97,7 @@ export abstract class Explore extends Phaser.Scene {
     });
   }
 
-  protected afterCreated() { }
+  protected afterCreated() {}
 
   protected setEventsOn() {
     this.input.keyboard.on("keyup-Z", (event) => {
@@ -149,7 +152,7 @@ export abstract class Explore extends Phaser.Scene {
           entity.hasPlacementFlags() &&
           entity.setPlaced(
             sm.allAreFlagged(entity.placementFlags) &&
-            !sm.isFlagged(entity.flagId)
+              !sm.isFlagged(entity.flagId)
           );
       }
     });
@@ -362,7 +365,7 @@ export abstract class Explore extends Phaser.Scene {
     this.foregroundLayer.setName("foreground");
   }
 
-  async acquiredItemCallback({ itemId, flagId, chestCoords }) { }
+  async acquiredItemCallback({ itemId, flagId, chestCoords }) {}
 
   protected async startEncounter(
     enemyPartyId: number,

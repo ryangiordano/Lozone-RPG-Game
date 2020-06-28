@@ -88,6 +88,16 @@
             },
             "repeat": -1,
             "frameRate": 9
+        },
+        {
+            "key": "tiny-particle",
+            "frames": {
+                "typeOfGeneration": 1,
+                "frames": [0, 1, 2],
+                "key": "tiny-particle"
+            },
+            "repeat": -1,
+            "frameRate": 20
         }
     ]
 }
