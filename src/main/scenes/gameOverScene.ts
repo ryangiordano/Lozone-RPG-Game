@@ -37,7 +37,7 @@ export class GameOverScene extends Phaser.Scene {
       "Game Over",
       { x: 0, y: 0 },
       "64px",
-      { fill: WHITE }
+      { fill: WHITE.str }
     );
     this.add.existing(gameOverText);
     textFadeIn(gameOverText, 0, 2000, this, () => {}).play();
@@ -46,7 +46,7 @@ export class GameOverScene extends Phaser.Scene {
       "Return Home",
       { x: 0, y: 50 },
       "16px",
-      { fill: WHITE }
+      { fill: WHITE.str }
     );
 
     textFadeIn(returnHomeText, 5000, 2000, this, () => {

@@ -279,7 +279,7 @@ export class CombatInterface extends UserInterface {
 
   private createStatusPanel() {
     this.statusPanel = this.createPresentationPanel(
-      { x: 5, y: 3 },
+      { x: 7, y: 3 },
       { x: 3, y: 6 }
     );
     const combatant = this.currentPartyMember;
@@ -299,12 +299,39 @@ export class CombatInterface extends UserInterface {
       { x: 20, y: 90 },
       statusTextSize
     );
+    this.populateStatusPanelStatuses();
     [hp, mp, name].forEach((gameObject) => {
       this.scene.add.existing(gameObject);
       this.statusPanel.add(gameObject);
     });
 
     return this.statusPanel;
+  }
+
+  private populateStatusPanelStatuses() {
+    const combatant = this.currentPartyMember;
+    const statuses = [];
+    let yStatusSpace = 0;
+    combatant.getBuffs().forEach((b, i) => {
+      const even = i % 2 === 0;
+      if (even && i > 0) {
+        yStatusSpace++;
+      }
+      const s = new Phaser.GameObjects.Sprite(
+        this.scene,
+        even ? 0 : 40,
+        40 * yStatusSpace,
+        b.icon,
+        b.frame
+      );
+      s.setTint(b.color);
+      s.setOrigin(0.5, 0.5);
+      s.setScale(0.5, 0.5);
+      statuses.push(s);
+      this.scene.add.existing(s);
+    });
+    const c = this.scene.add.container(375, 30, statuses);
+    this.statusPanel.add(c);
   }
 
   private createSpellPanel() {

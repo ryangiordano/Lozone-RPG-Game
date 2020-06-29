@@ -11,6 +11,7 @@ import { cloud } from "../components/effect-animations/cloud";
 import { poison } from "../components/effect-animations/poison";
 import { powerUp } from "../components/effect-animations/power-up";
 import { flamePowerUp } from "../components/effect-animations/flame-power-up";
+import { spellCast } from "../components/effect-animations/spell-cast";
 
 export const effectDatabase = {
   "1": {
@@ -56,5 +57,9 @@ export const effectDatabase = {
   "11": {
     name: "Flame Power Up",
     play: flamePowerUp,
+  },
+  "12": {
+    name: "Spell casting",
+    play: spellCast,
   },
 };

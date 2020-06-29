@@ -1,6 +1,7 @@
+import { WHITE } from "./../../utility/Constants";
 import { AnimationHelper } from "../../utility/tweens/animation-helper";
 import { State } from "../../utility/state/State";
-import { BLACK, ORANGE } from '../../utility/Constants';
+import { BLACK, ORANGE } from "../../utility/Constants";
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
@@ -70,7 +71,7 @@ export class BootScene extends Phaser.Scene {
 
   preload(): void {
     this.sound.add("startup");
-    this.cameras.main.setBackgroundColor(0xffffff);
+    this.cameras.main.setBackgroundColor(WHITE.hex);
     this.createLoadingGraphics();
     this.load.on("complete", () => {
       this.loaded = true;

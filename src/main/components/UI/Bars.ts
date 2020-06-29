@@ -1,3 +1,4 @@
+import { WHITE } from "./../../utility/Constants";
 export class Bar extends Phaser.GameObjects.Container {
   private barBack: Phaser.GameObjects.Rectangle;
   private barFill: Phaser.GameObjects.Rectangle;
@@ -17,7 +18,7 @@ export class Bar extends Phaser.GameObjects.Container {
       0,
       this.barWidth,
       7,
-      0xffffff,
+      WHITE.hex,
       1
     );
     this.barFill = new Phaser.GameObjects.Rectangle(

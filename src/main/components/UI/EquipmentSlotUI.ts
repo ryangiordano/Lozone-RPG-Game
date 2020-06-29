@@ -1,6 +1,7 @@
 import { EquipmentSlot } from "./../entities/Items/Equipment";
 import { Equipment } from "../entities/Items/Equipment";
 import { AudioScene } from "../../scenes/audioScene";
+import { LIGHT_GREY } from "../../utility/Constants";
 
 export default class EquipmentSlotUI extends Phaser.GameObjects.Container {
   private slot: Phaser.GameObjects.Rectangle;
@@ -13,7 +14,14 @@ export default class EquipmentSlotUI extends Phaser.GameObjects.Container {
     equipment?: Equipment
   ) {
     super(scene, position.x, position.y);
-    this.slot = new Phaser.GameObjects.Rectangle(scene, 0, 0, 25, 25, 0xbfbfbf);
+    this.slot = new Phaser.GameObjects.Rectangle(
+      scene,
+      0,
+      0,
+      25,
+      25,
+      LIGHT_GREY.hex
+    );
     scene.add.existing(this);
     scene.add.existing(this.slot);
     this.add(this.slot);

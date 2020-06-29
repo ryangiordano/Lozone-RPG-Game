@@ -60,6 +60,16 @@
             "frameRate": 24
         },
         {
+            "key": "ground-wave",
+            "frames": {
+                "typeOfGeneration": 1,
+                "frames": [0, 1, 2, 3, 4, 5],
+                "key": "ground-wave"
+            },
+            "repeat": 0,
+            "frameRate": 10
+        },
+        {
             "key": "explosion",
             "frames": {
                 "typeOfGeneration": 1,

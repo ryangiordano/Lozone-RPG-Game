@@ -1,32 +1,44 @@
-export const makeFadeIn = (target, duration: number, scene: Phaser.Scene, onComplete?: Function) => {
+export const makeFadeIn = (
+  target,
+  duration: number,
+  scene: Phaser.Scene,
+  onComplete?: Function,
+  toAlpha = 1
+) => {
   return scene.add.tween({
     targets: [target],
-    ease: 'Sine.easeInOut',
+    ease: "Sine.easeInOut",
     duration: duration,
     delay: 0,
     paused: true,
     alpha: {
       getStart: () => 0,
-      getEnd: () => 1
+      getEnd: () => toAlpha,
     },
     onComplete: () => {
       onComplete ? onComplete() : null;
-    }
-  })
-}
-export const makeFadeOut = (target, duration: number, scene: Phaser.Scene, onComplete?: Function) => {
+    },
+  });
+};
+export const makeFadeOut = (
+  target,
+  duration: number,
+  scene: Phaser.Scene,
+  onComplete?: Function,
+  fromAlpha = 1
+) => {
   return scene.add.tween({
     targets: [target],
-    ease: 'Sine.easeInOut',
+    ease: "Sine.easeInOut",
     duration: duration,
     delay: 0,
     paused: true,
     alpha: {
-      getStart: () => 1,
-      getEnd: () => 0
+      getStart: () => fromAlpha,
+      getEnd: () => 0,
     },
     onComplete: () => {
       onComplete ? onComplete() : null;
-    }
-  })
-}
+    },
+  });
+};

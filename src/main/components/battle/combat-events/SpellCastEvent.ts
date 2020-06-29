@@ -1,3 +1,4 @@
+import { makeFadeOut } from "./../../../utility/tweens/fade";
 import { CombatEvent } from "./CombatEvent";
 import { Combatant } from "../Combatant";
 import {
@@ -10,8 +11,11 @@ import { SpellType } from "../../../data/repositories/SpellRepository";
 import { playCombatText } from "../../../utility/tweens/text";
 import { GREEN, WHITE, BLUE } from "../../../utility/Constants";
 import { displayMessage } from "../../../scenes/dialogScene";
+import { EffectsRepository } from "../../../data/repositories/EffectRepository";
+import { makeFadeIn } from "../../../utility/tweens/fade";
 
 export class SpellCastEvent extends CombatEvent {
+  private effectRepo: EffectsRepository;
   /**
    * Handles the case when a player chooses to use a spell.
    */
@@ -24,6 +28,7 @@ export class SpellCastEvent extends CombatEvent {
     private spell: Spell
   ) {
     super(executor, targets, type, orientation, scene);
+    this.effectRepo = new EffectsRepository(scene.game);
   }
   /**
    * Handles the case when a spell is cast.
@@ -55,6 +60,8 @@ export class SpellCastEvent extends CombatEvent {
         return resolve(results);
       }
 
+      await this.playCastingAnimation(executor.getSprite());
+
       /** Play main animation */
       if (this.spell.primaryAnimationEffect) {
         await this.spell.primaryAnimationEffect.play(
@@ -77,7 +84,7 @@ export class SpellCastEvent extends CombatEvent {
           );
         })
       );
-      
+
       let color;
       switch (this.spell.type) {
         case SpellType.restoration:
@@ -112,7 +119,31 @@ export class SpellCastEvent extends CombatEvent {
     });
   }
 
-  protected async handleMultiSpellCast(executor: Combatant) { }
+  private playCastingAnimation(sprite: Phaser.GameObjects.Sprite) {
+    return new Promise(async (resolve) => {
+      /** Play casting anim */
+      const e = this.effectRepo.getById(12);
+      sprite.setFrame(10);
+      const wave = this.scene.add.sprite(
+        sprite.x,
+        sprite.y + 12,
+        "ground-wave"
+      );
+      wave.on("animationcomplete", () => {
+        wave.destroy();
+      });
+      sprite.parentContainer.add(wave);
+      sprite.parentContainer.sendToBack(wave);
+      wave.anims.play("ground-wave");
+
+      await e.play(sprite.x, sprite.y, this.scene, sprite.parentContainer);
+      sprite.setFrame(6);
+
+      resolve();
+    });
+  }
+
+  protected async handleMultiSpellCast(executor: Combatant) {}
 
   public async executeAction(): Promise<CombatResult[]> {
     return new Promise(async (resolve) => {

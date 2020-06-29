@@ -17,7 +17,6 @@ import { SpellType } from "../../data/repositories/SpellRepository";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
 import { CombatInfluencerController } from "../../data/controllers/CombatInfluencerController";
 import { BaseStat } from "./PartyMember";
-import { displayMessage } from "../../scenes/dialogScene";
 
 interface PersistentAffect {
   id: number;
@@ -364,16 +363,17 @@ export class Combatant {
 
   public tickBuffs(): string[][] {
     const messagesToDisplay = [];
-    this.buffs = this.buffs.filter(async (b) => {
+    this.buffs = this.buffs.filter((b) => {
       b.duration--;
-      if (!b.duration) {
+      if (b.duration <= 0) {
         if (b.dissipateMessage) {
           let parsedMessage = b.dissipateMessage;
           parsedMessage = parsedMessage.replace("%e", this.name);
           messagesToDisplay.push([parsedMessage]);
         }
+        return false;
       }
-      return b.duration;
+      return true;
     });
     return messagesToDisplay;
   }

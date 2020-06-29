@@ -1,14 +1,7 @@
-import {
-  scaleUpDown,
-  textScaleUp,
-} from "./../../utility/tweens/text";
+import { scaleUpDown, textScaleUp } from "./../../utility/tweens/text";
 import { Combatant } from "./Combatant";
 import { CombatContainer } from "./combat-grid/CombatContainer";
-import {
-  getRandomFloor,
-  Directions,
-  wait,
-} from "../../utility/Utility";
+import { getRandomFloor, Directions, wait } from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./combat-events/CombatEvent";
 import { CombatInterface } from "./combat-ui/CombatInterface";
@@ -27,7 +20,10 @@ import { TextFactory } from "../../utility/TextFactory";
 import { AudioScene } from "../../scenes/audioScene";
 import { WHITE } from "../../utility/Constants";
 import { EnchantmentResolveType } from "../../data/repositories/CombatInfluencerRepository";
-import { PostTurnEnchantment, PostAttackEnchantment } from "./combat-events/BuffEvents";
+import {
+  PostTurnEnchantment,
+  PostAttackEnchantment,
+} from "./combat-events/BuffEvents";
 import { displayMessage } from "../../scenes/dialogScene";
 
 export interface BattleState {
@@ -270,15 +266,25 @@ export class Combat {
     this.updateCombatGrids();
   }
 
-  private resolvePostAttackEnchantments(enchanted: Combatant, target: Combatant) {
-    enchanted && enchanted.getBuffs().forEach(b => {
-      b.enchantments.forEach(async e => {
-        if (e.type === EnchantmentResolveType.postAttack) {
-          const pae = new PostAttackEnchantment(enchanted, target, e, enchanted.getOrientation(), this.scene)
-          await pae.executeAction();
-        }
-      })
-    })
+  private resolvePostAttackEnchantments(
+    enchanted: Combatant,
+    target: Combatant
+  ) {
+    enchanted &&
+      enchanted.getBuffs().forEach((b) => {
+        b.enchantments.forEach(async (e) => {
+          if (e.type === EnchantmentResolveType.postAttack) {
+            const pae = new PostAttackEnchantment(
+              enchanted,
+              target,
+              e,
+              enchanted.getOrientation(),
+              this.scene
+            );
+            await pae.executeAction();
+          }
+        });
+      });
   }
 
   /**
@@ -303,9 +309,11 @@ export class Combat {
         acc.push(...p.entity.tickBuffs());
         return acc;
       }, []);
-      [...partyBuffDissipateMessages, ...enemyBuffDissipateMessages].forEach(async m => {
-        await displayMessage(m, this.scene.game, this.scene.scene)
-      })
+      [...partyBuffDissipateMessages, ...enemyBuffDissipateMessages].forEach(
+        async (m) => {
+          await displayMessage(m, this.scene.game, this.scene.scene);
+        }
+      );
 
       // Send control back to user for next round of inputs.
       this.displayInputControlsForCurrentPartyMember();
@@ -318,11 +326,11 @@ export class Combat {
 
     const combatEvent = this.combatEvents.pop();
     const results = await combatEvent.executeAction();
-    results.map(r => {
+    results.map((r) => {
       if (r.actionType === CombatActionTypes.attack) {
-        this.resolvePostAttackEnchantments(r.executor, r.target)
+        this.resolvePostAttackEnchantments(r.executor, r.target);
       }
-    })
+    });
     this.updateCombatGrids();
 
     // Handle failures
@@ -355,8 +363,8 @@ export class Combat {
   }
 
   private clearNonPersistentBuffs() {
-    this.enemies.forEach(e => e.entity.clearNonPersistentBuffs())
-    this.partyMembers.forEach(e => e.entity.clearNonPersistentBuffs())
+    this.enemies.forEach((e) => e.entity.clearNonPersistentBuffs());
+    this.partyMembers.forEach((e) => e.entity.clearNonPersistentBuffs());
   }
 
   private async handleBattleEnd() {
@@ -497,7 +505,7 @@ export class Combat {
         { x: sprite.x, y: sprite.y },
         "32px",
         {
-          fill: WHITE,
+          fill: WHITE.str,
         }
       );
       container.add(experienceText);
@@ -563,7 +571,7 @@ export class Combat {
     return Object.keys(itemObjects).map(
       (key) =>
         `Received ${itemObjects[key].amount} ${itemObjects[key].name}${
-        itemObjects[key].amount > 1 ? "s" : ""
+          itemObjects[key].amount > 1 ? "s" : ""
         }. `
     );
   }

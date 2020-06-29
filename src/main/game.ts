@@ -68,7 +68,7 @@ const config: GameConfig = {
       { key: "updatePlugin", plugin: PhaserUpdatePlugin, mapping: "updates" },
     ],
   },
-  backgroundColor: BLACK,
+  backgroundColor: BLACK.str,
   physics: {
     default: "arcade",
     render: { pixelArt: true, antialias: false },

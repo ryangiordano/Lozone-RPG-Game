@@ -9,7 +9,7 @@ import { Item, handleItemUse } from "../../entities/Items/Item";
 import { State } from "../../../utility/state/State";
 import { SpellType } from "../../../data/repositories/SpellRepository";
 import { playCombatText } from "../../../utility/tweens/text";
-import { GREEN } from '../../../utility/Constants';
+import { GREEN } from "../../../utility/Constants";
 
 export class UseItemEvent extends CombatEvent {
   /**
@@ -53,7 +53,7 @@ export class UseItemEvent extends CombatEvent {
       const { resource } = handleItemUse(targets[0], this.item);
 
       const texts = results.map((r) =>
-        this.createCombatText(r.resultingValue.toString(), r.target, GREEN)
+        this.createCombatText(r.resultingValue.toString(), r.target, GREEN.str)
       );
 
       await Promise.all(texts.map((t) => playCombatText(t, this.scene)));

@@ -16,14 +16,15 @@ export const poison = (
       x,
       y,
       speed: { min: 200, max: 250 },
-      scale: { start: 1.5, end: 0 },
-      gravityY: 100,
+      scale: { start: 1.4, end: 0 },
+      gravityY: 500,
       frequency: 150,
       lifespan: 700,
+      bounds: { x: x-100, y: y-100, width: 200, height: 150 },
       tint: [0xd9c8fb, 0xcf95e4, 0xc277da],
       deathCallback: true,
     });
-
+    
     explode.explode(100, x, y);
     scene.cameras.main.flash(300, 170, 74, 226);
 

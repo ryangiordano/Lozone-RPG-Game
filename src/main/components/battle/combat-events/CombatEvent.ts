@@ -93,7 +93,7 @@ export class CombatEvent {
         this.createCombatText(
           r.resultingValue.toString(),
           r.target,
-          r.critical ? YELLOW : WHITE,
+          r.critical ? YELLOW.str : WHITE.str,
           r.critical ? 80 : 60
         )
       );
@@ -121,7 +121,7 @@ export class CombatEvent {
   protected createCombatText(
     value: string,
     combatant: Combatant,
-    color: string = WHITE,
+    color: string = WHITE.str,
     size: number = 60
   ): Phaser.GameObjects.Text {
     const sprite = combatant.getSprite();
