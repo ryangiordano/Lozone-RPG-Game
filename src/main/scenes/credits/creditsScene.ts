@@ -104,7 +104,7 @@ export class CreditsScene extends Phaser.Scene {
     const coming = this.add.text(100, -200, "Coming December 2019", {
       fontFamily: "pixel",
       fontSize: "32px",
-      fill: BLACK,
+      fill: BLACK.hex,
       align: "center",
       padding: 2,
       wordWrap: {
@@ -119,7 +119,7 @@ export class CreditsScene extends Phaser.Scene {
       {
         fontFamily: "pixel",
         fontSize: "32px",
-        fill: BLACK,
+        fill: BLACK.hex,
         align: "center",
         padding: 2,
         wordWrap: {

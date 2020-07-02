@@ -130,7 +130,7 @@ export class DialogScene extends Phaser.Scene {
       this.currentText = this.add.text(4 * 4, 99 * 4, toShow, {
         fontFamily: "pixel",
         fontSize: "32px",
-        fill: BLACK,
+        fill: BLACK.hex,
         wordWrap: {
           width: (this.dialog.width / 4.5) * 4,
           useAdvancedWrap: true,

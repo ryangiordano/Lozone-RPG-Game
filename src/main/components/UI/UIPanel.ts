@@ -133,7 +133,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
       {
         fontFamily: "pixel",
         fontSize: "32px",
-        fill: BLACK,
+        fill: BLACK.hex,
       },
       selectCallback,
       focusCallback
@@ -221,7 +221,7 @@ export class UIPanel extends PanelContainer implements HasOptions {
     this.caret = this.scene.add.text(-100, -100, ">", {
       fontFamily: "pixel",
       fontSize: "32px",
-      fill: BLACK,
+      fill: BLACK.hex,
     });
     this.add(this.caret);
     //TODO: Refactor to create a correct cursor object

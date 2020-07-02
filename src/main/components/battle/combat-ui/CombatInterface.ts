@@ -33,6 +33,7 @@ export class CombatInterface extends UserInterface {
   private mainPanel: UIPanel;
   private detailPanel: PanelContainer;
   private currentPartyMember: PartyMember;
+  private toastPanel: PanelContainer;
 
   private enemyTraversible: TraversibleObject;
   private partyTraversible: TraversibleObject;
@@ -51,6 +52,7 @@ export class CombatInterface extends UserInterface {
     this.createMainPanel();
     this.createStatusPanel();
     this.createSpellPanel();
+    this.createToastPanel();
 
     this.mainPanel.addChildPanel("status", this.statusPanel);
     this.showPanel(this.mainPanel).focusPanel(this.mainPanel);
@@ -60,6 +62,47 @@ export class CombatInterface extends UserInterface {
 
     this.createEnemyTraversible();
     this.createPartyTraversible();
+  }
+
+  private createToastPanel() {
+    this.toastPanel = this.createPresentationPanel(
+      { x: 10, y: 1 },
+      { x: 0, y: 0 }
+    );
+
+    return this.toastPanel;
+  }
+
+  setToastPanelMessage(message: string) {
+    this.toastPanel.clearPanelContainerByType("Text");
+    const m = this.textFactory.createText(
+      message,
+      {
+        x: 20,
+        y: 17,
+      },
+      "20px",
+      {
+        align: "left",
+
+        wordWrap: {
+          width: 800,
+          useAdvancedWrap: true,
+        },
+      }
+    );
+    this.toastPanel.add(m);
+    this.scene.add.existing(m);
+    this.showToastPanel();
+  }
+
+  showToastPanel() {
+    this.toastPanel.show();
+  }
+
+  hideToastPanel() {
+    this.toastPanel.clearPanelContainerByType("Text");
+    this.toastPanel.close();
   }
 
   private createMainPanel() {
@@ -176,14 +219,19 @@ export class CombatInterface extends UserInterface {
 
       // Handling Focused.
       const currentFocused = traversible.getFocusedOption();
+      this.setToastPanelMessage(currentFocused.selectableData.entity.name);
+
       combatContainer.setCursor(currentFocused.selectableData.entity.sprite);
       traversible.on("focused", (target) => {
         const sprite = target.entity.sprite;
+
+        this.setToastPanelMessage(target.entity.name);
         combatContainer.setCursor(sprite);
       });
     }
 
     traversible.on("escape", () => {
+      this.hideToastPanel();
       this.traverseBackward();
     });
   }
@@ -251,21 +299,31 @@ export class CombatInterface extends UserInterface {
     consumeables
       .filter((item) => item.canSetIntendToUse())
       .forEach((item) => {
-        this.itemPanel.addOption(`${item.name} x${item.getQuantity()}`, () => {
-          this.itemPanel.close();
-          item.setIntendToUse();
-          this.showPanel(this.partyTraversible).focusPanel(
-            this.partyTraversible
-          );
-          this.handleTraversibleTargeting(
-            this.partyTraversible,
-            this.partyCombatContainer,
-            CombatActionTypes.useItem,
-            item.effect.targetType,
-            item
-          );
-        });
+        this.itemPanel.addOption(
+          `${item.name} x${item.getQuantity()}`,
+          () => {
+            this.itemPanel.close();
+            item.setIntendToUse();
+            this.showPanel(this.partyTraversible).focusPanel(
+              this.partyTraversible
+            );
+            this.handleTraversibleTargeting(
+              this.partyTraversible,
+              this.partyCombatContainer,
+              CombatActionTypes.useItem,
+              item.effect.targetType,
+              item
+            );
+          },
+          () => {
+            this.setToastPanelMessage(item.description);
+          }
+        );
       });
+
+    this.itemPanel.on("escape-pressed", () => {
+      this.hideToastPanel();
+    });
   }
 
   private createPartyTargetPanel() {
@@ -341,42 +399,51 @@ export class CombatInterface extends UserInterface {
     combatant.combatClass.spells.forEach(
       (classSpell) =>
         classSpell.requiredLevel <= combatant.level &&
-        this.spellPanel.addOption(classSpell.spell.name, async () => {
-          if (!combatant.canCastSpell(classSpell.spell)) {
-            await displayMessage(
-              ["Insufficient MP"],
-              this.scene.game,
-              this.scene.scene
-            );
-            return;
-          }
-          this.spellPanel.close();
+        this.spellPanel.addOption(
+          classSpell.spell.name,
+          async () => {
+            if (!combatant.canCastSpell(classSpell.spell)) {
+              await displayMessage(
+                ["Insufficient MP"],
+                this.scene.game,
+                this.scene.scene
+              );
+              return;
+            }
+            this.spellPanel.close();
 
-          if (classSpell.spell.targetType.targeting === Targeting.ally) {
-            this.showPanel(this.partyTraversible).focusPanel(
-              this.partyTraversible
-            );
-            this.handleTraversibleTargeting(
-              this.partyTraversible,
-              this.partyCombatContainer,
-              CombatActionTypes.castSpell,
-              classSpell.spell.targetType,
-              classSpell
-            );
-          } else {
-            this.showPanel(this.enemyTraversible).focusPanel(
-              this.enemyTraversible
-            );
-            this.handleTraversibleTargeting(
-              this.enemyTraversible,
-              this.enemyCombatContainer,
-              CombatActionTypes.castSpell,
-              classSpell.spell.targetType,
-              classSpell
-            );
+            if (classSpell.spell.targetType.targeting === Targeting.ally) {
+              this.showPanel(this.partyTraversible).focusPanel(
+                this.partyTraversible
+              );
+              this.handleTraversibleTargeting(
+                this.partyTraversible,
+                this.partyCombatContainer,
+                CombatActionTypes.castSpell,
+                classSpell.spell.targetType,
+                classSpell
+              );
+            } else {
+              this.showPanel(this.enemyTraversible).focusPanel(
+                this.enemyTraversible
+              );
+              this.handleTraversibleTargeting(
+                this.enemyTraversible,
+                this.enemyCombatContainer,
+                CombatActionTypes.castSpell,
+                classSpell.spell.targetType,
+                classSpell
+              );
+            }
+          },
+          () => {
+            this.setToastPanelMessage(classSpell.spell.description);
           }
-        })
+        )
     );
+    this.spellPanel.on("escape-pressed", () => {
+      this.hideToastPanel();
+    });
     return this.spellPanel;
   }
 

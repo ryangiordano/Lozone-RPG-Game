@@ -1,7 +1,7 @@
 import { WHITE } from "./../../utility/Constants";
 import { AnimationHelper } from "../../utility/tweens/animation-helper";
 import { State } from "../../utility/state/State";
-import { BLACK, ORANGE } from "../../utility/Constants";
+import { BLACK } from "../../utility/Constants";
 
 export class BootScene extends Phaser.Scene {
   private loadingBar: Phaser.GameObjects.Graphics;
@@ -47,7 +47,7 @@ export class BootScene extends Phaser.Scene {
       this.add.text(210, 310, "Catshape Daruma®", {
         fontFamily: "pixel",
         fontSize: "20px",
-        fill: BLACK,
+        fill: BLACK.hex,
         fontWeight: "bold",
       });
 

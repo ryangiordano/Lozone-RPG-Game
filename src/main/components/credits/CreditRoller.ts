@@ -132,7 +132,7 @@ export class CreditRoller extends Phaser.GameObjects.Container {
           {
             fontFamily: "pixel",
             fontSize: "32px",
-            fill: BLACK,
+            fill: BLACK.hex,
             align: "center",
             padding: 32,
             wordWrap: {
@@ -166,7 +166,7 @@ export class CreditRoller extends Phaser.GameObjects.Container {
             padding: 8,
             fontFamily: "pixel",
             fontSize: "20px",
-            fill: BLACK,
+            fill: BLACK.hex,
           }
         )
       );

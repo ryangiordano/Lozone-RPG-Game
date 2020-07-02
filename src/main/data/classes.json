@@ -29,12 +29,12 @@
                 "spell": 13
             },
             {
-                "requiredLevel": 1,
+                "requiredLevel": 3,
                 "classModifier": 1,
                 "spell": 14
             },
             {
-                "requiredLevel": 1,
+                "requiredLevel": 5,
                 "classModifier": 1,
                 "spell": 17
             }

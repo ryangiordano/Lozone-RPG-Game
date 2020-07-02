@@ -21,7 +21,7 @@ export class MessagePanel extends PanelContainer {
       {
         fontFamily: "pixel",
         fontSize: `${size}px`,
-        fill: BLACK,
+        fill: BLACK.hex,
         wordWrap: {
           width: (this.panel.width / 4.5) * 4,
           useAdvancedWrap: true,

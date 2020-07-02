@@ -12,7 +12,7 @@
   },
   "2": {
     "name": "tamarind",
-    "description": "A crispy shell hiding sweet fruit.  Restores a moderate amount of HP",
+    "description": "A shell hiding sweet fruit.  Restores a moderate amount of HP",
     "spellId": 2,
     "effectPotency": 2,
     "spriteKey": "items",
@@ -23,7 +23,7 @@
   },
   "3": {
     "name": "mango",
-    "description": "A rainbow-colored mango.  Restores a large amount of HP.",
+    "description": "Brightly colored!  Restores a large amount of HP.",
     "spellId": 3,
     "effectPotency": 3,
     "spriteKey": "items",

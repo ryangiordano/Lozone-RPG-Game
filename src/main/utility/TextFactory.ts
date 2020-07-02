@@ -28,6 +28,7 @@ interface TextFactoryConfig {
    * Options around wrapping text objects
    */
   wordWrap?: WordWrapProps;
+  align?: "left" | "right" | "center";
 }
 export class TextFactory {
   constructor(private scene: Phaser.Scene) {}
@@ -45,7 +46,7 @@ export class TextFactory {
       {
         fontSize,
         fontFamily: "pixel",
-        fill: BLACK,
+        fill: BLACK.hex,
         ...config,
       }
     );
