@@ -19,6 +19,7 @@ export const displayMessage = (
     scene.setActive(true, "DialogScene").bringToTop("DialogScene");
     const dialog = game.scene.getScene("DialogScene");
     dialog.events.on("close-dialog", () => {
+      dialog.events.off("close-dialog");
       resolve();
     });
   });

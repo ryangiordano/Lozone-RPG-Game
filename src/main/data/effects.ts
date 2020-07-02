@@ -12,6 +12,7 @@ import { poison } from "../components/effect-animations/poison";
 import { powerUp } from "../components/effect-animations/power-up";
 import { flamePowerUp } from "../components/effect-animations/flame-power-up";
 import { spellCast } from "../components/effect-animations/spell-cast";
+import { healWave } from "../components/effect-animations/heal-wave";
 
 export const effectDatabase = {
   "1": {
@@ -61,5 +62,9 @@ export const effectDatabase = {
   "12": {
     name: "Spell casting",
     play: spellCast,
+  },
+  "13": {
+    name: "Heal wave",
+    play: healWave,
   },
 };

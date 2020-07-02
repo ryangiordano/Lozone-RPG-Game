@@ -162,13 +162,13 @@ export class Combatant {
   }
 
   setCurrentHp(currentHp) {
-    this.currentHp = currentHp || this.maxHp;
+    this.currentHp = currentHp >= 0 ? currentHp : this.getMaxHp();
   }
   setCurrentMp(currentMp) {
-    this.currentMp = currentMp || this.maxMp;
+    this.currentMp = currentMp >= 0 ? currentMp : this.getMaxMp();
   }
 
-  private canCastSpell(spell: Spell): boolean {
+  public canCastSpell(spell: Spell): boolean {
     const { manaCost } = spell;
     return this.currentMp - manaCost >= 0;
   }

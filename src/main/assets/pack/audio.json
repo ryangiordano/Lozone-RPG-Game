@@ -199,6 +199,16 @@
         "type": "audio",
         "key": "power-up",
         "url": "./src/main/assets/sounds/power-up.wav"
+      },
+      {
+        "type": "audio",
+        "key": "small-heal",
+        "url": "./src/main/assets/sounds/small-heal.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "tiny-heal",
+        "url": "./src/main/assets/sounds/tiny-heal.mp3"
       }
     ]
   }

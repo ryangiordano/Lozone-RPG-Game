@@ -208,14 +208,7 @@ export class PartyMember extends Combatant {
 
     return statBoost;
   }
-
-  setCurrentHp(currentHp) {
-    this.currentHp = currentHp || this.getMaxHp();
-  }
-  setCurrentMp(currentMp) {
-    this.currentMp = currentMp || this.getMaxMp();
-  }
-
+  
   // ===================================
   // Leveling up
   // ===================================

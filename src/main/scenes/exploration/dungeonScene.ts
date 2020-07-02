@@ -7,7 +7,7 @@ export class DungeonScene extends Explore {
   private enemyPartyIds: number[] = [];
   private music: string = "dungeon";
   private hasRandomEncounter = () => {
-    const randomNumber = createRandom(50);
+    const randomNumber = createRandom(40);
     return randomNumber() === 10;
   };
   constructor() {

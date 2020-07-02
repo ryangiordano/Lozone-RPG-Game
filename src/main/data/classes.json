@@ -32,6 +32,11 @@
                 "requiredLevel": 1,
                 "classModifier": 1,
                 "spell": 14
+            },
+            {
+                "requiredLevel": 1,
+                "classModifier": 1,
+                "spell": 17
             }
         ]
     },
@@ -121,6 +126,20 @@
                 "requiredLevel": 1,
                 "classModifier": 1,
                 "spell": 12
+            }, {
+                "requiredLevel": 1,
+                "classModifier": 1,
+                "spell": 13
+            },
+            {
+                "requiredLevel": 1,
+                "classModifier": 1,
+                "spell": 14
+            },
+            {
+                "requiredLevel": 1,
+                "classModifier": 1,
+                "spell": 17
             }
         ]
     },

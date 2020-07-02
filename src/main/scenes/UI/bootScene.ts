@@ -104,11 +104,6 @@ export class BootScene extends Phaser.Scene {
       "preload_tilemaps"
     );
 
-    // this.load.atlas(
-    //   "preload_spritesheets",
-    //   "./src/main/assets/pack/spritesheets.json",
-    //   "preload_spritesheets"
-    // );
     this.load.pack("preload", "./src/main/assets/pack.json", "preload");
   }
   private createLoadingGraphics(): void {

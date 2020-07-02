@@ -227,8 +227,9 @@ export class Combat {
     return partyMember;
   }
 
-  private resolvePostTurnEnchantments() {
-    this.partyMembers.forEach((p) => {
+  private async resolvePostTurnEnchantments() {
+    const actions = [];
+    [...this.partyMembers, ...this.enemies].forEach((p) => {
       if (p.entity.status.has(Status.fainted)) {
         return;
       }
@@ -242,27 +243,12 @@ export class Combat {
               Orientation.left,
               this.scene
             );
-            await pte.executeAction();
+            actions.push(pte.executeAction());
           }
         });
       });
     });
-    this.enemies.forEach((en) => {
-      const buffs = en.entity.getBuffs();
-      buffs.forEach((b) => {
-        b.enchantments.forEach(async (e) => {
-          if (e.type === EnchantmentResolveType.postTurn) {
-            const pte = new PostTurnEnchantment(
-              en.entity,
-              e,
-              Orientation.left,
-              this.scene
-            );
-            await pte.executeAction();
-          }
-        });
-      });
-    });
+    await Promise.all(actions);
     this.updateCombatGrids();
   }
 
@@ -270,6 +256,7 @@ export class Combat {
     enchanted: Combatant,
     target: Combatant
   ) {
+    const actions = [];
     enchanted &&
       enchanted.getBuffs().forEach((b) => {
         b.enchantments.forEach(async (e) => {
@@ -281,10 +268,14 @@ export class Combat {
               enchanted.getOrientation(),
               this.scene
             );
-            await pae.executeAction();
+            actions.push(pae.executeAction());
           }
         });
       });
+    return new Promise(async (resolve) => {
+      await Promise.all(actions);
+      resolve();
+    });
   }
 
   /**
@@ -294,7 +285,7 @@ export class Combat {
     //TODO: This can be cleaned up and polished.  A little bit of repeated code here
     /** The end of the loop */
     if (!this.combatEvents.length && this.enemies.length) {
-      this.resolvePostTurnEnchantments();
+      await this.resolvePostTurnEnchantments();
       await this.resolveTargetDeaths(this.enemies.map((e) => e.entity));
       /** If enemies happen to die by enchantments */
       if (!this.enemies.length) {
@@ -326,9 +317,9 @@ export class Combat {
 
     const combatEvent = this.combatEvents.pop();
     const results = await combatEvent.executeAction();
-    results.map((r) => {
+    results.map(async (r) => {
       if (r.actionType === CombatActionTypes.attack) {
-        this.resolvePostAttackEnchantments(r.executor, r.target);
+        await this.resolvePostAttackEnchantments(r.executor, r.target);
       }
     });
     this.updateCombatGrids();

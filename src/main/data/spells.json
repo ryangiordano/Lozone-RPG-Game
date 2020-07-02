@@ -190,5 +190,20 @@
       8
     ],
     "status": []
+  },
+  "17": {
+    "name": "Group Hug",
+    "primaryAnimationEffect": 13,
+    "animationEffect": 1,
+    "description": "Heals everyone for a small amount.",
+    "message": "%t's HP is restored by %v. points.",
+    "basePotency": 5,
+    "type": 0,
+    "manaCost": 15,
+    "targetType": {
+      "targeting": 0,
+      "targetArea": 1
+    },
+    "status": []
   }
 }

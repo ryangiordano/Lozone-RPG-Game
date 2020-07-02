@@ -21,6 +21,7 @@ import {
 import { UIPanel } from "../../UI/UIPanel";
 import { SpellCastEvent } from "../combat-events/SpellCastEvent";
 import { UseItemEvent } from "../combat-events/UseItemEvent";
+import { displayMessage } from "../../../scenes/dialogScene";
 
 export class CombatInterface extends UserInterface {
   private textFactory: TextFactory;
@@ -340,7 +341,15 @@ export class CombatInterface extends UserInterface {
     combatant.combatClass.spells.forEach(
       (classSpell) =>
         classSpell.requiredLevel <= combatant.level &&
-        this.spellPanel.addOption(classSpell.spell.name, () => {
+        this.spellPanel.addOption(classSpell.spell.name, async () => {
+          if (!combatant.canCastSpell(classSpell.spell)) {
+            await displayMessage(
+              ["Insufficient MP"],
+              this.scene.game,
+              this.scene.scene
+            );
+            return;
+          }
           this.spellPanel.close();
 
           if (classSpell.spell.targetType.targeting === Targeting.ally) {

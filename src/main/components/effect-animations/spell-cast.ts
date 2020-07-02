@@ -12,7 +12,6 @@ export const spellCast = (
     container && container.bringToTop(particles);
     const em1 = particles.createEmitter({
       frame: [0, 1, 2],
-      // alpha: 0.75,
       x,
       y,
       blendMode: "SCREEN",
@@ -23,8 +22,6 @@ export const spellCast = (
       },
       speed: { min: -100, max: 100 },
       scale: { start: 1, end: 0 },
-      // frequency: 5,
-      // lifespan: 200,
       tint: [0x778eff],
       deathCallback: true,
     });

@@ -13,6 +13,7 @@ import { GREEN, WHITE, BLUE } from "../../../utility/Constants";
 import { displayMessage } from "../../../scenes/dialogScene";
 import { EffectsRepository } from "../../../data/repositories/EffectRepository";
 import { makeFadeIn } from "../../../utility/tweens/fade";
+import { asyncForEach, wait } from "../../../utility/Utility";
 
 export class SpellCastEvent extends CombatEvent {
   private effectRepo: EffectsRepository;
@@ -65,8 +66,8 @@ export class SpellCastEvent extends CombatEvent {
       /** Play main animation */
       if (this.spell.primaryAnimationEffect) {
         await this.spell.primaryAnimationEffect.play(
-          0,
-          0,
+          targets[0].getSprite().x,
+          targets[0].getSprite().y,
           this.scene,
           targets[0].getSprite().parentContainer
         );
@@ -88,17 +89,18 @@ export class SpellCastEvent extends CombatEvent {
       let color;
       switch (this.spell.type) {
         case SpellType.restoration:
-          color = GREEN;
+          color = GREEN.str;
           break;
         case SpellType.attack:
-          color = WHITE;
+          color = WHITE.str;
           break;
         case SpellType.manaRecover:
-          color = BLUE;
+          color = BLUE.str;
           break;
         default:
-          color = WHITE;
+          color = WHITE.str;
       }
+
       const texts = results.reduce((acc, r) => {
         if (r.resultingValue) {
           acc.push(
@@ -109,10 +111,16 @@ export class SpellCastEvent extends CombatEvent {
       }, []);
 
       await Promise.all(texts.map((t) => playCombatText(t, this.scene)));
-      results.forEach(async (r) => {
+      const messages = results.reduce((acc, r) => {
         if (r.message) {
-          await displayMessage(r.message, this.scene.game, this.scene.scene);
+          acc.push(r.message);
         }
+        return acc;
+      }, []);
+
+      await asyncForEach(messages, async (message) => {
+        await wait(200);
+        return await displayMessage(message, this.scene.game, this.scene.scene);
       });
 
       return resolve(results);
