@@ -90,6 +90,16 @@
             "frameRate": 18
         },
         {
+            "key": "explosion_2",
+            "frames": {
+                "typeOfGeneration": 1,
+                "frames": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+                "key": "implosion"
+            },
+            "repeat": 0,
+            "frameRate": 18
+        },
+        {
             "key": "fainted",
             "frames": {
                 "typeOfGeneration": 1,

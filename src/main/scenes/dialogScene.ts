@@ -1,4 +1,5 @@
 import { BLACK } from "../utility/Constants";
+import { wait } from "../utility/Utility";
 
 export interface Dialog {
   content: string;
@@ -18,7 +19,8 @@ export const displayMessage = (
     });
     scene.setActive(true, "DialogScene").bringToTop("DialogScene");
     const dialog = game.scene.getScene("DialogScene");
-    dialog.events.on("close-dialog", () => {
+    dialog.events.on("close-dialog", async () => {
+      await wait(200);
       dialog.events.off("close-dialog");
       resolve();
     });

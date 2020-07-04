@@ -1,7 +1,12 @@
 import { scaleUpDown, textScaleUp } from "./../../utility/tweens/text";
 import { Combatant } from "./Combatant";
 import { CombatContainer } from "./combat-grid/CombatContainer";
-import { getRandomFloor, Directions, wait } from "../../utility/Utility";
+import {
+  getRandomFloor,
+  Directions,
+  wait,
+  getRandomCeil,
+} from "../../utility/Utility";
 import { PartyMember } from "./PartyMember";
 import { CombatEvent } from "./combat-events/CombatEvent";
 import { CombatInterface } from "./combat-ui/CombatInterface";
@@ -78,11 +83,35 @@ export class Combat {
     }, 1000);
 
     this.scene.events.on("run-battle", async () => {
-      await this.displayMessage(["Escaped Successfully"]);
-      this.scene.events.emit("end-battle", {
-        victorious: false,
-        flagsToFlip: null,
-      });
+      //TODO: Make this a utility function
+      const partySpeed = this.partyMembers.reduce((acc, o) => {
+        acc = o.entity.getSpeed();
+        return acc;
+      }, 0);
+      const enemySpeed = this.enemies.reduce((acc, o) => {
+        acc = o.entity.getSpeed();
+        return acc;
+      }, 0);
+      const rand100 = getRandomCeil(100);
+      const partyFaster = partySpeed > enemySpeed;
+      if (20 + (partyFaster ? 40 : 0) > rand100) {
+        await displayMessage(
+          ["Escaped Successfully"],
+          this.scene.game,
+          this.scene.scene
+        );
+        this.scene.events.emit("end-battle", {
+          victorious: false,
+          flagsToFlip: null,
+        });
+      } else {
+        await displayMessage(
+          ["Couldn't escape!"],
+          this.scene.game,
+          this.scene.scene
+        );
+        this.applyEnemyTurnsAndStartLoop()
+      }
     });
 
     this.effectsRepository = new EffectsRepository(this.scene.game);
@@ -163,19 +192,23 @@ export class Combat {
     this.combatEvents.push(combatEvent);
   }
 
-  private confirmSelection() {
+  private async confirmSelection() {
     const hasNextInput = this.focusNextPartyInput();
     this.teardownInputUI();
-    setTimeout(() => {
-      if (!hasNextInput) {
-        this.applyEnemyTurns();
-        this.sortEventsBySpeed();
-        this.startLoop();
-        this.resetPartyFocusIndex();
-      } else {
-        this.displayInputControlsForCurrentPartyMember();
-      }
-    }, 300);
+    await wait(300);
+    if (!hasNextInput) {
+       this.applyEnemyTurnsAndStartLoop();
+    } else {
+      this.displayInputControlsForCurrentPartyMember();
+    }
+  }
+
+  private applyEnemyTurnsAndStartLoop(){
+    this.teardownInputUI();
+    this.applyEnemyTurns();
+    this.sortEventsBySpeed();
+    this.startLoop();
+    this.resetPartyFocusIndex();
   }
 
   private applyEnemyTurns() {
@@ -283,6 +316,7 @@ export class Combat {
    */
   private async startLoop() {
     //TODO: This can be cleaned up and polished.  A little bit of repeated code here
+
     /** The end of the loop */
     if (!this.combatEvents.length && this.enemies.length) {
       await this.resolvePostTurnEnchantments();
@@ -329,14 +363,29 @@ export class Combat {
       (r) => r.actionType === CombatActionTypes.failure
     );
     if (failures.length > 0) {
-      await Promise.all(failures.map((f) => this.displayMessage(f.message)));
+      const messages = failures.map((f) => f.message).filter((f) => Boolean(f));
+      if (messages.length) {
+        await Promise.all(
+          messages.map((f) =>
+            displayMessage(f, this.scene.game, this.scene.scene)
+          )
+        );
+      }
     }
 
     if (combatEvent.type === CombatActionTypes.useItem) {
-      await Promise.all(results.map((r) => this.displayMessage(r.message)));
+      await Promise.all(
+        results.map((r) =>
+          displayMessage(r.message, this.scene.game, this.scene.scene)
+        )
+      );
     }
     if (combatEvent.type === CombatActionTypes.defend) {
-      await Promise.all(results.map((r) => this.displayMessage(r.message)));
+      await Promise.all(
+        results.map((r) =>
+          displayMessage(r.message, this.scene.game, this.scene.scene)
+        )
+      );
     }
     // TODO: Hook this up so we don't have to use a wait here.
     // The goal is to get all of the cels in all of the grids to tell us when every single
@@ -364,8 +413,11 @@ export class Combat {
     audio.stop(this.scene["music"]);
     audio.playSound("victory");
 
-    await this.displayMessage(["You've won!"]);
+    await displayMessage(["You've won!"], this.scene.game, this.scene.scene);
+    console.log("you've won displayed")
+
     await this.distributeLoot();
+    console.log("Winnning")
     return this.scene.events.emit("end-battle", {
       victorious: true,
       flagsToFlip: this.victoryFlags,
@@ -424,14 +476,22 @@ export class Combat {
           }
         } else if (target.type === CombatantType.partyMember) {
           target.handleFaint();
-          await this.displayMessage([`${target.name} has fainted!`]);
+          await displayMessage(
+            [`${target.name} has fainted!`],
+            this.scene.game,
+            this.scene.scene
+          );
 
           if (
             this.partyMembers.every((partyMember) =>
               partyMember.entity.status.has(Status.fainted)
             )
           ) {
-            await this.displayMessage(["Your party has been defeated..."]);
+            await displayMessage(
+              ["Your party has been defeated..."],
+              this.scene.game,
+              this.scene.scene
+            );
             this.scene.events.emit("game-over");
           }
         }
@@ -525,21 +585,24 @@ export class Combat {
       }
     });
     if (messages) {
-      await this.displayMessage(messages);
+      await displayMessage(messages, this.scene.game, this.scene.scene);
     }
   }
 
   private async distributeLoot() {
     const itemMessages = this.handleItemDistribution();
-    await this.displayMessage([
-      `Each member receives ${this.lootCrate.experiencePoints} XP.`,
-    ]);
+    await displayMessage(
+      [`Each member receives ${this.lootCrate.experiencePoints} XP.`],
+      this.scene.game,
+      this.scene.scene
+    );
     await this.distributeExperience(this.lootCrate.experiencePoints);
     State.getInstance().playerContents.addCoins(this.lootCrate.coin);
-    await this.displayMessage([
-      ...itemMessages,
-      `The party receives ${this.lootCrate.coin} coins.`,
-    ]);
+    await displayMessage(
+      [...itemMessages, `The party receives ${this.lootCrate.coin} coins.`],
+      this.scene.game,
+      this.scene.scene
+    );
   }
 
   private handleItemDistribution(): string[] {
@@ -565,28 +628,6 @@ export class Combat {
           itemObjects[key].amount > 1 ? "s" : ""
         }. `
     );
-  }
-  //TODO: Make this message composable;
-  /**
-   * Function that resolves after the message scene is done doing its thing.
-   * @param message
-   */
-  displayMessage(message: string[]): Promise<any> {
-    const dialogScene = this.scene.scene.get("DialogScene");
-    const scenePlugin = new Phaser.Scenes.ScenePlugin(dialogScene);
-    return new Promise((resolve) => {
-      scenePlugin.setActive(false, "Battle");
-      scenePlugin.start("DialogScene", {
-        callingSceneKey: "Battle",
-        color: "dialog-white",
-        message,
-      });
-
-      scenePlugin.setActive(true, "DialogScene").bringToTop("DialogScene");
-      dialogScene.events.once("close-dialog", () => {
-        resolve();
-      });
-    });
   }
 
   private resetPartyFocusIndex() {

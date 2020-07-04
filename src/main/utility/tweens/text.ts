@@ -2,11 +2,17 @@ import { TweenFactory } from "./TweenBuilder";
 
 const builder = new TweenFactory();
 
-const scaleUp = (target, duration = 100) =>
+const _scaleUp = (
+  target,
+  duration = 100,
+  from = 1,
+  to = 1.1,
+  ease = "Linear"
+) =>
   builder
-    .createTween(target, duration, 0)
-    .scaleY(1, 1.1)
-    .scaleX(1, 1.1)
+    .createTween(target, duration, 0, ease)
+    .scaleY(from, to)
+    .scaleX(from, to)
     .getConfig();
 
 const scaleDown = (target, duration = 100) =>
@@ -43,6 +49,16 @@ const fadeOut = (target) =>
 const fadeIn = (target, duration) =>
   builder.createTween(target, 300, 500).fadeIn(duration).getConfig();
 
+export const scaleUp = (target, scene, dur, ease, onComplete) => {
+  const timeline = scene.tweens.createTimeline({
+    targets: target,
+    ease,
+  });
+  timeline.add(_scaleUp(target, dur, 0.1, 1, ease));
+  timeline.setCallback("onComplete", onComplete);
+  return timeline;
+};
+
 export const slowScaleUp = (target, scene, onComplete) => {
   const timeline = scene.tweens.createTimeline({
     targets: target,
@@ -57,7 +73,7 @@ export const scaleUpDown = (target, scene, onComplete) => {
   const timeline = scene.tweens.createTimeline({
     targets: target,
   });
-  timeline.add(scaleUp(target, 100));
+  timeline.add(_scaleUp(target, 100));
   timeline.add(scaleDown(target, 70));
   timeline.setCallback("onComplete", onComplete);
   return timeline;
