@@ -21,13 +21,16 @@ export interface EquipmentData extends ItemData {
   classes: number[];
   characters: number[];
   modifiers: any[];
+  strikingAnimation?: string;
+  criticalAnimation?: string;
+  strikingColor?: number;
 }
 export type GenericItem = ItemData & EquipmentData;
 
 export interface ShopInventoryData {
-  name:string;
-  description:string;
-  inventory: number[]
+  name: string;
+  description: string;
+  inventory: number[];
 }
 
 export class ItemRepository extends Repository<GenericItem> {

@@ -110,7 +110,7 @@ export class Combat {
           this.scene.game,
           this.scene.scene
         );
-        this.applyEnemyTurnsAndStartLoop()
+        this.applyEnemyTurnsAndStartLoop();
       }
     });
 
@@ -197,13 +197,13 @@ export class Combat {
     this.teardownInputUI();
     await wait(300);
     if (!hasNextInput) {
-       this.applyEnemyTurnsAndStartLoop();
+      this.applyEnemyTurnsAndStartLoop();
     } else {
       this.displayInputControlsForCurrentPartyMember();
     }
   }
 
-  private applyEnemyTurnsAndStartLoop(){
+  private applyEnemyTurnsAndStartLoop() {
     this.teardownInputUI();
     this.applyEnemyTurns();
     this.sortEventsBySpeed();
@@ -272,6 +272,10 @@ export class Combat {
           if (e.type === EnchantmentResolveType.postTurn) {
             const pte = new PostTurnEnchantment(
               p.entity,
+              p.entity
+                .getParty()
+                .getMembers()
+                .map((m) => m.entity),
               e,
               Orientation.left,
               this.scene
@@ -282,7 +286,7 @@ export class Combat {
       });
     });
     await Promise.all(actions);
-    this.updateCombatGrids();
+    await this.updateCombatGrids();
   }
 
   private resolvePostAttackEnchantments(
@@ -306,7 +310,15 @@ export class Combat {
         });
       });
     return new Promise(async (resolve) => {
-      await Promise.all(actions);
+      const r = await Promise.all(actions);
+      resolve(...r);
+    });
+  }
+
+  private async checkBothPartiesForDeath() {
+    return new Promise(async (resolve) => {
+      await this.resolveTargetDeaths(this.partyMembers.map((m) => m.entity));
+      await this.resolveTargetDeaths(this.enemies.map((m) => m.entity));
       resolve();
     });
   }
@@ -316,11 +328,11 @@ export class Combat {
    */
   private async startLoop() {
     //TODO: This can be cleaned up and polished.  A little bit of repeated code here
-
     /** The end of the loop */
     if (!this.combatEvents.length && this.enemies.length) {
       await this.resolvePostTurnEnchantments();
-      await this.resolveTargetDeaths(this.enemies.map((e) => e.entity));
+      await this.checkBothPartiesForDeath();
+
       /** If enemies happen to die by enchantments */
       if (!this.enemies.length) {
         return this.handleBattleEnd();
@@ -344,24 +356,26 @@ export class Combat {
       this.displayInputControlsForCurrentPartyMember();
       return false;
     }
-    /** No more enemies left */
-    if (this.enemies.length <= 0) {
-      return this.handleBattleEnd();
-    }
 
     const combatEvent = this.combatEvents.pop();
     const results = await combatEvent.executeAction();
-    results.map(async (r) => {
-      if (r.actionType === CombatActionTypes.attack) {
-        await this.resolvePostAttackEnchantments(r.executor, r.target);
-      }
-    });
-    this.updateCombatGrids();
-
+    await Promise.all(
+      results
+        .filter((r) => r.actionType === CombatActionTypes.attack)
+        .map(async (r) => {
+          return this.resolvePostAttackEnchantments(r.executor, r.target);
+        })
+    );
+    await this.updateCombatGrids();
+    await this.checkBothPartiesForDeath();
+    if (!this.enemies.length) {
+      return this.handleBattleEnd();
+    }
     // Handle failures
     const failures = results.filter(
       (r) => r.actionType === CombatActionTypes.failure
     );
+
     if (failures.length > 0) {
       const messages = failures.map((f) => f.message).filter((f) => Boolean(f));
       if (messages.length) {
@@ -372,7 +386,6 @@ export class Combat {
         );
       }
     }
-
     if (combatEvent.type === CombatActionTypes.useItem) {
       await Promise.all(
         results.map((r) =>
@@ -387,18 +400,10 @@ export class Combat {
         )
       );
     }
-    // TODO: Hook this up so we don't have to use a wait here.
-    // The goal is to get all of the cels in all of the grids to tell us when every single
-    // one is done updating, and only when the last cel is done do we continue.
-    // Right now we use wait :x
-    await wait(500);
-    // await asyncForEach(results, async (r) => {
-    //   const target = r.target;
-    //   await wait(250);
-    //   return this.resolveTargetDeath(target);
-    // });
-    await this.resolveTargetDeaths(results.map((r) => r.target));
-
+    /** No more enemies left */
+    if (this.enemies.length <= 0) {
+      return this.handleBattleEnd();
+    }
     this.startLoop();
   }
 
@@ -414,10 +419,7 @@ export class Combat {
     audio.playSound("victory");
 
     await displayMessage(["You've won!"], this.scene.game, this.scene.scene);
-    console.log("you've won displayed")
-
     await this.distributeLoot();
-    console.log("Winnning")
     return this.scene.events.emit("end-battle", {
       victorious: true,
       flagsToFlip: this.victoryFlags,
@@ -426,11 +428,10 @@ export class Combat {
 
   private updateCombatGrids(): Promise<any> {
     return new Promise((resolve) => {
-      this.scene.events.emit("update-combat-grids");
-      this.scene.events.on("finish-update-combat-grids", () => {
-        this.scene.events.off("finish-update-combat-grids");
+      this.scene.events.once("finish-update-combat-grids", () => {
         resolve();
       });
+      this.scene.events.emit("update-combat-grids", this.scene);
     });
   }
 
@@ -570,23 +571,26 @@ export class Combat {
   }
 
   private async distributeExperience(experience) {
-    const messages = [];
-    this.partyMembers.forEach((partyMember) => {
-      const partyEntity = <PartyMember>partyMember.entity;
-      if (partyEntity.currentHp > 0) {
-        const hasLeveledUp = partyEntity.gainExperience(experience);
-        if (hasLeveledUp) {
-          const audio = <AudioScene>this.scene.scene.get("Audio");
-          audio.playSound("level-up", 0.1);
-          messages.push(
-            `${partyEntity.name} has reached level ${partyEntity.level}`
-          );
+    return new Promise(async (resolve) => {
+      const messages = [];
+      this.partyMembers.forEach((partyMember) => {
+        const partyEntity = <PartyMember>partyMember.entity;
+        if (partyEntity.currentHp > 0) {
+          const hasLeveledUp = partyEntity.gainExperience(experience);
+          if (hasLeveledUp) {
+            const audio = <AudioScene>this.scene.scene.get("Audio");
+            audio.playSound("level-up", 0.1);
+            messages.push(
+              `${partyEntity.name} has reached level ${partyEntity.level}`
+            );
+          }
         }
+      });
+      if (messages.length) {
+        await displayMessage(messages, this.scene.game, this.scene.scene);
       }
+      resolve();
     });
-    if (messages) {
-      await displayMessage(messages, this.scene.game, this.scene.scene);
-    }
   }
 
   private async distributeLoot() {

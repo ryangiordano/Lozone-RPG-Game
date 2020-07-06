@@ -16,7 +16,7 @@ export type ShopInventory = {
   description: string;
   id: number;
   inventory: Item[];
-}
+};
 
 export class ItemController {
   private itemRepository: ItemRepository;
@@ -31,16 +31,16 @@ export class ItemController {
   }
 
   getShopInventory(id: number): ShopInventory {
-    const shop = this.shopInventoryRepository.getById(id)
+    const shop = this.shopInventoryRepository.getById(id);
 
     const inventoryWithItems = {
-      ...shop, inventory: shop.inventory.map(id => {
+      ...shop,
+      inventory: shop.inventory.map((id) => {
         return this.getItem(id);
-      })
-    }
+      }),
+    };
 
-
-    return { id, ...inventoryWithItems }
+    return { id, ...inventoryWithItems };
   }
 
   getItem(id): Item {
@@ -73,8 +73,10 @@ export class ItemController {
         item.classes,
         item.characters,
         item.modifiers,
-        item.value
-
+        item.value,
+        item.strikingAnimation,
+        item.criticalAnimation,
+        item.strikingColor
       );
     }
     return new Item(

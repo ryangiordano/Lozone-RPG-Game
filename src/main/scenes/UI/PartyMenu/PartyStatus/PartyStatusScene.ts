@@ -12,7 +12,7 @@ export class PartyStatusScene extends Phaser.Scene {
   public init(data) {
     this.callingSceneKey = data.callingSceneKey;
     const state = State.getInstance();
-    const party = state.getCurrentParty().getParty();
+    const party = state.getCurrentParty().getMembers();
     this.partyMenuContainer = new PartyMenuContainer(
       this,
       { x: 4 * 64, y: 0 },

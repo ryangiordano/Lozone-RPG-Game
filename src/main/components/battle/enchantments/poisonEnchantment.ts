@@ -8,5 +8,6 @@ export const poisonEnchantment = (enchanted: Combatant): EnchantmentResult => {
     enchantmentType: "damage",
     value: damageToDeal,
     color: PURPLE.str,
+    affected: [enchanted],
   };
 };

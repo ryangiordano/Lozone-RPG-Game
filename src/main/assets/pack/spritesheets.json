@@ -512,6 +512,42 @@
           "frameWidth": 64,
           "frameHeight": 64
         }
+      },
+      {
+        "type": "spritesheet",
+        "key": "sword-slash",
+        "url": "./src/main/assets/sprites/sword-slash.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "sword-slash-critical",
+        "url": "./src/main/assets/sprites/sword-slash-critical.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "claw-strike",
+        "url": "./src/main/assets/sprites/claw-strike.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      {
+        "type": "spritesheet",
+        "key": "claw-strike-critical",
+        "url": "./src/main/assets/sprites/claw-strike-critical.png",
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
       }
     ]
   }

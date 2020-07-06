@@ -35,7 +35,7 @@ export class PartySpellCastMenuContainer extends PartyMenuContainer {
     const targetPanel = this.getCurrentlyFocusedPartyMemberPanel();
     const casterPanel = this.getPartyMemberPanelById(this.caster.id);
     const castTarget: PartyMember = this.getFocusedPartyMember();
-    if (this.caster.currentMp - this.spell.manaCost < 0) {
+    if (this.caster.currentMp - this.spell.cost < 0) {
       this.partyMessagePanel.displayMessage("Not enough MP to cast!");
     } else if (castTarget.currentHp === castTarget.getMaxHp()) {
       this.partyMessagePanel.displayMessage("HP already full!");

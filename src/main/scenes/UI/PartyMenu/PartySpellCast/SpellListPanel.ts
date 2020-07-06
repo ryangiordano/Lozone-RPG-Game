@@ -24,7 +24,7 @@ export class SpellListPanel extends UIPanel {
       const displaySpell = spell.type === SpellType.restoration;
       if (displaySpell) {
         this.addOption(
-          `${spell.name}: ${spell.manaCost}mp`,
+          `${spell.name}: ${spell.cost}mp`,
           () => {
             this.emit("spell-selected", spell);
           },

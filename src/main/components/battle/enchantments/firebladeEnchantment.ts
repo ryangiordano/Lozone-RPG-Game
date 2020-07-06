@@ -11,5 +11,6 @@ export const firebladeEnchantment = (
     enchantmentType: "damage",
     value: damage,
     color: ORANGE.str,
+    affected: [target],
   };
 };

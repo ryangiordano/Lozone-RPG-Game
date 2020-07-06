@@ -23,6 +23,7 @@ export interface EnchantmentResult {
   enchantmentType: "recovery" | "damage" | "other";
   value: number;
   color: string;
+  affected?: Combatant[];
 }
 
 export interface Enchantment {
@@ -30,7 +31,13 @@ export interface Enchantment {
   name: string;
   description: string;
   type: EnchantmentResolveType;
-  applyEnchantment: (enchanted: Combatant, target?: Combatant) => EnchantmentResult;
+  applyEnchantment: (
+    enchanted: Combatant,
+    target?: Combatant,
+    enchantedParty?: Combatant[],
+    targetParty?: Combatant[],
+    scene?: Phaser.Scene
+  ) => EnchantmentResult;
 }
 
 export enum EnchantmentResolveType {

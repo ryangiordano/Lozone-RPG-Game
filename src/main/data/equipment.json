@@ -16,7 +16,10 @@
       "modifierPotency": 2
     }],
     "value": 150,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation": "sword-slash",
+    "criticalAnimation": "sword-slash-critical",
+    "strikingColor": "0xffffff"
   },
   "2-e": {
     "name": "Bronze Sword",
@@ -35,7 +38,10 @@
       "modifierPotency": 4
     }],
     "value": 250,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation": "sword-slash",
+    "criticalAnimation": "sword-slash-critical",
+    "strikingColor": "0xffffff"
   },
   "3-e": {
     "name": "Dagger",
@@ -57,7 +63,9 @@
       "modifierPotency": 2
     }],
     "value": 125,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation": null,
+    "criticalAnimation": null
   },
   "4-e": {
     "name": "Bronze Dagger",
@@ -79,7 +87,9 @@
       "modifierPotency": 4
     }],
     "value": 225,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation": null,
+    "criticalAnimation": null
   },
   "5-e": {
     "name": "Cat Claws",
@@ -104,7 +114,10 @@
       "modifierPotency": 2
     }],
     "value": 155,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation":"claw-strike",
+    "criticalAnimation":"claw-strike-critical",
+    "strikingColor": "0xffffff"
   },
   "6-e": {
     "name": "Bronze Cat Claws",
@@ -131,7 +144,10 @@
       }
     ],
     "value": 225,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation":"claw-strike",
+    "criticalAnimation":"claw-strike-critical",
+    "strikingColor": "0xe2df21"
   },
   "7-e": {
     "name": "Hearing Aids",
@@ -182,7 +198,9 @@
       "modifierPotency": 50
     }],
     "value": 325,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation": null,
+    "criticalAnimation": null
   },
   "9-e": {
     "name": "Shades",
@@ -238,7 +256,9 @@
       "modifierPotency": 25
     }],
     "value": 325,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation": null,
+    "criticalAnimation": null
   },
   "11-e": {
     "name": "Tin Armor",
@@ -257,7 +277,9 @@
       "modifierPotency": 6
     }],
     "value": 175,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation": null,
+    "criticalAnimation": null
   },
   "12-e": {
     "name": "Bronze Armor",
@@ -276,7 +298,9 @@
       "modifierPotency": 10
     }],
     "value": 235,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation": null,
+    "criticalAnimation": null
   },
   "13-e": {
     "name": "Leather Armor",
@@ -295,6 +319,8 @@
       "modifierPotency": 4
     }],
     "value": 135,
-    "sound": "item-collect"
+    "sound": "item-collect",
+    "strikingAnimation": null,
+    "criticalAnimation": null
   }
 }

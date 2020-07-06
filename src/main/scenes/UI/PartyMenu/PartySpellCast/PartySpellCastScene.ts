@@ -14,7 +14,7 @@ export class PartySpellCastScene extends Phaser.Scene {
 
   public init(data) {
     const state = State.getInstance();
-    const party = state.getCurrentParty().getParty();
+    const party = state.getCurrentParty().getMembers();
     const spell = data.spell;
     const caster = data.caster;
     this.partyMenuContainer = data.spell

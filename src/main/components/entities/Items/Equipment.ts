@@ -35,7 +35,10 @@ export class Equipment extends Item {
     private classes: number[],
     private characters: number[],
     private modifiers: Modifier[],
-    public value?: number
+    public value?: number,
+    public strikingAnimation: string = "hit",
+    public criticalAnimation: string = "critical-hit",
+    public strikingColor = 0xffffff
   ) {
     super(
       id,

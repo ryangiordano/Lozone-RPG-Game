@@ -19,6 +19,7 @@ export class BuffEvent extends CombatEvent {
 export class PostTurnEnchantment extends CombatEvent {
   constructor(
     private enchanted: Combatant,
+    private enchantedParty: Combatant[],
     private enchantment: Enchantment,
     orientation: Orientation,
     scene: Phaser.Scene
@@ -27,7 +28,11 @@ export class PostTurnEnchantment extends CombatEvent {
   }
   public async executeAction(): Promise<CombatResult[]> {
     return new Promise(async (resolve) => {
-      const result = this.enchantment.applyEnchantment(this.enchanted);
+      const result = this.enchantment.applyEnchantment(
+        this.enchanted,
+        null,
+        this.enchantedParty
+      );
       const text = this.createCombatText(
         result.value.toString(),
         this.enchanted,
@@ -48,7 +53,7 @@ export class PostTurnEnchantment extends CombatEvent {
   }
 }
 
-/** Handle things like extra elemental damage on the enemy, 
+/** Handle things like extra elemental damage on the enemy,
  * or absorbing HP on attack
  */
 export class PostAttackEnchantment extends CombatEvent {
@@ -63,14 +68,25 @@ export class PostAttackEnchantment extends CombatEvent {
   }
   public async executeAction(): Promise<CombatResult[]> {
     return new Promise(async (resolve) => {
-      const result = this.enchantment.applyEnchantment(this.enchanted, this.target);
-      const text = this.createCombatText(
-        result.value.toString(),
+      const result = await this.enchantment.applyEnchantment(
+        this.enchanted,
         this.target,
-        result.color,
-        60
+        this.enchanted
+          .getParty()
+          .getMembers()
+          .map((m) => m.entity),
+        this.target
+          .getParty()
+          .getMembers()
+          .map((m) => m.entity),
+        this.scene
       );
-      await playCombatText(text, this.scene);
+      const texts = result.affected
+        .filter((t) => t.currentHp > 0)
+        .map((t) =>
+          this.createCombatText(result.value.toString(), t, result.color, 60)
+        );
+      await Promise.all(texts.map((t) => playCombatText(t, this.scene)));
       return resolve([
         {
           actionType: CombatActionTypes.enchantment,

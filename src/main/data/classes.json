@@ -140,6 +140,11 @@
                 "requiredLevel": 1,
                 "classModifier": 1,
                 "spell": 17
+            },
+            {
+                "requiredLevel": 1,
+                "classModifier": 1,
+                "spell": 19
             }
         ]
     },
@@ -173,6 +178,11 @@
                 "requiredLevel": 7,
                 "classModifier": 1,
                 "spell": 11
+            },
+            {
+                "requiredLevel": 10,
+                "classModifier": 1,
+                "spell": 19
             }
         ]
     }

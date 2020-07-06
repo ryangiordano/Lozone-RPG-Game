@@ -16,7 +16,7 @@ export class PartyItemUseScene extends Phaser.Scene {
     // Fill it with party member panels
     this.callingSceneKey = data.callingSceneKey;
     const state = State.getInstance();
-    const party = state.getCurrentParty().getParty();
+    const party = state.getCurrentParty().getMembers();
     this.partyMenuContainer = new PartyItemUseMenuContainer(
       this,
       { x: 4 * 64, y: 0 },

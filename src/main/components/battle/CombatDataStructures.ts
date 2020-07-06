@@ -57,11 +57,12 @@ export interface Spell {
   description: string;
   basePotency: number;
   type: SpellType;
-  manaCost: number;
+  cost: number;
   targetType: TargetType;
-  status: any[]; //TODO: Implement later;
+  status: any[];
   appliedBuffs?: Buff[];
   message?: string;
+  isSkill?: boolean;
 }
 
 export interface Behavior {
@@ -102,7 +103,7 @@ export enum CombatActionTypes {
   castSpell,
   useItem,
   failure,
-  enchantment
+  enchantment,
 }
 
 export interface CombatAction {

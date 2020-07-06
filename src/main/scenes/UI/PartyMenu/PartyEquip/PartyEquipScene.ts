@@ -14,7 +14,7 @@ export class PartyEquipScene extends Phaser.Scene {
 
   public init(data) {
     const state = State.getInstance();
-    const party = state.getCurrentParty().getParty();
+    const party = state.getCurrentParty().getMembers();
     const equipment = data.entity;
     this.partyMenuContainer = new PartyEquipmentMenuContainer(
       this,

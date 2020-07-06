@@ -8,6 +8,7 @@ import { NPCController } from "../../data/controllers/NPCController";
 import { PartyController } from "../../data/controllers/PartyController";
 import { ItemCategory } from "../../components/entities/Items/Item";
 import SpecialEffects from "./SpecialEffects";
+import { EffectsRepository } from "../../data/repositories/EffectRepository";
 
 export class State {
   /**
@@ -24,11 +25,12 @@ export class State {
   private partyController: PartyController;
   public playerContents: PlayerContents;
   public specialEffects: SpecialEffects;
-
+  public effectsRepository: EffectsRepository;
   private party: HeroParty;
 
   private constructor() {
     this.specialEffects = new SpecialEffects();
+    this.effectsRepository = new EffectsRepository(this.game);
   }
 
   static getInstance() {

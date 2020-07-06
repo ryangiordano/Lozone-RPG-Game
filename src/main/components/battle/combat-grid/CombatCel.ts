@@ -39,7 +39,8 @@ export class CombatCel implements Cel {
       this.combatantBars = new CombatantBars(scene, combatant);
       this.combatantBars.setUpBars();
       scene.events.on('update-combat-grids', async () => {
-        this.updateBars();
+        await this.updateBars();
+        scene.events.emit('finish-update-combat-grids')
       });
       return true;
     }

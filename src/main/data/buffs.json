@@ -108,5 +108,19 @@
         "dissipateMessage": "The flames disappear from %e's weapon.",
         "enchantments": [3]
 
+    },
+    "9": {
+        "modifiers": [],
+        "name": "Bladestorm",
+        "duration": 5,
+        "description": "Your blade is vibrating",
+        "icon": "status",
+        "frame": 6,
+        "effect": 1,
+        "color": "0xf1942a",
+        "persists": false,
+        "dissipateMessage": "%t's blade stills.",
+        "enchantments": [4]
+
     }
 }

@@ -9,6 +9,7 @@ import {
   CombatantType,
   Effect,
   Orientation,
+  CombatEntity,
 } from "./CombatDataStructures";
 import { getUID, Directions } from "../../utility/Utility";
 import { Buff } from "./Buff";
@@ -17,6 +18,8 @@ import { SpellType } from "../../data/repositories/SpellRepository";
 import { EffectsRepository } from "../../data/repositories/EffectRepository";
 import { CombatInfluencerController } from "../../data/controllers/CombatInfluencerController";
 import { BaseStat } from "./PartyMember";
+import { Party } from "./Party";
+import { EquipmentSlot, Equipment } from "../entities/Items/Equipment";
 
 interface PersistentAffect {
   id: number;
@@ -70,12 +73,13 @@ export class Combatant {
   public currentMp: number;
   public status: Set<Status>;
   public type: CombatantType;
+
   protected sprite: Phaser.GameObjects.Sprite;
   protected effectManager: EffectManager;
   protected combatInfluencerController: CombatInfluencerController;
 
   public uid: string = getUID();
-  protected currentParty;
+  protected currentParty: Party;
   private direction: Directions;
   constructor(
     public id: number,
@@ -169,17 +173,17 @@ export class Combatant {
   }
 
   public canCastSpell(spell: Spell): boolean {
-    const { manaCost } = spell;
-    return this.currentMp - manaCost >= 0;
+    const { cost } = spell;
+    return this.currentMp - cost >= 0;
   }
   /**
    * Return true if successful, false otherwise.
    * @param spell
    */
   private subtractSpellCostFromMp(spell: Spell): boolean {
-    const { manaCost } = spell;
-    if (this.currentMp - manaCost >= 0) {
-      this.setCurrentMp(this.currentMp - manaCost);
+    const { cost } = spell;
+    if (this.currentMp - cost >= 0) {
+      this.setCurrentMp(this.currentMp - cost);
       return true;
     }
     return false;
@@ -442,7 +446,7 @@ export class Combatant {
   public getSprite() {
     return this.sprite;
   }
-  public setParty(party) {
+  public setParty(party: Party) {
     this.currentParty = party;
   }
   public getParty() {
@@ -453,5 +457,12 @@ export class Combatant {
   }
   public revive() {
     //todo
+  }
+  public getEquipment(): {
+    [EquipmentSlot.chest]: Equipment;
+    [EquipmentSlot.weapon]: Equipment;
+    [EquipmentSlot.accessory]: Equipment;
+  } {
+    return null;
   }
 }

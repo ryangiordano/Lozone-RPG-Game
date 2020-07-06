@@ -1,7 +1,7 @@
 import { State } from "../../utility/state/State";
 import { Combat, BattleState } from "../../components/battle/Combat";
 import { EnemyController } from "../../data/controllers/EnemyController";
-import { EnemyParty } from '../../components/battle/Party';
+import { EnemyParty } from "../../components/battle/Party";
 import { AudioScene } from "../audioScene";
 import { sceneFadeIn, sceneFadeOut } from "../camera";
 
@@ -36,9 +36,12 @@ export class CombatScene extends Phaser.Scene {
 
     const party = State.getInstance().getCurrentParty();
 
-    const enemyParty = new EnemyParty(data.enemyPartyId, this.game);
+    const enemyPartyArray = this.enemyController.getEnemyPartyById(
+      data.enemyPartyId
+    );
+    const enemyParty = new EnemyParty(enemyPartyArray.entities, this.game);
 
-    this.combat = new Combat(this, party.getParty(), enemyParty.getParty());
+    this.combat = new Combat(this, party.getMembers(), enemyParty.getMembers());
 
     this.events.once("end-battle", async (battleState: BattleState) => {
       if (battleState.victorious && battleState.flagsToFlip.length) {

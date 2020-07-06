@@ -209,6 +209,31 @@
         "type": "audio",
         "key": "tiny-heal",
         "url": "./src/main/assets/sounds/tiny-heal.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "wave",
+        "url": "./src/main/assets/sounds/wave.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "sword-med-slice",
+        "url": "./src/main/assets/sounds/sword-med-slice.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "sword-small-slice",
+        "url": "./src/main/assets/sounds/sword-small-slice.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "sword-large-slice",
+        "url": "./src/main/assets/sounds/sword-large-slice.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "sword-slice",
+        "url": "./src/main/assets/sounds/sword-slice.mp3"
       }
     ]
   }

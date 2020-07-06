@@ -7,7 +7,7 @@
     "message": "%t's HP is restored by %v. points.",
     "basePotency": 10,
     "type": 0,
-    "manaCost": 5,
+    "cost": 5,
     "targetType": {
       "targeting": 0,
       "targetArea": 0
@@ -22,7 +22,7 @@
     "message": "%t's HP is restored by %v. points.",
     "basePotency": 10,
     "type": 0,
-    "manaCost": 20,
+    "cost": 20,
     "targetType": {
       "targeting": 0,
       "targetArea": 0
@@ -37,7 +37,7 @@
     "message": "%t's HP is restored by %v. points.",
     "basePotency": 15,
     "type": 0,
-    "manaCost": 50,
+    "cost": 50,
     "targetType": {
       "targeting": 0,
       "targetArea": 0
@@ -52,7 +52,7 @@
     "message": "%t's MP is restored by %v points.",
     "basePotency": 10,
     "type": 3,
-    "manaCost": 0,
+    "cost": 0,
     "targetType": {
       "targeting": 0,
       "targetArea": 0
@@ -67,7 +67,7 @@
     "message": "%t is revived.",
     "basePotency": 10,
     "type": 4,
-    "manaCost": 20,
+    "cost": 20,
     "targetType": {
       "targeting": 0,
       "targetArea": 0
@@ -82,7 +82,7 @@
     "message": "%t is bathed in flame and takes %v damage.",
     "basePotency": 10,
     "type": 1,
-    "manaCost": 10,
+    "cost": 10,
     "targetType": {
       "targeting": 1,
       "targetArea": 0
@@ -97,7 +97,7 @@
     "message": null,
     "basePotency": 7,
     "type": 1,
-    "manaCost": 30,
+    "cost": 30,
     "targetType": {
       "targeting": 1,
       "targetArea": 1
@@ -112,7 +112,7 @@
     "message": "Whatever.",
     "basePotency": 100,
     "type": 1,
-    "manaCost": 13,
+    "cost": 13,
     "targetType": {
       "targeting": 1,
       "targetArea": 1
@@ -127,7 +127,7 @@
     "message": "%t is invigorated by cat-shape magics.",
     "basePotency": 10,
     "type": 2,
-    "manaCost": 5,
+    "cost": 5,
     "targetType": {
       "targeting": 0,
       "targetArea": 0
@@ -145,7 +145,7 @@
     "message": "%t has been poisoned.",
     "basePotency": 10,
     "type": 2,
-    "manaCost": 5,
+    "cost": 5,
     "targetType": {
       "targeting": 1,
       "targetArea": 0
@@ -163,7 +163,7 @@
     "message": "%e chuchu's %t.",
     "basePotency": 10,
     "type": 2,
-    "manaCost": 5,
+    "cost": 5,
     "targetType": {
       "targeting": 0,
       "targetArea": 0
@@ -181,7 +181,7 @@
     "message": "%t's weapon is surrounded in flickering flames.",
     "basePotency": 10,
     "type": 2,
-    "manaCost": 5,
+    "cost": 5,
     "targetType": {
       "targeting": 0,
       "targetArea": 0
@@ -199,11 +199,47 @@
     "message": "%t's HP is restored by %v. points.",
     "basePotency": 5,
     "type": 0,
-    "manaCost": 15,
+    "cost": 15,
     "targetType": {
       "targeting": 0,
       "targetArea": 1
     },
+    "status": []
+  },
+  "18": {
+    "name": "Bladestorm",
+    "primaryAnimationEffect": null,
+    "animationEffect": 11,
+    "description": "Attack all enemies with a weak shockwave.",
+    "message": "%t is buffeted by a shockwave.",
+    "basePotency": 3,
+    "type": 1,
+    "cost": 5,
+    "targetType": {
+      "targeting": 1,
+      "targetArea": 1
+    },
+    "appliedBuffs": [
+      8
+    ],
+    "status": []
+  },
+  "19": {
+    "name": "Sonic Sword",
+    "primaryAnimationEffect": null,
+    "animationEffect": 11,
+    "description": "Grants target's attacks with Bladestorm effect.",
+    "message": "%t sword begins to vibrate.",
+    "basePotency": 3,
+    "type": 2,
+    "cost": 15,
+    "targetType": {
+      "targeting": 0,
+      "targetArea": 0
+    },
+    "appliedBuffs": [
+      9
+    ],
     "status": []
   }
 }

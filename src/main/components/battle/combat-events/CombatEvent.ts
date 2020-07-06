@@ -16,6 +16,7 @@ import {
 } from "../../../utility/tweens/character";
 import { EffectsRepository } from "../../../data/repositories/EffectRepository";
 import { WHITE, YELLOW } from "../../../utility/Constants";
+import { EquipmentSlot } from "../../entities/Items/Equipment";
 
 //TODO: Refactor this to take care of less stuff.  It does too much;
 /**
@@ -86,7 +87,7 @@ export class CombatEvent {
       await this.playMemberAttack(executor.getSprite(), distanceModifier * 25);
       await Promise.all(
         results.map((t) =>
-          this.playCombatantTakeDamage(t.target.getSprite(), t.critical)
+          this.playCombatantTakeDamage(t.target, executor, t.critical)
         )
       );
       const texts = results.map((r) =>
@@ -160,22 +161,36 @@ export class CombatEvent {
   }
 
   playCombatantTakeDamage(
-    combatant: Phaser.GameObjects.Sprite,
+    combatant: Combatant,
+    executor: Combatant,
     isCritical?: boolean
   ): Promise<any> {
     return new Promise((resolve) => {
-      const tween = characterDamage(combatant, 0.0, this.scene, () => {
+      const eq = executor.getEquipment();
+      const combatantSprite = combatant.getSprite();
+      const criticalSprite =
+        eq &&
+        eq[EquipmentSlot.weapon] &&
+        eq[EquipmentSlot.weapon].criticalAnimation;
+      const strikingSprite =
+        eq &&
+        eq[EquipmentSlot.weapon] &&
+        eq[EquipmentSlot.weapon].strikingAnimation;
+
+      const tween = characterDamage(combatantSprite, 0.0, this.scene, () => {
         resolve();
       });
+
       tween.play();
       const hitEffect = isCritical
         ? this.effectsRepository.getById(8)
         : this.effectsRepository.getById(3);
       hitEffect.play(
-        combatant.x,
-        combatant.y,
+        combatantSprite.x,
+        combatantSprite.y,
         this.scene,
-        combatant.parentContainer
+        combatantSprite.parentContainer,
+        isCritical ? criticalSprite : strikingSprite
       );
     });
   }
@@ -202,9 +217,8 @@ export class CombatEvent {
       if (this.targets[0] && this.targets[0].currentHp <= 0) {
         const nextTargetable = this.targets[0]
           .getParty()
-          .members.find(
-            (potentialTarget) => potentialTarget.entity.currentHp > 0
-          );
+          .getMembers()
+          .find((potentialTarget) => potentialTarget.entity.currentHp > 0);
         if (nextTargetable) {
           this.targets = [nextTargetable.entity];
         }

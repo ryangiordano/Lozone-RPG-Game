@@ -35,11 +35,12 @@ export type SpellData = {
   description: string;
   basePotency: number;
   type: SpellType;
-  manaCost: number;
+  cost: number;
   targetType: TargetType;
-  status: any[]; //TODO: Implement later;
+  status: any[];
   appliedBuffs?: number[];
   message?: string;
+  isSkill?:boolean;
 };
 
 export class SpellRepository extends Repository<SpellData> {

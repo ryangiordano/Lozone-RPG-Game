@@ -8,5 +8,6 @@ export const regenEnchantment = (enchanted: Combatant): EnchantmentResult => {
     enchantmentType: "recovery",
     value: damageToHeal,
     color: GREEN.str,
+    affected: [enchanted],
   };
 };
