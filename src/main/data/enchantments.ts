@@ -2,6 +2,7 @@ import { poisonEnchantment } from "../components/battle/enchantments/poisonEncha
 import { regenEnchantment } from "../components/battle/enchantments/regenEnchantment";
 import { firebladeEnchantment } from "../components/battle/enchantments/firebladeEnchantment";
 import { bladestormEnchantment } from "../components/battle/enchantments/bladestormEnchantment";
+import { gentleBladeEnchantment } from '../components/battle/enchantments/gentleBladeEnchantment';
 
 export const enchantmentDatabase = {
   "1": {
@@ -27,5 +28,11 @@ export const enchantmentDatabase = {
     name: "Bladestorm",
     description: "Attack all enemies after attacking a single enemy",
     applyEnchantment: bladestormEnchantment,
+  },
+  "5": {
+    type: 1,
+    name: "Gentle Blade",
+    description: "Heal all allies after attacking a single enemy",
+    applyEnchantment: gentleBladeEnchantment,
   },
 };

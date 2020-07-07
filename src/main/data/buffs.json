@@ -113,7 +113,7 @@
         "modifiers": [],
         "name": "Bladestorm",
         "duration": 5,
-        "description": "Your blade is vibrating",
+        "description": "Attack all enemies in party after striking one enemy.",
         "icon": "status",
         "frame": 6,
         "effect": 1,
@@ -121,6 +121,20 @@
         "persists": false,
         "dissipateMessage": "%t's blade stills.",
         "enchantments": [4]
+
+    },
+    "10": {
+        "modifiers": [],
+        "name": "Gentle Blade",
+        "duration": 5,
+        "description": "After attacking an enemy, heal your party.",
+        "icon": "status",
+        "frame": 6,
+        "effect": 1,
+        "color": "0xf1942a",
+        "persists": false,
+        "dissipateMessage": "The gentle breeze stops flowing from %t's weapon.",
+        "enchantments": [5]
 
     }
 }

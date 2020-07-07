@@ -241,5 +241,23 @@
       9
     ],
     "status": []
+  },
+  "20": {
+    "name": "Gentle Blade",
+    "primaryAnimationEffect": null,
+    "animationEffect": 11,
+    "description": "Grants target's attacks with Gentle Blade effect.",
+    "message": "A gentle breeze flows from %t's weapon.",
+    "basePotency": 3,
+    "type": 2,
+    "cost": 15,
+    "targetType": {
+      "targeting": 0,
+      "targetArea": 0
+    },
+    "appliedBuffs": [
+      10
+    ],
+    "status": []
   }
 }
