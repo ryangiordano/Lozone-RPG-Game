@@ -3,9 +3,6 @@
   Lo's Birthday Game.
 </p>
 
-<p align="center">
-  <img width=50% src="https://p72.f4.n0.cdn.getcloudapp.com/items/wbuJeLPy/IMG_0828.jpg">
-</p>
 <div align="center" style="display:flex">
   <img width=30% src="https://darumadevdiaryhome.files.wordpress.com/2019/07/battle.gif?w=1100">
 </div>
