@@ -99,6 +99,11 @@
         "type": "image",
         "key": "credit_7",
         "url": "./src/main/assets/images/credits/7.jpg"
+      },
+      {
+        "type": "image",
+        "key": "credit_8",
+        "url": "./src/main/assets/images/credits/8.jpg"
       }
     ]
   }

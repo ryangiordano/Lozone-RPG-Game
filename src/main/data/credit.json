@@ -1,6 +1,5 @@
 {
-  "credits": [
-    {
+  "credits": [{
       "heading": "Special Thanks to Everyone Who Contributed to Our Life",
       "type": "heading"
     },
@@ -145,16 +144,11 @@
       "type": "credit"
     }
   ],
-  "visualCredits":[
-    {
+  "visualCredits": [{
       "heading": "Celebrating 7 Years Together",
       "type": "heading"
     },
-    {
-      "description": "Chongqing China, 2013",
-      "photo": "credit_1",
-      "type": "photo"
-    },
+
     {
       "description": "Louisville, Kentucky, 2015",
       "photo": "credit_2",
@@ -183,6 +177,11 @@
     {
       "description": "Half Moon Bay, 2019",
       "photo": "credit_7",
+      "type": "photo"
+    },
+    {
+      "description": "Mountain View, 2019",
+      "photo": "credit_8",
       "type": "photo"
     }
   ]

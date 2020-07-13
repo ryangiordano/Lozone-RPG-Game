@@ -431,5 +431,11 @@
         "description": "Unlock catshape lock to gain access to dungeons",
         "type": 1,
         "flagged": false
+    },
+    "804": {
+        "name": "Door in front of first boss unlocked",
+        "description": "Unlock this door to get to the first boss",
+        "type": 1,
+        "flagged": false
     }
 }

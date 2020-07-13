@@ -8,7 +8,7 @@
     "currentMp": 20,
     "level": 1,
     "intellect": 7,
-    "dexterity": 518,
+    "dexterity": 18,
     "wisdom": 5,
     "stamina": 12,
     "strength": 12,
@@ -65,7 +65,7 @@
     "currentMp": 30,
     "level": 1,
     "intellect": 13,
-    "dexterity": 512,
+    "dexterity": 10,
     "wisdom": 8,
     "stamina": 12,
     "strength": 14,
@@ -73,7 +73,7 @@
     "magicalResist": 1,
     "currentExperience": 0,
     "toNextLevel": 230,
-    "classId": 5
+    "classId": 6
   },
   "5": {
     "name": "Aris",

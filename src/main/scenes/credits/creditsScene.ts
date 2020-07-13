@@ -101,17 +101,23 @@ export class CreditsScene extends Phaser.Scene {
       delay: 3,
     });
 
-    const coming = this.add.text(100, -200, "Coming December 2019", {
-      fontFamily: "pixel",
-      fontSize: "32px",
-      fill: BLACK.hex,
-      align: "center",
-      padding: 2,
-      wordWrap: {
-        width: <number>this.game.config.width,
-        useAdvancedWrap: true,
-      },
-    });
+    const coming = this.add.text(
+      100,
+      -200,
+      "...Already here!",
+      {
+        fontFamily: "pixel",
+        fontSize: "32px",
+        fill: BLACK.hex,
+        align: "center",
+        padding: 2,
+        wordWrap: {
+          width: <number>this.game.config.width,
+          useAdvancedWrap: true,
+        },
+      }
+    );
+
     const happyAnniversary = this.add.text(
       60,
       -200,
@@ -132,6 +138,7 @@ export class CreditsScene extends Phaser.Scene {
     const fadeOut = makeFadeOut(coming, 1000, this, () => {
       fadeIn.play(false);
     });
+
     const fadeIn = makeFadeIn(happyAnniversary, 1000, this);
     setTimeout(() => {
       fadeOut.play(false);

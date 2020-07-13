@@ -29,9 +29,9 @@ export class MainPanel extends UIPanel {
       .addOption("Status", () => {
         this.emit("party-selected", PartyMenuTypes.statusCheck);
       })
-      .addOption("Debug", () => {
-        this.emit("debug-selected");
-      })
+      // .addOption("Debug", () => {
+      //   this.emit("debug-selected");
+      // })
       .addOption("Cancel", () => this.emit("cancel-selected"));
   }
 }

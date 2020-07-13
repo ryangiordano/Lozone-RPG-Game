@@ -4,6 +4,11 @@
     "description": "The event that leads to the end of the game",
     "timeline": [
       {
+        "type": "audio",
+        "async": true,
+        "action": "pause"
+      },
+      {
         "type": "camera",
         "async": true,
         "direction": "y",
@@ -21,9 +26,12 @@
         "async": false,
         "content": [
           "...",
-          "I love you more than anything.",
-          "Come, my xiao bao...",
-          "there's something I want to show you."
+          "Happy birthday little bear.",
+          "I love you more than you'll ever know.",
+          "I'm so happy with the life I have with you",
+          "and the life we'll enjoy together.",
+          "Come, little xiao bao...",
+          "there's something I want to show you!"
         ]
       },
       {
